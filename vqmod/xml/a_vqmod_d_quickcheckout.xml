@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>AJAX QUICK CHECKOUT V5.0 BY DREAMVENTION</id>
+	<version>2.0.0.0</version>
+	<vqmver>2.2.1</vqmver>
+	<author>dreamvention.com</author>
+	<file name="catalog/controller/checkout/checkout.php">
+		<operation>
+			<search position="replace" offset="4"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/checkout.tpl')) {]]></search>
+			<add><![CDATA[
+			$this->load->model('setting/setting');
+			$quickcheckout = $this->model_setting_setting->getSetting('d_quickcheckout', $this->config->get('config_store_id'));
+			if(isset($quickcheckout['d_quickcheckout']['general']['main_checkout'])){
+				$template = ($quickcheckout['d_quickcheckout']['general']['main_checkout']) ? 'd_quickcheckout' : 'checkout';
+			}else{
+				$template = 'checkout';
+			}
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/'.$template.'.tpl')) {
+				$this->template = $this->config->get('config_template') . '/template/checkout/'.$template.'.tpl';
+			} else {
+				$this->template = 'default/template/checkout/'.$template.'.tpl';
+			}
+			$this->response->setOutput($this->load->view($this->template, $data));]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
+			<add><![CDATA[$data['d_quickcheckout'] = $this->load->controller('module/d_quickcheckout');]]></add>
+		</operation>
+	</file>
+	<!-- opencart 1.5.1x issue-->
+	<file name="catalog/model/setting/setting.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$data[$result['key']] = unserialize($setting['value']);]]></search>
+			<add><![CDATA[$data[$result['key']] = unserialize($result['value']);]]></add>
+		</operation>
+	</file>
+	<file name="admin/model/setting/setting.php">
+		<operation  error="skip">
+			<search position="replace"><![CDATA[$data[$result['key']] = unserialize($setting['value']);]]></search>
+			<add><![CDATA[$data[$result['key']] = unserialize($result['value']);]]></add>
+		</operation>
+	</file>	
+
+	<!-- payment methods fix -->
+	<file name="catalog/view/theme/default/template/payment/cheque.tpl">
+		<operation>
+			<search position="replace"><![CDATA[$('#button-confirm').bind('click', function() {]]></search>
+			<add><![CDATA[$('#button-confirm').bind('click', function(event) {
+				event.stopImmediatePropagation()]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/default/template/payment/pp_pro_uk.tpl">
+		<operation>
+			<search position="replace"><![CDATA[$('#button-confirm').bind('click', function() {]]></search>
+			<add><![CDATA[$('#button-confirm').bind('click', function(event) {
+				event.stopImmediatePropagation()]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/default/template/payment/pp_pro.tpl">
+		<operation>
+			<search position="replace"><![CDATA[$('#button-confirm').bind('click', function() {]]></search>
+			<add><![CDATA[$('#button-confirm').bind('click', function(event) {
+				event.stopImmediatePropagation()]]></add>
+		</operation>
+	</file>
+</modification>

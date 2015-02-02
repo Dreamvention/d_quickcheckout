@@ -1,0 +1,75 @@
+
+@media only screen and (max-width: 1000px) {
+	#quickcheckout #step_6 .qc-checkout-product table .qc-price{
+		display:none
+	}
+	#quickcheckout #step_6 .qc-total {
+		min-width: 0px;
+	}
+
+}
+
+@media only screen and (min-width: 0px) and (max-width: 1024px) {
+	#container{
+		width: 100%;
+	}
+	body {
+        font-size:0.8em; 
+    }
+	#quickcheckout  #step_1 #login_wrap .box{
+		float:none;
+		width:98% !important}
+	#quickcheckout #step_1 .box .box-content{
+		height: inherit !important
+	}
+	#option_login_popup_trigger{
+		float: none;
+		display: block;
+		text-align: center;
+	}
+	#option_login_popup_trigger_wrap{
+		height: auto !important;
+	}
+	#quickcheckout #option_login_popup_trigger{
+		width: 100% !important;
+		margin: 0px 0px 0px 2px !important;
+		box-sizing: border-box;
+	}
+	#quickcheckout #d_social_login {
+		clear: both;
+		float: none !important;
+		margin-top: 10px;
+	}
+	.box-popup .close {
+		padding: 12px 14px 14px 14px;
+		border-radius: 30px;
+		margin: -23px;
+		font-size: 30px !important;
+	}
+	#quickcheckout .aqc-column{
+		float:none;
+		width:100% !important}
+	/*Step 6 Confirm*/
+	#quickcheckout #step_6 .qc-checkout-product table .qc-price{
+		display:none
+	}
+	#quickcheckout #step_6 .qc-checkout-product table .qc-total {
+		min-width: 0px;
+	}
+	#quickcheckout #step_6 .qc-checkout-product table .qc-text{
+		width:50% !important
+	}
+	#quickcheckout #step_8 .buttons,
+	#quickcheckout #step_8 .buttons .right,
+	#quickcheckout #step_8  #confirm_order{
+		width:100%;
+		text-align:center;
+		margin:0px;
+		float:none;
+		overflow: hidden;
+		box-sizing: border-box;}
+
+	#quickcheckout #qc_right{
+	  width: 100% !important
+	 }
+}

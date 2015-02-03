@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
 	<id>AJAX QUICK CHECKOUT V5.0 BY DREAMVENTION</id>
-	<version>2.0.0.1</version>
+	<version>2.0.0.0</version>
 	<vqmver>2.2.1</vqmver>
 	<author>dreamvention.com</author>
 	<file name="catalog/controller/checkout/checkout.php">

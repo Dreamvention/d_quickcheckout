@@ -415,17 +415,18 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->session->data['customer_group_id'] = (isset($this->session->data['payment_address']) && isset($this->session->data['payment_address']['customer_group_id'])) ? $this->session->data['payment_address']['customer_group_id'] : $this->config->get('config_customer_group_id');
 
 		if($this->customer->isLogged()){	
-			$this->session->data['account'] = 'logged';
+			$this->session->data['account'] = 'logged'; 
 			$this->session->data['customer_group_id'] = $this->customer->getGroupId();
 		} elseif ((!$this->customer->isLogged() 
 			&& isset($this->session->data['account']) 
 			&& $this->session->data['account'] == 'logged') 
 			|| !isset($this->session->data['account'])) {
-
-				$this->session->data['account'] = $this->config->get('config_guest_checkout') 
+				
+				$this->session->data['account'] = $this->config->get('config_checkout_guest') 
 												&& !$this->config->get('config_customer_price') 
 												&& $this->settings['general']['default_option'] == 'guest' 
 												&& !$this->cart->hasDownload() ? 'guest' : 'register';
+												
 		}
 
 		if(!isset($this->session->data['payment_address'])){

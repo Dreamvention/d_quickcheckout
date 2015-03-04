@@ -72,7 +72,7 @@
  //echo '</pre>'; 
 ?>
 <script type="text/javascript"><!--
-// $('#company_id_input').hide();
+// $('#company_id_input').hide(); 
 // $('#tax_id_input').hide();
 
 $('input[name=\'payment_address[exists]\']').on('click', function() {

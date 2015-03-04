@@ -1118,7 +1118,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					$thumb = $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
 				} else {
 					$thumb = '';
-				}
+				} 
 
 				if ($product['image']) {
 					$image = $this->model_tool_image->resize($product['image'], $this->settings['design']['cart_image_size']['width'], $this->settings['design']['cart_image_size']['height']);

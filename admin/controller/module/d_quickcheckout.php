@@ -11,7 +11,7 @@ class ControllerModuleDQuickcheckout extends Controller
 	private $id = 'd_quickcheckout';
 	private $sub_id = '';
 	private $route  = 'module/d_quickcheckout';
-	private $mbooth  = 'mbooth_d_quickcheckout.xml';
+	private $mbooth  = 'mbooth_d_quickcheckout_lite.xml';
 	private $data = array();
 
 	public function index() {   

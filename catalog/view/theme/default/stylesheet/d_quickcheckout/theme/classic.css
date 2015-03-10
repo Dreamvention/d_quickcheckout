@@ -1,0 +1,188 @@
+@charset "utf-8";
+/*Classic*/
+/*Main*/
+#quickcheckout *{
+	font-family: 'PT Sans', sans-serif;
+	font-size:14px;
+	line-height:20px;
+	color:#000;
+	text-decoration:none;
+}
+
+#quickcheckout .block-title{
+font-size: 30px;
+color: #333333;
+margin-top: 20px;
+margin-bottom: 10px;
+line-height: 34px;
+margin-left: 18px;
+}
+#quickcheckout input[type=text],
+#quickcheckout input[type=password],
+#quickcheckout select,
+#quickcheckout textarea
+{
+	background: radial-gradient(ellipse at center, rgba(246,246,246,1) 0%,rgba(255,255,255,1) 5%);
+	box-shadow: inset 1px 1px 4px rgba(0,0,0,0.1);
+	background: #f2f7fa;
+	border: 1px solid #cecece;
+	border-radius: 0px;
+	border-bottom: 1px solid #ececec;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: 20px;
+	padding: 5px;
+	color: #333333;
+}
+
+#quickcheckout .highlight-error input[type=text], 
+#quickcheckout .highlight-error input[type=password],
+#quickcheckout .highlight-error select, 
+#quickcheckout .highlight-error textarea{
+	border: 1px solid #C09086 !important;
+-webkit-box-shadow: 0px 0px 6px 0px rgba(255, 0, 0, 0.2);
+-moz-box-shadow:    0px 0px 6px 0px rgba(255, 0, 0, 0.2);
+box-shadow:         0px 0px 6px 0px rgba(255, 0, 0, 0.2);
+
+}
+
+#quickcheckout div{
+	font-size:14px
+	}
+#quickcheckout .radio-input {
+	margin-bottom:5px;}
+#quickcheckout ul{
+	list-style:none;
+	margin:0px;
+	padding:0px;
+	margin-left: 45%;}
+#quickcheckout .box {
+	border:none !important;
+	box-shadow: none !important;
+}
+#quickcheckout .box .box-heading {
+	background-image:none;
+	background: rgba(0,0,0,0);
+	border:none;
+	border-bottom: 1px solid #ececec;
+	color: #000;
+	font-size: 18px;
+	text-transform:none;
+	font-weight: normal;
+	line-height:22px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+	-khtml-border-radius:0px;
+	border-radius: 0px;
+	padding: 10px;
+	margin:0px;
+}
+#quickcheckout .box .box-heading span{
+	vertical-align:middle;
+	font-size:18px;
+}
+
+#quickcheckout .box  .box-content{
+	background: rgba(0,0,0,0);
+	border:none;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+	-khtml-border-radius:0px;
+	border-radius: 0px;
+}
+#quickcheckout #step_1 ,
+#quickcheckout #step_1  .box .box-content,
+#quickcheckout #step_1  .box .box-heading
+{
+	background: #f2f7fa;
+}
+#quickcheckout #step_1 #login_wrap {
+	border-bottom: 1px solid #E1E1E1;
+	border-top: 1px solid #E1E1E1;
+	display: table;
+}
+#quickcheckout #d_social_login .dsl-button .r-side {
+	padding: 2px 10px 2px 10px;
+}
+#quickcheckout #step_1  input[type=text],
+#quickcheckout #step_1 input[type=password]{
+	background:#fff}
+#quickcheckout  .qc-checkout-product .table{
+	background:#fff}
+#quickcheckout .qc-checkout-product thead td{
+	background: #F2F7FA;
+	border:1px solid #E1E1E1;
+	font-weight: 400;
+	font-size: 14px;
+	color: #333333;
+}
+
+#quickcheckout label{
+	font-weight: 400;
+	font-size: 14px;
+	color: #333333;
+}
+
+#quickcheckout .error{
+background: linear-gradient(to bottom, rgba(239,37,58,1) 0%,rgba(232,20,35,1) 100%);
+border: solid 1px #bc101c;
+padding: 5px;
+border-radius: 3px;
+display: block;
+text-align: center;
+color: rgb(255, 255, 255);
+}
+#quickcheckout label .price{
+	float:right;
+}	
+#quickcheckout  div.radio {
+	margin-top: 0px;
+}
+#quickcheckout #step_4 .title{
+	font-weight:bold;
+}
+#quickcheckout #step_6 .box .box-heading{
+	min-height:0px;
+}
+#quickcheckout .error,
+#quickcheckout .warning{
+	background:#F5E8E6;
+	border:1px solid #C09086;
+	padding:4px;
+	border-radius: 0px;
+	color:#333;
+	font-size:12px;
+	margin:5px 5px;
+}
+#quickcheckout  .success {
+	background: #F5F9E4;
+	border: 1px solid #BEC986;
+	padding:4px;
+	border-radius: 0px;
+	color:#333;
+	font-size:12px;
+	margin:5px 5px;
+}
+#quickcheckout #step_8 .buttons{
+	background: #f2f7fa;
+	border: none;
+}	
+#quickcheckout .button{
+	background: #479ccf;
+	border:none;
+	font-size:14px;
+	border-radius: 0px;
+	color: #FFFFFF;
+	display: inline-block;
+	text-decoration: none;
+	vertical-align: top;
+	line-height: 25px  !important;
+	height: 25px;
+	font-weight:normal;
+	text-shadow:none;
+	padding: 0px 12px 0px 12px;
+	cursor:pointer
+}
+#option_login_popup_trigger_wrap{
+	padding: 10px 4px 2px 0px;
+}

@@ -1,6 +1,6 @@
 <extension>
     <id>d_quickcheckout_lite</id>
-    <name>Ajax Quick Checkout</name>
+    <name>Ajax Quick Checkout Lite</name>
     <description>Ajax Quick Checkout is a sophisticated checkout solution for Opencart, that allows the user to setup the checkout process in the most user-friendly possible way to increase the sales. It removes 6 steps leaving 1 step, creating only one button for all cases. The only solution you will ever need.</description>
     <type>module</type>
     <version>5.0.0</version>

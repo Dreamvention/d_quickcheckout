@@ -614,7 +614,7 @@
            <h3 class="page-header">
             <span class="fa fa-book fa-fw"></span> <span><?php echo $text_payment_address; ?></span>
            </h3>
-           <div class="callout callout-warning"><?php echo $text_need_full_version; ?></div>
+           <div class="bs-callout bs-callout-warning"><?php echo $text_need_full_version; ?></div>
 
          </div><!-- /#payment_address-->
 
@@ -624,7 +624,7 @@
             <h3 class="page-header">
               <span class="fa fa-book fa-fw"></span> <span><?php echo $text_shipping_address; ?></span>
             </h3>
-            <div class="callout callout-warning"><?php echo $text_need_full_version; ?></div>
+            <div class="bs-callout bs-callout-warning"><?php echo $text_need_full_version; ?></div>
 
          </div><!-- /#shipping_address-->
 
@@ -635,7 +635,7 @@
               <span class="fa fa-truck fa-fw"></span> <span><?php echo $text_shipping_method; ?></span>
             </h3>
 
-            <div class="callout callout-warning"><?php echo $text_need_full_version; ?></div>
+            <div class="bs-callout bs-callout-warning"><?php echo $text_need_full_version; ?></div>
 
          </div><!-- /#general-->
    
@@ -645,7 +645,7 @@
             <h3 class="page-header">
               <span class="fa fa-credit-card fa-fw"></span> <span><?php echo $text_payment_method; ?></span>
             </h3>
-            <div class="callout callout-warning"><?php echo $text_need_full_version; ?></div>
+            <div class="bs-callout bs-callout-warning"><?php echo $text_need_full_version; ?></div>
          </div><!-- /#payment_method-->
 
          <!---------------------------------- confirm ---------------------------------->
@@ -655,7 +655,7 @@
               <span class="fa fa-shopping-cart fa-fw"></span> <span><?php echo $text_cart; ?></span>
             </h3>
 
-            <div class="callout callout-warning"><?php echo $text_need_full_version; ?></div>
+            <div class="bs-callout bs-callout-warning"><?php echo $text_need_full_version; ?></div>
   
          </div><!-- /#confirm-->
 
@@ -666,7 +666,7 @@
             <span class="fa fa-paint-brush fa-fw"></span> <span><?php echo $text_design; ?></span>
            </h3>
 
-           <div class="callout callout-warning"><?php echo $text_need_full_version; ?></div>
+           <div class="bs-callout bs-callout-warning"><?php echo $text_need_full_version; ?></div>
 
          </div><!-- /#design-->
 

@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "d-quickcheckout";
+  src:url("fonts/d-quickcheckout.eot");
+  src:url("fonts/d-quickcheckout.eot?#iefix") format("embedded-opentype"),
+    url("fonts/d-quickcheckout.woff") format("woff"),
+    url("fonts/d-quickcheckout.ttf") format("truetype"),
+    url("fonts/d-quickcheckout.svg#d-quickcheckout") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[class^="qc-icon-"]:before,
+[class*=" qc-icon-"]:before {
+  font-family: "d-quickcheckout" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.qc-icon-payment-method:before {
+  content: "\e004";
+}
+.qc-icon-plus-circle:before {
+  content: "\e006";
+}
+.qc-icon-minus-circle:before {
+  content: "\e007";
+}
+.qc-icon-payment-address:before {
+  content: "\e008";
+}
+.qc-icon-arrow-left:before {
+  content: "\e009";
+}
+.qc-icon-arrow-down:before {
+  content: "\e00b";
+}
+.qc-icon-arrow-up:before {
+  content: "\e00c";
+}
+.qc-icon-profile-add:before {
+  content: "\e00d";
+}
+.qc-icon-key:before {
+  content: "\e00f";
+}
+.qc-icon-arrow-right:before {
+  content: "\e010";
+}
+.qc-icon-cart:before {
+  content: "\e011";
+}
+.qc-icon-check:before {
+  content: "\e012";
+}
+.qc-icon-cross:before {
+  content: "\e013";
+}
+.qc-icon-shipping-address:before {
+  content: "\e014";
+}
+.qc-icon-profile:before {
+  content: "\e016";
+}
+.qc-icon-shipping-method:before {
+  content: "\e017";
+}
+.qc-icon-profile-guest:before {
+  content: "\e000";
+}

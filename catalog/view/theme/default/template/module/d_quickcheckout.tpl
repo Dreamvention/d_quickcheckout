@@ -43,7 +43,7 @@
 	  	</a>
 	  </div>
 	<?php } ?>
-    <div class="block-title"><?php echo $heading_title; ?> <?php echo $order_id; ?></div>
+    <div class="block-title"><?php echo $heading_title; ?></div>
     <div class="block-content">
     <?php echo (isset($text_empty_cart)) ? $text_empty_cart : ''; ?>
 		<div class="aqc-column aqc-column-0">

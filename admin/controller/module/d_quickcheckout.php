@@ -53,32 +53,6 @@ class ControllerModuleDQuickcheckout extends Controller
 		$this->document->addScript('view/javascript/shopunity/bootstrap-slider/js/bootstrap-slider.js');
 		$this->document->addStyle('view/javascript/shopunity/bootstrap-slider/css/slider.css');
 
-
-
-
-
-		// $this->document->addStyle('view/stylesheet/shopunity/normalize.css');
-		
-		// if(!defined('_JEXEC')){ 
-		// 	$this->document->addStyle('view/stylesheet/shopunity/icons.css');
-		// 	$this->document->addStyle('view/stylesheet/shopunity/shopunity.css');
-		// 	$this->document->addScript('view/javascript/shopunity/shopunity.js');
-		// }else{
-		// 	$this->document->addStyle('view/stylesheet/shopunity/joomla.css');
-		// 	$this->document->addScript('view/javascript/shopunity/joomla.js');
-		// }
-
-		
-		// $this->document->addScript('view/javascript/shopunity/jquery.nicescroll.min.js');
-		// $this->document->addScript('view/javascript/shopunity/jquery.tinysort.min.js');	
-		// $this->document->addScript('view/javascript/shopunity/jquery.autosize.min.js');		
-		// $this->document->addScript('view/javascript/shopunity/tooltip/tooltip.js');
-		// $this->document->addStyle('view/javascript/shopunity/codemirror/codemirror.css');
-		// $this->document->addScript('view/javascript/shopunity/codemirror/codemirror.js');
-		// $this->document->addScript('view/javascript/shopunity/codemirror/css.js');
-		// $this->document->addStyle('view/javascript/shopunity/uniform/css/uniform.default.css');
-		// $this->document->addScript('view/javascript/shopunity/uniform/jquery.uniform.min.js');
-
 		$this->document->addStyle('view/stylesheet/d_quickcheckout.css');
 
 		//languages

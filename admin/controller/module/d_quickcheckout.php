@@ -1,6 +1,6 @@
 <?php
 /* 	path:	admin/controller/module/quickcheckout
-*	author: dreamvention
+*	author: dreamvention, Vitaliy
 */
 
 class ControllerModuleDQuickcheckout extends Controller 

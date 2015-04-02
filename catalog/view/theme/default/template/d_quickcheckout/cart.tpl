@@ -54,9 +54,13 @@
           <td class="qc-model <?php echo (!$data['columns']['model'])?  'qc-hide' : '' ?> "><?php echo $product['model']; ?></td>
           <td class="qc-quantity  <?php echo (!$data['columns']['quantity'])?  'qc-hide' : '' ?> ">
             <div class="input-group">
-              <span class="input-group-addon decrease" data-product="<?php echo $product['key']; ?>"><i class="fa fa-minus"></i></span>
+              <span class="input-group-btn">
+                <button class="btn btn-defaut decrease" data-product="<?php echo $product['key']; ?>"><i class="fa fa-minus"></i></button>
+              </span>            
               <input type="text" value="<?php echo $product['quantity']; ?>" class="qc-product-qantity form-control text-center" name="cart[<?php echo $product['key']; ?>]"  data-refresh="2"/>
-              <span class="input-group-addon increase" data-product="<?php echo $product['key']; ?>"><i class="fa fa-plus"></i></span>
+              <span class="input-group-btn">
+                <button class="btn btn-defaut increase" data-product="<?php echo $product['key']; ?>"><i class="fa fa-plus"></i></button>
+              </span>
             </div>
           </td>
           <td class="qc-price <?php echo (!$data['columns']['price'] || $show_price)?  'qc-hide' : ''; ?> "><?php echo $product['price']; ?></td>
@@ -120,8 +124,8 @@
     <div class="form-horizontal qc-summary <?php if($show_price){ echo 'qc-hide';}?>">
         <?php foreach ($totals as $total) { ?>
         <div class="row qc-totals">
-          <label class="col-sm-6 control-label" ><?php echo $total['title']; ?></label>
-          <div class="col-sm-6 form-control-static"><?php echo $total['text']; ?></div>
+          <label class="col-xs-6 control-label" ><?php echo $total['title']; ?></label>
+          <div class="col-xs-6 form-control-static"><?php echo $total['text']; ?></div>
         </div>
         <?php } ?>
     </div>
@@ -147,5 +151,112 @@ $(function(){
 			height: 480
 		});
 	}
+
+  $(document).on('click', '#quickcheckout .qc-quantity button', function(event){                      
+    if($(this).hasClass('increase')){    
+      $(this).parent().parent().children('input').val(parseInt($(this).parent().parent().children('input').val())+1)
+    }else{
+      $(this).parent().parent().children('input').val(parseInt($(this).parent().parent().children('input').val())-1)    
+    }
+    if($(this).parent().parent().children('input').val() != 0){
+      refreshCheckout(4)
+    }else{
+      refreshAllSteps()
+    }
+  
+  event.stopImmediatePropagation()
+})
+
+$(document).on('click', '#quickcheckout #confirm_coupon', function(event){  
+  $.ajax({
+    url: 'index.php?route=module/quickcheckout/validate_coupon',
+    type: 'post',
+    data: $('#quickcheckout #coupon'),
+    dataType: 'json',
+    beforeSend: function() {
+      
+    },
+    complete: function() {
+        
+    },
+    success: function(json) {
+      
+      $('#quickcheckout #step_6 .qc-checkout-product .error').remove();
+      if(json['error']){
+        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="error" >' + json['error'] + '</div>');
+      }
+      $('#quickcheckout #step_6 .qc-checkout-product .success').remove();
+      if(json['success']){
+        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="success" >' + json['success'] + '</div>');
+        refreshCheckout(3)
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  });   
+  event.stopImmediatePropagation()
+})
+
+$(document).on('click', '#quickcheckout #confirm_voucher', function(event){ 
+  $.ajax({
+    url: 'index.php?route=module/quickcheckout/validate_voucher',
+    type: 'post',
+    data: $('#quickcheckout #voucher'),
+    dataType: 'json',
+    beforeSend: function() {
+      
+    },
+    complete: function() {
+        
+    },
+    success: function(json) {
+      $('#quickcheckout #step_6 .qc-checkout-product .error').remove();
+      
+      if(json['error']){
+        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="error" >' + json['error'] + '</div>');
+      }
+      $('#quickcheckout #step_6 .qc-checkout-product .success').remove();
+      if(json['success']){
+        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="success" >' + json['success'] + '</div>');
+        refreshCheckout(3)
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  }); 
+  event.stopImmediatePropagation()
+})
+
+$(document).on('click', '#quickcheckout #confirm_reward', function(event){  
+  $.ajax({
+    url: 'index.php?route=module/quickcheckout/validate_reward',
+    type: 'post',
+    data: $('#quickcheckout #reward'),
+    dataType: 'json',
+    beforeSend: function() {
+      
+    },
+    complete: function() {
+        
+    },
+    success: function(json) {
+      $('#quickcheckout #step_6 .qc-checkout-product .error').remove();
+      if(json['error']){
+        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="error" >' + json['error'] + '</div>');
+      }
+      $('#quickcheckout #step_6 .qc-checkout-product .success').remove();
+      if(json['success']){
+        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="success" >' + json['success'] + '</div>');
+        refreshCheckout(3)
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  }); 
+  event.stopImmediatePropagation()
+})
 });
 //--></script>

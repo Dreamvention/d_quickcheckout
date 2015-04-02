@@ -30,6 +30,11 @@
 	#option_login_popup_trigger_wrap{
 		height: auto !important;
 	}
+	#option_login_popup_trigger_wrap .btn-group{
+		width:100% !important;
+		margin-bottom: 15px;
+	}
+	
 	#quickcheckout #option_login_popup_trigger{
 		width: 100% !important;
 		margin: 0px 0px 0px 2px !important;

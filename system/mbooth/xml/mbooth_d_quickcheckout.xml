@@ -31,8 +31,8 @@
 	</files>
 	<dirs>
 	<!--<dir>admin/view/image/d_quickcheckout</dir> -->
-		<dir>system/library/Monolog</dir>
-		<dir>system/library/Psr</dir>
+		<dir>system/library/monolog</dir>
+		<dir>system/library/psr</dir>
 		<dir>admin/view/javascript/shopunity</dir>
 		<dir>admin/view/stylesheet/shopunity</dir>
 		<dir>catalog/view/javascript/d_quickcheckout</dir>

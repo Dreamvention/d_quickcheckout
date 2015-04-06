@@ -27,7 +27,7 @@
 		<file>vqmod/xml/a_vqmod_d_quickcheckout.xml</file>
 	<!-- system -->	
 		<file>system/config/d_quickcheckout.php</file>
-		<file>system/library/Ubench.php</file>
+		<file>system/library/ubench.php</file>
 	</files>
 	<dirs>
 	<!--<dir>admin/view/image/d_quickcheckout</dir> -->

@@ -492,10 +492,13 @@ function confirmOrderQC(func){
 		},
 		success: function(html) {
 			console.log(html) 
-			refreshStep(2, function(){
-				refreshStep(3, function(){
-					if (typeof func == "function") func();
-				});
+			// bug with payment address rewriting shipping address 
+			refreshStepView(1, function(){
+				refreshStepView(2, function(){
+					refreshStepView(3, function(){
+						if (typeof func == "function") func();
+					});
+				});	
 			});	
 		},
 		error: function(xhr, ajaxOptions, thrownError) {

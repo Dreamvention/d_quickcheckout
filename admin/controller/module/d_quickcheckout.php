@@ -1,7 +1,8 @@
 <?php
-/* 	path:	admin/controller/module/quickcheckout
-*	author: dreamvention.
-*/
+/*
+ *	location: admin/controller
+ *  author: dreamvention
+ */
 
 class ControllerModuleDQuickcheckout extends Controller 
 {
@@ -82,9 +83,9 @@ class ControllerModuleDQuickcheckout extends Controller
 		$this->data['text_register'] = $this->language->get('text_register');
 		$this->data['text_guest'] = $this->language->get('text_guest');
 		$this->data['text_logged_in'] = $this->language->get('text_logged_in');
-		$this->data['text_guest_customer'] = $this->language->get('text_guest_customer');
-		$this->data['text_registrating_customer'] = $this->language->get('text_registrating_customer');
-		$this->data['text_logged_in_customer'] = $this->language->get('text_logged_in_customer');
+		$this->data['text_guest'] = $this->language->get('text_guest');
+		$this->data['text_register'] = $this->language->get('text_register');
+		$this->data['text_logged_in'] = $this->language->get('text_logged_in');
 		$this->data['text_content_top'] = $this->language->get('text_content_top');
 		$this->data['text_content_bottom'] = $this->language->get('text_content_bottom');		
 		$this->data['text_column_left'] = $this->language->get('text_column_left');
@@ -413,14 +414,17 @@ class ControllerModuleDQuickcheckout extends Controller
 			$this->load->language('module/d_social_login');
 			
 			$this->config->load($this->check_d_social_login());
-			$social_login_settings = $this->config->get('d_social_login_settings');
+			$social_login_settings = $this->config->get('d_social_login_module');
+			$social_login_settings = $social_login_settings['setting'];
 
-			if(!isset($this->data[$this->id]['general']['social_login'])){
-				$this->data[$this->id]['general']['social_login'] = array();
+			if($social_login_settings){ 
+
+				if(!isset($this->data[$this->id]['general']['social_login'])){
+					$this->data[$this->id]['general']['social_login'] = array();
+				}
+
+				$this->data[$this->id]['general']['social_login'] = $this->array_merge_recursive_distinct($social_login_settings, $this->data[$this->id]['general']['social_login']);
 			}
-
-			$this->data[$this->id]['general']['social_login'] = $this->array_merge_recursive_distinct($social_login_settings, $this->data[$this->id]['general']['social_login']);
-
 			$sort_order = array(); 
 			foreach ($this->data[$this->id]['general']['social_login']['providers'] as $key => $value) {
 				if(isset($value['sort_order'])){
@@ -436,6 +440,7 @@ class ControllerModuleDQuickcheckout extends Controller
 					$this->data['text_'.$provoder['id']] = $this->language->get('text_'.$provoder['id']);
 				}
 			}
+			
 		}
 
 		$this->data['socila_login_styles'] = array( 'icons', 'small', 'medium', 'large', 'huge');
@@ -541,17 +546,16 @@ class ControllerModuleDQuickcheckout extends Controller
 	public function check_d_social_login(){
 		$result = false;
 			if($this->isInstalled('d_social_login')){
-				$full = DIR_SYSTEM . "config/d_social_login_settings.php";
-				$light = DIR_SYSTEM . "config/d_social_login_light_settings.php"; 
+				$full = DIR_SYSTEM . "config/d_social_login.php";
+				$light = DIR_SYSTEM . "config/d_social_login.php"; 
 				if (file_exists($full)) { 
-					$result = 'd_social_login_settings';
+					$result = 'd_social_login';
 				} elseif (file_exists($light)) {
-					$result =  'd_social_login_light_settings';
+					$result =  'd_social_login_lite';
 				}
 			}
 		return $result;
 	}
-	
 	
 	public function install() {
 		  $this->load->model('setting/setting');

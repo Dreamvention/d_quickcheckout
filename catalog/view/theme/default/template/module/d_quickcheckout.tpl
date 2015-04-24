@@ -183,7 +183,7 @@ function refreshStep(step_number, func){
 }
 function refreshStepView(step_number, func){
 	$.ajax({
-		url: 'index.php?route=module/quickcheckout/refresh_step_view'+step_number,
+		url: 'index.php?route=module/d_quickcheckout/refresh_step_view'+step_number,
 		type: 'post',
 		data: $('#quickcheckout input[type=\'text\'], #quickcheckout input[type=\'password\'], #quickcheckout input[type=\'checkbox\'], #quickcheckout input[type=\'radio\']:checked, #quickcheckout select, #quickcheckout textarea'),
 		dataType: 'html',

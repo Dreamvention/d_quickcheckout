@@ -93,9 +93,9 @@ public function updateOrder($order_id,$data) {
 			affiliate_id = '" . (int)$data['affiliate_id'] . "', 
 			commission = '" . (float)$data['commission'] . "',"; 
 
-		if(isset($data['marketing_id']) { $query = $query. " marketing_id = '" . (int)$data['marketing_id'] . "',"; }
+		if(isset($data['marketing_id'])) { $query = $query. " marketing_id = '" . (int)$data['marketing_id'] . "',"; }
 
-		if(isset($data['tracking']) { $query = $query. " tracking = '" . $this->db->escape($data['tracking']) . "',"; }
+		if(isset($data['tracking'])) { $query = $query. " tracking = '" . $this->db->escape($data['tracking']) . "',"; }
 
 		$query = $query. " language_id = '" . (int)$data['language_id'] . "', 
 			currency_id = '" . (int)$data['currency_id'] . "', 

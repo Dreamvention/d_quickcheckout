@@ -547,7 +547,7 @@ class ControllerModuleDQuickcheckout extends Controller
 		$result = false;
 			if($this->isInstalled('d_social_login')){
 				$full = DIR_SYSTEM . "config/d_social_login.php";
-				$light = DIR_SYSTEM . "config/d_social_login.php"; 
+				$light = DIR_SYSTEM . "config/d_social_login_lite.php"; 
 				if (file_exists($full)) { 
 					$result = 'd_social_login';
 				} elseif (file_exists($light)) {

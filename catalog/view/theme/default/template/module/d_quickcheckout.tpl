@@ -181,6 +181,28 @@ function refreshStep(step_number, func){
 		}
 	});
 }
+function refreshStepView(step_number, func){
+	$.ajax({
+		url: 'index.php?route=module/quickcheckout/refresh_step_view'+step_number,
+		type: 'post',
+		data: $('#quickcheckout input[type=\'text\'], #quickcheckout input[type=\'password\'], #quickcheckout input[type=\'checkbox\'], #quickcheckout input[type=\'radio\']:checked, #quickcheckout select, #quickcheckout textarea'),
+		dataType: 'html',
+		beforeSend: function() {
+			
+		},
+		complete: function() {
+				
+		},
+		success: function(html) {
+			$('#step_'+step_number).html(html)
+			if (typeof func == "function") func(); 
+			debug_update()
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}
 function updateSettings(func){
 	console.log(' - updateSettings')
 	$.ajax({

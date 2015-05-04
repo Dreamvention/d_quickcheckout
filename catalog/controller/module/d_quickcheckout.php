@@ -3023,13 +3023,13 @@ class ControllerModuleDQuickcheckout extends Controller {
 	private function get_social_login_providers(){
 		$this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
 		$this->load->language('module/d_social_login');
-
-		$this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
-
+		
 		$this->data['button_sign_in'] = $this->language->get('button_sign_in');
 		$this->config->load($this->check_d_social_login());
 		$social_login_settings = $this->config->get('d_social_login_settings');
-
+		$this->session->data['d_social_login'] = $social_login_settings;
+		$this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+		
 		$social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
 		$providers = $social_login['providers'];
 

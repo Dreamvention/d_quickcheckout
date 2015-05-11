@@ -315,7 +315,7 @@
               <div class="col-sm-6">
                <div class="checkbox">
                 <label for="general_login_refresh">
-                 <input type="hidden" value="0" name="<?=$id?>[general][clear_session]" />
+                 <input type="hidden" value="0" name="<?=$id?>[general][login_refresh]" />
                  <?php if(isset($d_quickcheckout['general']['login_refresh']) && $d_quickcheckout['general']['login_refresh'] == 1){ ?>
                   <input type="checkbox" value="1" name="<?=$id?>[general][login_refresh]" checked="checked" id="general_login_refresh" />
                  <?php }else{ ?>

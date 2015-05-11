@@ -88,7 +88,7 @@ $('input[name=\'payment_address[exists]\']').on('click', function() {
 function refreshPaymentAddessZone(value) {
 
 	$.ajax({
-		url: 'index.php?route=module/quickcheckout/country&country_id=' + value,
+		url: 'index.php?route=module/d_quickcheckout/country&country_id=' + value,
 		dataType: 'json',
 		beforeSend: function() {
 

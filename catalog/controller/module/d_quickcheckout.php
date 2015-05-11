@@ -1993,11 +1993,11 @@ class ControllerModuleDQuickcheckout extends Controller {
 	   while(true){
 		   $i++;
 		   if(isset($data['custom_field_'.$i])){
-		 $custom_field['custom_field']['account'][$i] = $data['custom_field_'.$i]);
-		 $custom_field['custom_field']['address'][$i] = $data['custom_field_'.$i]);
-		 unset ($data['custom_field_'.$i]);
+				 $custom_field['custom_field']['account'][$i] = $data['custom_field_'.$i];
+				 $custom_field['custom_field']['address'][$i] = $data['custom_field_'.$i];
+				 unset ($data['custom_field_'.$i]);
 		   }else{
-		 break;
+				break;
 		   }
 	   }
 	   $customer_data = array_merge ($custom_field,  $data);

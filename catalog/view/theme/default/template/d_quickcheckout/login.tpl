@@ -5,7 +5,7 @@
 
       <!-- #option_register_popup-->
       <div class="btn-group">
-      <label id="option_register_popup" class="btn <?php echo ($account == 'register') ? 'btn-primary' : 'btn-default'; ?> <?php if(!$data['option']['register']['display']){ echo 'qc-hide'; } ?>">
+      <label id="option_register_popup" style="width:50%" class="btn <?php echo ($account == 'register') ? 'btn-primary' : 'btn-default'; ?> <?php if(!$data['option']['register']['display']){ echo 'qc-hide'; } ?>">
 
           <input type="radio" 
                  name="account" 
@@ -19,7 +19,7 @@
       </label>
       <?php if ($guest_checkout) { ?>
       <!-- #option_guest_popup-->
-      <label id="option_guest_popup" class="btn <?php echo ($account == 'guest') ? 'btn-primary' : 'btn-default'; ?>  <?php if(!$data['option']['guest']['display']){ echo 'qc-hide'; } ?>">
+      <label id="option_guest_popup" style="width:50%" class="btn <?php echo ($account == 'guest') ? 'btn-primary' : 'btn-default'; ?>  <?php if(!$data['option']['guest']['display']){ echo 'qc-hide'; } ?>">
 
           <input type="radio" 
                  name="account" 

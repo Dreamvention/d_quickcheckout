@@ -1,7 +1,8 @@
 <?php 
-/* path: admin/view/template/module/d_quickcheckout.tpl
-*  author: dreamvention
-*/
+/*
+ *  location: admin/view
+ *  author: dreamvention
+ */
 ?><?php echo $header; ?><?php echo $column_left; ?>
 <div id="content">
  <div class="page-header">
@@ -20,7 +21,7 @@
     <button onClick="saveAndStay()" data-toggle="tooltip" title="<?php echo $button_save_and_stay; ?>" class="btn btn-success"><i class="fa fa-save"></i></button>
     <button type="submit" form="form-featured" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
     <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
-   <h1><?php echo $heading_title; ?></h1>
+   <h1><?php echo $heading_title; ?> <?php echo $version; ?></h1>
    <ul class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
     <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
@@ -314,7 +315,7 @@
               <div class="col-sm-6">
                <div class="checkbox">
                 <label for="general_login_refresh">
-                 <input type="hidden" value="0" name="<?=$id?>[general][clear_session]" />
+                 <input type="hidden" value="0" name="<?=$id?>[general][login_refresh]" />
                  <?php if(isset($d_quickcheckout['general']['login_refresh']) && $d_quickcheckout['general']['login_refresh'] == 1){ ?>
                   <input type="checkbox" value="1" name="<?=$id?>[general][login_refresh]" checked="checked" id="general_login_refresh" />
                  <?php }else{ ?>
@@ -538,19 +539,19 @@
            <h3 class="page-header">
             <span class="fa fa-key fa-fw"></span> <span><?php echo $text_login; ?></span></h3>
            </h3>
-           <div class="row">
+   
            <?php if($social_login) { ?>
 
-           <div id="sortable_social_login" class="atab col-md-5">
+           <div id="sortable_social_login" class="list-group atab col-md-5">
 
            <?php foreach($d_quickcheckout['general']['social_login']['providers'] as $provider_name => $provider){ ?>
             <?php if(isset($provider['id'])) { ?> 
-            <div class="row sort-item atab-item">
+            <div class="clearfix sort-item atab-item list-group-item">
              <div class="col-sm-5"><span><span class="<?php echo $provider['icon']; ?>"></span><?php echo ${'text_'.$provider['id']};?></span></div>
              <div class="col-sm-7"><span>
               <input type="hidden" class="sort-value" value="<?php echo $provider['sort_order']; ?>" name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][sort_order]">
               <input type="hidden" value="0" name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]">
-              <input type="checkbox" value="1" id="general_social_login_providers_<?php echo $provider['id']; ?>" <?php echo ($provider['enabled']) ? 'checked="checked"': ''; ?> name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]"> <label for="general_social_login_providers_<?php echo $provider['id']; ?>"><?php echo $settings_enable; ?><label></span> 
+              <input type="checkbox" value="1" id="general_social_login_providers_<?php echo $provider['id']; ?>" <?php echo ($provider['enabled']) ? 'checked="checked"': ''; ?> name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]"> <label for="general_social_login_providers_<?php echo $provider['id']; ?>"><?php echo $text_enable; ?><label></span> 
               <span class="fa fa-drag"></span>
              </div>
             </div>
@@ -605,7 +606,7 @@
    //   });
    // });
   </script>
-          </div>
+       
          </div><!-- /#login-->
 
          <!---------------------------------- payment_address ---------------------------------->
@@ -620,9 +621,9 @@
              <thead>
               <tr>
                <th></th>
-               <th class="guest"><?php echo $text_guest_customer; ?></th>
-               <th class="register"><?php echo $text_registrating_customer; ?></th>
-               <th class="login"><?php echo $text_logged_in_customer; ?></th>
+               <th class="guest"><?php echo $text_guest; ?></th>
+               <th class="register"><?php echo $text_register; ?></th>
+               <th class="login"><?php echo $text_logged_in; ?></th>
               </tr>
              </thead>
              <tbody>
@@ -833,9 +834,9 @@
                 <thead>
                   <tr>
                    <th></th>
-                   <th class="guest"><?php echo $text_guest_customer; ?></th>
-                   <th class="register"><?php echo $text_registrating_customer; ?></th>
-                   <th class="login"><?php echo $text_logged_in_customer; ?></th>
+                   <th class="guest"><?php echo $text_guest; ?></th>
+                   <th class="register"><?php echo $text_register; ?></th>
+                   <th class="login"><?php echo $text_logged_in; ?></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -941,6 +942,9 @@
               <?php foreach($d_quickcheckout['step']['shipping_address']['fields'] as $field){?>
                 <tr id="shipping_address_<?php echo $field['id']; ?>_input" class="sort-item <?php echo ($field['type'] == 'system')? 'hide' : ''; ?>" sort-data="<?php echo (isset($d_quickcheckout['step']['shipping_address']['fields'][$field['id']]['sort_order']) ? $d_quickcheckout['step']['shipping_address']['fields'][$field['id']]['sort_order'] : ''); ?>">
                   <td class="name">
+                    <span class="btn btn-link">
+                      <i class="fa fa-bars"></i>
+                    </span>
                     <label>
                       <?php echo $field['title']; ?>
                       <input class="sort" type="hidden" value="<?php echo (isset($d_quickcheckout['step']['shipping_address']['fields'][$field['id']]['sort_order'])) ? $d_quickcheckout['step']['shipping_address']['fields'][$field['id']]['sort_order'] : ''; ?>" name="<?=$id?>[step][shipping_address][fields][<?php echo $field['id']; ?>][sort_order]" />
@@ -1334,9 +1338,9 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th class="guest"><?php echo $text_guest_customer; ?></th>
-                    <th class="register"><?php echo $text_registrating_customer; ?></th>
-                    <th class="login"><?php echo $text_logged_in_customer; ?></th>
+                    <th class="guest"><?php echo $text_guest; ?></th>
+                    <th class="register"><?php echo $text_register; ?></th>
+                    <th class="login"><?php echo $text_logged_in; ?></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1519,15 +1523,18 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th class="guest"><?php echo $text_guest_customer; ?></th>
-                    <th class="register"><?php echo $text_registrating_customer; ?></th>
-                    <th class="login"><?php echo $text_logged_in_customer; ?></th>
+                    <th class="guest"><?php echo $text_guest; ?></th>
+                    <th class="register"><?php echo $text_register; ?></th>
+                    <th class="login"><?php echo $text_logged_in; ?></th>
                   </tr>
                 </thead>
                 <tbody class="sortable table-sortable">
                 <?php foreach($d_quickcheckout['step']['confirm']['fields'] as $field){?>
                   <tr id="confirm_<?php echo $field['id']; ?>_input" class="sort-item <?php echo ($field['type'] == 'system')? 'hide' : ''; ?>" sort-data="<?php echo (isset($d_quickcheckout['step']['confirm']['fields'][$field['id']]['sort_order']) ? $d_quickcheckout['step']['confirm']['fields'][$field['id']]['sort_order'] : ''); ?>">
                     <td class="name">
+                      <span class="btn btn-link">
+                        <i class="fa fa-bars"></i>
+                      </span>
                       <label>
                         <?php echo $field['title']; ?>
                         <input class="sort" type="hidden" value="<?php echo (isset($d_quickcheckout['step']['confirm']['fields'][$field['id']]['sort_order'])) ? $d_quickcheckout['step']['confirm']['fields'][$field['id']]['sort_order'] : ''; ?>" name="<?=$id?>[step][confirm][fields][<?php echo $field['id']; ?>][sort_order]" />

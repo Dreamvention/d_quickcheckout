@@ -667,6 +667,21 @@
 /*theme fixes*/
 #quickcheckout input[type='text'], #quickcheckout input[type='password'], #quickcheckout textarea {
 	min-width: 50px;
+	/*opacity: 1;*/ 
+}
+#quickcheckout #step_1 input[type=text],
+#quickcheckout #step_1 input[type=password],
+#quickcheckout #step_2 input[type=text],
+#quickcheckout #step_2 input[type=password],
+#quickcheckout #step_3 input[type=text],
+#quickcheckout #step_3 input[type=password],
+#quickcheckout #step_1 .block input[type=text],
+#quickcheckout #step_1 .block input[type=password],
+#quickcheckout #step_3 .block input[type=text],
+#quickcheckout #step_3 .block input[type=password],
+#quickcheckout  #step_6 .qc-options input[type=text],
+#quickcheckout  #step_8 textarea{
+	opacity: 1;
 }
 #quickcheckout img {
 	max-width: inherit;

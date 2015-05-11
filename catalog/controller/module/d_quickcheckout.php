@@ -3071,38 +3071,39 @@ class ControllerModuleDQuickcheckout extends Controller {
  * Used by get_login_view()
  */	
 	private function get_social_login_providers(){
-		$this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
-		$this->load->language('module/d_social_login');
+			  $this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
+			  $this->load->language('module/d_social_login');
 
-		$this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+			  
 
-		$this->data['button_sign_in'] = $this->language->get('button_sign_in');
-		$this->config->load($this->check_d_social_login());
-		$social_login_settings = $this->config->get('d_social_login_module');
-		$social_login_settings = $social_login_settings['setting'];
+			  $this->data['button_sign_in'] = $this->language->get('button_sign_in');
+			  $this->config->load($this->check_d_social_login());
+			  $social_login_settings = $this->config->get('d_social_login_module');
+			  $social_login_settings = $social_login_settings['setting'];
+			  $this->session->data['d_social_login'] = $social_login_settings;
+			  $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+			  if(!$social_login_settings){ 
+			   return $data = array();
+			  }
+			  $social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
+			  $providers = $social_login['providers'];
 
-		if(!$social_login_settings){ 
-			return $data = array();
-		}
-		$social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
-		$providers = $social_login['providers'];
-
-		$sort_order = array(); 
-		foreach ($providers as $key => $value) {
-			if(isset($value['sort_order'])){
-      			$sort_order[$key] = $value['sort_order'];
-			}else{
+			  $sort_order = array(); 
+			  foreach ($providers as $key => $value) {
+			   if(isset($value['sort_order'])){
+					 $sort_order[$key] = $value['sort_order'];
+			   }else{
 				unset($providers[$key]);
-			}
-    	}
-		array_multisort($sort_order, SORT_ASC, $providers);
+			   }
+				 }
+			  array_multisort($sort_order, SORT_ASC, $providers);
 
-      	$data = $providers; 
-      	foreach($providers as $key => $val) {
-      		$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
-      	}
+				   $data = $providers; 
+				   foreach($providers as $key => $val) {
+					$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
+				   }
 
-      	return $data;
+				   return $data;
     }
 /**
  * Used by get_social_login_providers()

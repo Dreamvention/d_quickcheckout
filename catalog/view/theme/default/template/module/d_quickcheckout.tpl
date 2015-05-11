@@ -558,7 +558,7 @@ $(document).on('click', '#quickcheckout input[name="payment_address[shipping]"]'
 *	Change values of text or select(dropdown)
 */
 $(document).on('focus', '#quickcheckout input[type=text], #quickcheckout input[type=password], #quickcheckout select, #quickcheckout textarea', function(event) {
-	setTimeout(function(){
+	//setTimeout(function(){
 	$(this).on('change', function(e) {
 		var dataRefresh = $(this).attr('data-refresh');
 
@@ -567,7 +567,7 @@ $(document).on('focus', '#quickcheckout input[type=text], #quickcheckout input[t
 		if(dataRefresh){refreshCheckout(dataRefresh)}
 		e.stopImmediatePropagation()
 	});
-	}, 50);
+	//}, 50);
 	event.stopImmediatePropagation()
 });
 

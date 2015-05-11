@@ -1634,7 +1634,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					if ($option['type'] != 'file') {
 						$value = $option['option_value'];	
 					} else {
-						$value = $this->encryption->decrypt($option['option_value']);
+						$value = $this->encryption->decrypt($option['value']);
 					}	
 					
 					$option_data[] = array(

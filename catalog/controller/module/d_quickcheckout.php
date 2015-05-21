@@ -1129,7 +1129,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					$thumb = $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
 				} else {
 					$thumb = '';
-				}
+				} 
 
 				if ($product['image']) {
 					$image = $this->model_tool_image->resize($product['image'], $this->settings['design']['cart_image_size']['width'], $this->settings['design']['cart_image_size']['height']);
@@ -1143,6 +1143,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					if ($option['type'] != 'file') {
 						$value = $option['value'];
 					} else {
+						$this->load->mode('tool/upload');
 						$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
 
 						if ($upload_info) {
@@ -1634,7 +1635,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					if ($option['type'] != 'file') {
 						$value = $option['option_value'];	
 					} else {
-						$value = $this->encryption->decrypt($option['option_value']);
+						$value = $this->encryption->decrypt($option['value']);
 					}	
 					
 					$option_data[] = array(
@@ -1988,10 +1989,22 @@ class ControllerModuleDQuickcheckout extends Controller {
  *	Helper: create customer
  */
 	function create_customer($data) {
-			$this->debug('create_customer()');
-			$this->model_account_customer->addCustomer($data);
-			return true;
-	}
+	   $this->debug('create_customer()');
+	   $i=0;
+	   while(true){
+		   $i++;
+		   if(isset($data['custom_field_'.$i])){
+				 $custom_field['custom_field']['account'][$i] = $data['custom_field_'.$i];
+				 $custom_field['custom_field']['address'][$i] = $data['custom_field_'.$i];
+				 unset ($data['custom_field_'.$i]);
+		   }else{
+				break;
+		   }
+	   }
+	   $customer_data = array_merge ($custom_field,  $data);
+	   $this->model_account_customer->addCustomer($customer_data);
+	   return true;
+ }
 
 	function get_customer_groups(){
 		$this->debug('get_customer_groups()');
@@ -3071,38 +3084,39 @@ class ControllerModuleDQuickcheckout extends Controller {
  * Used by get_login_view()
  */	
 	private function get_social_login_providers(){
-		$this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
-		$this->load->language('module/d_social_login');
+			  $this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
+			  $this->load->language('module/d_social_login');
 
-		$this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+			  
 
-		$this->data['button_sign_in'] = $this->language->get('button_sign_in');
-		$this->config->load($this->check_d_social_login());
-		$social_login_settings = $this->config->get('d_social_login_module');
-		$social_login_settings = $social_login_settings['setting'];
+			  $this->data['button_sign_in'] = $this->language->get('button_sign_in');
+			  $this->config->load($this->check_d_social_login());
+			  $social_login_settings = $this->config->get('d_social_login_module');
+			  $social_login_settings = $social_login_settings['setting'];
+			  $this->session->data['d_social_login'] = $social_login_settings;
+			  $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+			  if(!$social_login_settings){ 
+			   return $data = array();
+			  }
+			  $social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
+			  $providers = $social_login['providers'];
 
-		if(!$social_login_settings){ 
-			return $data = array();
-		}
-		$social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
-		$providers = $social_login['providers'];
-
-		$sort_order = array(); 
-		foreach ($providers as $key => $value) {
-			if(isset($value['sort_order'])){
-      			$sort_order[$key] = $value['sort_order'];
-			}else{
+			  $sort_order = array(); 
+			  foreach ($providers as $key => $value) {
+			   if(isset($value['sort_order'])){
+					 $sort_order[$key] = $value['sort_order'];
+			   }else{
 				unset($providers[$key]);
-			}
-    	}
-		array_multisort($sort_order, SORT_ASC, $providers);
+			   }
+				 }
+			  array_multisort($sort_order, SORT_ASC, $providers);
 
-      	$data = $providers; 
-      	foreach($providers as $key => $val) {
-      		$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
-      	}
+				   $data = $providers; 
+				   foreach($providers as $key => $val) {
+					$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
+				   }
 
-      	return $data;
+				   return $data;
     }
 /**
  * Used by get_social_login_providers()

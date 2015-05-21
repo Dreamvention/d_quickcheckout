@@ -11,7 +11,7 @@
       <?php if ($this->registry->get('customer')->isLogged()) { ?>
         <?php if($address_style == 'radio'){?>
         <div>
-          <?php foreach ($addresses as $address) { ?>
+          <?php foreach ($addresses as $address) { ?> 
             <div class="radio-input">
               <input type="radio" name="shipping_address[address_id]" value="<?php echo $address['address_id']; ?>" id="shipping_address_exists_<?php echo $address['address_id']; ?>" <?php echo ($address['address_id'] == $shipping_address['address_id']) ? 'checked="checked"' : ''; ?> class="styled" data-refresh="2" autocomplete='off' />
               <label for="shipping_address_exists_<?php echo $address['address_id']; ?>">
@@ -84,7 +84,7 @@
 
 function refreshShippingAddessZone(value) {
 	$.ajax({
-		url: 'index.php?route=module/quickcheckout/country&country_id=' + value,
+		url: 'index.php?route=module/d_quickcheckout/country&country_id=' + value,
 		dataType: 'json',			
 		success: function(json) {
 

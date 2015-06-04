@@ -1991,19 +1991,7 @@ class ControllerModuleDQuickcheckout extends Controller {
  */
 	function create_customer($data) {
 	   $this->debug('create_customer()');
-	   $i=0;
-	   while(true){
-		   $i++;
-		   if(isset($data['custom_field_'.$i])){
-				 $custom_field['custom_field']['account'][$i] = $data['custom_field_'.$i];
-				 $custom_field['custom_field']['address'][$i] = $data['custom_field_'.$i];
-				 unset ($data['custom_field_'.$i]);
-		   }else{
-				break;
-		   }
-	   }
-	   $customer_data = array_merge ($custom_field,  $data);
-	   $this->model_account_customer->addCustomer($customer_data);
+	   $this->model_account_customer->addCustomer($data);
 	   return true;
  }
 
@@ -3040,7 +3028,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				}
 			
 				$fields['custom_field_'.$custom_field['custom_field_id']] = array(
-					'id' => 'custom_field_'.$custom_field['custom_field_id'],
+					'id' => 'custom_field]['.$location.']['.$custom_field['custom_field_id'].']',
 					'title' => $custom_field['name'], 
 					'tooltip' => '',
 					'error' => array(0 => array('min_length' => 1, 

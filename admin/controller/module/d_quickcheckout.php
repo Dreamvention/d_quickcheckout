@@ -413,9 +413,20 @@ class ControllerModuleDQuickcheckout extends Controller
 			$this->data['social_login'] = true;
 			$this->load->language('module/d_social_login');
 			
+			//setting 
+			$social_login_settings = $this->model_setting_setting->getSetting('d_social_login', $store_id);
+			$social_login_settings = (isset($social_login_settings['d_social_login_setting'])) ? $social_login_settings['d_social_login_setting'] : '';
+
 			$this->config->load($this->check_d_social_login());
-			$social_login_settings = $this->config->get('d_social_login_module');
-			$social_login_settings = $social_login_settings['setting'];
+			
+			$data['setting'] = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
+
+			if(!isset($this->request->post['config']) && !empty($setting)){
+				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
+			}
+			
+			//echo "<pre>"; print_r($social_login_settings); echo "</pre>";
+			
 
 			if($social_login_settings){ 
 

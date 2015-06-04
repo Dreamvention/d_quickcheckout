@@ -181,6 +181,28 @@ function refreshStep(step_number, func){
 		}
 	});
 }
+function refreshStepView(step_number, func){
+	$.ajax({
+		url: 'index.php?route=module/d_quickcheckout/refresh_step_view'+step_number,
+		type: 'post',
+		data: $('#quickcheckout input[type=\'text\'], #quickcheckout input[type=\'password\'], #quickcheckout input[type=\'checkbox\'], #quickcheckout input[type=\'radio\']:checked, #quickcheckout select, #quickcheckout textarea'),
+		dataType: 'html',
+		beforeSend: function() {
+			
+		},
+		complete: function() {
+				
+		},
+		success: function(html) {
+			$('#step_'+step_number).html(html)
+			if (typeof func == "function") func(); 
+			debug_update()
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}
 function updateSettings(func){
 	console.log(' - updateSettings')
 	$.ajax({
@@ -302,14 +324,16 @@ $(document).on('click', '#button_login_popup', function() {
 */
 $(document).on('click', '#qc_confirm_order', function(event) {
 	console.log('qc_confirm_order -> click') 
-	refreshCheckout(0, function(){
-		validateAllFields(function(){
-			confirmOrderQC(function(){
-				$('.processing-payment').show()
-				triggerPayment()	
-			})	
+	
+		refreshCheckout(0, function(){
+			validateAllFields(function(){
+				confirmOrderQC(function(){
+					$('.processing-payment').show()
+					triggerPayment()	
+				})	
+			})
 		})
-	})
+
 	event.stopImmediatePropagation()
 });
 
@@ -492,10 +516,13 @@ function confirmOrderQC(func){
 		},
 		success: function(html) {
 			console.log(html) 
-			refreshStep(2, function(){
-				refreshStep(3, function(){
-					if (typeof func == "function") func();
-				});
+			// bug with payment address rewriting shipping address 
+			refreshStepView(1, function(){
+				refreshStepView(2, function(){
+					refreshStepView(3, function(){
+						if (typeof func == "function") func();
+					});
+				});	
 			});	
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -531,6 +558,7 @@ $(document).on('click', '#quickcheckout input[name="payment_address[shipping]"]'
 *	Change values of text or select(dropdown)
 */
 $(document).on('focus', '#quickcheckout input[type=text], #quickcheckout input[type=password], #quickcheckout select, #quickcheckout textarea', function(event) {
+	//setTimeout(function(){
 	$(this).on('change', function(e) {
 		var dataRefresh = $(this).attr('data-refresh');
 
@@ -539,6 +567,7 @@ $(document).on('focus', '#quickcheckout input[type=text], #quickcheckout input[t
 		if(dataRefresh){refreshCheckout(dataRefresh)}
 		e.stopImmediatePropagation()
 	});
+	//}, 50);
 	event.stopImmediatePropagation()
 });
 

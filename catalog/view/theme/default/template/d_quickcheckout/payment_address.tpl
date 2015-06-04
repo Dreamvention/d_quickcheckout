@@ -72,7 +72,7 @@
  //echo '</pre>'; 
 ?>
 <script type="text/javascript"><!--
-// $('#company_id_input').hide();
+// $('#company_id_input').hide(); 
 // $('#tax_id_input').hide();
 
 $('input[name=\'payment_address[exists]\']').on('click', function() {
@@ -88,7 +88,7 @@ $('input[name=\'payment_address[exists]\']').on('click', function() {
 function refreshPaymentAddessZone(value) {
 
 	$.ajax({
-		url: 'index.php?route=module/quickcheckout/country&country_id=' + value,
+		url: 'index.php?route=module/d_quickcheckout/country&country_id=' + value,
 		dataType: 'json',
 		beforeSend: function() {
 

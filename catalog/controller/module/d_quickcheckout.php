@@ -247,6 +247,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	
 		if($this->validate()) {		
 			$this->load_settings();
+			$this->modify_order();
 			$this->clear_session();
 
 			if($this->settings['general']['enable']){
@@ -478,7 +479,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 			}
 			if(isset($this->session->data['shipping_address']['postcode'])){
 				$this->session->data['shipping_postcode'] = $this->session->data['shipping_address']['postcode'];
+			}else{
+				$this->session->data['shipping_address']['postcode'] = '';
 			}
+			if(isset($this->session->data['shipping_address']['city'])){
+				$this->session->data['shipping_city'] = $this->session->data['shipping_address']['city'];
+			}else{
+				$this->session->data['shipping_address']['city'] = '';
+			}
+
 			if(isset($this->session->data['shipping_address']['country_id']) && isset($this->session->data['shipping_address']['zone_id'])){
 				$country_data = $this->get_country_data($this->session->data['shipping_address']['country_id'], $this->session->data['shipping_address']['zone_id']);
 				if (is_array($country_data)) $this->session->data['shipping_address'] = array_merge($this->session->data['shipping_address'], $country_data);
@@ -562,14 +571,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 			$this->session->data['payment_method'] = (isset($this->session->data['payment_methods'][$this->request->post['payment_method']]))? $this->session->data['payment_methods'][$this->request->post['payment_method']] : $default_payment_method; 
 		}
 		
-		//Create or Update order
+		$this->after_load_settings();
+	}
+
+	private function modify_order(){
 		if(!isset($this->session->data['order_id'])){
 			$this->create_order();
 		}else{
 			$this->update_order();	
 		}
-		
-		$this->after_load_settings();
 	}
 
 
@@ -578,6 +588,7 @@ class ControllerModuleDQuickcheckout extends Controller {
  * Get login view
  */	
 	private function get_login_view(){
+
 		$this->debug('get_login_view()');
 		//Load languages
 		$this->data['text_checkout_option'] =  $this->language->get('text_checkout_option');
@@ -599,6 +610,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		//social login
 		if($this->isInstalled('d_social_login')){
 			$this->data['providers'] = $this->get_social_login_providers();
+			
 		}
 
 		//Check if guest checkout is allowed
@@ -1118,7 +1130,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					$thumb = $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
 				} else {
 					$thumb = '';
-				}
+				} 
 
 				if ($product['image']) {
 					$image = $this->model_tool_image->resize($product['image'], $this->settings['design']['cart_image_size']['width'], $this->settings['design']['cart_image_size']['height']);
@@ -1132,6 +1144,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					if ($option['type'] != 'file') {
 						$value = $option['value'];
 					} else {
+						$this->load->mode('tool/upload');
 						$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
 
 						if ($upload_info) {
@@ -1447,6 +1460,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	public function confirm_order(){
 		$this->debug('confirm_order()');
 		$this->load_settings();
+		$this->modify_order();
 		
 		$this->get_total_data($total_data, $total, $taxes);
 		$data = array();
@@ -1622,7 +1636,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					if ($option['type'] != 'file') {
 						$value = $option['option_value'];	
 					} else {
-						$value = $this->encryption->decrypt($option['option_value']);
+						$value = $this->encryption->decrypt($option['value']);
 					}	
 					
 					$option_data[] = array(
@@ -1976,10 +1990,10 @@ class ControllerModuleDQuickcheckout extends Controller {
  *	Helper: create customer
  */
 	function create_customer($data) {
-			$this->debug('create_customer()');
-			$this->model_account_customer->addCustomer($data);
-			return true;
-	}
+	   $this->debug('create_customer()');
+	   $this->model_account_customer->addCustomer($data);
+	   return true;
+ }
 
 	function get_customer_groups(){
 		$this->debug('get_customer_groups()');
@@ -2244,6 +2258,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	public function update_settings(){
 		$this->debug('update_settings()');
 		$this->load_settings();
+		$this->modify_order();
 		$json = array();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$json['success'] = $this->session->data;
@@ -2321,6 +2336,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 	public function refresh(){
 		$this->load_settings();
+		$this->modify_order();
 		$this->response->setOutput($this->index());
 	}
 
@@ -2329,6 +2345,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	*/	
 	public function refresh_payments(){
 		$this->load_settings();
+		$this->modify_order();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			
 			
@@ -2348,6 +2365,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 	*/	
 	public function refresh_step1(){	
 		$this->load_settings();
+		$this->modify_order();
+		if(($this->cart->hasProducts() || !empty($this->session->data['vouchers'])) && !$this->customer->isLogged()){
+			$this->response->setOutput($this->get_login_view());
+		}else{
+			$this->response->setOutput(false);
+		}
+	}
+	public function refresh_step_view1(){
+		$this->load_settings();
 		if(($this->cart->hasProducts() || !empty($this->session->data['vouchers'])) && !$this->customer->isLogged()){
 			$this->response->setOutput($this->get_login_view());
 		}else{
@@ -2355,6 +2381,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 		}
 	}
 	public function refresh_step2(){	
+		$this->load_settings();
+		$this->modify_order();
+		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
+			$this->response->setOutput($this->get_payment_address_view());
+		}else{
+			$this->response->setOutput(false);	
+		}
+	}
+	public function refresh_step_view2(){
 		$this->load_settings();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_payment_address_view());
@@ -2364,6 +2399,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 	}
 	public function refresh_step3(){	
 		$this->load_settings();
+		$this->modify_order();
+		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
+			$this->response->setOutput($this->get_shipping_address_view());
+		}else{
+			$this->response->setOutput(false);
+		}
+	}
+	public function refresh_step_view3(){	
+		$this->load_settings();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_shipping_address_view());
 		}else{
@@ -2372,6 +2416,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	}
 	public function refresh_step4(){	
 		$this->load_settings();
+		$this->modify_order();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_shipping_method_view());
 		}else{
@@ -2380,6 +2425,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	}
 	public function refresh_step5(){	
 		$this->load_settings();
+		$this->modify_order();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_payment_method_view());
 		}else{
@@ -2388,6 +2434,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 	}
 	public function refresh_step6(){	
 		$this->load_settings();
+		$this->modify_order();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_cart_view());
 		}else{
@@ -2397,6 +2444,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 	public function refresh_step7(){	
 		$this->load_settings();
+		$this->modify_order();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_payment_view());
 		}else{
@@ -2406,6 +2454,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 	public function refresh_step8(){	
 		$this->load_settings();
+		$this->modify_order();
 		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
 			$this->response->setOutput($this->get_confirm_view());
 		}else{
@@ -2421,6 +2470,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$json = array();
 		if(isset($this->request->post['field'])){
 			$this->load_settings();
+			$this->modify_order();
 			
 			$field = explode("[", $this->request->post['field']);
 			$field[1] =str_replace("]", "", $field[1]);
@@ -2457,6 +2507,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->load->model('catalog/information');
 		$json = array();
 		$this->load_settings();
+		$this->modify_order();
 		
 		foreach($this->request->post as $step => $data){
 			if(isset($this->request->post[$step])){
@@ -2977,7 +3028,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				}
 			
 				$fields['custom_field_'.$custom_field['custom_field_id']] = array(
-					'id' => 'custom_field_'.$custom_field['custom_field_id'],
+					'id' => 'custom_field]['.$location.']['.$custom_field['custom_field_id'].']',
 					'title' => $custom_field['name'], 
 					'tooltip' => '',
 					'error' => array(0 => array('min_length' => 1, 
@@ -3022,46 +3073,53 @@ class ControllerModuleDQuickcheckout extends Controller {
  * Used by get_login_view()
  */	
 	private function get_social_login_providers(){
-		$this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
-		$this->load->language('module/d_social_login');
+			  $this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
+			  $this->load->language('module/d_social_login');
 
-		$this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+			  
 
-		$this->data['button_sign_in'] = $this->language->get('button_sign_in');
-		$this->config->load($this->check_d_social_login());
-		$social_login_settings = $this->config->get('d_social_login_settings');
+			  $this->data['button_sign_in'] = $this->language->get('button_sign_in');
+			  $this->config->load($this->check_d_social_login());
+			  $social_login_settings = $this->config->get('d_social_login_setting');
 
-		$social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
-		$providers = $social_login['providers'];
+			  //$social_login_settings = $social_login_settings['setting'];
+			  $this->session->data['d_social_login'] = $social_login_settings;
+			  $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+			  if(!$social_login_settings){ 
+			   return $data = array();
+			  }
+			  $social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
+				
+			  $providers = $social_login['providers'];
 
-		$sort_order = array(); 
-		foreach ($providers as $key => $value) {
-			if(isset($value['sort_order'])){
-      			$sort_order[$key] = $value['sort_order'];
-			}else{
+			  $sort_order = array(); 
+			  foreach ($providers as $key => $value) {
+			   if(isset($value['sort_order'])){
+					 $sort_order[$key] = $value['sort_order'];
+			   }else{
 				unset($providers[$key]);
-			}
-    	}
-		array_multisort($sort_order, SORT_ASC, $providers);
+			   }
+				 }
+			  array_multisort($sort_order, SORT_ASC, $providers);
 
-      	$data = $providers; 
-      	foreach($providers as $key => $val) {
-      		$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
-      	}
-
-      	return $data;
+				   $data = $providers; 
+				   foreach($providers as $key => $val) {
+					$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
+				   }
+					
+				   return $data;
     }
 /**
  * Used by get_social_login_providers()
  */
 	public function check_d_social_login(){
 			if($this->isInstalled('d_social_login')){
-				$full = DIR_SYSTEM . "config/d_social_login_settings.php";
-				$light = DIR_SYSTEM . "config/d_social_login_light_settings.php"; 
+				$full = DIR_SYSTEM . "config/d_social_login.php";
+				$light = DIR_SYSTEM . "config/d_social_login_lite.php"; 
 				if (file_exists($full)) { 
-					return 'd_social_login_settings';
+					return 'd_social_login';
 				} elseif (file_exists($light)) {
-					return 'd_social_login_light_settings';
+					return 'd_social_login_lite';
 				}else{
 					return false;
 				}

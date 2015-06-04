@@ -425,7 +425,7 @@ class ControllerModuleDQuickcheckout extends Controller
 				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
 			}
 			
-			//echo "<pre>"; print_r($social_login_settings); echo "</pre>";
+			
 			
 
 			if($social_login_settings){ 

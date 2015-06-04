@@ -610,6 +610,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		//social login
 		if($this->isInstalled('d_social_login')){
 			$this->data['providers'] = $this->get_social_login_providers();
+			
 		}
 
 		//Check if guest checkout is allowed
@@ -3091,14 +3092,16 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 			  $this->data['button_sign_in'] = $this->language->get('button_sign_in');
 			  $this->config->load($this->check_d_social_login());
-			  $social_login_settings = $this->config->get('d_social_login_module');
-			  $social_login_settings = $social_login_settings['setting'];
+			  $social_login_settings = $this->config->get('d_social_login_setting');
+
+			  //$social_login_settings = $social_login_settings['setting'];
 			  $this->session->data['d_social_login'] = $social_login_settings;
 			  $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
 			  if(!$social_login_settings){ 
 			   return $data = array();
 			  }
 			  $social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
+				
 			  $providers = $social_login['providers'];
 
 			  $sort_order = array(); 
@@ -3115,7 +3118,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				   foreach($providers as $key => $val) {
 					$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
 				   }
-
+					
 				   return $data;
     }
 /**

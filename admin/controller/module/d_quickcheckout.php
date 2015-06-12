@@ -54,6 +54,7 @@ class ControllerModuleDQuickcheckout extends Controller
 		$this->document->addScript('view/javascript/shopunity/bootstrap-slider/js/bootstrap-slider.js');
 		$this->document->addStyle('view/javascript/shopunity/bootstrap-slider/css/slider.css');
 
+		$this->document->addStyle('view/stylesheet/d_social_login/styles.css');
 		$this->document->addStyle('view/stylesheet/d_quickcheckout.css');
 
 		//languages
@@ -412,10 +413,19 @@ class ControllerModuleDQuickcheckout extends Controller
 		if($this->check_d_social_login()){
 			$this->data['social_login'] = true;
 			$this->load->language('module/d_social_login');
-			
+		
+
+			$setting = $this->model_setting_setting->getSetting('d_social_login', $store_id);
+			$setting = (isset($setting['d_social_login_setting'])) ? $setting['d_social_login_setting'] : '';
+
 			$this->config->load($this->check_d_social_login());
-			$social_login_settings = $this->config->get('d_social_login_module');
-			$social_login_settings = $social_login_settings['setting'];
+			$social_login_settings = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
+
+			if(!isset($this->request->post['config']) && !empty($setting)){
+				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
+			}
+
+
 
 			if($social_login_settings){ 
 
@@ -554,6 +564,7 @@ class ControllerModuleDQuickcheckout extends Controller
 					$result =  'd_social_login_lite';
 				}
 			}
+
 		return $result;
 	}
 	

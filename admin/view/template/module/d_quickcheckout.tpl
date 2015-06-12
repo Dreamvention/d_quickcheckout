@@ -547,7 +547,7 @@
            <?php foreach($d_quickcheckout['general']['social_login']['providers'] as $provider_name => $provider){ ?>
             <?php if(isset($provider['id'])) { ?> 
             <div class="clearfix sort-item atab-item list-group-item">
-             <div class="col-sm-5"><span><span class="<?php echo $provider['icon']; ?>"></span><?php echo ${'text_'.$provider['id']};?></span></div>
+             <div class="col-sm-5"><span><span class="<?php echo $provider['icon']; ?>"> </span><?php echo ${'text_'.$provider['id']};?></span></div>
              <div class="col-sm-7"><span>
               <input type="hidden" class="sort-value" value="<?php echo $provider['sort_order']; ?>" name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][sort_order]">
               <input type="hidden" value="0" name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]">

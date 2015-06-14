@@ -192,6 +192,7 @@ if($settings['design']['block_style'] == 'block') {
             data-refresh="<?php echo $refresh; ?>" 
             value="<?php echo isset($f['value'])? $f['value'] : ''; ?>" 
             class="form-control" 
+            autocomplite="on" 
             placeholder="<?php echo ($require) ? '*' : ''; ?> <?php echo str_replace(':', '', $f['title']); ?>"/>
         </div>
       </div>

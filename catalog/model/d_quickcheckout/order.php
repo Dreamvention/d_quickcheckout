@@ -45,7 +45,7 @@ public function addOrder($data) {
 public function updateOrder($order_id,$data) {
 		$this->event->trigger('pre.order.add', $data);
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET 
+		$query = "UPDATE `" . DB_PREFIX . "order` SET 
 			invoice_prefix = '" . $this->db->escape($data['invoice_prefix']) . "', 
 			store_id = '" . (int)$data['store_id'] . "', 
 			store_name = '" . $this->db->escape($data['store_name']) . "', 
@@ -91,10 +91,13 @@ public function updateOrder($order_id,$data) {
 			comment = '" . $this->db->escape($data['comment']) . "', 
 			total = '" . (float)$data['total'] . "', 
 			affiliate_id = '" . (int)$data['affiliate_id'] . "', 
-			commission = '" . (float)$data['commission'] . "', 
-			marketing_id = '" . (int)$data['marketing_id'] . "', 
-			tracking = '" . $this->db->escape($data['tracking']) . "', 
-			language_id = '" . (int)$data['language_id'] . "', 
+			commission = '" . (float)$data['commission'] . "',"; 
+
+		if(isset($data['marketing_id'])) { $query = $query. " marketing_id = '" . (int)$data['marketing_id'] . "',"; }
+
+		if(isset($data['tracking'])) { $query = $query. " tracking = '" . $this->db->escape($data['tracking']) . "',"; }
+
+		$query = $query. " language_id = '" . (int)$data['language_id'] . "', 
 			currency_id = '" . (int)$data['currency_id'] . "', 
 			currency_code = '" . $this->db->escape($data['currency_code']) . "', 
 			currency_value = '" . (float)$data['currency_value'] . "', 
@@ -104,7 +107,9 @@ public function updateOrder($order_id,$data) {
 			accept_language = '" . $this->db->escape($data['accept_language']) . "', 
 			date_added = NOW(), 
 			date_modified = NOW()
-			WHERE order_id = '" . (int)$order_id . "'");
+			WHERE order_id = '" . (int)$order_id . "'";
+
+		$this->db->query($query);
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'"); 
         $this->db->query("DELETE FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "'");

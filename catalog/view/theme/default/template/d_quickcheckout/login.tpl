@@ -5,7 +5,7 @@
 
       <!-- #option_register_popup-->
       <div class="btn-group">
-      <label id="option_register_popup" class="btn <?php echo ($account == 'register') ? 'btn-primary' : 'btn-default'; ?> <?php if(!$data['option']['register']['display']){ echo 'qc-hide'; } ?>">
+      <label id="option_register_popup" style="width:50%" class="btn <?php echo ($account == 'register') ? 'btn-primary' : 'btn-default'; ?> <?php if(!$data['option']['register']['display']){ echo 'qc-hide'; } ?>">
 
           <input type="radio" 
                  name="account" 
@@ -19,7 +19,7 @@
       </label>
       <?php if ($guest_checkout) { ?>
       <!-- #option_guest_popup-->
-      <label id="option_guest_popup" class="btn <?php echo ($account == 'guest') ? 'btn-primary' : 'btn-default'; ?>  <?php if(!$data['option']['guest']['display']){ echo 'qc-hide'; } ?>">
+      <label id="option_guest_popup" style="width:50%" class="btn <?php echo ($account == 'guest') ? 'btn-primary' : 'btn-default'; ?>  <?php if(!$data['option']['guest']['display']){ echo 'qc-hide'; } ?>">
 
           <input type="radio" 
                  name="account" 
@@ -58,7 +58,14 @@
       </style> 
       <div id="d_social_login">
         <span class="qc-dsl-label qc-dsl-label-<?php echo $dsl_size; ?>"><?php echo $button_sign_in; ?></span>
-        <?php foreach($providers as $provider){ ?><?php if ($provider['enabled']) { ?><a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/provider_login&provider=<?php echo $provider['id']; ?>"><span class="l-side"><span class="dsl-icon-<?php echo $provider['id']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a><?php }  ?><?php } ?>
+         <?php foreach($providers as $key =>$provider){ ?>
+           <?php if ($provider['enabled']) { ?>
+             <a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/login&provider=<?php echo $key; ?>">
+
+             <span class="l-side"><span class="<?php echo $provider['icon']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a>
+          <?php }  ?>
+        <?php } ?>
+
       </div>
     <?php }  ?>
   </div>
@@ -165,8 +172,14 @@
           </style>
           <div id="d_social_login">
             <span class="qc-dsl-label qc-dsl-label-<?php echo $dsl_size; ?>"><?php echo $button_sign_in; ?></span>
-            <?php foreach($providers as $provider){ ?><?php if ($provider['enabled']) { ?><a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/provider_login&provider=<?php echo $provider['id']; ?>"><span class="l-side"><span class="dsl-icon-<?php echo $provider['id']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a><?php }  ?><?php } ?>
-          </div>
+            <?php foreach($providers as $key =>$provider){ ?>
+               <?php if ($provider['enabled']) { ?>
+                 <a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/login&provider=<?php echo $key; ?>">
+
+                 <span class="l-side"><span class="<?php echo $provider['icon']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a>
+              <?php }  ?>
+            <?php } ?>
+           </div>
         <?php } ?>
       </div>
     </div>

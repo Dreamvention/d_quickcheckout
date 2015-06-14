@@ -246,6 +246,6 @@ $_['text_error_failed'] 						= 'Oops! We could not connect to the server. Pleas
 $_['error_shopunity_required'] 					= 'Don\'t worry, to make your module look great, please install Shopunity Admin them. You can download it from <a href="http://www.opencart.com/index.php?route=extension/extension/info&extension_id=14928">here</a>';
 $_['error_permission']   						= 'Warning: You do not have permission to modify module welcome!';
 
-$_['text_need_full_version']        		    = '<h4>To use this function full version required</h4><p>You can purchase the full version on <a href="http://www.opencart.com/index.php?route=extension/extension/info&amp;extension_id=9132" target="_blank">opencart</a> or from <a href="http://dreamvention.com/support" target="_blank">Dreamvention</a>. It haa much more functions that will allow you to set up the perfect checkout.</p>';
+$_['text_need_full_version']        		    = '<h4>To use this function full version required</h4><p>You can purchase the full version on <a href="http://www.opencart.com/index.php?route=extension/extension/info&amp;extension_id=9132" target="_blank">opencart</a> or from <a href="http://dreamvention.com/support" target="_blank">Dreamvention</a>. It has much more functions that will allow you to set up the perfect checkout.</p>';
 
 ?>

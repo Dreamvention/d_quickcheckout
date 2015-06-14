@@ -536,21 +536,21 @@
          <div id="login" class="tab-pane">
           
            <h3 class="page-header">
-            <span class="fa fa-key fa-fw"></span> <span><?php echo $text_login; ?></span></h3>
+            <span class="fa fa-key fa-fw"></span> <span><?php echo $text_login; ?></span>
            </h3>
-           <div class="row">
+   
            <?php if($social_login) { ?>
 
-           <div id="sortable_social_login" class="atab col-md-5">
+           <div id="sortable_social_login" class="list-group atab col-md-5">
 
            <?php foreach($d_quickcheckout['general']['social_login']['providers'] as $provider_name => $provider){ ?>
             <?php if(isset($provider['id'])) { ?> 
-            <div class="row sort-item atab-item">
-             <div class="col-sm-5"><span><span class="<?php echo $provider['icon']; ?>"></span><?php echo ${'text_'.$provider['id']};?></span></div>
+            <div class="clearfix sort-item atab-item list-group-item">
+             <div class="col-sm-5"><span><span class="<?php echo $provider['icon']; ?>"> </span><?php echo ${'text_'.$provider['id']};?></span></div>
              <div class="col-sm-7"><span>
               <input type="hidden" class="sort-value" value="<?php echo $provider['sort_order']; ?>" name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][sort_order]">
               <input type="hidden" value="0" name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]">
-              <input type="checkbox" value="1" id="general_social_login_providers_<?php echo $provider['id']; ?>" <?php echo ($provider['enabled']) ? 'checked="checked"': ''; ?> name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]"> <label for="general_social_login_providers_<?php echo $provider['id']; ?>"><?php echo $settings_enable; ?><label></span> 
+              <input type="checkbox" value="1" id="general_social_login_providers_<?php echo $provider['id']; ?>" <?php echo ($provider['enabled']) ? 'checked="checked"': ''; ?> name="<?=$id?>[general][social_login][providers][<?php echo $provider_name; ?>][enabled]"> <label for="general_social_login_providers_<?php echo $provider['id']; ?>"><?php echo $text_enable; ?><label></span> 
               <span class="fa fa-drag"></span>
              </div>
             </div>
@@ -605,7 +605,7 @@
    //   });
    // });
   </script>
-          </div>
+       
          </div><!-- /#login-->
 
          <!---------------------------------- payment_address ---------------------------------->

@@ -68,54 +68,13 @@
 </div> <!-- #payment_address_wrap -->
 <?php
 // echo '<pre>';
-// print_r($this->session->data['payment_address']);
-// echo '</pre>'; 
+// print_r($payment_address);
+ //echo '</pre>'; 
 ?>
 <script type="text/javascript"><!--
-// $('#company_id_input').hide();
+// $('#company_id_input').hide(); 
 // $('#tax_id_input').hide();
 
-
-<?php if(isset($payment_address['fields']['customer_group_id']['options'])) {?>
-$('input[name=\'payment_address[customer_group_id]\']').on('click', function() {
-  var customer_group = [];
- 
-<?php foreach ($payment_address['fields']['customer_group_id']['options'] as $customer_group) { ?>
-  customer_group[<?php echo $customer_group['customer_group_id']; ?>] = [];
-  customer_group[<?php echo $customer_group['customer_group_id']; ?>]['company_id_display'] = '<?php echo $customer_group['company_id_display']; ?>';
-  customer_group[<?php echo $customer_group['customer_group_id']; ?>]['company_id_required'] = '<?php echo $customer_group['company_id_required']; ?>';
-  customer_group[<?php echo $customer_group['customer_group_id']; ?>]['tax_id_display'] = '<?php echo $customer_group['tax_id_display']; ?>';
-  customer_group[<?php echo $customer_group['customer_group_id']; ?>]['tax_id_required'] = '<?php echo $customer_group['tax_id_required']; ?>';
-<?php } ?>  
-
-  if (customer_group[this.value]) {
-    if (customer_group[this.value]['company_id_display'] == '1') {
-      $('#company_id_input').show();
-    } else {
-      $('#company_id_input').hide();
-    }
-    if (customer_group[this.value]['tax_id_display'] == '1') {
-      $('#tax_id_input').show();
-    } else {
-      $('#tax_id_input').hide();
-    }
-    if (customer_group[this.value]['company_id_required'] == '1') {
-      $('#payment_address_company_id').attr('data-require', 'require');
-      $('label[for=\'payment_address_company_id\'] span.required.qc-hide').removeClass('qc-hide');
-    } else {
-      $('#payment_address_company_id').attr('data-require', '');
-      $('label[for=\'payment_address_company_id\'] span.required').addClass('qc-hide');
-    }    
-    if (customer_group[this.value]['tax_id_required'] == '1') {
-      $('#payment_address_tax_id').attr('data-require', 'require');
-      $('label[for=\'payment_address_tax_id\'] span.required.qc-hide').removeClass('qc-hide');
-    } else {
-      $('#payment_address_tax_id').attr('data-require', '');
-      $('label[for=\'payment_address_tax_id\'] span.required').addClass('qc-hide');
-    } 
-  }
-});
-<?php } ?>
 $('input[name=\'payment_address[exists]\']').on('click', function() {
 	if (this.value == '0') {
 		$('#payment_address_exists_list').hide();
@@ -129,7 +88,7 @@ $('input[name=\'payment_address[exists]\']').on('click', function() {
 function refreshPaymentAddessZone(value) {
 
 	$.ajax({
-		url: 'index.php?route=module/quickcheckout/country&country_id=' + value,
+		url: 'index.php?route=module/d_quickcheckout/country&country_id=' + value,
 		dataType: 'json',
 		beforeSend: function() {
 

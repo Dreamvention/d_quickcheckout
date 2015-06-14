@@ -3126,6 +3126,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 
 			$social_login_settings = $this->config->get('d_social_login_setting');
+			
+			$this->config->load($this->check_d_social_login());
+			$social_login_settings = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
+
+			if(!isset($this->request->post['config']) && !empty($setting)){
+				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
+			}
+
+
 
 			$this->session->data['redirect'] = ($social_login_settings['return_page_url']) ? $social_login_settings['return_page_url'] : $this->getCurrentUrl();
       	

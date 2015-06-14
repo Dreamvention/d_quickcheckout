@@ -537,7 +537,7 @@
          <div id="login" class="tab-pane">
           
            <h3 class="page-header">
-            <span class="fa fa-key fa-fw"></span> <span><?php echo $text_login; ?></span></h3>
+            <span class="fa fa-key fa-fw"></span> <span><?php echo $text_login; ?></span>
            </h3>
    
            <?php if($social_login) { ?>

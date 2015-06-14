@@ -497,7 +497,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 
 		if($this->customer->isLogged()){	
-			if((isset($this->session->data['payment_address']['address_id']) && $this->session->data['payment_address']['address_id']) && $this->session->data['payment_address']['exists']){
+			if((isset($this->session->data['payment_address']['address_id']) && $this->session->data['payment_address']['address_id']) && isset($this->session->data['payment_address']['exists']) && $this->session->data['payment_address']['exists']){
 				$this->session->data['payment_address']['shipping'] = 0;
 			}
 		}
@@ -610,7 +610,6 @@ class ControllerModuleDQuickcheckout extends Controller {
 		//social login
 		if($this->isInstalled('d_social_login')){
 			$this->data['providers'] = $this->get_social_login_providers();
-			
 		}
 
 		//Check if guest checkout is allowed
@@ -1543,7 +1542,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$data['email'] = $this->session->data['payment_address']['email'];
 				$data['telephone'] = $this->session->data['payment_address']['telephone'];
 				$data['fax'] = $this->session->data['payment_address']['fax'];
-				$data['custom_field'] = $this->parseCustomFields($this->session->data['payment_address']);
+				$data['custom_field'] = $this->parseCustomFields($this->session->data['payment_address'], 'account');
 			} else {
 				return false;
 			}
@@ -1565,7 +1564,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 			$data['payment_country'] = $payment_address['country'];
 			$data['payment_country_id'] = $payment_address['country_id'];
 			$data['payment_address_format'] = $payment_address['address_format'];
-			$data['payment_custom_field'] = $this->parseCustomFields($payment_address);
+			$data['payment_custom_field'] = $this->parseCustomFields($payment_address, 'address');
 		
 			if (isset($this->session->data['payment_method']['title'])) {
 				if ($this->session->data['payment_method']['code']=="klarna_invoice") $data['payment_method'] = "Klarna Factuur";
@@ -1596,7 +1595,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$data['shipping_country'] = $shipping_address['country'];
 				$data['shipping_country_id'] = $shipping_address['country_id'];
 				$data['shipping_address_format'] = $shipping_address['address_format'];
-				$data['shipping_custom_field'] = $this->parseCustomFields($shipping_address);
+				$data['shipping_custom_field'] = $this->parseCustomFields($shipping_address, 'address');
 			
 				if (isset($this->session->data['shipping_method']['title'])) {
 					$data['shipping_method'] = $this->session->data['shipping_method']['title'];
@@ -1629,40 +1628,73 @@ class ControllerModuleDQuickcheckout extends Controller {
 			
 			$product_data = array();
 		
+
 			foreach ($this->cart->getProducts() as $product) {
 				$option_data = array();
-	
+
 				foreach ($product['option'] as $option) {
 					if ($option['type'] != 'file') {
-						$value = $option['option_value'];	
+						$value = $option['value'];
 					} else {
-						$value = $this->encryption->decrypt($option['value']);
-					}	
-					
+						$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
+
+						if ($upload_info) {
+							$value = $upload_info['name'];
+						} else {
+							$value = '';
+						}
+					}
+
 					$option_data[] = array(
 						'product_option_id'       => $option['product_option_id'],
 						'product_option_value_id' => $option['product_option_value_id'],
 						'option_id'               => $option['option_id'],
-						'option_value_id'         => $option['option_value_id'],								   
-						'name'                    => $option['name'],
-						'value'                   => $value,
-						'type'                    => $option['type']
-					);					
+						'option_value_id'         => $option['option_value_id'],
+						'type'                    => $option['type'],
+						// above is extra
+						'name'  => $option['name'],
+						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
+					);
 				}
-	 
+
+				$recurring = '';
+
+				if ($product['recurring']) {
+					$frequencies = array(
+						'day'        => $this->language->get('text_day'),
+						'week'       => $this->language->get('text_week'),
+						'semi_month' => $this->language->get('text_semi_month'),
+						'month'      => $this->language->get('text_month'),
+						'year'       => $this->language->get('text_year'),
+					);
+
+					if ($product['recurring_trial']) {
+						$recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($product['recurring']['trial_price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax'))), $product['recurring']['trial_cycle'], $frequencies[$product['recurring']['trial_frequency']], $product['recurring']['trial_duration']) . ' ';
+					}
+
+					if ($product['recurring_duration']) {
+						$recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax'))), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+					} else {
+						$recurring .= sprintf($this->language->get('text_payment_until_canceled_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax'))), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+					}
+				}
+
 				$product_data[] = array(
+					'key'        => $product['key'],
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
 					'model'      => $product['model'],
 					'option'     => $option_data,
-					'download'   => $product['download'],
+					'recurring'  => $recurring,
 					'quantity'   => $product['quantity'],
 					'subtract'   => $product['subtract'],
-					'price'      => $product['price'],
-					'total'      => $product['total'],
+					'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
+					'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']),
+					'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id']),
+					//UNDER DEVELOPMENT
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
 					'reward'     => $product['reward']
-				); 
+				);
 			}
 			
 			// Gift Voucher
@@ -1785,7 +1817,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				 }
 				$data['telephone'] = $this->session->data['payment_address']['telephone'];
 				$data['fax'] = $this->session->data['payment_address']['fax'];
-				$data['custom_field'] = $this->parseCustomFields($this->session->data['payment_address']);
+				$data['custom_field'] = $this->parseCustomFields($this->session->data['payment_address'], 'account');
 			} else {
 				return false;
 			}
@@ -1806,7 +1838,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 			$data['payment_country'] = $payment_address['country'];
 			$data['payment_country_id'] = $payment_address['country_id'];
 			$data['payment_address_format'] = $payment_address['address_format'];
-			$data['payment_custom_field'] = $this->parseCustomFields($payment_address);
+			$data['payment_custom_field'] = $this->parseCustomFields($payment_address, 'address');
 		
 			if (isset($this->session->data['payment_method']['title'])) {
 				$data['payment_method'] = $this->session->data['payment_method']['title'];
@@ -1834,7 +1866,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$data['shipping_country'] = $shipping_address['country'];
 				$data['shipping_country_id'] = $shipping_address['country_id'];
 				$data['shipping_address_format'] = $shipping_address['address_format'];
-				$data['shipping_custom_field'] = $this->parseCustomFields($shipping_address);
+				$data['shipping_custom_field'] = $this->parseCustomFields($shipping_address, 'address');
 			
 				if (isset($this->session->data['shipping_method']['title'])) {
 					$data['shipping_method'] = $this->session->data['shipping_method']['title'];
@@ -1991,7 +2023,12 @@ class ControllerModuleDQuickcheckout extends Controller {
  */
 	function create_customer($data) {
 	   $this->debug('create_customer()');
-	   $this->model_account_customer->addCustomer($data);
+
+	   $custom_field['custom_field']['account'] = $this->parseCustomFields($data, 'account');
+	   $custom_field['custom_field']['address'] = $this->parseCustomFields($data, 'address');
+
+	   $customer_data = array_merge ($custom_field,  $data);
+	   $this->model_account_customer->addCustomer($customer_data);
 	   return true;
  }
 
@@ -3027,13 +3064,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 					$require[$custom_field_display['customer_group_id']] = $custom_field_display['required'];
 				}
 			
-				$fields['custom_field_'.$custom_field['custom_field_id']] = array(
-					'id' => 'custom_field]['.$location.']['.$custom_field['custom_field_id'].']',
+				$fields['custom_field_'.$location.'_'.$custom_field['custom_field_id']] = array(
+					'id' => 'custom_field_'.$location.'_'.$custom_field['custom_field_id'],
 					'title' => $custom_field['name'], 
 					'tooltip' => '',
 					'error' => array(0 => array('min_length' => 1, 
 												 'max_length' => 32, 
-												 'text' => 'error_custom_field')),
+												 'text' => sprintf($this->language->get('error_custom_field'), $custom_field['name'])
+												 )
+								),
 					'type' => $custom_field['type'],
 					'refresh' => '0',
 					'custom' => 1,
@@ -3044,7 +3083,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					'class' => ''
 				);
 				foreach($custom_field['custom_field_value'] as $option){
-					$fields['custom_field_'.$custom_field['custom_field_id']]['options'][] = array(
+					$fields['custom_field_'.$location.'_'.$custom_field['custom_field_id']]['options'][] = array(
 						'title' => $option['name'],
 						'value' => $option['custom_field_value_id']
 					);
@@ -3054,8 +3093,8 @@ class ControllerModuleDQuickcheckout extends Controller {
 		}
 		return $fields;
 	}
-	private function parseCustomFields($data = array()){
-		$data = $this->preg_grep_keys("custom_field_", $data);
+	private function parseCustomFields($data = array(), $location){
+		$data = $this->preg_grep_keys("custom_field_".$location."_", $data);
 		return $data;
 
 	}
@@ -3080,16 +3119,31 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 			  $this->data['button_sign_in'] = $this->language->get('button_sign_in');
 			  $this->config->load($this->check_d_social_login());
-			  $social_login_settings = $this->config->get('d_social_login_setting');
+			  // $social_login_settings = $this->config->get('d_social_login_module');
+			  // $social_login_settings = $social_login_settings['setting'];
+			  // $this->session->data['d_social_login'] = $social_login_settings;
+			  // $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
 
-			  //$social_login_settings = $social_login_settings['setting'];
-			  $this->session->data['d_social_login'] = $social_login_settings;
-			  $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
+
+			$social_login_settings = $this->config->get('d_social_login_setting');
+			
+			$this->config->load($this->check_d_social_login());
+			$social_login_settings = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
+
+			if(!isset($this->request->post['config']) && !empty($setting)){
+				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
+			}
+
+
+
+			$this->session->data['redirect'] = ($social_login_settings['return_page_url']) ? $social_login_settings['return_page_url'] : $this->getCurrentUrl();
+      	
+
+
 			  if(!$social_login_settings){ 
 			   return $data = array();
 			  }
 			  $social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
-				
 			  $providers = $social_login['providers'];
 
 			  $sort_order = array(); 
@@ -3106,27 +3160,29 @@ class ControllerModuleDQuickcheckout extends Controller {
 				   foreach($providers as $key => $val) {
 					$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
 				   }
-					
+
 				   return $data;
     }
 /**
  * Used by get_social_login_providers()
  */
+
 	public function check_d_social_login(){
+		$result = false;
 			if($this->isInstalled('d_social_login')){
 				$full = DIR_SYSTEM . "config/d_social_login.php";
 				$light = DIR_SYSTEM . "config/d_social_login_lite.php"; 
+				$free = DIR_SYSTEM . "config/d_social_login_free.php"; 
 				if (file_exists($full)) { 
-					return 'd_social_login';
+					$result = 'd_social_login';
 				} elseif (file_exists($light)) {
-					return 'd_social_login_lite';
-				}else{
-					return false;
+					$result =  'd_social_login_lite';
+				} elseif (file_exists($free)) {
+					$result =  'd_social_login_free';
 				}
-			}else{
-				return false;
 			}
 
+		return $result;
 	}
 
 	public function get_d_payment_fee(){

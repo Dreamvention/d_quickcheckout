@@ -54,6 +54,7 @@ class ControllerModuleDQuickcheckout extends Controller
 		$this->document->addScript('view/javascript/shopunity/bootstrap-slider/js/bootstrap-slider.js');
 		$this->document->addStyle('view/javascript/shopunity/bootstrap-slider/css/slider.css');
 
+		$this->document->addStyle('view/stylesheet/d_social_login/styles.css');
 		$this->document->addStyle('view/stylesheet/d_quickcheckout.css');
 
 		//languages
@@ -412,21 +413,19 @@ class ControllerModuleDQuickcheckout extends Controller
 		if($this->check_d_social_login()){
 			$this->data['social_login'] = true;
 			$this->load->language('module/d_social_login');
-			
-			//setting 
-			$social_login_settings = $this->model_setting_setting->getSetting('d_social_login', $store_id);
-			$social_login_settings = (isset($social_login_settings['d_social_login_setting'])) ? $social_login_settings['d_social_login_setting'] : '';
+		
+
+			$setting = $this->model_setting_setting->getSetting('d_social_login', $store_id);
+			$setting = (isset($setting['d_social_login_setting'])) ? $setting['d_social_login_setting'] : '';
 
 			$this->config->load($this->check_d_social_login());
-			
-			$data['setting'] = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
+			$social_login_settings = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
 
 			if(!isset($this->request->post['config']) && !empty($setting)){
 				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
 			}
-			
-			
-			
+
+
 
 			if($social_login_settings){ 
 
@@ -559,12 +558,16 @@ class ControllerModuleDQuickcheckout extends Controller
 			if($this->isInstalled('d_social_login')){
 				$full = DIR_SYSTEM . "config/d_social_login.php";
 				$light = DIR_SYSTEM . "config/d_social_login_lite.php"; 
+				$free = DIR_SYSTEM . "config/d_social_login_free.php"; 
 				if (file_exists($full)) { 
 					$result = 'd_social_login';
 				} elseif (file_exists($light)) {
 					$result =  'd_social_login_lite';
+				} elseif (file_exists($free)) {
+					$result =  'd_social_login_free';
 				}
 			}
+
 		return $result;
 	}
 	

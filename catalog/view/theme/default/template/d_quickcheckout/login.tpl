@@ -38,7 +38,6 @@
       <a id="option_login_popup_trigger" data-toggle="modal" data-target="#option_login_popup" class="button btn btn-primary pull-right <?php echo (!$data['option']['login']['display']) ? 'qc-hide' : ''; ?>"><?php echo $button_login; ?></a>
 
     <?php if (isset($providers)) { ?>
-	
       <style>
       #quickcheckout #d_social_login{
         display: inline-block;
@@ -59,10 +58,14 @@
       </style> 
       <div id="d_social_login">
         <span class="qc-dsl-label qc-dsl-label-<?php echo $dsl_size; ?>"><?php echo $button_sign_in; ?></span>
-        <?php foreach($providers as $key =>$provider){ ?>
-			<?php if ($provider['enabled']) { ?>
-				<a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/login&provider=<?php echo $key; ?>">
-				<span class="l-side"><span class="dsl-icon-<?php echo $provider['id']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a><?php }  ?><?php } ?>
+         <?php foreach($providers as $key =>$provider){ ?>
+           <?php if ($provider['enabled']) { ?>
+             <a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/login&provider=<?php echo $key; ?>">
+
+             <span class="l-side"><span class="<?php echo $provider['icon']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a>
+          <?php }  ?>
+        <?php } ?>
+
       </div>
     <?php }  ?>
   </div>
@@ -169,8 +172,14 @@
           </style>
           <div id="d_social_login">
             <span class="qc-dsl-label qc-dsl-label-<?php echo $dsl_size; ?>"><?php echo $button_sign_in; ?></span>
-            <?php foreach($providers as $provider){ ?><?php if ($provider['enabled']) { ?><a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/provider_login&provider=<?php echo $provider['id']; ?>"><span class="l-side"><span class="dsl-icon-<?php echo $provider['id']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a><?php }  ?><?php } ?>
-          </div>
+            <?php foreach($providers as $key =>$provider){ ?>
+               <?php if ($provider['enabled']) { ?>
+                 <a id="dsl_<?php echo $provider['id']; ?>_button" class="qc-dsl-button qc-dsl-button-<?php echo $dsl_size; ?>" href="index.php?route=module/d_social_login/login&provider=<?php echo $key; ?>">
+
+                 <span class="l-side"><span class="<?php echo $provider['icon']; ?> qc-dsl-icon"></span></span><span class="r-side"><?php echo $provider['heading']; ?></span></a>
+              <?php }  ?>
+            <?php } ?>
+           </div>
         <?php } ?>
       </div>
     </div>

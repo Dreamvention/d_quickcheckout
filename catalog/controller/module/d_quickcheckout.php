@@ -3157,21 +3157,23 @@ class ControllerModuleDQuickcheckout extends Controller {
 /**
  * Used by get_social_login_providers()
  */
+
 	public function check_d_social_login(){
+		$result = false;
 			if($this->isInstalled('d_social_login')){
 				$full = DIR_SYSTEM . "config/d_social_login.php";
 				$light = DIR_SYSTEM . "config/d_social_login_lite.php"; 
+				$free = DIR_SYSTEM . "config/d_social_login_free.php"; 
 				if (file_exists($full)) { 
-					return 'd_social_login';
+					$result = 'd_social_login';
 				} elseif (file_exists($light)) {
-					return 'd_social_login_lite';
-				}else{
-					return false;
+					$result =  'd_social_login_lite';
+				} elseif (file_exists($free)) {
+					$result =  'd_social_login_free';
 				}
-			}else{
-				return false;
 			}
 
+		return $result;
 	}
 
 	public function get_d_payment_fee(){

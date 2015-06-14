@@ -1,15 +1,15 @@
 <extension>
     <id>d_quickcheckout_lite</id>
-    <name>Ajax Quick Checkout</name>
+    <name>Ajax Quick Checkout Lite</name>
     <description>Ajax Quick Checkout is a sophisticated checkout solution for Opencart, that allows the user to setup the checkout process in the most user-friendly possible way to increase the sales. It removes 6 steps leaving 1 step, creating only one button for all cases. The only solution you will ever need.</description>
     <type>module</type>
-    <version>5.0.1</version>
-	<opencart_version>1.5.3x-5x</opencart_version>
+    <version>5.0.6</version>
+	<opencart_version>2.0.0.0,2.0.1.1,2.0.2.0;2.0.3.1</opencart_version>
     <mbooth_version>1.0</mbooth_version>
     <author>Dreamvention</author>
     <files>
 	<!-- xml -->
-		<file>system/mbooth/xml/mbooth_d_quickcheckout_lite.xml</file>
+		<file>system/mbooth/xml/mbooth_d_quickcheckout.xml</file>
 	<!-- admin -->
 		<file>admin/controller/module/d_quickcheckout.php</file>
 		<file>admin/language/english/module/d_quickcheckout.php</file>		
@@ -27,12 +27,12 @@
 		<file>vqmod/xml/a_vqmod_d_quickcheckout.xml</file>
 	<!-- system -->	
 		<file>system/config/d_quickcheckout.php</file>
-		<file>system/library/Ubench.php</file>
+		<file>system/library/ubench.php</file>
 	</files>
 	<dirs>
 	<!--<dir>admin/view/image/d_quickcheckout</dir> -->
-		<dir>system/library/Monolog</dir>
-		<dir>system/library/Psr</dir>
+		<dir>system/library/monolog</dir>
+		<dir>system/library/psr</dir>
 		<dir>admin/view/javascript/shopunity</dir>
 		<dir>admin/view/stylesheet/shopunity</dir>
 		<dir>catalog/view/javascript/d_quickcheckout</dir>
@@ -46,6 +46,25 @@
 		<require version="3.0.0">shopunity</require>
 	</required>
 	<updates>
+		<update version="5.0.6"><![CDATA[
+		1. criticl issue fixed
+		]]></update>
+		<update version="5.0.5"><![CDATA[
+		1. criticl issue fixed
+		]]></update>
+		<update version="5.0.4"><![CDATA[
+		1. criticl issue fixed
+		]]></update>
+		<update version="5.0.3"><![CDATA[
+		1. autocompleate on. <br/>
+		2. address confclict fix<br/>
+		]]></update>
+		<update version="5.0.2"><![CDATA[
+		1. Bugfix.
+		]]></update>
+		<update version="5.0.1"><![CDATA[
+		1. Bugfix.
+		]]></update>
 		<update version="5.0.0"><![CDATA[
 		1. Updated to 2.0.0.0
 		]]></update>

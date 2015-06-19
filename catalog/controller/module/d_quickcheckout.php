@@ -777,10 +777,18 @@ class ControllerModuleDQuickcheckout extends Controller {
 		if($this->session->data['qc_settings']['option'][$this->session->data['account']]['shipping_address']['require'] == 1) {
 			$this->session->data['payment_address']['shipping'] = 0;
 		}
+		if($this->customer->isLogged() && $this->session->data['payment_address']['address_id'] == 0){
+			if(!$this->settings['option'][$this->session->data['account']]['shipping_address']['display']){
+				return true;
+			}
+			if( $this->session->data['payment_address']['shipping'] == 1){
+				return true;
+			}
+		}
 
-
-		if(isset($this->session->data['account']) && isset($this->session->data['payment_address']['shipping'])){
+		if(!$this->customer->isLogged() && isset($this->session->data['account']) && isset($this->session->data['payment_address']['shipping'])){
 			if($this->session->data['payment_address']['shipping'] || !$this->settings['option'][$this->session->data['account']]['shipping_address']['display']){
+				 
 				return true;
 			}
 		}	 

@@ -1641,27 +1641,14 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$option_data = array();
 
 				foreach ($product['option'] as $option) {
-					if ($option['type'] != 'file') {
-						$value = $option['value'];
-					} else {
-						$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
-
-						if ($upload_info) {
-							$value = $upload_info['name'];
-						} else {
-							$value = '';
-						}
-					}
-
 					$option_data[] = array(
 						'product_option_id'       => $option['product_option_id'],
 						'product_option_value_id' => $option['product_option_value_id'],
 						'option_id'               => $option['option_id'],
 						'option_value_id'         => $option['option_value_id'],
-						'type'                    => $option['type'],
-						// above is extra
-						'name'  => $option['name'],
-						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
+						'name'                    => $option['name'],
+						'value'                   => $option['value'],
+						'type'                    => $option['type']
 					);
 				}
 
@@ -1696,10 +1683,13 @@ class ControllerModuleDQuickcheckout extends Controller {
 					'recurring'  => $recurring,
 					'quantity'   => $product['quantity'],
 					'subtract'   => $product['subtract'],
-					'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
-					'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']),
+					'price'      => $product['price'],
+					'total'      => $product['total'],
 					'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id']),
 					//UNDER DEVELOPMENT
+					//'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
+					//'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']),
+					
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
 					'reward'     => $product['reward']
 				);
@@ -2372,6 +2362,8 @@ class ControllerModuleDQuickcheckout extends Controller {
 				unset($this->session->data['payment_country_id']);	
 				unset($this->session->data['payment_zone_id']);	
 			}					
+			unset($this->session->data['shipping_method']);	
+			unset($this->session->data['payment_method']);	
 			
 			$json['reload'] = $this->settings['general']['login_refresh'];
 		}

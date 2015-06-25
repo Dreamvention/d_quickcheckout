@@ -1675,21 +1675,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 				}
 
 				$product_data[] = array(
-					'key'        => $product['key'],
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
 					'model'      => $product['model'],
 					'option'     => $option_data,
-					'recurring'  => $recurring,
+					'download'   => $product['download'],
 					'quantity'   => $product['quantity'],
 					'subtract'   => $product['subtract'],
 					'price'      => $product['price'],
 					'total'      => $product['total'],
-					'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id']),
-					//UNDER DEVELOPMENT
-					//'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
-					//'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']),
-					
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
 					'reward'     => $product['reward']
 				);

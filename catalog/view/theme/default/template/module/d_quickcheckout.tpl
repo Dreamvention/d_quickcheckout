@@ -544,10 +544,10 @@ $(document).on('focus', 'input[name=\'payment_address[password]\']', function() 
 
 $(document).on('click', '#quickcheckout input[name="payment_address[shipping]"]', function(event) {			
 <?php if(!$settings['design']['uniform']){?>	
-	if ($(this).val() == 1) {
-		$(this).val(0) 
+	if ($(this).is(':checked')) {
+		$(this).val(1) 
 	} else {
-		$(this).val(1)
+		$(this).val(0)
 	}
 <?php } ?>
 	refreshCheckout(3)
@@ -683,10 +683,10 @@ $(document).on('click', '#quickcheckout #confirm_reward', function(event){
 $(document).on('click', '#quickcheckout  input[type=checkbox]', function(event) {
 	console.log('#quickcheckout  input[type=checkbox]') 										
 <?php if(!$settings['design']['uniform']){?>	
-	if ($(this).val() == 1) {
-		$(this).val(0) 
+	if ($(this).is(':checked')) {
+		$(this).val(1) 
 	} else {
-		$(this).val(1)
+		$(this).val(0)
 	}
 <?php } ?>
 	validateCheckbox( $(this).attr('id'))

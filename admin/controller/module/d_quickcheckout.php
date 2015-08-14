@@ -260,7 +260,6 @@ class ControllerModuleDQuickcheckout extends Controller
 		$this->data['entry_design_custom_style'] = $this->language->get('entry_design_custom_style');
 		$this->data['help_design_custom_style'] = $this->language->get('help_design_custom_style');
 
-		$this->data['text_need_full_version'] = $this->language->get('text_need_full_version');
 		//Plugins
 		$this->data['text_plugins'] = $this->language->get('text_plugins');
 

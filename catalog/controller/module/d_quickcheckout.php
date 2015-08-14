@@ -1,175 +1,5 @@
 <?php
 /*
-default session Array
-(
-    [language] => en
-    [currency] => USD
-    [cart] => Array
-        (
-            [YToxOntzOjEwOiJwcm9kdWN0X2lkIjtpOjQwO30=] => 1
-        )
-
-    [captcha] => 773395
-    [account] => guest
-    [guest] => Array
-        (
-            [customer_group_id] => 1
-            [firstname] => dsdasd
-            [lastname] => asdasdas
-            [email] => addd@dsdad.sd
-            [telephone] => 131212
-            [fax] => 
-            [custom_field] => Array
-                (
-                    [2] => 2
-                )
-
-            [shipping_address] => 1
-        )
-
-    [payment_address] => Array
-        (
-            [firstname] => dsdasd
-            [lastname] => asdasdas
-            [company] => 
-            [address_1] => dadsdas
-            [address_2] => 
-            [postcode] => sadadas
-            [city] => asddas
-            [country_id] => 222
-            [zone_id] => 3514
-            [country] => United Kingdom
-            [iso_code_2] => GB
-            [iso_code_3] => GBR
-            [address_format] => 
-            [custom_field] => Array
-                (
-                    [1] => empty
-                )
-
-            [zone] => Aberdeenshire
-            [zone_code] => ABNS
-        )
-
-    [shipping_address] => Array
-        (
-            [firstname] => dsdasd
-            [lastname] => asdasdas
-            [company] => 
-            [address_1] => dadsdas
-            [address_2] => 
-            [postcode] => sadadas
-            [city] => asddas
-            [country_id] => 222
-            [zone_id] => 3514
-            [country] => United Kingdom
-            [iso_code_2] => GB
-            [iso_code_3] => GBR
-            [address_format] => 
-            [zone] => Aberdeenshire
-            [zone_code] => ABNS
-            [custom_field] => Array
-                (
-                    [1] => empty
-                )
-
-        )
-
-    [comment] => 
-    [order_id] => 4
-    [user_id] => 1
-    [token] => 911910cb41cd6a5ec07657d6c012b16d
-    [shipping_methods] => Array
-        (
-            [flat] => Array
-                (
-                    [title] => Flat Rate
-                    [quote] => Array
-                        (
-                            [flat] => Array
-                                (
-                                    [code] => flat.flat
-                                    [title] => Flat Shipping Rate
-                                    [cost] => 5.00
-                                    [tax_class_id] => 9
-                                    [text] => $8.00
-                                )
-
-                        )
-
-                    [sort_order] => 1
-                    [error] => 
-                )
-
-        )
-
-    [shipping_method] => Array
-        (
-            [code] => flat.flat
-            [title] => Flat Shipping Rate
-            [cost] => 5.00
-            [tax_class_id] => 9
-            [text] => $8.00
-        )
-
-    [payment_methods] => Array
-        (
-            [cod] => Array
-                (
-                    [code] => cod
-                    [title] => Cash On Delivery
-                    [terms] => 
-                    [sort_order] => 5
-                )
-
-        )
-
-    [payment_method] => Array
-        (
-            [code] => cod
-            [title] => Cash On Delivery
-            [terms] => 
-            [sort_order] => 5
-        )
-
-)
-
-custom fields
-Array ( 
-	[0] => Array ( 
-		[custom_field_id] => 1 
-		[custom_field_value] => Array ( ) 
-		[name] => This is my first field 
-		[type] => text 
-		[value] => empty 
-		[location] => address 
-		[required] => 
-		[sort_order] => 1 
-	) 
-
-	[1] => Array ( 
-		[custom_field_id] => 2 
-		[custom_field_value] => Array ( 
-			[0] => Array ( 
-				[custom_field_value_id] => 2 
-				[name] => test 
-			) 
-			[1] => Array ( 
-				[custom_field_value_id] => 3 
-				[name] => go home 
-			) 
-		) 
-		[name] => another option 
-		[type] => radio 
-		[value] => 
-		[location] => account 
-		[required] => 
-		[sort_order] => 1 
-	)
-)
-*/
-//session_unset();
-/**
  * Class of Ajax Quick Checkout module. This is the main file for calculating and validating all the fields.
  * 
  * @author dreamvention
@@ -243,9 +73,14 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->cache->delete('d_quickcheckout');
 		$this->check_order_id();
 		unset($this->session->data['qc_settings']);
-
+		$this->load->model('d_quickcheckout/order');
+		$this->load->model('extension/extension');
+		$this->load->model('account/customer');
 	
 		if($this->validate()) {		
+			if($this->customer->isLogged()){
+				$this->modify_order();
+			}
 			$this->load_settings();
 			$this->modify_order();
 			$this->clear_session();
@@ -356,10 +191,10 @@ class ControllerModuleDQuickcheckout extends Controller {
 	private function load_settings(){
 		$this->debug('load_settings()');
 		//load models
-		
-		$this->load->model('account/address');
 		$this->load->model('account/customer');
-		$this->load->model('extension/extension');
+		$this->load->model('account/address');
+	
+		
 		$this->load->model('setting/setting');
 		$this->load->model('localisation/country');	
 		$this->load->model('localisation/zone');
@@ -417,16 +252,16 @@ class ControllerModuleDQuickcheckout extends Controller {
 
 		if($this->customer->isLogged()){	
 			$this->session->data['account'] = 'logged'; 
+			if(!isset($this->session->data['payment_address']['address_id'])){
+                $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId(); 
+            }
+             if(!isset($this->session->data['shipping_address']['address_id'])){
+                $this->session->data['shipping_address']['address_id'] = $this->session->data['payment_address']['address_id']; 
+            }
 			$this->session->data['customer_group_id'] = $this->customer->getGroupId();
-		} elseif ((!$this->customer->isLogged() 
-			&& isset($this->session->data['account']) 
-			&& $this->session->data['account'] == 'logged') 
-			|| !isset($this->session->data['account'])) {
+		} elseif ((!$this->customer->isLogged() && isset($this->session->data['account']) && $this->session->data['account'] == 'logged') 	|| !isset($this->session->data['account'])) {
 				
-				$this->session->data['account'] = $this->config->get('config_checkout_guest') 
-												&& !$this->config->get('config_customer_price') 
-												&& $this->settings['general']['default_option'] == 'guest' 
-												&& !$this->cart->hasDownload() ? 'guest' : 'register';
+				$this->session->data['account'] = $this->config->get('config_checkout_guest') && !$this->config->get('config_customer_price') && $this->settings['general']['default_option'] == 'guest' && !$this->cart->hasDownload() ? 'guest' : 'register';
 												
 		}
 
@@ -481,6 +316,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$this->session->data['shipping_postcode'] = $this->session->data['shipping_address']['postcode'];
 			}else{
 				$this->session->data['shipping_address']['postcode'] = '';
+				$this->session->data['shipping_postcode'] = '';
 			}
 			if(isset($this->session->data['shipping_address']['city'])){
 				$this->session->data['shipping_city'] = $this->session->data['shipping_address']['city'];
@@ -777,13 +613,21 @@ class ControllerModuleDQuickcheckout extends Controller {
 		if($this->session->data['qc_settings']['option'][$this->session->data['account']]['shipping_address']['require'] == 1) {
 			$this->session->data['payment_address']['shipping'] = 0;
 		}
-
-
-		if(isset($this->session->data['account']) && isset($this->session->data['payment_address']['shipping'])){
-			if($this->session->data['payment_address']['shipping'] || !$this->settings['option'][$this->session->data['account']]['shipping_address']['display']){
+		if($this->customer->isLogged() && $this->session->data['payment_address']['address_id'] == 0){
+			if(!$this->settings['option'][$this->session->data['account']]['shipping_address']['display']){
 				return true;
 			}
-		}	 
+			if( $this->session->data['payment_address']['shipping'] == 1){
+				return true;
+			}
+		}
+
+		if(!$this->customer->isLogged() && isset($this->session->data['account']) && isset($this->session->data['payment_address']['shipping'])){
+			if($this->session->data['payment_address']['shipping'] || !$this->settings['option'][$this->session->data['account']]['shipping_address']['display']){
+				 
+				return true;
+			}
+		} 
 		return false;
 	}
 	
@@ -1025,15 +869,16 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$this->data['code'] = '';
 			}
 
-			$this->data['settings'] = $this->settings;
-			$this->data['data'] = $this->array_merge_recursive_distinct($this->settings['option'][$this->session->data['account']]['payment_method'],$this->settings['step']['payment_method']);
-			$lang = $this->language_merge($this->data['data'], $this->texts);
-			$this->data['data'] = $this->array_merge_recursive_distinct($this->data['data'], $lang);
-
+			
 		} else {
 			
 			$this->data['error_warning'] = sprintf($this->language->get('error_no_payment'), $this->url->link('information/contact'));
 		}
+                
+                $this->data['settings'] = $this->settings;
+		$this->data['data'] = $this->array_merge_recursive_distinct($this->settings['option'][$this->session->data['account']]['payment_method'],$this->settings['step']['payment_method']);
+		$lang = $this->language_merge($this->data['data'], $this->texts);
+		$this->data['data'] = $this->array_merge_recursive_distinct($this->data['data'], $lang);
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment_method.tpl')) {
         	$this->template = $this->config->get('config_template') . '/template/d_quickcheckout/payment_method.tpl';
@@ -1143,7 +988,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 					if ($option['type'] != 'file') {
 						$value = $option['value'];
 					} else {
-						$this->load->mode('tool/upload');
+						$this->load->model('tool/upload');
 						$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
 
 						if ($upload_info) {
@@ -1633,27 +1478,14 @@ class ControllerModuleDQuickcheckout extends Controller {
 				$option_data = array();
 
 				foreach ($product['option'] as $option) {
-					if ($option['type'] != 'file') {
-						$value = $option['value'];
-					} else {
-						$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
-
-						if ($upload_info) {
-							$value = $upload_info['name'];
-						} else {
-							$value = '';
-						}
-					}
-
 					$option_data[] = array(
 						'product_option_id'       => $option['product_option_id'],
 						'product_option_value_id' => $option['product_option_value_id'],
 						'option_id'               => $option['option_id'],
 						'option_value_id'         => $option['option_value_id'],
-						'type'                    => $option['type'],
-						// above is extra
-						'name'  => $option['name'],
-						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
+						'name'                    => $option['name'],
+						'value'                   => $option['value'],
+						'type'                    => $option['type']
 					);
 				}
 
@@ -1680,18 +1512,15 @@ class ControllerModuleDQuickcheckout extends Controller {
 				}
 
 				$product_data[] = array(
-					'key'        => $product['key'],
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
 					'model'      => $product['model'],
 					'option'     => $option_data,
-					'recurring'  => $recurring,
+					'download'   => $product['download'],
 					'quantity'   => $product['quantity'],
 					'subtract'   => $product['subtract'],
-					'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
-					'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']),
-					'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id']),
-					//UNDER DEVELOPMENT
+					'price'      => $product['price'],
+					'total'      => $product['total'],
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
 					'reward'     => $product['reward']
 				);
@@ -2364,6 +2193,8 @@ class ControllerModuleDQuickcheckout extends Controller {
 				unset($this->session->data['payment_country_id']);	
 				unset($this->session->data['payment_zone_id']);	
 			}					
+			unset($this->session->data['shipping_method']);	
+			unset($this->session->data['payment_method']);	
 			
 			$json['reload'] = $this->settings['general']['login_refresh'];
 		}
@@ -2547,7 +2378,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->modify_order();
 		
 		foreach($this->request->post as $step => $data){
-			if(isset($this->request->post[$step])){
+			if(isset($this->request->post[$step]) && $step != "option" && $step != "mijoshop_store_id" ){
 				$settings = $this->array_merge_recursive_distinct($this->settings['step'][$step], $this->settings['option'][$this->session->data['account']][$step]);
 				foreach($this->request->post[$step] as $key => $value){
 					if(isset($settings['fields'][$key]['error'])){
@@ -2746,6 +2577,9 @@ class ControllerModuleDQuickcheckout extends Controller {
 							if(isset($information_info['title']) && substr_count($result[$text], '%s') == 2){
 								$result[$text] = sprintf($result[$text], $this->url->link('information/information/agree', 'information_id=' . $array_full['information_id'], 'SSL'), $information_info['title']);	
 							}
+							if(isset($information_info['title']) && substr_count($result[$text], '%s') == 3){
+								$result[$text] = sprintf($result[$text], $this->url->link('information/information/agree', 'information_id=' . $array_full['information_id'], 'SSL'), $information_info['title'], $information_info['title']);	
+							}
 						}
 					}						
 				}
@@ -2782,6 +2616,9 @@ class ControllerModuleDQuickcheckout extends Controller {
 							if (strpos($result[$text], '<a') !== false) {
 								if(isset($information_info['title']) && substr_count($result[$text], '%s') == 2){
 									$result[$text] = sprintf($result[$text], $this->url->link('information/information/agree', 'information_id=' . $array_full['information_id'], 'SSL'), $information_info['title']);	
+								}
+								if(isset($information_info['title']) && substr_count($result[$text], '%s') == 3){
+									$result[$text] = sprintf($result[$text], $this->url->link('information/information/agree', 'information_id=' . $array_full['information_id'], 'SSL'), $information_info['title'], $information_info['title']);	
 								}
 							} elseif (substr_count($result[$text], '%s') == 1 && isset($information_info['title'])) {
 								$result[$text] = sprintf($result[$text], $information_info['title']);

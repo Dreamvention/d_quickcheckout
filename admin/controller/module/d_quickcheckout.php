@@ -12,7 +12,7 @@ class ControllerModuleDQuickcheckout extends Controller
 	private $id = 'd_quickcheckout';
 	private $sub_id = '';
 	private $route  = 'module/d_quickcheckout';
-	private $mbooth  = 'mbooth_d_quickcheckout_lite.xml';
+	private $mbooth  = 'mbooth_d_quickcheckout.xml';
 	private $data = array();
 
 	public function index() {   
@@ -260,6 +260,7 @@ class ControllerModuleDQuickcheckout extends Controller
 		$this->data['entry_design_custom_style'] = $this->language->get('entry_design_custom_style');
 		$this->data['help_design_custom_style'] = $this->language->get('help_design_custom_style');
 
+		$this->data['text_need_full_version'] = $this->language->get('text_need_full_version');
 		//Plugins
 		$this->data['text_plugins'] = $this->language->get('text_plugins');
 

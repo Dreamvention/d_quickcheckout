@@ -6,6 +6,7 @@ class ControllerDQuickcheckoutPayment extends Controller {
 
 		$this->load->model('module/d_quickcheckout');
 		$this->load->model('d_quickcheckout/method');
+        $this->model_module_d_quickcheckout->logWrite('controller:: payment/index');
 		
 		if(!$config['general']['compress']){
 			$this->document->addScript('catalog/view/javascript/d_quickcheckout/model/payment.js');

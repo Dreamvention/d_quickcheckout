@@ -3,11 +3,12 @@
 class ControllerDQuickcheckoutPaymentAddress extends Controller {
    
     public function index($config){
-
         $this->load->model('account/address');
         $this->load->model('d_quickcheckout/method');
         $this->load->model('d_quickcheckout/address');
-        
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('Controller:: payment_address/index');
+
         if(!$config['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/model/payment_address.js');
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/view/payment_address.js');

@@ -5,6 +5,8 @@ class ControllerDQuickcheckoutShippingMethod extends Controller {
 	public function index($config){
 
         $this->load->model('d_quickcheckout/method');
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('controller:: shipping_method/index');
 
         if(!$config['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/model/shipping_method.js');
@@ -92,6 +94,7 @@ class ControllerDQuickcheckoutShippingMethod extends Controller {
         $json['show_shipping_method'] = $this->model_d_quickcheckout_method->shippingRequired();
         $json['shipping_methods'] = $this->session->data['shipping_methods'];
         $json['shipping_method'] = $this->session->data['shipping_method'];
+        $this->model_module_d_quickcheckout->logWrite('Controller:: shipping_method/prepare. shipping_methods = '.json_encode($json['shipping_methods']) . ' shipping_method = '.json_encode($json['shipping_method']));
 
         return $json;
     }

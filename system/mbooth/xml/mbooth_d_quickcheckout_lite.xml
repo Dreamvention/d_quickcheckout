@@ -1,11 +1,11 @@
 <extension>
-    <id>d_quickcheckout</id>
+    <id>d_quickcheckout_lite</id>
     <name>Ajax Quick Checkout</name>
     <description>
     Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.2.2.1</version>
+    <version>6.2.3.1</version>
     <license>commercial</license>
     <opencart_version>2.0.0.0;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1</opencart_version>
     <mbooth_version>3.0</mbooth_version>
@@ -26,8 +26,8 @@
         <file>catalog/view/theme/default/template/checkout/d_quickcheckout.tpl</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less</file>
-        <file>system/mbooth/xml/mbooth_d_quickcheckout.xml</file>
-        <file>system/config/d_quickcheckout.php</file>
+        <file>system/mbooth/xml/mbooth_d_quickcheckout_lite.xml</file>
+        <file>system/config/d_quickcheckout_lite.php</file>
         <file>vqmod/xml/a_vqmod_d_quickcheckout.xml</file>
     </files>
     <dirs>
@@ -42,6 +42,9 @@
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
+    	<update version="6.2.3"><![CDATA[
+        1. Fix for 2.1.0.1 new customer id cart clear
+        ]]></update>
         <update version="6.2.2"><![CDATA[
         1. Added js compress option <br/>
         2. payment popup fix<br/>

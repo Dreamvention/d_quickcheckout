@@ -23,6 +23,8 @@ class ControllerModuleDQuickcheckout extends Controller {
 		if (isset($this->request->get['store_id'])) { 
 			$this->store_id = $this->request->get['store_id']; 
 		}
+
+		$this->model_module_d_quickcheckout->installDependencies($this->mbooth);
 	}
 
 	public function index(){
@@ -122,7 +124,6 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->document->setTitle($this->language->get('heading_title_main'));
 		$data['heading_title'] = $this->language->get('heading_title_main');
 		$data['text_edit'] = $this->language->get('text_edit');
-		$data['text_need_full_version'] = $this->language->get('text_need_full_version');
 		
 		// Variable
 		$data['id'] = $this->id;
@@ -134,6 +135,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$data['support_email'] = $this->model_module_d_quickcheckout->getMboothInfo($this->mbooth)->support_email;
 		$data['version'] = $this->model_module_d_quickcheckout->getVersion($data['mbooth']);
 		$data['token'] =  $this->session->data['token'];
+		$data['text_need_full_version'] = $this->language->get('text_need_full_version');
 
 		// Tab
 		$data['tab_setting'] = $this->language->get('tab_setting');
@@ -591,8 +593,6 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->model_module_d_quickcheckout->setVqmod('a_vqmod_d_quickcheckout.xml', 1);
 
 		$this->model_module_d_quickcheckout->installDatabase();
-
-		$this->model_module_d_quickcheckout->installDependencies($this->mbooth);
 
 		$this->getUpdate(1);	  
 	}

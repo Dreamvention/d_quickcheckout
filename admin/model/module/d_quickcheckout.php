@@ -598,9 +598,9 @@ class ModelModuleDQuickcheckout extends Model {
 			return 'mbooth_'. $id . '.xml';
 		} else{
 			foreach ($sub_versions as $lite){
-				if (file_exists(DIR_SYSTEM . 'mbooth/xml/mbooth_'. $id . '_' . $lite . '.php')) {
+				if (file_exists(DIR_SYSTEM . 'mbooth/xml/mbooth_'. $id . '_' . $lite . '.xml')) {
 					$this->prefix = '_' . $lite;
-					return $this->id . '_' . $lite . '.xml';
+					return 'mbooth_'. $id . '_' . $lite . '.xml';
 				}
 			}
 		}

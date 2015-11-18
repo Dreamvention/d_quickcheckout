@@ -26,7 +26,7 @@
         <file>catalog/view/theme/default/template/checkout/d_quickcheckout.tpl</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less</file>
-        <file>system/mbooth/xml/mbooth_d_quickcheckout.xml</file>
+        <file>system/mbooth/xml/mbooth_d_quickcheckout_lite.xml</file>
         <file>system/config/d_quickcheckout.php</file>
         <file>vqmod/xml/a_vqmod_d_quickcheckout.xml</file>
     </files>

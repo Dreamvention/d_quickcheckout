@@ -144,7 +144,7 @@
 									                <h3><span class="fa fa-home"></span> <span><?php echo $text_home; ?></span></h3>
 									            </div>
 									            <?php if(!$settings){ ?>
-									            <div class="bs-bs-callout bs-bs-callout-warning"><?php echo $text_intro_create_setting; ?></div>
+									            <div class="bs-callout bs-callout-warning"><?php echo $text_intro_create_setting; ?></div>
 									            <?php } ?>
 									            <div class="row">
 													

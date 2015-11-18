@@ -1,0 +1,124 @@
+#d_quickcheckout{
+
+	.dsl-label{
+		display: none;
+	}
+
+	.panel {
+		  border-color: #bce8f1;
+
+		 .panel-heading {
+		  color: #31708f;
+		  background-color: #d9edf7;
+		  border-color: #bce8f1;
+		}
+		 .panel-heading + .panel-collapse > .panel-body {
+		  border-top-color: #bce8f1;
+		}
+		 .panel-heading .badge {
+		  color: #d9edf7;
+  		  background-color: #31708f;
+		}
+		 .panel-footer + .panel-collapse > .panel-body {
+		  border-bottom-color: #bce8f1;
+		}
+
+		.list-group-item{
+			&.active, 
+			&.active:focus,
+			&.active:hover {
+				background-color: #5bc0de;
+	    		border-color: #46b8da;
+
+			}
+
+		}
+	}
+	.btn-primary{
+    		background-color: #5bc0de;
+	    	border-color: #46b8da;
+	    	background-image:none;
+			&:focus,
+			&.focus {
+			  color: #ffffff;
+			  background-color: #31b0d5;
+			  border-color: #1b6d85;
+			}
+
+			&:hover,
+			&:active,
+			&.active {
+			  color: #ffffff;
+			  background-color: #31b0d5;
+			  border-color: #269abc;
+			}
+
+			&:active,
+			&.active{
+				&.hover,
+				&:focus,
+				&.focus{
+				  color: #ffffff;
+				  background-color: #269abc;
+				  border-color: #1b6d85;
+				}
+			}
+			&.disabled,
+			&[disabled]{
+				&:hover,
+				&:focus,
+				&.focus,
+				&:active,
+				&.active{
+					background-color: #5bc0de;
+		  			border-color: #46b8da;
+				}
+
+			}
+			.badge {
+			  color: #5bc0de;
+			}
+		}
+		.btn-danger{
+    		background-color: #d9534f;
+	    	border-color: #d43f3a;
+	    	background-image:none;
+			&:focus,
+			&.focus {
+			  color: #ffffff;
+			  background-color: #c9302c;
+			  border-color: #761c19;
+			}
+
+			&:hover,
+			&:active,
+			&.active {
+			  color: #ffffff;
+			  background-color: #c9302c;
+			  border-color: #ac2925;
+			}
+
+			&:active,
+			&.active{
+				&.hover,
+				&:focus,
+				&.focus{
+				  color: #ffffff;
+				  background-color: #ac2925;
+				  border-color: #761c19;
+				}
+			}
+			&.disabled,
+			&[disabled]{
+				&:hover,
+				&:focus,
+				&.focus,
+				&:active,
+				&.active{
+					background-color: #d9534f;
+		  			border-color: #d43f3a;
+				}
+
+			}
+		}
+}

@@ -1,134 +1,80 @@
-<!-- Ajax Quick Checkout v4.2 by Dreamvention.com quickcheckout/register.tpl -->
-<div id="shipping_address_wrap" <?php echo (!$shipping_display) ? 'class="qc-hide"' : ''; ?>>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <span class="wrap"><span class="fa fa-fw qc-icon-shipping-address"></span></span> 
-      <span class="text"><?php echo $shipping_address['title']; ?></span>
-    </div>
-    <div class="panel-body">
-      <?php if($shipping_address['description']) { ?><div class="description"><?php echo $shipping_address['description']; ?></div><?php } ?>
+<!-- 
+	Ajax Quick Checkout 
+	v6.0.0
+	Dreamvention.com 
+	d_quickcheckout/shipping_address.tpl 
+-->
+<div id="shipping_address" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
+<script type="text/html" id="shipping_address_template">
+<div class="<%= (parseInt(model.config.display) == 1) && model.show_shipping_address ? '' : 'hidden' %>">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<span class="icon">
+					<i class="<%= model.config.icon %>"></i>
+				</span>
+				<span class="text"><%= model.config.title %></span>
+			</h4>
+		</div>
+		<div class="panel-body">
+		<p class="text"><%= model.config.description %></p>
+			<% if(model.account == 'logged'){ %> 
+				<p><?php echo $text_address_existing; ?></p>
+				<% if(config.design.address_style == 'list') { %>
+				<div class="list-group">
+				<% _.each (model.addresses, function(address) { %>
+					<div class="list-group-item <%= address.address_id == model.shipping_address.address_id ? 'active' : '' %>">
+			            <label for="shipping_address_exists_<%= address.address_id %>">  
+			            	<input type="radio" name="shipping_address[address_id]" class="shipping-address" value="<%= address.address_id %>" id="shipping_address_exists_<%= address.address_id %>" <%= address.address_id == model.shipping_address.address_id ? 'checked="checked"' : '' %> data-refresh="2" autocomplete='off' /> 
+			                <div class="address-item" ><%= sformat(address.address_format, address) %> </div>
+			            </label>
+			        </div>
+		        <% }) %>
+				</div>
+				<% }else{ %>
 
-      <?php if ($this->registry->get('customer')->isLogged()) { ?>
-        <?php if($address_style == 'radio'){?>
-        <div>
-          <?php foreach ($addresses as $address) { ?> 
-            <div class="radio-input">
-              <input type="radio" name="shipping_address[address_id]" value="<?php echo $address['address_id']; ?>" id="shipping_address_exists_<?php echo $address['address_id']; ?>" <?php echo ($address['address_id'] == $shipping_address['address_id']) ? 'checked="checked"' : ''; ?> class="styled" data-refresh="2" autocomplete='off' />
-              <label for="shipping_address_exists_<?php echo $address['address_id']; ?>">
-                  <?php echo $address['firstname']; ?> 
-                  <?php echo $address['lastname']; ?>, 
-                  <?php echo $address['address_1']; ?>, 
-                  <?php echo $address['city']; ?>, 
-                  <?php echo $address['zone']; ?>, 
-                  <?php echo $address['country']; ?>
-              </label>
-            </div>
-          <?php } ?>
-           <div class="radio-input">
-              <input type="radio" name="shipping_address[address_id]" value="0" id="shipping_address_exists_0" <?php echo ($shipping_address['address_id'] == 0) ? 'checked="checked"' : ''; ?> class="styled" data-refresh="2" autocomplete='off' />
-              <label for="shipping_address_exists_0"><?php echo $text_address_new; ?></label>
-          </div>
-        </div>
-        <?php }else{ ?>
-          <div>
-            <div id="shipping_address_exists_1_block" class="radio-input">
-              <input type="radio" name="shipping_address[exists]" value="1" id="shipping_address_exists_1" <?php echo ($shipping_address['exists']) ? 'checked="checked"' : ''; ?>  class="styled" data-refresh="3" autocomplete='off' />
-              <label for="shipping_address_exists_1"><?php echo $text_address_existing; ?></label>
-            </div>
-          </div>
+				<% _.each (model.addresses, function(address) { %>
+		          <div class="radio-input">
+		          	<label for="shipping_address_address_id_<%= address.address_id %>">
+		            	<input type="radio" name="shipping_address[address_id]" class="shipping-address" value="<%= address.address_id %>" id="shipping_address_address_id_<%= address.address_id %>" <%= address.address_id == model.shipping_address.address_id ? 'checked="checked"' : '' %> data-refresh="2" autocomplete='off' />
+		                <strong> <%= address.firstname %> 
+		                <%= address.lastname %> </strong> 
+		                <%= address.address_1 %> 
+		                <%= address.city %> 
+		                <%= address.zone %>
+		                <%= address.country %>
+		            </label>
+		          </div>
+		        <% }) %>
+		        <% } %>
+				<div class="radio-input">
+		            <input type="radio" name="shipping_address[address_id]" class="shipping-address" value="new" id="shipping_address_address_id_new" <%= model.shipping_address.address_id == 'new' ? 'checked="checked"' : '' %> data-refresh="2" autocomplete='off' />
+		            <label for="shipping_address_address_id_new">
+		                <?php echo $text_address_new; ?>
+		            </label>
+		        </div>
+		        <form id="shipping_address_form" class="form-horizontal <%= model.shipping_address.address_id == 'new' ? '' : 'hidden' %>">
+				
+				</form>
 
-          <div id="shipping_address_exists_list" class="select-input <?php echo (!$shipping_address['exists']) ?  'qc-hide' : ''; ?>">
-            <select name="shipping_address[address_id]" style="width: 100%; margin-bottom: 15px;" data-refresh="4">
-              <?php foreach ($addresses as $address) { ?>
-                	<option value="<?php echo $address['address_id']; ?>" <?php echo ($address['address_id'] == $shipping_address['address_id']) ? 'selected="selected"' : ''; ?>>
-                    <?php echo $address['firstname']; ?> 
-                    <?php echo $address['lastname']; ?>, 
-                    <?php echo $address['address_1']; ?>, 
-                    <?php echo $address['city']; ?>, 
-                    <?php echo $address['zone']; ?>, 
-                    <?php echo $address['country']; ?>
-                  </option>
-              <?php } ?>
-            </select>
-          </div>
-          <div>
-            <div id="shipping_address_exists_0_block" class="radio-input">
-              <input type="radio" name="shipping_address[exists]" value="0" id="shipping_address_exists_0" <?php echo (!$shipping_address['exists']) ? 'checked="checked"' : ''; ?>  class="styled" data-refresh="3" autocomplete='off' />
-              <label for="shipping_address_exists_0"><?php echo $text_address_new; ?></label>
-            </div>
-          </div>
-      <?php } ?>
-      <?php } ?>
-      <div id="shipping_address" class="form-horizontal <?php echo ($shipping_address['exists']) ?  'qc-hide' : '';?>">
-        <?php echo $field_view; ?>
-      </div>
-
-    </div><!-- /.box-content -->
-  </div>
+			<% }else{ %>
+			<form id="shipping_address_form" class="form-horizontal">
+				
+			</form>
+			<% } %>
+		</div>
+	</div>
 </div>
-<?php
-// echo '<pre>';
-// print_r($this->session->data['shipping_address']);
-// echo '</pre>'; 
-?>
-<script type="text/javascript"><!--
-// $('input[name=\'shipping_address[exists]\']').live('click', function() {
-// 	if (this.value == '0') {
-// 		$('#shipping_address_exists_list').hide();
-// 		$('#shipping_address').show();
-// 	} else {
-// 		$('#shipping_address_exists_list').show();
-// 		$('#shipping_address').hide();
-// 	}
-// });
+</script>
+<script>
 
-function refreshShippingAddessZone(value) {
-	$.ajax({
-		url: 'index.php?route=module/d_quickcheckout/country&country_id=' + value,
-		dataType: 'json',			
-		success: function(json) {
-
-			html = '<option value=""><?php echo $text_select; ?></option>';
-
-			if (json['zone'] != '') {
-				for (i = 0; i < json['zone'].length; i++) {
-        	html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-					if (json['zone'][i]['zone_id'] == '<?php echo $shipping_address['fields']['zone_id']['value']; ?>') {
-	      		html += ' selected="selected"';
-	    		}
-	    		html += '>' + json['zone'][i]['name'] + '</option>';
-				}
-			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
-			}
-			
-			$('#shipping_address_wrap select[name=\'shipping_address[zone_id]\']').html(html);
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		}
-	});
-}
-
-$('#shipping_address_wrap select[name=\'shipping_address[country_id]\']').bind('change', function(){
-	refreshShippingAddessZone($(this).val())	
-})
-
-$(function(){
-	if($.isFunction($.fn.uniform)){
-    $(" .styled, input:radio.styled").uniform().removeClass('styled');
-	}
-	if($.isFunction($.fn.colorbox)){
-		$('.colorbox').colorbox({
-			width: 640,
-			height: 480
-		});
-	}
-	if($.isFunction($.fn.fancybox)){
-		$('.fancybox').fancybox({
-			width: 640,
-			height: 480
-		});
-	}
+$(function() {
+	qc.shippingAddress = $.extend(true, {}, new qc.ShippingAddress(<?php echo $json; ?>));
+	qc.shippingAddressView = $.extend(true, {}, new qc.ShippingAddressView({
+		el:$("#shipping_address"), 
+		model: qc.shippingAddress, 
+		template: _.template($("#shipping_address_template").html())
+	}));
+	qc.shippingAddressView.setZone(qc.shippingAddress.get('shipping_address.country_id'));
 });
-//--></script>
+</script>

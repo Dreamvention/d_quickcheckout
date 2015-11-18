@@ -1,262 +1,223 @@
-<!-- Quick Checkout v4.2 by Dreamvention.com quickcheckout/cart.tpl -->
-<style>
-.qc.qc-popup {
-  width: <?php echo $settings['design']['cart_image_size']['width']+2; ?>px;
-  height: <?php echo $settings['design']['cart_image_size']['height']+2; ?>px;
-}
-</style>
-<div id="cart_wrap">
-  <div class="panel panel-default">
-    <div class="panel-heading <?php if (!$data['display']) {  echo 'qc-hide';  } ?>">
-      <span class="wrap"><span class="qc-icon-cart"></span></span> 
-      <span class="text"><?php echo $data['title']; ?></span>
-    </div>
-  
-  <div class="qc-checkout-product panel-body <?php echo (!$data['display']) ? 'qc-hide' : ''; ?>" >
-    <?php if(isset($error)){ ?>
-      <?php foreach ($error as $error_message){ ?>
-        <div class="alert alert-danger"><?php echo $error_message; ?></div>
-      <?php } ?>
-    <?php } ?>
+<!-- 
+	Ajax Quick Checkout 
+	v6.0.0
+	Dreamvention.com 
+	d_quickcheckout/cart.tpl 
+-->
+<div id="cart_view" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
+<script type="text/html" id="cart_template">
 
-    <table class="table table-bordered qc-cart">
-      <thead>
-        <tr>
-          <td class="qc-image <?php echo (!$data['columns']['image'])?  'qc-hide' :""; ?>"><?php echo $column_image; ?>:</td>
-          <td class="qc-name <?php echo (!$data['columns']['name'])?  'qc-hide' :""; ?>"><?php echo $column_name; ?>:</td>
-          <td class="qc-model <?php echo (!$data['columns']['model'])?  'qc-hide' :""; ?>"><?php echo $column_model; ?>:</td>
-          <td class="qc-quantity <?php echo (!$data['columns']['quantity'])?  'qc-hide' :""; ?>"><?php echo $column_quantity; ?>:</td>
-          <td class="qc-price  <?php echo (!$data['columns']['price'] || $show_price)?  'qc-hide' :""; ?> "><?php echo $column_price; ?>:</td>
-          <td class="qc-total <?php  echo (!$data['columns']['total'] || $show_price)?  'qc-hide' :""; ?>"><?php echo $column_total; ?>:</td>
-        </tr>
-      </thead>
+	<div class="panel panel-default <%= model.config.display ? '' : 'hidden' %>">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<span class="icon">
+					<i class="<%= model.config.icon %>"></i>
+				</span>
+				<span class="text"><%= model.config.title %> <%= (model.cart_weight) ? '('+model.cart_weight+')' : '' %></span>
+			</h4>
+		</div>
 
-      <tbody>
-        <?php foreach ($products as $product) { ?>
-        <tr <?php echo(!$product['stock']) ? 'class="stock"' : '' ;?>>
-          <td class="qc-image <?php echo (!$data['columns']['image'])?  'qc-hide' : '' ?> ">
-            <a  href="<?php echo $product['href']; ?>" data-container="body" data-toggle="popover" data-placement="top" data-content='<img src="<?php echo $product['image']; ?>" />' data-trigger="hover">
-              <img src="<?php echo $product['thumb']; ?>" />
-            </a>
-            <i rel="tooltip" data-help="'.$field['tooltip'] .'"></i>
-          </td>
-          <td class="qc-name  <?php echo (!$data['columns']['name'])?  'qc-hide' : '' ?> ">
-            <a href="<?php echo $product['href']; ?>" <?php echo (!$data['columns']['image'])?  'rel="popup" data-help=\'<img src="'.$product['image'].'"/>\'' : '' ?>> 
-              
-              <?php echo $product['name']; ?> <?php echo (!$product['stock'])? '<span class="out-of-stock">***</span>' : '' ?>
-            </a>
-            <?php foreach ($product['option'] as $option) { ?>
-              <div> &nbsp;<small> - <?php echo $option['name']; ?>: <?php echo $option['value']; ?></small> </div>
-            <?php } ?>
-            <div class="qc-name-model <?php echo (!$data['columns']['model'])?  'qc-hide' : '' ?>"><span class="title"><?php echo $column_model; ?>:</span> <span class="text"><?php echo $product['model']; ?></span></div>
-            <div class="qc-name-price <?php echo (!$data['columns']['price'] || $show_price)?  'qc-hide' : ''; ?>"><span class="title"><?php echo $column_price; ?>:</span> <span class="text"><?php echo $product['price']; ?></span></div>
-          </td>
-          <td class="qc-model <?php echo (!$data['columns']['model'])?  'qc-hide' : '' ?> "><?php echo $product['model']; ?></td>
-          <td class="qc-quantity  <?php echo (!$data['columns']['quantity'])?  'qc-hide' : '' ?> ">
-            <div class="input-group">
-              <span class="input-group-btn">
-                <button class="btn btn-defaut decrease" data-product="<?php echo $product['key']; ?>"><i class="fa fa-minus"></i></button>
-              </span>            
-              <input type="text" value="<?php echo $product['quantity']; ?>" class="qc-product-qantity form-control text-center" name="cart[<?php echo $product['key']; ?>]"  data-refresh="2"/>
-              <span class="input-group-btn">
-                <button class="btn btn-defaut increase" data-product="<?php echo $product['key']; ?>"><i class="fa fa-plus"></i></button>
-              </span>
-            </div>
-          </td>
-          <td class="qc-price <?php echo (!$data['columns']['price'] || $show_price)?  'qc-hide' : ''; ?> "><?php echo $product['price']; ?></td>
-          <td class="qc-total <?php echo (!$data['columns']['total'] || $show_price)?  'qc-hide' : ''; ?> "><?php echo $product['total']; ?></td>
-        </tr>
-        <?php } ?>
-        <?php foreach ($vouchers as $vouchers) { ?>
-        <tr>
-          <td class="qc-name <?php echo (!$data['columns']['image'])?  'qc-hide' : '' ?> "></td>
-          <td class="qc-name <?php echo (!$data['columns']['name'])?  'qc-hide' : '' ?> "><?php echo $vouchers['description']; ?></td>
-          <td class="qc-model <?php echo (!$data['columns']['model'])?  'qc-hide' : '' ?> "></td>
-          <td class="qc-quantity <?php echo (!$data['columns']['quantity'])?  'qc-hide' : '' ?> ">1</td>
-          <td class="qc-price <?php echo (!$data['columns']['price'] || $show_price)?  'qc-hide' : ''; ?> "><?php echo $vouchers['amount']; ?></td>
-          <td class="qc-total <?php echo (!$data['columns']['total'] || $show_price)?  'qc-hide' : '' ?> "><?php echo $vouchers['amount']; ?></td>
-        </tr>
-        <?php } ?>
-      </tbody>
-    </table>
+		<div class="qc-checkout-product panel-body" >
+			<p class="text"><%= model.config.description %></p>
+			<% if(model.error){ %>
+				<div class="alert alert-danger">
+					<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+				</div>
+			<% } %>
 
-    <div class="form-horizontal qc-options">
-        <div class="row form-group qc-coupon <?php if(!$coupon_status || !$data['option']['coupon']['display']){ echo 'qc-hide';} ?>">
-          <label class="col-sm-6 control-label" >
-            <?php echo $text_use_coupon; ?>
-          </label>
-          <div class="col-sm-6 qc-total">
-            <div class="input-group">
-              <input type="text" value="<?php echo (isset($coupon))?  $coupon : ''; ?>" name="coupon" id="coupon" placeholder="<?php echo $text_use_coupon; ?>" class="form-control"/>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" id="confirm_coupon" type="button"><i class="fa fa-check"></i></button>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="row form-group qc-voucher <?php if(!$voucher_status || !$data['option']['voucher']['display']){ echo 'qc-hide';} ?>">
-          <label class="col-sm-6 control-label" >
-            <?php echo $text_use_voucher; ?>
-          </label>
-          <div class="col-sm-6 qc-total">
-            <div class="input-group">
-              <input type="text" value="<?php echo (isset($voucher))?  $voucher : ''; ?>" name="voucher" id="voucher" placeholder="<?php echo $text_use_voucher; ?>" class="form-control"/>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" id="confirm_voucher" type="button"><i class="fa fa-check"></i></button>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="row form-group qc-reward <?php if(!$reward_status || !$data['option']['reward']['display']){ echo 'qc-hide';} ?>">
-          <label class="col-sm-6 control-label" >
-            <?php echo $text_use_reward; ?>
-          </label>
-          <div class="col-sm-6 qc-total ">
-            <div class="input-group">
-              <input type="text" value="<?php echo (isset($reward))?  $reward : ''; ?>" name="reward" id="reward" placeholder="<?php echo $text_use_reward; ?>" class="form-control"/>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" id="confirm_reward" type="button"><i class="fa fa-check"></i></button>
-              </span>
-            </div>
-          </div>
-        </div>
-    </div>
-    <div class="form-horizontal qc-summary <?php if($show_price){ echo 'qc-hide';}?>">
-        <?php foreach ($totals as $total) { ?>
-        <div class="row qc-totals">
-          <label class="col-xs-6 control-label" ><?php echo $total['title']; ?></label>
-          <div class="col-xs-6 form-control-static"><?php echo $total['text']; ?></div>
-        </div>
-        <?php } ?>
-    </div>
+			<table class="table table-bordered qc-cart">
+				<thead>
+					<tr>
+						<td class="qc-image <%= parseInt(model.config.columns.image) ? '' : 'hidden' %>"><?php echo $column_image; ?>:</td>
+						<td class="qc-name <%= parseInt(model.config.columns.name) ? '' : 'hidden' %>"><?php echo $column_name; ?>:</td>
+						<td class="qc-model hidden-xs <%= parseInt(model.config.columns.model) ? '' : 'hidden' %>"><?php echo $column_model; ?>:</td>
+						<td class="qc-quantity <%= parseInt(model.config.columns.quantity) ? '' : 'hidden' %>"><?php echo $column_quantity; ?>:</td>
+						<td class="qc-price hidden-xs <%= parseInt(model.config.columns.price) && model.show_price ? '' : 'hidden' %>"><?php echo $column_price; ?>:</td>
+						<td class="qc-total <%= parseInt(model.config.columns.total) && model.show_price ? '' : 'hidden' %>"><?php echo $column_total; ?>:</td>
+					</tr>
+				</thead>
 
-  </div>
+				<tbody>
+					<% _.each(model.products, function(product) { %>
+					<tr <%= product.stock ? '' : 'class="stock"' %>>
+						<td class="qc-image <%= parseInt(model.config.columns.image) ? '' : 'hidden' %>">
+							<a  href="<%= product.href %>" data-container="body" data-toggle="popover" data-placement="top" data-content='<img src="<%= product.image %>" />' data-trigger="hover">
+								<img src="<%= product.thumb %>" class="img-responsive"/>
+							</a>
+						</td>
 
-  </div>
-</div>
-<script><!--
-$(function(){
-	if($.isFunction($.fn.uniform)){
-		$(" .styled, input:radio.styled").uniform().removeClass('styled');
-	}
-	if($.isFunction($.fn.colorbox)){
-		$('.colorbox').colorbox({
-			width: 640,
-			height: 480
-		});
-	}
-	if($.isFunction($.fn.fancybox)){
-		$('.fancybox').fancybox({
-			width: 640,
-			height: 480
-		});
-	}
+						<td class="qc-name <%= parseInt(model.config.columns.name) ? '' : 'hidden' %>">
+							<a href="<%= product.href %>" <%=  model.config.columns.image ? '' : 'rel="popup" data-help=\'<img src="' + product.image + '"/>\'' %>> 
+								<%= product.name %> <%= product.stock ? '' : '<span class="out-of-stock">***</span>' %>
+							</a>
+							<% _.each(product.option, function(option) { %>
+								<div> &nbsp;<small> - <%= option.name %>: <%= option.value %></small> </div>
+							<% }) %>
+							<% if(parseInt(model.config.columns.model)){ %>
+								<div class="qc-name-model visible-xs-block"><small><span class="title"><?php echo $column_model; ?>:</span> <span class="text"><%= product.model %></span></small></div>
+							<% } %>
+							<% if(parseInt(model.config.columns.price) && model.show_price){ %>
+								<div class="qc-name-price visible-xs-block "><small><span class="title"><?php echo $column_price; ?>:</span> <span class="text"><%= product.price %></span></small></div>
+							<% } %>
+							<% if (product.reward) { %>
+								<div><small><%= product.reward %></small></div>
+							<% } %>
+							<% if (product.recurring) { %>
+								<div><span class="label label-info"><?php echo $text_recurring_item; ?></span> <small><%= product.recurring %></small></div>
+							<% } %>
+						</td>
 
-  $(document).on('click', '#quickcheckout .qc-quantity button', function(event){                      
-    if($(this).hasClass('increase')){    
-      $(this).parent().parent().children('input').val(parseInt($(this).parent().parent().children('input').val())+1)
-    }else{
-      $(this).parent().parent().children('input').val(parseInt($(this).parent().parent().children('input').val())-1)    
-    }
-    if($(this).parent().parent().children('input').val() != 0){
-      refreshCheckout(4)
-    }else{
-      refreshAllSteps()
-    }
-  
-  event.stopImmediatePropagation()
-})
+						<td class="qc-model hidden-xs <%= parseInt(model.config.columns.model) ? '' : 'hidden' %>"><%= product.model %></td>
+						
+						<td class="qc-quantity <%= parseInt(model.config.columns.quantity) ? '' : 'hidden' %>">
+							<div class="input-group input-group-sm">
+								<span class="input-group-btn">
+									<button class="btn btn-primary decrease hidden-xs" data-product="<%= product.key %>"><i class="fa fa-chevron-down"></i></button>
+								</span>            
+								<input type="text" data-mask="9?999999999999999" value="<%= product.quantity %>" class="qc-product-qantity form-control text-center" name="cart.<%= product.key %>"  data-refresh="2"/>
+								<span class="input-group-btn">
+									<button class="btn btn-primary increase hidden-xs" data-product="<%= product.key %>"><i class="fa fa-chevron-up"></i></button>
+								
+									<button class="btn btn-danger delete hidden-xs" data-product="<%= product.key %>"><i class="fa fa-times"></i></button>
+								</span>
+							</div>
+						</td>
 
-$(document).on('click', '#quickcheckout #confirm_coupon', function(event){  
-  $.ajax({
-    url: 'index.php?route=module/quickcheckout/validate_coupon',
-    type: 'post',
-    data: $('#quickcheckout #coupon'),
-    dataType: 'json',
-    beforeSend: function() {
-      
-    },
-    complete: function() {
-        
-    },
-    success: function(json) {
-      
-      $('#quickcheckout #step_6 .qc-checkout-product .error').remove();
-      if(json['error']){
-        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="error" >' + json['error'] + '</div>');
-      }
-      $('#quickcheckout #step_6 .qc-checkout-product .success').remove();
-      if(json['success']){
-        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="success" >' + json['success'] + '</div>');
-        refreshCheckout(3)
-      }
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-    }
-  });   
-  event.stopImmediatePropagation()
-})
+						<td class="qc-price hidden-xs <%= parseInt(model.config.columns.price) && model.show_price  ? '' : 'hidden' %>"><%= product.price %></td>
+						<td class="qc-total <%= parseInt(model.config.columns.total) && model.show_price  ? '' : 'hidden' %>"><%= product.total %></td>
+					</tr>
+					<% }) %>
+					<% _.each(model.vouchers, function(voucher) { %>
+			        <tr>
+			          <td class="qc-image <%= parseInt(model.config.columns.image) ? '' : 'hidden' %> "></td>
+			          <td class="qc-name <%= parseInt(model.config.columns.name) ? '' : 'hidden' %> "><%= voucher.description %></td>
+			          <td class="qc-model <%= parseInt(model.config.columns.model) ? '' : 'hidden' %> "></td>
+			          <td class="qc-quantity <%= parseInt(model.config.columns.quantity) ? '' : 'hidden' %> ">1</td>
+			          <td class="qc-price <%= parseInt(model.config.columns.price) && model.show_price ? '' : 'hidden' %> "><%= voucher.amount %></td>
+			          <td class="qc-total <%= parseInt(model.config.columns.total) && model.show_price ? '' : 'hidden' %> "><%= voucher.amount %></td>
+			        </tr>
+			        <% }) %>
+					
+				</tbody>
+			</table>
 
-$(document).on('click', '#quickcheckout #confirm_voucher', function(event){ 
-  $.ajax({
-    url: 'index.php?route=module/quickcheckout/validate_voucher',
-    type: 'post',
-    data: $('#quickcheckout #voucher'),
-    dataType: 'json',
-    beforeSend: function() {
-      
-    },
-    complete: function() {
-        
-    },
-    success: function(json) {
-      $('#quickcheckout #step_6 .qc-checkout-product .error').remove();
-      
-      if(json['error']){
-        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="error" >' + json['error'] + '</div>');
-      }
-      $('#quickcheckout #step_6 .qc-checkout-product .success').remove();
-      if(json['success']){
-        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="success" >' + json['success'] + '</div>');
-        refreshCheckout(3)
-      }
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-    }
-  }); 
-  event.stopImmediatePropagation()
-})
+			<div class="form-horizontal">
+				<div class=" form-group qc-coupon <%= parseInt(model.config.option.coupon.display) ? '' : 'hidden' %>">
+					<% if(model.errors.coupon){ %>
+						<div class="col-sm-12">
+							<div class="alert alert-danger">
+								<i class="fa fa-exclamation-circle"></i> <%= model.errors.coupon %>
+							</div>
+						</div>
+					<% } %>
+					<% if(model.successes.coupon){ %>
+						<div class="col-sm-12">
+							<div class="alert alert-success">
+								<i class="fa fa-exclamation-circle"></i> <%= model.successes.coupon %>
+							</div>
+						</div>
+					<% } %>
+					<label class="col-sm-4 control-label" >
+						<?php echo $text_use_coupon; ?>
+					</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input type="text" value="<%= model.coupon ? model.coupon : '' %>" name="coupon" id="coupon" <% if(Number(config.design.placeholder)) {  %>placeholder="<?php echo $text_use_coupon; ?>" <% } %>  class="form-control"/>
+							<span class="input-group-btn">
+								<button class="btn btn-primary" id="confirm_coupon" type="button"><i class="fa fa-check"></i></button>
+							</span>
+						</div>
+					</div>
+					<% _.each(model.coupon, function(voucher) { %>
+			        
+			        <% }) %>
+				</div>
+				<div class=" form-group qc-voucher <%= parseInt(model.config.option.voucher.display) ? '' : 'hidden' %>">
+					<% if(model.errors.voucher){ %>
+						<div class="col-sm-12">
+							<div class="alert alert-danger">
+								<i class="fa fa-exclamation-circle"></i> <%= model.errors.voucher %>
+							</div>
+						</div>
+					<% } %>
+					<% if(model.successes.voucher){ %>
+						<div class="col-sm-12">
+							<div class="alert alert-success">
+								<i class="fa fa-exclamation-circle"></i> <%= model.successes.voucher %>
+							</div>
+						</div>
+					<% } %>
 
-$(document).on('click', '#quickcheckout #confirm_reward', function(event){  
-  $.ajax({
-    url: 'index.php?route=module/quickcheckout/validate_reward',
-    type: 'post',
-    data: $('#quickcheckout #reward'),
-    dataType: 'json',
-    beforeSend: function() {
-      
-    },
-    complete: function() {
-        
-    },
-    success: function(json) {
-      $('#quickcheckout #step_6 .qc-checkout-product .error').remove();
-      if(json['error']){
-        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="error" >' + json['error'] + '</div>');
-      }
-      $('#quickcheckout #step_6 .qc-checkout-product .success').remove();
-      if(json['success']){
-        $('#quickcheckout #step_6 .qc-checkout-product').prepend('<div class="success" >' + json['success'] + '</div>');
-        refreshCheckout(3)
-      }
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-    }
-  }); 
-  event.stopImmediatePropagation()
-})
+					<label class="col-sm-4 control-label" >
+						<?php echo $text_use_voucher; ?>
+					</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input type="text" value="<%= model.voucher ? model.voucher : '' %>" name="voucher" id="voucher" <% if(Number(config.design.placeholder)) {  %>placeholder="<?php echo $text_use_voucher; ?>" <% } %>  class="form-control"/>
+							<span class="input-group-btn">
+								<button class="btn btn-primary" id="confirm_voucher" type="button"><i class="fa fa-check"></i></button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<?php if($reward_points) {?>
+				<div class=" form-group qc-reward <%= parseInt(model.config.option.reward.display) ? '' : 'hidden' %>">
+					<% if(model.errors.reward){ %>
+						<div class="col-sm-12">
+							<div class="alert alert-danger">
+								<i class="fa fa-exclamation-circle"></i> <%= model.errors.reward %>
+							</div>
+						</div>
+					<% } %>
+					<% if(model.successes.reward){ %>
+						<div class="col-sm-12">
+							<div class="alert alert-success">
+								<i class="fa fa-exclamation-circle"></i> <%= model.successes.reward %>
+							</div>
+						</div>
+					<% } %>
+					<label class="col-sm-4 control-label" >
+						<?php echo $text_use_reward; ?>
+					</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input type="text" value="<%= model.reward ? model.reward : '' %>" name="reward" id="reward" <% if(Number(config.design.placeholder)) {  %>placeholder="<?php echo $text_use_reward; ?>" <% } %> class="form-control"/>
+							<span class="input-group-btn">
+								<button class="btn btn-primary" id="confirm_reward" type="button"><i class="fa fa-check"></i></button>
+							</span>
+
+						</div>
+						<small><?php echo $entry_reward; ?></small>
+					</div>
+
+				</div>
+				<?php } ?>
+			</div>
+			<% if(model.show_price){ %>
+			<div class="form-horizontal qc-totals">
+				<% _.each(model.totals, function(total) { %>
+				<div class="row">
+					<label class="col-sm-9 col-xs-6 control-label" ><%= total.title %></label>
+					<div class="col-sm-3 col-xs-6 form-control-static text-right"><%= total.text %></div>
+				</div>
+				<% }) %>
+			</div>
+			<% } %>
+			<div class="preloader row"><img class="icon" src="image/<%= config.general.loader %>" /></div>
+		
+		</div>
+	</div>
+
+</script>
+<script>
+$(function() {
+	qc.cart = $.extend(true, {}, new qc.Cart(<?php echo $json; ?>));
+	qc.cartView = $.extend(true, {}, new qc.CartView({
+		el:$("#cart_view"), 
+		model: qc.cart, 
+		template: _.template($("#cart_template").html())
+	}));
+
 });
-//--></script>
+
+</script>

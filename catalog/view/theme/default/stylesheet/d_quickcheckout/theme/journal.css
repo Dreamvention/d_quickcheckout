@@ -1,0 +1,14 @@
+#d_quickcheckout .form-group label {
+  width: initial !important;
+  text-align: left  !important;
+}
+#d_quickcheckout .required label:before {
+  top: -1px !important;
+}
+#d_quickcheckout .checkbox input[type=checkbox],
+#d_quickcheckout .checkbox-inline input[type=checkbox],
+#d_quickcheckout .radio input[type=radio],
+#d_quickcheckout .radio-inline input[type=radio] {
+  position: inherit !important;
+  float: left !important;
+}

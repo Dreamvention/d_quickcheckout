@@ -8,13 +8,14 @@
 		<operation>
 			<search position="replace" offset="4"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/checkout.tpl')) {]]></search>
 			<add><![CDATA[
-			$this->load->model('setting/setting');
-			$quickcheckout = $this->model_setting_setting->getSetting('d_quickcheckout', $this->config->get('config_store_id'));
-			if(isset($quickcheckout['d_quickcheckout']['general']['main_checkout'])){
-				$template = ($quickcheckout['d_quickcheckout']['general']['main_checkout']) ? 'd_quickcheckout' : 'checkout';
+			// a_vqmod_d_quickcheckout.xml
+			
+			if($this->config->get('d_quickcheckout_status')){
+				$template = 'd_quickcheckout';
 			}else{
 				$template = 'checkout';
 			}
+			
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/'.$template.'.tpl')) {
 				$this->template = $this->config->get('config_template') . '/template/checkout/'.$template.'.tpl';
 			} else {
@@ -24,23 +25,25 @@
 		</operation>
 		<operation>
 			<search position="before"><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
-			<add><![CDATA[$data['d_quickcheckout'] = $this->load->controller('module/d_quickcheckout');]]></add>
+			<add><![CDATA[
+		if($this->config->get('d_quickcheckout_status')){
+			$data['d_quickcheckout'] = $this->load->controller('module/d_quickcheckout');
+		}
+		]]></add>
 		</operation>
 	</file>
-	<!-- opencart 1.5.1x issue-->
-	<file name="catalog/model/setting/setting.php">
-		<operation error="skip">
-			<search position="replace"><![CDATA[$data[$result['key']] = unserialize($setting['value']);]]></search>
-			<add><![CDATA[$data[$result['key']] = unserialize($result['value']);]]></add>
+	<file name="system/library/tax.php">
+		<operation>
+			<search position="after"><![CDATA[final class Tax {]]></search>
+			<add><![CDATA[
+	// a_vqmod_d_quickcheckout.xml
+	public function clearRates(){
+		$this->tax_rates = array();
+	}
+			]]></add>
 		</operation>
-	</file>
-	<file name="admin/model/setting/setting.php">
-		<operation  error="skip">
-			<search position="replace"><![CDATA[$data[$result['key']] = unserialize($setting['value']);]]></search>
-			<add><![CDATA[$data[$result['key']] = unserialize($result['value']);]]></add>
-		</operation>
-	</file>	
 
+	</file>
 	<!-- payment methods fix -->
 	<file name="catalog/view/theme/default/template/payment/cheque.tpl">
 		<operation>

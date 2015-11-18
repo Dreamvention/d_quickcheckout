@@ -1,202 +1,280 @@
-<?php $col = "col-xs-6";
-if($settings['design']['block_style'] == 'block') { 
-  $col = "col-xs-12";
-} ?>
-<?php foreach($fields as $f){ ?>
-  <?php if(isset($f['type'])) { ?>
-    <?php $display = ((isset($f['display']) && $f['display'] == 1) 
-    || (is_array($f['display']) && $f['display'][$customer_group_id])) 
-    ? true : false; ?>
-    <?php $require = ((isset($f['require']) && $f['require'] == 1) 
-    || (isset($f['require']) && is_array($f['require']) && $f['require'][$customer_group_id])) 
-    ? true : false; ?>
-    <?php $refresh = isset($f['refresh'])? $f['refresh'] : 0; ?>
+<script type="text/html" id="field_template">
 
-<?php switch ($f['type']) {  
-      case "heading": ?>
-        <?php if($display) { ?>
-      <div class="clear"></div>
-    </div>
-  </div>
-</div>
-<div id="<?php echo $f['id']; ?>_input" class="panel panel-default sort-item <?php echo $f['id']; ?> <?php echo ($f['class'])? $f['class'] : ''; ?>" data-sort="<?php echo $f['sort_order']; ?>">
-  <div class="panel-heading">
-    <span class="wrap">
-      <span class="fa fa-fw qc-icon-payment-address"></span>
-    </span> 
-    <span><?php echo $f['title']; ?></span>
-  </div>
-  <div class="panel-body">
-    <div class="form-horizontal">
-<?php } ?>
-<?php break; ?>
-<?php case "label": ?>
-      <div id="<?php echo $f['id']; ?>_input" 
-        class="label-input form-group  sort-item <?php echo (!$display)? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-        data-sort="<?php echo $f['sort_order']; ?>">
-        <div class="col-xs-12">
-          <label class="control-label" for="<?php echo $name; ?>_<?php echo $f['id']; ?>">
-            <span class="text"><?php echo $f['title']; ?></span>
-          </label>
+<% var col_left = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-5' %>
+<% var col_right = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-7' %>
+<% _.each(model.config.fields,  function(f){ %>
+	<% if(model[model.config.id][f.id] !== undefined){ %>
+		<% if(f.type){ %>
+		  	<% var display = Number(f.display) %>
+		  	<% var require = Number(f.require) %> 
 
-          <p name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" id="<?php echo $name; ?>_<?php echo $f['id']; ?>" class="label-text" />
-          <?php echo isset($f['value'])? $f['value'] : ''; ?>
-          </p>
-        <div class="col-xs-12">
-      </div>
-<?php break; ?>
-<?php case "radio": ?>
+		  	<% if(f.type == "heading"){ %>
 
-      <?php if(isset($f['options'])){ ?>
-      <div id="<?php echo $f['id']; ?>_input" 
-        class="radio-input form-group  sort-item <?php echo (!$display)? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-        data-sort="<?php echo $f['sort_order']; ?>">
-        <div class="<?php echo $col; ?>">
-          <label class="title control-label">
-            <span class="text" <?php echo ($f['tooltip'])? 'data-toggle="tooltip"' : '';?> title="<?php echo $f['tooltip']; ?>"><?php echo $f['title']; ?></span> 
-          </label>
-        </div>
-        <div class="<?php echo $col; ?>">
+	        	<% if(display) { %>
+			
+				<div id="<%= model.config.id %>_<%= f.id %>_heading" class="sort-item <%= f.id %> <%= f.class ? f.class : '' %>" data-sort="<%= f.sort_order %>">
+				    <i class="fa fa-book"></i>
+				    <%= htmlDecode(f.title) %>
+				    <hr/>
+				</div>
+			
+				<% } %>
 
-            <?php foreach ($f['options'] as $option) { ?>
-            <div class="radio">
-              <label for="<?php echo $name; ?>_<?php echo $f['id'].$option['value']; ?>">
-                <input type="radio" 
-                name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" 
-                value="<?php echo $option['value']; ?>" 
-                data-require="<?php echo ($require) ? 'require' : ''; ?>" 
-                data-refresh="<?php echo $refresh; ?>" 
-                id="<?php echo $name; ?>_<?php echo $f['id'].$option['value']; ?>" 
-                <?php echo ($option['value'] == $f['value'])? 'checked="checked"' : ''; ?>  
-                class=""  
-                autocomplete='off'/>
-              
-                <?php echo $option['title']; ?></label>
-            </div>
-            <?php } ?>
-        </div>
-      </div>
-      <?php } ?>
+			<% }else if(f.type == "label"){ %>
 
-<?php break; case "checkbox": ?>
+				<div id="<%= model.config.id %>_<%= f.id %>_label" 
+					class="label-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+					data-sort="<%= f.sort_order %>">
+					<div class="col-xs-12">
+						<label class="control-label" for="<%= model.config.id %>_<%= f.id %>">
+							<%= htmlDecode(f.title) %>
+						</label>
 
-  <div id="<?php echo $f['id']; ?>_input" 
-    class="checkbox-input form-group checkbox  sort-item <?php echo (!$display)? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-    data-sort="<?php echo $f['sort_order']; ?>">
-    <div class="col-xs-12">
-      <label for="<?php echo $name; ?>_<?php echo $f['id']; ?>" class="control-label">
-          <input type="checkbox" 
-          name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" 
-          id="<?php echo $name; ?>_<?php echo $f['id']; ?>" 
-          data-require="<?php echo ($require) ? 'require' : ''; ?>" 
-          data-refresh="<?php echo $refresh; ?>"  
-          <?php if (isset($f['value']) && $f['value']) { ?> 
-            value="1" 
-            checked="checked" 
-          <?php }else{ ?> 
-            value="0" 
-          <?php } ?> 
-          class="styled" 
-          autocomplete='off' />
+						<p id="<%= model.config.id %>_<%= f.id %>" class="label-text" />
+							<%= model[f.id] %>
+						</p>
+					</div>
+				</div>
 
-          <span class="text" <?php echo ($f['tooltip'])? 'data-toggle="tooltip"' : '';?> title="<?php echo $f['tooltip']; ?>"><?php echo $f['title']; ?></span> 
-        </label>
-      </div>
-    </div>
+	    	<% }else if(f.type == "radio"){ %>
 
-<?php break; case "select": ?>
+	    		<% if(f.options){ %>
+			    	<div id="<%= model.config.id %>_<%= f.id %>_input" 
+				        class="radio-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+				        data-sort="<%= f.sort_order %>">
+				        <div class="<%= col_left %>">
+				        	<label class="control-label">
+				        		<span <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"><%= htmlDecode(f.title) %></span> 
+				        	</label>
+				        </div>
+				        <div class="<%= col_right %>">
 
-      <div id="<?php echo $f['id']; ?>_input" 
-        class="select-input form-group  sort-item <?php echo (!$f['display'])? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-        data-sort="<?php echo $f['sort_order']; ?>">
-        <div class="<?php echo $col; ?>">
-          <label class="control-label" for="<?php echo $name; ?>_<?php echo $f['id']; ?>"> 
-            <span class="text" <?php echo ($f['tooltip'])? 'data-toggle="tooltip"' : '';?> title="<?php echo $f['tooltip']; ?>"><?php echo $f['title']; ?></span>
-          </label>
-        </div>
-        <div class="<?php echo $col; ?>">
-          <select name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" 
-            data-require="<?php echo ($require) ? 'require' : ''; ?>" 
-            data-refresh="<?php echo $refresh; ?>" 
-            id="<?php echo $name; ?>_<?php echo $f['id']; ?>"
-            class="form-control">
-            <option value=""><?php echo $text_select; ?></option>
-            <?php if(!empty($f['options'])) { ?>
-                <?php foreach ($f['options'] as $option) { ?>
-                    <?php if ($option['value'] == $f['value']) { ?>
-                    <option value="<?php echo $option['value']; ?>" selected="selected"><?php echo $option['name']; ?></option>
-                    <?php } else { ?>
-                    <option value="<?php echo $option['value']; ?>"><?php echo $option['name']; ?></option>
-                    <?php } ?>
-                <?php } ?>
-            <?php } ?>
-          </select>
-        </div>
-      </div>
+			            	<% _.each(f.options, function(option){ %>
+				            <div class="radio">
+				            	<label for="<%= model.config.id %>_<%= f.id %>_<%= option.value %>">
+				            		<input type="radio" 
+						                name="<%= model.config.id %>.<%= f.id %>" 
+						                value="<%= option.value %>" 
+						                <%= require ? 'required' : '' %>
+						                id="<%= model.config.id %>_<%= f.id %>_<%= option.value %>" 
+						                <%= option.value == model[model.config.id][f.id] ? 'checked="checked"' : '' %>  
+						                class="validate <%= require ? 'required' : 'not-required' %>"  />
+				                	<%= option.name %>
+				                </label>
+				            </div>
+			        		<% }) %>
+			    		</div>
+			    	</div>
+			    <% } %>
 
-<?php break;  case "password": ?>
+	    	<% }else if(f.type == "checkbox"){ %>
 
-      <div id="<?php echo $f['id']; ?>_input" 
-        class="password-input form-group  sort-item <?php echo (!$f['display'])? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-        data-sort="<?php echo $f['sort_order']; ?>">
-        <div class="<?php echo $col; ?>">
-          <label class="control-label" for="<?php echo $name; ?>_<?php echo $f['id']; ?>"> 
-            <span class="text" <?php echo ($f['tooltip'])? 'data-toggle="tooltip"' : '';?> title="<?php echo $f['tooltip']; ?>"><?php echo $f['title']; ?></span> 
-          </label>
-        </div>
-        <div class="<?php echo $col; ?>">
-          <input type="password" 
-          name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" 
-          id="<?php echo $name; ?>_<?php echo $f['id']; ?>" 
-          data-require="<?php echo ($require) ? 'require' : ''; ?>" 
-          data-refresh="<?php echo $refresh; ?>" 
-          value="<?php echo isset($f['value'])? $f['value'] : ''; ?>"
-          class="form-control" 
-          placeholder="<?php echo ($require) ? '*' : ''; ?> <?php echo str_replace(':', '', $f['title']); ?>"/>
-        </div>
-      </div>
+			    <div id="<%= model.config.id %>_<%= f.id %>_input" 
+			    class="checkbox-input form-group sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+			    data-sort="<%= f.sort_order %>">
+			    <div class="col-xs-12">
+			      <label for="<%= model.config.id %>_<%= f.id %>" class="control-label" >
+				      <input type="hidden" 
+				          name="<%= model.config.id %>.<%= f.id %>" 
+				          value="0" />
+			          <input type="checkbox" 
+			          name="<%= model.config.id %>.<%= f.id %>" 
+			          id="<%= model.config.id %>_<%= f.id %>" 
+			          class="validate <%= require ? 'required' : 'not-required' %>" 
+			          <%= require ? 'required' : '' %> 
+			          value="1" 
+			          <%= model[model.config.id][f.id] == 1 ? 'checked="checked"' : '' %> />
 
-<?php break; case "textarea": ?>
+			          <span <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"><%= htmlDecode(f.title) %></span> 
+			        </label>
+			      </div>
+			    </div>
 
-      <div id="<?php echo $f['id']; ?>_input" 
-        class="textarea-input form-group sort-item <?php echo (!$display)? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-        data-sort="<?php echo $f['sort_order']; ?>">
-          <div  class="col-xs-12">
-            <label class="control-label" for="<?php echo $name; ?><?php echo $f['id']; ?>"> 
-              <span class="text" <?php echo ($f['tooltip'])? 'data-toggle="tooltip"' : '';?> title="<?php echo $f['tooltip']; ?>"><?php echo $f['title']; ?></span> 
-            </label>
-            <textarea name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" 
-              id="<?php echo $name; ?>_<?php echo $f['id']; ?>" 
-              data-require="<?php echo ($require) ? 'require' : ''; ?>" 
-              data-refresh="<?php echo $refresh; ?>" 
-              class="form-control" 
-              placeholder="<?php echo ($require) ? '*' : ''; ?> <?php echo str_replace(':', '', $f['title']); ?>"><?php echo isset($f['value'])? $f['value'] : ''; ?></textarea>
-          </div>
-      </div>
-      
-<?php break;  default: ?>
+	    	<% }else if(f.type == "select"){ %>
 
-      <div id="<?php echo $f['id']; ?>_input" 
-        class="text-input form-group  sort-item <?php echo (!$f['display'])? 'qc-hide' : ''; ?> <?php echo ($f['class'])? $f['class'] : ''; ?> <?php echo ($require) ? 'required' : ''; ?>" 
-        data-sort="<?php echo $f['sort_order']; ?>">
-        <div class="<?php echo $col; ?>">
-          <label class="control-label" for="<?php echo $name; ?>_<?php echo $f['id']; ?>"> 
-            <span class="text" <?php echo ($f['tooltip'])? 'data-toggle="tooltip"' : '';?> title="<?php echo $f['tooltip']; ?>"><?php echo $f['title']; ?></span> 
-          </label>
-        </div>
-        <div class="<?php echo $col; ?>"> 
-          <input type="text" 
-            name="<?php echo $name; ?>[<?php echo $f['id']; ?>]" 
-            id="<?php echo $name; ?>_<?php echo $f['id']; ?>" 
-            data-require="<?php echo ($require) ? 'require' : ''; ?>" 
-            data-refresh="<?php echo $refresh; ?>" 
-            value="<?php echo isset($f['value'])? $f['value'] : ''; ?>" 
-            class="form-control" 
-            autocomplite="on" 
-            placeholder="<?php echo ($require) ? '*' : ''; ?> <?php echo str_replace(':', '', $f['title']); ?>"/>
-        </div>
-      </div>
-    <?php } //switch ?>
-  <?php } //if ?>
-<?php } //foreach ?>
-<div class="clear"></div>
+				<div id="<%= model.config.id %>_<%= f.id %>_input" 
+		        class="select-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+		        data-sort="<%= f.sort_order %>">
+		        <div class="<%= col_left %>">
+		          <label class="control-label" for="<%= model.config.id %>_<%= f.id %>"> 
+		            <span class="text" <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"><%= f.title %></span>
+		          </label>
+		        </div>
+		        <div class="<%= col_right %>">
+		          <select name="<%= model.config.id %>.<%= f.id %>" 
+		            <%= require ? 'required' : '' %> 
+		            id="<%= model.config.id %>_<%= f.id %>"
+		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>">
+		            <option value=""><?php echo $text_select; ?></option>
+		            <% if(f.options){ %>
+		                <% _.each(f.options, function(option){ %>
+		                    <option value="<%= option.value %>" <%= option.value == model[model.config.id][f.id] ? 'selected="selected"' : '' %> ><%= option.name %></option>
+		                <% }) %>
+		            <% } %>
+		          </select>
+		        </div>
+		      </div>
+
+	      	<% }else if(f.type == "date" || f.type == "time" || f.type == "datetime"){ %>
+	      		<div id="<%= model.config.id %>_<%= f.id %>_input" 
+			        class="text-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+			        data-sort="<%= f.sort_order %>">
+			        <div class="<%= col_left %>">
+			          <label class="control-label" for="<%= model.config.id %>_<%= f.id %>"> 
+			            <span class="text" <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"> <%= htmlDecode(f.title) %></span> 
+			          </label>
+			        </div>
+			        <div class="<%= col_right %>"> 
+			        	<div class="input-group">
+				        	<input type="text" 
+					            name="<%= model.config.id %>.<%= f.id %>" 
+					            id="<%= model.config.id %>_<%= f.id %>" 
+					            value="<%= model[model.config.id][f.id] %>" 
+					            class="form-control  <%= f.mask ? 'qc-mask': '' %> <%= f.type %> validate <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
+					            autocomplite="on" 
+					            qc-mask="<%=f.mask%>" 
+					            <% if(f.type == "date"){ %>data-date-format="YYYY-MM-DD" <% } %>
+					            <% if(f.type == "time"){ %>data-date-format="HH:mm" <% } %>
+					            <% if(f.type == "datetime"){ %>data-date-format="YYYY-MM-DD HH:mm" <% } %>
+					            
+					            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= require ? '*' : '' %> <%= htmlDecode(f.title).replace(':', '') %>" <% } %>
+					            <%= setValidateRules(f.error) %> />
+			                <span class="input-group-btn" >
+			                	<label type="button" class="btn btn-default" for="<%= model.config.id %>_<%= f.id %>"><i class="fa fa-calendar"></i></label>
+			                </span>
+		                </div>
+			        </div>
+			      </div>
+
+			<% }else if(f.type == "textarea"){ %>
+	      		<div id="<%= model.config.id %>_<%= f.id %>_input" 
+			        class="text-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+			        data-sort="<%= f.sort_order %>">
+			        <div class="col-xs-12">
+			          <label class="control-label" for="<%= model.config.id %>_<%= f.id %>"> 
+			            <span class="text" <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"> <%= htmlDecode(f.title) %></span> 
+			          </label>
+			        </div>
+			        <div class="col-xs-12"> 
+			          <textarea
+			            name="<%= model.config.id %>.<%= f.id %>" 
+			            id="<%= model.config.id %>_<%= f.id %>"
+			            class="form-control validate <%= require ? 'required' : 'not-required' %> <%= f.type %> <%= f.id %>" 
+			            autocomplite="on" 
+			            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= require ? '*' : '' %> <%= htmlDecode(f.title).replace(':', '') %>"<% } %> 
+			            <%= setValidateRules(f.error) %> ><%= model[model.config.id][f.id] %></textarea>
+			        </div>
+			      </div>
+
+	    	<% }else{ %>
+	    		<div id="<%= model.config.id %>_<%= f.id %>_input" 
+			        class="text-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+			        data-sort="<%= f.sort_order %>">
+			        <div class="<%= col_left %>">
+			          <label class="control-label" for="<%= model.config.id %>_<%= f.id %>"> 
+			            <span class="text" <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"> <%= htmlDecode(f.title) %></span> 
+			          </label>
+			        </div>
+			        <div class="<%= col_right %>"> 
+			          <input type="<%= f.type %>" 
+			            name="<%= model.config.id %>.<%= f.id %>" 
+			            id="<%= model.config.id %>_<%= f.id %>" 
+			            value="<%= model[model.config.id][f.id] %>" 
+			            class="form-control <%= f.mask ? 'qc-mask': '' %> <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
+			            autocomplite="on"
+			            <% if(f.mask){ %>
+			            qc-mask="<%= f.mask %>"
+			            <% } %> 
+			            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= require ? '*' : '' %> <%= htmlDecode(f.title).replace(':', '') %>"<% } %> 
+			            <%= setValidateRules(f.error) %> />
+			        </div>
+			      </div>
+	    	<% } %>
+	    <% } %>
+	<% } %>
+<% }) %>
+</script>
+<script>
+
+function htmlDecode(value) {
+	return $("<textarea/>").html(value).text();
+}
+
+function htmlEncode(value) {
+	return $('<textarea/>').text(value).html();
+}
+function setValidateRules(rules){
+	var result = '';
+	_.each(rules, function(rule){
+
+		if(rule.min_length){
+			result+= 'data-rule-minlength="'+rule.min_length+'" ';
+			if(rule.text){
+				result+= 'data-msg-minlength="'+rule.text+'" ';
+			}
+		}
+		if(rule.min_length){
+			result+= 'data-rule-minlength="'+rule.min_length+'" ';
+			if(rule.text){
+				result+= 'data-msg-minlength="'+rule.text+'" ';
+			}
+		}
+		if(rule.max_length){
+			result+= 'data-rule-maxlength="'+rule.max_length+'" ';
+			if(rule.text){
+				result+= 'data-msg-maxlength="'+rule.text+'" ';
+			}
+		}
+		if(rule.checked){
+			result+= 'data-rule-min="1" ';
+			if(rule.text){
+				result+= 'data-msg-min="'+rule.text+'" ';
+			}
+		}
+
+		if(rule.compare_to){
+			result+= 'data-rule-equalto="'+rule.compare_to+'" ';
+			if(rule.text){
+				result+= 'data-msg-equalto="'+rule.text+'" ';
+			}
+		}
+
+		if(rule.email_exists){
+			result+= 'data-rule-remote="index.php?route=d_quickcheckout/field/validate_email" ';
+			if(rule.text){
+				result+= 'data-msg-remote="'+rule.text+'" ';
+			}
+		}else if(rule.regex){
+			result+= 'data-rule-remote="index.php?route=d_quickcheckout/field/validate_regex&regex='+encodeURIComponent(rule.regex)+'" ';
+			if(rule.text){
+				result+= 'data-msg-remote="'+rule.text+'" ';
+			}
+		}
+
+
+		
+
+		
+	})
+	return result;
+}
+jQuery.extend(jQuery.validator.messages, {
+    required: "<?php echo $error_field_required; ?>",
+    email: "<?php echo $error_email; ?>",
+    // remote: "Please fix this field.",
+    // url: "Please enter a valid URL.",
+    // date: "Please enter a valid date.",
+    // dateISO: "Please enter a valid date (ISO).",
+    // number: "Please enter a valid number.",
+    // digits: "Please enter only digits.",
+    // creditcard: "Please enter a valid credit card number.",
+    // equalTo: "Please enter the same value again.",
+    // accept: "Please enter a value with a valid extension.",
+    // maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+    // minlength: jQuery.validator.format("Please enter at least {0} characters."),
+    // rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+    // range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+    // max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+    // min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+});
+</script>

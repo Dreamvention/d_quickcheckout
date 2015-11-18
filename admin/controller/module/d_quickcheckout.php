@@ -122,6 +122,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$this->document->setTitle($this->language->get('heading_title_main'));
 		$data['heading_title'] = $this->language->get('heading_title_main');
 		$data['text_edit'] = $this->language->get('text_edit');
+		$data['text_need_full_version'] = $this->language->get('text_need_full_version');
 		
 		// Variable
 		$data['id'] = $this->id;

@@ -5,7 +5,7 @@
     Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.2.2.1</version>
+    <version>6.2.2.2</version>
     <license>commercial</license>
     <opencart_version>2.0.0.0;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1</opencart_version>
     <mbooth_version>3.0</mbooth_version>

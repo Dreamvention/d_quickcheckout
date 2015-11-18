@@ -1,0 +1,124 @@
+#d_quickcheckout{
+
+	.dsl-label{
+		display: none;
+	}
+
+	.panel {
+		  border-color: #faebcc;
+
+		 .panel-heading {
+		  color: #8a6d3b;
+		  background-color: #fcf8e3;
+		  border-color: #faebcc;
+		}
+		 .panel-heading + .panel-collapse > .panel-body {
+		  border-top-color: #faebcc;
+		}
+		 .panel-heading .badge {
+		  color: #fcf8e3;
+		  background-color: #8a6d3b;
+		}
+		 .panel-footer + .panel-collapse > .panel-body {
+		  border-bottom-color: #faebcc;
+		}
+
+		.list-group-item{
+			&.active, 
+			&.active:focus,
+			&.active:hover {
+				background-color: #f0ad4e;
+    			border-color: #eea236;
+
+			}
+
+		}
+	}
+	
+    .btn-primary{
+		background-color: #f0ad4e;
+    	border-color: #eea236;
+    	background-image:none;
+		&:focus,
+		&.focus {
+		  color: #ffffff;
+		  background-color: #ec971f;
+		  border-color: #985f0d;
+		}
+
+		&:hover,
+		&:active,
+		&.active {
+		  color: #ffffff;
+		  background-color: #ec971f;
+		  border-color: #d58512;
+		}
+
+		&:active,
+		&.active{
+			&.hover,
+			&:focus,
+			&.focus{
+			  color: #ffffff;
+			  background-color: #d58512;
+			  border-color: #985f0d;
+			}
+		}
+		&.disabled,
+		&[disabled]{
+			&:hover,
+			&:focus,
+			&.focus,
+			&:active,
+			&.active{
+				background-color: #f0ad4e;
+	  			border-color: #eea236;
+			}
+
+		}
+	}
+	.btn-danger{
+		background-color: #d9534f;
+    	border-color: #d43f3a;
+    	background-image:none;
+		&:focus,
+		&.focus {
+		  color: #ffffff;
+		  background-color: #c9302c;
+		  border-color: #761c19;
+		}
+
+		&:hover,
+		&:active,
+		&.active {
+		  color: #ffffff;
+		  background-color: #c9302c;
+		  border-color: #ac2925;
+		}
+
+		&:active,
+		&.active{
+			&.hover,
+			&:focus,
+			&.focus{
+			  color: #ffffff;
+			  background-color: #ac2925;
+			  border-color: #761c19;
+			}
+		}
+		&.disabled,
+		&[disabled]{
+			&:hover,
+			&:focus,
+			&.focus,
+			&:active,
+			&.active{
+				background-color: #d9534f;
+	  			border-color: #d43f3a;
+			}
+
+		}
+	}
+}
+
+

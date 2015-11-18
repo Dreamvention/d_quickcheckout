@@ -1,217 +1,94 @@
 <?php
 /*
-default session Array
-(
-    [language] => en
-    [currency] => USD
-    [cart] => Array
-        (
-            [YToxOntzOjEwOiJwcm9kdWN0X2lkIjtpOjQwO30=] => 1
-        )
-
-    [captcha] => 773395
-    [account] => guest
-    [guest] => Array
-        (
-            [customer_group_id] => 1
-            [firstname] => dsdasd
-            [lastname] => asdasdas
-            [email] => addd@dsdad.sd
-            [telephone] => 131212
-            [fax] => 
-            [custom_field] => Array
-                (
-                    [2] => 2
-                )
-
-            [shipping_address] => 1
-        )
-
-    [payment_address] => Array
-        (
-            [firstname] => dsdasd
-            [lastname] => asdasdas
-            [company] => 
-            [address_1] => dadsdas
-            [address_2] => 
-            [postcode] => sadadas
-            [city] => asddas
-            [country_id] => 222
-            [zone_id] => 3514
-            [country] => United Kingdom
-            [iso_code_2] => GB
-            [iso_code_3] => GBR
-            [address_format] => 
-            [custom_field] => Array
-                (
-                    [1] => empty
-                )
-
-            [zone] => Aberdeenshire
-            [zone_code] => ABNS
-        )
-
-    [shipping_address] => Array
-        (
-            [firstname] => dsdasd
-            [lastname] => asdasdas
-            [company] => 
-            [address_1] => dadsdas
-            [address_2] => 
-            [postcode] => sadadas
-            [city] => asddas
-            [country_id] => 222
-            [zone_id] => 3514
-            [country] => United Kingdom
-            [iso_code_2] => GB
-            [iso_code_3] => GBR
-            [address_format] => 
-            [zone] => Aberdeenshire
-            [zone_code] => ABNS
-            [custom_field] => Array
-                (
-                    [1] => empty
-                )
-
-        )
-
-    [comment] => 
-    [order_id] => 4
-    [user_id] => 1
-    [token] => 911910cb41cd6a5ec07657d6c012b16d
-    [shipping_methods] => Array
-        (
-            [flat] => Array
-                (
-                    [title] => Flat Rate
-                    [quote] => Array
-                        (
-                            [flat] => Array
-                                (
-                                    [code] => flat.flat
-                                    [title] => Flat Shipping Rate
-                                    [cost] => 5.00
-                                    [tax_class_id] => 9
-                                    [text] => $8.00
-                                )
-
-                        )
-
-                    [sort_order] => 1
-                    [error] => 
-                )
-
-        )
-
-    [shipping_method] => Array
-        (
-            [code] => flat.flat
-            [title] => Flat Shipping Rate
-            [cost] => 5.00
-            [tax_class_id] => 9
-            [text] => $8.00
-        )
-
-    [payment_methods] => Array
-        (
-            [cod] => Array
-                (
-                    [code] => cod
-                    [title] => Cash On Delivery
-                    [terms] => 
-                    [sort_order] => 5
-                )
-
-        )
-
-    [payment_method] => Array
-        (
-            [code] => cod
-            [title] => Cash On Delivery
-            [terms] => 
-            [sort_order] => 5
-        )
-
-)
-
-custom fields
-Array ( 
-	[0] => Array ( 
-		[custom_field_id] => 1 
-		[custom_field_value] => Array ( ) 
-		[name] => This is my first field 
-		[type] => text 
-		[value] => empty 
-		[location] => address 
-		[required] => 
-		[sort_order] => 1 
-	) 
-
-	[1] => Array ( 
-		[custom_field_id] => 2 
-		[custom_field_value] => Array ( 
-			[0] => Array ( 
-				[custom_field_value_id] => 2 
-				[name] => test 
-			) 
-			[1] => Array ( 
-				[custom_field_value_id] => 3 
-				[name] => go home 
-			) 
-		) 
-		[name] => another option 
-		[type] => radio 
-		[value] => 
-		[location] => account 
-		[required] => 
-		[sort_order] => 1 
-	)
-)
-*/
-//session_unset();
-/**
- * Class of Ajax Quick Checkout module. This is the main file for calculating and validating all the fields.
- * 
- * @author dreamvention
- * @link http://www.opencart.com/index.php?route=extension/extension/info&extension_id=9132
- * @package quickcheckout
+ *  location: catalog/controller
  */
 
-use Monolog\Logger;
-use Monolog\Handler\BrowserConsoleHandler;
+class ControllerModuleDQuickcheckout extends Controller {
+    private $id = 'd_quickcheckout';
+    private $route = 'module/d_quickcheckout';
+    private $sub_versions = array('lite', 'light', 'free');
+    private $mbooth = '';
+    private $config_file = '';
+    private $prefix = '';
+    private $error = array(); 
+    private $debug = false;
+    private $setting = array();
+    private $current_setting_id = '';
 
-require_once(modification(DIR_SYSTEM . 'library/ubench.php'));
+    public function __construct($registry) {
+        parent::__construct($registry);
 
-class ControllerModuleDQuickcheckout extends Controller { 
+        $this->load->model('module/d_quickcheckout');
+        $this->load->model('d_quickcheckout/address');
+        $this->load->model('d_quickcheckout/method');
+        $this->load->model('d_quickcheckout/order');
+        $this->load->model('d_quickcheckout/custom_field');
+        $this->load->model('account/address');
 
-	private $settings = array();
-	private $texts = array('title', 'tooltip', 'description', 'text');
-	private $debug_on = true;
-	private $debug_path = 'system/logs/error.txt';
-	private $time = '';
-	private $data = array();
-	private $template = '';
-	private $log = '';
-	private $bench = '';
+        $this->mbooth = $this->model_module_d_quickcheckout->getMboothFile($this->id, $this->sub_versions);
 
-/**
- 
- * Index method: loads the quickcheckout module.
- * 
- * This is the main method to show all view blocks of the get_view methods
- *
- * @uses ControllerModuleQuickcheckout:validate() 
- * @uses ControllerModuleQuickcheckout:load_settings()
- * @uses ControllerModuleQuickcheckout:get_login_view()
- * @uses ControllerModuleQuickcheckout:get_payment_address_view()
- * @uses ControllerModuleQuickcheckout:get_shipping_address_view()
- * @uses ControllerModuleQuickcheckout:get_shipping_method_view()
- * @uses ControllerModuleQuickcheckout:get_payment_method_view()
- * @uses ControllerModuleQuickcheckout:get_cart_view()
- * @uses ControllerModuleQuickcheckout:get_payment_view()
- * @uses ControllerModuleQuickcheckout:get_confirm_view()
- */
+        $this->config_file = $this->model_module_d_quickcheckout->getConfigFile($this->id, $this->sub_versions);
 
+        $this->current_setting_id = $this->model_module_d_quickcheckout->getCurrentSettingId($this->id, $this->config->get('config_store_id'));
+    }
+
+    public function index() {
+        if(!$this->config->get('d_quickcheckout_status')){
+            return false;
+        }
+        $this->debug = $this->config->get('d_quickcheckout_status');
+        $this->initialize();
+
+        $this->model_module_d_quickcheckout->logWrite('Load Styles and Scripts.', $this->debug);
+        if($this->setting['design']['bootstrap']){
+            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
+        }
+        $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css');
+        $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/theme/'.$this->setting['design']['theme'].'.css');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/jquery-validate/jquery.validate.min.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/jquery-maskedinput/jquery.maskedinput.min.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/underscore/underscore-min.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/backbone/backbone-min.js');
+        if(!$this->setting['general']['compress']){
+            $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/backbone-nested/backbone-nested.js');
+            //$this->document->addScript('catalog/view/javascript/d_quickcheckout/library/backbone/backbone.validation.min.js');
+            $this->document->addScript('catalog/view/javascript/d_quickcheckout/main.js');
+            $this->document->addScript('catalog/view/javascript/d_quickcheckout/engine/model.js');
+            $this->document->addScript('catalog/view/javascript/d_quickcheckout/engine/view.js');
+        }else{
+            $this->document->addScript('catalog/view/javascript/d_quickcheckout/compress/d_quickcheckout.min.js');
+        }
+        
+        $data['json_config'] = json_encode($this->setting);
+        $data['config'] = $this->setting;
+        
+        $this->model_module_d_quickcheckout->logWrite('Load Login', $this->debug);
+        $data['login'] = $this->load->controller('d_quickcheckout/login', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load Field', $this->debug);
+        $data['field'] = $this->load->controller('d_quickcheckout/field', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load payment_address', $this->debug);
+        $data['payment_address'] = $this->load->controller('d_quickcheckout/payment_address', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load shipping_address', $this->debug);
+        $data['shipping_address'] = $this->load->controller('d_quickcheckout/shipping_address', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load shipping_method', $this->debug);
+        $data['shipping_method'] = $this->load->controller('d_quickcheckout/shipping_method', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load payment_method', $this->debug);
+        $data['payment_method'] = $this->load->controller('d_quickcheckout/payment_method', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load cart', $this->debug);
+        $data['cart'] = $this->load->controller('d_quickcheckout/cart', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load payment', $this->debug);
+        $data['payment'] = $this->load->controller('d_quickcheckout/payment', $this->setting);
+        $this->model_module_d_quickcheckout->logWrite('Load confirm', $this->debug);
+        $data['confirm'] = $this->load->controller('d_quickcheckout/confirm', $this->setting);
+
+        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/d_quickcheckout.tpl')) {
+            return $this->load->view($this->config->get('config_template') . '/template/module/d_quickcheckout.tpl', $data);
+        } else {
+            return $this->load->view('default/template/module/d_quickcheckout.tpl', $data);
+        }
+    }
+
+<<<<<<< HEAD
 	public function __construct($registry){
 		parent::__construct($registry);
 		if($this->debug_on){
@@ -2675,566 +2552,397 @@ class ControllerModuleDQuickcheckout extends Controller {
 /**
  
  * Helper functions
+=======
+     
+    public function initialize(){
 
- */
-	/*
-	*	helper function for validating the fields input data
-	*/
-	public function invalid($value, $data = array()){
-		$result = false;
-		
-		
-		if(isset($data['not_empty'])){
-			$result = (empty($value)) ? true : false;
-		}	
-		if(isset($data['min_length']) && !$result){
-			$result = (utf8_strlen($value) < $data['min_length'])  ? true : false;	
-		}
-		if(isset($data['max_length']) && !$result){
-			$result = (utf8_strlen($value) > $data['max_length'])  ? true : false;	
-		}
-		if(isset($data['vat_address']) && !$result){
-			$result = (vat_validation($this->session->data[$data['vat_address']]['iso_code_2'], $value) == 'invalid')  ? true : false;	
-		}
-		if(isset($data['compare_to']) && !$result){
-			$field = explode("[", $data['compare_to']);
-			$field[1] =str_replace("]", "", $field[1]);
-			$data['compare_to'] = (isset($this->session->data[$field[0]][$field[1]])) ? $this->session->data[$field[0]][$field[1]]: '';
-			$result = ($value != $data['compare_to'])  ? true : false;
-		}
-		if(isset($data['regex']) && !$result){
-			$result = (!preg_match($data['regex'], $value))  ? true : false;	
-		}
-		if(isset($data['email_exists']) && !$result){
-			$result = ($this->model_account_customer->getTotalCustomersByEmail($value)) ? true : false;
-		}
-		if(isset($data['checked']) && !$result){
-			$result =(!$value);
-		}
+        $data = $this->model_module_d_quickcheckout->getConfigSetting($this->id, $this->id.'_setting', $this->config->get('config_store_id'), $this->config_file, (!empty($this->session->data['payment_address']['customer_group_id'])) ? $this->session->data['payment_address']['customer_group_id'] : $this->config->get('config_customer_group_id'));
+     
+        $this->model_module_d_quickcheckout->logWrite('ControllerModuleDQuickcheckout Start...', $this->debug);
 
-		return $result ;
-	}
-	public function language_merge($array, $texts){
-		$this->load->model('catalog/information');
-		$array_full = $array; 
-		$result = array();
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: current_setting_id = '.$this->current_setting_id, $this->debug);
 
-		$result = $this->cache->get('d_quickcheckout.language_merge.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . md5(serialize($array)) . '.' . md5(serialize($texts)));
-
-		if(!$result){
-			foreach ($array as $key => $value){
-				foreach ($texts as $text){
-					if(isset($array_full[$text])){
-						if(!is_array($array_full[$text])){
-							$result[$text] = $this->language->get($array_full[$text]);	
-						}else{
-							if(isset($array_full[$text][(int)$this->config->get('config_language_id')])){
-								$result[$text] = $array_full[$text][(int)$this->config->get('config_language_id')];
-							}else{
-								$result[$text] = current($array_full[$text]);
-							}
-						}
-						if((strpos($result[$text], '%s') !== false) && isset($array_full['information_id'])){
-							$information_info = $this->model_catalog_information->getInformation($array_full['information_id']);
-							
-							if(isset($information_info['title']) && substr_count($result[$text], '%s') == 2){
-								$result[$text] = sprintf($result[$text], $this->url->link('information/information/agree', 'information_id=' . $array_full['information_id'], 'SSL'), $information_info['title']);	
-							}
-						}
-					}						
-				}
-				if(is_array($array_full[$key])){	
-							$result[$key] = $this->language_merge_loop($array_full[$key], $texts);	
-				}
-				
-			}
-			$this->cache->set('d_quickcheckout.language_merge.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . md5(serialize($array)) . '.' . md5(serialize($texts)), $result);
-		}
-
-		return $result;
-		
-	}
-
-	public function language_merge_loop($array, $texts){
-		$this->load->model('catalog/information');
-		$array_full = $array; 
-		$result = array();
-			foreach ($array as $key => $value){
-				foreach ($texts as $text){
-					if(isset($array_full[$text])){
-						if(!is_array($array_full[$text])){
-							$result[$text] = $this->language->get($array_full[$text]);	
-						} else {
-							if(isset($array_full[$text][(int)$this->config->get('config_language_id')])){
-								$result[$text] = $array_full[$text][(int)$this->config->get('config_language_id')];
-							} else {
-								$result[$text] = current($array_full[$text]);
-							}
-						}
-						if((strpos($result[$text], '%s') !== false) && isset($array_full['information_id'])){
-							$information_info = $this->model_catalog_information->getInformation($array_full['information_id']);
-							if (strpos($result[$text], '<a') !== false) {
-								if(isset($information_info['title']) && substr_count($result[$text], '%s') == 2){
-									$result[$text] = sprintf($result[$text], $this->url->link('information/information/agree', 'information_id=' . $array_full['information_id'], 'SSL'), $information_info['title']);	
-								}
-							} elseif (substr_count($result[$text], '%s') == 1 && isset($information_info['title'])) {
-								$result[$text] = sprintf($result[$text], $information_info['title']);
-							}
-							
-						}
-					}						
-				}
-				if(is_array($array_full[$key])){	
-							$result[$key] = $this->language_merge_loop($array_full[$key], $texts);	
-				}
-				
-			}
-
-		return $result;
-		
-	}
-
-	public function array_merge_recursive_distinct( array &$array1, array &$array2 ){
-		$merged = $array1;
-		$result = array();	
-		$result = $this->cache->get('d_quickcheckout.array_merge_recursive_distinct.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . md5(serialize($array1)) . '.' . md5(serialize($array2)));
-		if(!$result){
-			foreach ($array2 as $key => &$value) {
-				if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])){
-					$merged [$key] = $this->array_merge_recursive_distinct_loop($merged[$key], $value);
-				}else{
-					$merged [$key] = $value;
-				}
-			}
-			$this->cache->set('d_quickcheckout.array_merge_recursive_distinct.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . md5(serialize($array1)) . '.' . md5(serialize($array2)), $merged);
-			$result = $merged;
-		}
-		return $result;
-	}
-
-	public function array_merge_recursive_distinct_loop( array &$array1, array &$array2 )
-	{
-	  $merged = $array1;	
-	  foreach ( $array2 as $key => &$value )
-		  {
-			if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
-			{
-			  $merged [$key] = $this->array_merge_recursive_distinct_loop ( $merged [$key], $value );
-			}
-			else
-			{
-			  $merged [$key] = $value;
-			}
-		  }
-		
-	  return $merged;
-	}
-
-	public function isInstalled($code) {
-		$extension_data = array();
-		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "extension WHERE `code` = '" . $this->db->escape($code) . "'");
-		
-		if($query->row) {
-			return true;
-		}else{
-			return false;
-		}	
-	}
-
-	public function is_guest_checkout_allowed(){
-		return ($this->config->get('config_checkout_guest') 
-				&& !$this->config->get('config_customer_price') 
-				&& !$this->cart->hasDownload());
-	}
-		
-
-	/**
- * Used by index()
- */
-	private function load_head_files(){
-		//Load Scripts
-		//$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');
-		$this->document->addScript('catalog/view/javascript/d_quickcheckout/jquery.timer.js');
-		$this->document->addScript('catalog/view/javascript/d_quickcheckout/tinysort/jquery.tinysort.min.js');
-		
-		if($this->settings['design']['uniform']){
-			$this->document->addScript('catalog/view/javascript/d_quickcheckout/uniform/jquery.uniform.js');
-			$this->document->addStyle('catalog/view/javascript/d_quickcheckout/uniform/css/uniform.default.css');
-		}
-		$this->document->addScript('catalog/view/javascript/d_quickcheckout/tooltip/tooltip.js');
-		$this->document->addScript('catalog/view/javascript/d_quickcheckout/spin.min.js');
-		$this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/icon/styles.css');
-
-		//switchery
-		// $this->document->addScript('catalog/view/javascript/d_quickcheckout/switchery/switchery.min.js');
-		// $this->document->addStyle('catalog/view/javascript/d_quickcheckout/switchery/switchery.min.css');
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: getConfigData('.$this->id.', '. $this->id.'_setting' .', '.$this->config->get('config_store_id').', '.$this->config_file .') = ' . serialize($data), $this->debug);
 
 
-		//Load Styles
-		//$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');
-		if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/d_quickcheckout/d_quickcheckout.css')) {
-			$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/d_quickcheckout/d_quickcheckout.css?'.date('m'));
-		} else {
-			$this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css?'.date('m'));
-		}
+        //prepare config data
+        $data['step']['payment_address']['fields']['country_id']['options'] = $this->model_d_quickcheckout_address->getCountries();
+        $data['step']['payment_address']['fields']['zone_id']['options'] = $this->model_d_quickcheckout_address->getZonesByCountryId($this->model_d_quickcheckout_address->getPaymentAddressCountryId());
+        $data['step']['payment_address']['fields']['customer_group_id']['options'] = $this->model_d_quickcheckout_address->getCustomerGroups();
+        $data['step']['shipping_address']['fields']['country_id']['options'] = $this->model_d_quickcheckout_address->getCountries();
+        $data['step']['shipping_address']['fields']['zone_id']['options'] = $this->model_d_quickcheckout_address->getZonesByCountryId($this->model_d_quickcheckout_address->getShippingAddressCountryId());
 
-		if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/d_quickcheckout/mobile.css')) {
-			$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/d_quickcheckout/mobile.css?'.date('m'));
-		} else {
-			$this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/mobile.css?'.date('m'));
-		}
+        foreach($data['account'] as $account => $account_data){
+            $data['account'][$account] =  $this->model_module_d_quickcheckout->array_merge_r_d($account_data, $data['step']);
+        }
 
-		if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/d_quickcheckout/theme/'.$this->settings['design']['theme'].'.css')) {
-			$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/d_quickcheckout/theme/'.$this->settings['design']['theme'].'.css?'.date('m'));
-		} else {
-			$this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/theme/'.$this->settings['design']['theme'].'.css?'.date('m'));
-		}
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: prepare setting for accounts', $this->debug);
 
-		$this->document->addLink('//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700&subset=latin,cyrillic', "stylesheet");
-	}
+        $field_count = array(
+            'guest' => array('payment_address' => 0, 'shipping_address' => 0, 'confirm' => 0),
+            'register' => array('payment_address' => 0, 'shipping_address' => 0, 'confirm' => 0),
+            'logged' => array('payment_address' => 0, 'shipping_address' => 0, 'confirm' => 0)
+        );
+        foreach($data['account'] as $account => $account_data){
+            foreach($data['account'][$account]['payment_address']['fields'] as $field){
+                if(isset($field['display']) && $field['display']){
+                    $field_count[$account]['payment_address'] += 1;
+                }   
+            }
+            foreach($data['account'][$account]['shipping_address']['fields'] as $field){
+                if(isset($field['display']) && $field['display']){
+                    $field_count[$account]['shipping_address'] += 1;
+                }   
+            }
+            foreach($data['account'][$account]['confirm']['fields'] as $field){
+                if(isset($field['display']) && $field['display']){
+                    $field_count[$account]['confirm'] += 1;
+                }   
+            }
+        }
 
-/**
- * Used by index()
- */
-	private function validate(){
-		$result = false;
-		if($this->cart->hasProducts() || !empty($this->session->data['vouchers'])){
-			$this->load->model('setting/setting');
-			$result = $this->model_setting_setting->getSetting('d_quickcheckout', $this->config->get('config_store_id'));
-			if($result){
-				$result = true;
-			}
-		}
-		return $result;
-	}
-/**
- * Used by index()
- */
-	private function get_logo(){
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-			$server = $this->config->get('config_ssl');
-		} else {
-			$server = $this->config->get('config_url');
-		}
-
-		if ($this->config->get('config_logo') && file_exists(DIR_IMAGE . $this->config->get('config_logo'))) {
-			$logo = $server . 'image/' . $this->config->get('config_logo');
-		} else {
-			$logo = '';
-		}
-
-		return $logo;
-	}
-
-/**
- * Used by load_settings()
- */
-	private function get_settings(){
-		if(!isset($this->session->data['qc_settings'])){
-			$this->set_settings();
-		}
-
-		return $this->session->data['qc_settings'];
-	}
-
-	private function check_order_id(){
-		if(isset($this->session->data['order_id'])){
-			$this->load->model('checkout/order');
-			$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-
-			if ($order_info && $order_info['order_status_id']) {
-				unset($this->session->data['order_id']);
-			}
-		}
-	}
-
-	private function clear_session(){
-		if($this->settings['general']['clear_session']){
-			unset($this->session->data['payment_address']);
-			unset($this->session->data['shipping_address']);
-		}
-	}
-
-/**
- * Used by load_settings()
- */
-	private function set_settings(){
-		$this->settings = $this->config->get('d_quickcheckout');
-		$this->config->load('d_quickcheckout');
-		$settings = $this->config->get('d_quickcheckout_settings');
-		$settings['general']['default_email'] = $this->config->get('config_email');
-		$settings['step']['payment_address']['fields']['agree']['information_id'] = $this->config->get('config_account_id');
-		$settings['step']['payment_address']['fields']['agree']['error'][0]['information_id'] = $this->config->get('config_account_id');
-		$settings['step']['confirm']['fields']['agree']['information_id'] = $this->config->get('config_checkout_id');
-		$settings['step']['confirm']['fields']['agree']['error'][0]['information_id'] = $this->config->get('config_checkout_id');
-		
-		// Custom Fields
-
-		$custom_fields_account = $this->getCustomFields('account');
-		$custom_fields_address = $this->getCustomFields('address');
-
-		$settings['step']['payment_address']['fields'] = array_merge($settings['step']['payment_address']['fields'], $custom_fields_account);
-		$settings['step']['payment_address']['fields'] = array_merge($settings['step']['payment_address']['fields'], $custom_fields_address);
-		$settings['step']['shipping_address']['fields'] = array_merge($settings['step']['shipping_address']['fields'], $custom_fields_address);
-	
-		if(!empty($this->settings)){
-			$this->session->data['qc_settings'] = $this->array_merge_recursive_distinct($settings, $this->settings);
-		}else{
-			$this->session->data['qc_settings'] = $settings;
-		}
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: count fields for statistics', $this->debug);
+ 
+        $this->load->language('module/d_quickcheckout');
+        $this->load->language('checkout/checkout');
+        $data = $this->model_module_d_quickcheckout->languageFilter($data);
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: prepare languages', $this->debug);
+        // check for different versions.
+        foreach($data['account'] as $account => $account_data){
+            $data['account'][$account]['payment_address']['fields']['newsletter']['title'] = sprintf($account_data['payment_address']['fields']['newsletter']['title'], $this->config->get('config_name'));
+        }
+        $data['trigger'] = $this->model_module_d_quickcheckout->getConfigData($this->id, $this->id.'_trigger', $this->config->get('config_store_id'), $this->config_file);
+        $data['general']['debug'] = $this->model_module_d_quickcheckout->getConfigData($this->id, $this->id.'_debug', $this->config->get('config_store_id'), $this->config_file);
 
 
-		foreach($this->session->data['qc_settings']['option'] as $account => $value){
-			$this->session->data['qc_settings']['option'][$account] = $this->array_merge_recursive_distinct( $this->session->data['qc_settings']['step'], $this->session->data['qc_settings']['option'][$account]);
-			$lang = $this->language_merge($this->session->data['qc_settings']['option'][$account], $this->texts);
-			$this->session->data['qc_settings']['option'][$account] = $this->array_merge_recursive_distinct($this->session->data['qc_settings']['option'][$account], $lang);
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: prepare setting and session->data[d_quickcheckout]', $this->debug);
 
-			foreach($this->session->data['qc_settings']['option'][$account] as $step => $value){
-				if(isset($this->session->data['qc_settings']['option'][$account][$step]['fields'])){
-					$sort_order = array(); 
-					foreach ($this->session->data['qc_settings']['option'][$account][$step]['fields'] as $key => $value) {
-						if(isset($value['sort_order'])){
-			      			$sort_order[$key] = $value['sort_order'];
-						}else{
-							unset($this->session->data['qc_settings']['option'][$account][$step]['fields'][$key]);
-						}
-			    	}
-					array_multisort($sort_order, SORT_ASC, $this->session->data['qc_settings']['option'][$account][$step]['fields']);
-				}
-			}
-			$this->session->data['qc_settings']['option'][$account]['payment_address']['fields']['newsletter']['title'] = sprintf($this->session->data['qc_settings']['option'][$account]['payment_address']['fields']['newsletter']['title'], $this->config->get('config_name'));
-		}
+        //prepare session data
+        if($this->customer->isLogged()){
+            $this->session->data['account'] = 'logged';
+        }else{
+            $this->session->data['account'] = (!empty($this->session->data['account']) && $this->session->data['account'] !== 'logged') ? $this->session->data['account'] : $data['step']['login']['default_option'];
+        }
+
+        $account = $this->session->data['account'];
+
+        unset($data['step']);
+
+        $this->session->data['d_quickcheckout'] = $data;
+        $this->setting = $data; 
+
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: set $this->session->data[account] = ' . $this->session->data['account'], $this->debug);
+        $customer_group_id = (!empty($this->session->data['payment_address']['customer_group_id'])) ? $this->session->data['payment_address']['customer_group_id'] : $this->config->get('config_customer_group_id');
+
+        if($this->setting['general']['clear_session']){
+            $this->session->data['guest'] = array(
+                'customer_group_id' => $this->config->get('config_customer_group_id'),
+                'firstname' => $this->setSessionValue('firstname','payment_address', $data, $account, false),
+                'lastname' => $this->setSessionValue('lastname','payment_address', $data, $account, false),
+                'email' => $this->setSessionValue('email','payment_address', $data, $account, false),
+                'password' => $this->setSessionValue('password','payment_address', $data, $account, false),
+                'telephone' => $this->setSessionValue('telephone','payment_address', $data, $account, false),
+                'fax' => $this->setSessionValue('fax','payment_address', $data, $account, false),
+                'custom_field' => $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account', $customer_group_id ),
+                'shipping_address' => $this->setSessionValue('shipping_address','payment_address', $data, $account, false),
+            );
+            $this->session->data['payment_address'] = array(
+                'firstname' => $this->setSessionValue('firstname','payment_address', $data, $account, false),
+                'lastname' => $this->setSessionValue('lastname','payment_address', $data, $account, false),
+                'email' => $this->setSessionValue('email','payment_address', $data, $account, false),
+                'email_confirm' => '',
+                'telephone' => $this->setSessionValue('telephone','payment_address', $data, $account, false),
+                'fax' => $this->setSessionValue('fax','payment_address', $data, $account, false),
+                'password' => $this->setSessionValue('password','payment_address', $data, $account, false),
+                'confirm' => '',
+                'customer_group_id' => $this->config->get('config_customer_group_id'),
+                'company' => $this->setSessionValue('company','payment_address', $data, $account, false),
+                'address_1' => $this->setSessionValue('address_1','payment_address', $data, $account, false),
+                'address_2' => $this->setSessionValue('address_2','payment_address', $data, $account, false),
+                'postcode' => $this->setSessionValue('postcode','payment_address', $data, $account, false),
+                'city' => $this->setSessionValue('city','payment_address', $data, $account, false),
+                'country_id' => $this->setSessionValue('country_id','payment_address', $data, $account, false),
+                'zone_id' => $this->setSessionValue('zone_id','payment_address', $data, $account, false),
+                'country' => '',
+                'iso_code_2' => '',
+                'iso_code_3' => '',
+                'address_format' => '',
+                'custom_field' => '',
+                'zone' => '',
+                'zone_code' => '',
+                'agree' => $this->setSessionValue('agree','payment_address', $data, $account, false),
+                'shipping_address' => $this->setSessionValue('shipping_address','payment_address', $data, $account, false),
+                'newsletter' => $this->setSessionValue('newsletter','payment_address', $data, $account, false),
+                //'address_id' => $this->customer->getAddressId(),
+               
+            );
+            $this->session->data['shipping_address'] = array(
+                'firstname' => $this->setSessionValue('firstname','shipping_address', $data, $account, false),
+                'lastname' => $this->setSessionValue('lastname','shipping_address', $data, $account, false),
+                'company' => $this->setSessionValue('company','shipping_address', $data, $account, false),
+                'address_1' => $this->setSessionValue('address_1','shipping_address', $data, $account, false),
+                'address_2' => $this->setSessionValue('address_2','shipping_address', $data, $account, false),
+                'postcode' => $this->setSessionValue('postcode','shipping_address', $data, $account, false),
+                'city' => $this->setSessionValue('city','shipping_address', $data, $account, false),
+                'country_id' => $this->setSessionValue('country_id','shipping_address', $data, $account, false),
+                'zone_id' => $this->setSessionValue('zone_id','shipping_address', $data, $account, false),
+                'country' => '',
+                'iso_code_2' => '',
+                'iso_code_3' => '',
+                'address_format' => '',
+                'custom_field' => '',
+                'zone' => '',
+                'zone_code' => '',
+                //'address_id' => $this->customer->getAddressId(),
+            );
+            $this->session->data['confirm'] = array(
+
+                'comment' =>  $this->setSessionValue('comment','confirm', $data, $account, false),
+                'agree' =>  $this->setSessionValue('agree','confirm', $data, $account, false),
+
+            );
+
+        }else{
+        
+            $this->session->data['guest'] = array(
+                'customer_group_id' => $customer_group_id,
+                'firstname' => $this->setSessionValue('firstname','payment_address', $data, $account),
+                'lastname' => $this->setSessionValue('lastname','payment_address', $data, $account),
+                'email' =>  $this->setSessionValue('email','payment_address', $data, $account),
+                'password' =>  $this->setSessionValue('password','payment_address', $data, $account),
+                'telephone' =>  $this->setSessionValue('telephone','payment_address', $data, $account),
+                'fax' =>  $this->setSessionValue('fax','payment_address', $data, $account),
+                'custom_field' => (!empty($this->session->data['payment_address']['custom_field']['account'])) ? array('account' => $this->session->data['payment_address']['custom_field']['account']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account', $customer_group_id ),
+                'shipping_address' =>  $this->setSessionValue('shipping_address','payment_address', $data, $account),
+                );
+            
+            $this->session->data['payment_address'] = array(
+                'firstname' => $this->setSessionValue('firstname','payment_address', $data, $account),
+                'lastname' => $this->setSessionValue('lastname','payment_address', $data, $account),
+                'email' => $this->setSessionValue('email','payment_address', $data, $account),
+                'email_confirm' => '',
+                'telephone' => $this->setSessionValue('telephone','payment_address', $data, $account),
+                'fax' => $this->setSessionValue('fax','payment_address', $data, $account),
+                'password' => $this->setSessionValue('password','payment_address', $data, $account),
+                'confirm' => '',
+                'customer_group_id' => $customer_group_id ,
+                'company' => $this->setSessionValue('company','payment_address', $data, $account),
+                'address_1' => $this->setSessionValue('address_1','payment_address', $data, $account),
+                'address_2' => $this->setSessionValue('address_2','payment_address', $data, $account),
+                'postcode' => $this->setSessionValue('postcode','payment_address', $data, $account),
+                'city' => $this->setSessionValue('city','payment_address', $data, $account),
+                'country_id' =>  $this->setSessionValue('country_id','payment_address', $data, $account),
+                'zone_id' => $this->setSessionValue('zone_id','payment_address', $data, $account),
+                'country' => $this->setSessionValue('country','payment_address', $data, $account),
+                'iso_code_2' => $this->setSessionValue('iso_code_2','payment_address', $data, $account),
+                'iso_code_3' => $this->setSessionValue('iso_code_3','payment_address', $data, $account),
+                'address_format' => $this->setSessionValue('address_format','payment_address', $data, $account),
+                'custom_field' => ((!empty($this->session->data['payment_address']['custom_field']['account'])) ? array('account' => $this->session->data['payment_address']['custom_field']['account']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account', $customer_group_id)) + ((!empty($this->session->data['payment_address']['custom_field']['address'])) ? array('address' => $this->session->data['payment_address']['custom_field']['address']) :  $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $customer_group_id)),
+                'zone' => $this->setSessionValue('zone','payment_address', $data, $account),
+                'zone_code' => $this->setSessionValue('zone_code','payment_address', $data, $account),
+                'agree' => $this->setSessionValue('agree','payment_address', $data, $account),
+                'shipping_address' => $this->setSessionValue('shipping_address','payment_address', $data, $account),
+                'newsletter' => $this->setSessionValue('newsletter','payment_address', $data, $account),
+                //'address_id' => (!empty($this->session->data['payment_address']['address_id'])) ? $this->session->data['payment_address']['address_id'] : $this->customer->getAddressId(),
+
+            );
+             $this->model_module_d_quickcheckout->logWrite('Initialize:: set session payment address', $this->debug);
+            
+            $this->session->data['shipping_address'] = array(
+                'firstname' =>  $this->setSessionValue('firstname','shipping_address', $data, $account),
+                'lastname' =>  $this->setSessionValue('lastname','shipping_address', $data, $account),
+                'company' =>  $this->setSessionValue('company','shipping_address', $data, $account),
+                'address_1' =>  $this->setSessionValue('address_1','shipping_address', $data, $account),
+                'address_2' => $this->setSessionValue('address_2','shipping_address', $data, $account),
+                'postcode' => $this->setSessionValue('postcode','shipping_address', $data, $account),
+                'city' => $this->setSessionValue('city','shipping_address', $data, $account),
+                'country_id' => $this->setSessionValue('country_id','shipping_address', $data, $account),
+                'zone_id' => $this->setSessionValue('zone_id','shipping_address', $data, $account),
+                'country' => $this->setSessionValue('country','shipping_address', $data, $account),
+                'iso_code_2' => $this->setSessionValue('iso_code_2','shipping_address', $data, $account),
+                'iso_code_3' => $this->setSessionValue('iso_code_3','shipping_address', $data, $account),
+                'address_format' =>  $this->setSessionValue('address_format','shipping_address', $data, $account),
+                'custom_field' => ((!empty($this->session->data['shipping_address']['custom_field']['address'])) ? array('address' => $this->session->data['shipping_address']['custom_field']['address']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $customer_group_id )),
+                'zone' =>  $this->setSessionValue('zone','shipping_address', $data, $account),
+                'zone_code' => $this->setSessionValue('zone_code','shipping_address', $data, $account),
+                //'address_id' => (!empty($this->session->data['shipping_address']['address_id'])) ? $this->session->data['shipping_address']['address_id'] : $this->customer->getAddressId(),
+            );
+
+        }
+
+        $this->session->data['payment_address'] = $this->model_d_quickcheckout_address->prepareAddress($this->session->data['payment_address']);
+        $this->session->data['shipping_address'] = $this->model_d_quickcheckout_address->prepareAddress($this->session->data['shipping_address']);
+
+        $this->session->data['payment_address'] = $this->session->data['payment_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('guest', 'account', $customer_group_id );
+        $this->session->data['payment_address'] = $this->session->data['payment_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('payment_address', 'address', $customer_group_id );
+        $this->session->data['shipping_address'] = $this->session->data['shipping_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('shipping_address', 'address', $customer_group_id );
+        
+        if($this->customer->isLogged()){
+
+            if(!isset($this->session->data['payment_address']['address_id'])){
+                $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId();
+            }
+
+            if($this->session->data['payment_address']['address_id'] != 'new'){
+                $this->session->data['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->session->data['payment_address']['address_id']);
+            }
+
+            if(!isset($this->session->data['shipping_address']['address_id'])){
+                $this->session->data['shipping_address']['address_id'] = $this->customer->getAddressId();
+            }
+
+            if($this->session->data['shipping_address']['address_id'] != 'new'){
+                $this->session->data['shipping_address'] = $this->model_d_quickcheckout_address->getAddress($this->session->data['shipping_address']['address_id']);
+            }
+        }
+        
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: set session shipping address', $this->debug);
+        
+        $this->model_d_quickcheckout_address->updateTaxAddress();
+
+        $this->load->controller('d_quickcheckout/shipping_method/prepare');
+
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: set session shipping methods', $this->debug);
+
+        $this->session->data['comment'] = (!empty($this->session->data['comment'])) ? $this->session->data['comment'] : $data['account'][$account]['confirm']['fields']['comment']['value'];
+        
+        $this->session->data['confirm'] = array(
+
+            'comment' => '',
+            'agree' =>  $this->setSessionValue('agree','confirm', $data, $account),
+        );
+
+        $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        
+        $this->load->controller('d_quickcheckout/payment_method/prepare');
+
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: set session payment methods', $this->debug);
 
 
-		$this->session->data['qc_settings'] = $this->array_merge_recursive_distinct($this->session->data['qc_settings'], $this->settings);
-		$this->session->data['qc_settings']['step']['payment_method']['cost'] = $this->get_d_payment_fee();
+        $statistic = array('account' => $this->session->data['account'], 'field' => $field_count);
 
-		return $this->session->data['qc_settings'];
-		
-	}
-/* [1] => Array ( 
-		[custom_field_id] => 2 
-		[custom_field_value] => Array ( 
-			[0] => Array ( 
-				[custom_field_value_id] => 2 
-				[name] => test 
-			) 
-			[1] => Array ( 
-				[custom_field_value_id] => 3 
-				[name] => go home 
-			) 
-		) 
-		[name] => another option 
-		[type] => radio 
-		[value] => 
-		[location] => account / address
-		[required] => 
-		[sort_order] => 1 
-		)
-		*/
+        if($this->model_d_quickcheckout_order->isRecreateOrder()) {
+            $this->session->data['order_id'] = $this->createOrder();
+            $this->session->data['statistic'] = $statistic;
+            $this->session->data['statistic_id'] = $this->model_module_d_quickcheckout->setStatistic($this->current_setting_id, $this->session->data['order_id'], $this->session->data['statistic'], $this->customer->getId());
+        }
 
-	private function getCustomFields($location = 0, $customer_group = 0){
-		$this->load->model('account/custom_field');
-		$custom_fields = $this->model_account_custom_field->getCustomFields($customer_group);
-		$customer_groups = $this->get_customer_groups();
-		$fields = array();
-		
-		foreach($custom_fields as $key => $custom_field){
-			if($location == $custom_field['location']){
+        $this->load->controller('d_quickcheckout/confirm/updateOrder');
+        
+        
+        $this->model_module_d_quickcheckout->logWrite('Initialize:: create new Order_id and prepare $this->session->data', $this->debug);
 
-				$display = array();
-				$require = array();
-				foreach($customer_groups as $group){
-					$display[$group['customer_group_id']] = 0;
-					$require[$group['customer_group_id']] = 0;
-				}
-
-				$custom_field_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "custom_field_customer_group` 
-					WHERE  custom_field_id = '" . (int)$custom_field['custom_field_id'] . "'");
-				foreach ($custom_field_query->rows as $custom_field_display) { 
-
-					$display[$custom_field_display['customer_group_id']] = 1;
-					$require[$custom_field_display['customer_group_id']] = $custom_field_display['required'];
-				}
-			
-				$fields['custom_field_'.$location.'_'.$custom_field['custom_field_id']] = array(
-					'id' => 'custom_field_'.$location.'_'.$custom_field['custom_field_id'],
-					'title' => $custom_field['name'], 
-					'tooltip' => '',
-					'error' => array(0 => array('min_length' => 1, 
-												 'max_length' => 32, 
-												 'text' => sprintf($this->language->get('error_custom_field'), $custom_field['name'])
-												 )
-								),
-					'type' => $custom_field['type'],
-					'refresh' => '0',
-					'custom' => 1,
-					'display' =>  $display,
-					'value' => $custom_field['value'],
-					'require' => $require,
-					'sort_order' => $custom_field['sort_order'],
-					'class' => ''
-				);
-				foreach($custom_field['custom_field_value'] as $option){
-					$fields['custom_field_'.$location.'_'.$custom_field['custom_field_id']]['options'][] = array(
-						'title' => $option['name'],
-						'value' => $option['custom_field_value_id']
-					);
-				}
-			}
-			
-		}
-		return $fields;
-	}
-	private function parseCustomFields($data = array(), $location){
-		$data = $this->preg_grep_keys("custom_field_".$location."_", $data);
-		return $data;
-
-	}
-	private function preg_grep_keys( $pattern, $input, $flags = 0 )
-	{
-	    $keys = preg_grep( "/".$pattern."/i", array_keys( $input ), $flags );
-	    $vals = array();
-	    foreach ( $keys as $key )
-	    {
-	        $vals[str_replace($pattern,'',$key)] = $input[$key];
-	    }
-	    return $vals;
-	}
-/**
- * Used by get_login_view()
- */	
-	private function get_social_login_providers(){
-			  $this->document->addStyle('catalog/view/theme/default/stylesheet/d_social_login/styles.css');
-			  $this->load->language('module/d_social_login');
-
-			  
-
-			  $this->data['button_sign_in'] = $this->language->get('button_sign_in');
-			  $this->config->load($this->check_d_social_login());
-			  // $social_login_settings = $this->config->get('d_social_login_module');
-			  // $social_login_settings = $social_login_settings['setting'];
-			  // $this->session->data['d_social_login'] = $social_login_settings;
-			  // $this->session->data['d_social_login']['return_url'] = $this->getCurrentUrl();
-
-
-			$social_login_settings = $this->config->get('d_social_login_setting');
-			
-			$this->config->load($this->check_d_social_login());
-			$social_login_settings = ($this->config->get('d_social_login')) ? $this->config->get('d_social_login') : array();
-
-			if(!isset($this->request->post['config']) && !empty($setting)){
-				$social_login_settings = array_replace_recursive($social_login_settings, $setting);
-			}
-
-
-
-			$this->session->data['redirect'] = ($social_login_settings['return_page_url']) ? $social_login_settings['return_page_url'] : $this->getCurrentUrl();
-      	
-
-
-			  if(!$social_login_settings){ 
-			   return $data = array();
-			  }
-			  $social_login = $this->array_merge_recursive_distinct($social_login_settings, $this->settings['general']['social_login']);
-			  $providers = $social_login['providers'];
-
-			  $sort_order = array(); 
-			  foreach ($providers as $key => $value) {
-			   if(isset($value['sort_order'])){
-					 $sort_order[$key] = $value['sort_order'];
-			   }else{
-				unset($providers[$key]);
-			   }
-				 }
-			  array_multisort($sort_order, SORT_ASC, $providers);
-
-				   $data = $providers; 
-				   foreach($providers as $key => $val) {
-					$data[$key]['heading'] = $this->language->get('text_sign_in_with_'.$val['id']);
-				   }
-
-				   return $data;
+        //statistic
+        
+        
     }
-/**
- * Used by get_social_login_providers()
- */
+>>>>>>> master
 
-	public function check_d_social_login(){
-		$result = false;
-			if($this->isInstalled('d_social_login')){
-				$full = DIR_SYSTEM . "config/d_social_login.php";
-				$light = DIR_SYSTEM . "config/d_social_login_lite.php"; 
-				$free = DIR_SYSTEM . "config/d_social_login_free.php"; 
-				if (file_exists($full)) { 
-					$result = 'd_social_login';
-				} elseif (file_exists($light)) {
-					$result =  'd_social_login_lite';
-				} elseif (file_exists($free)) {
-					$result =  'd_social_login_free';
-				}
-			}
+    private function setSessionValue($field, $step, $data, $account, $session = true){
+        $value = '';
 
-		return $result;
-	}
+        if($session && isset($this->session->data[$step][$field])){
+            $value = $this->session->data[$step][$field]; 
+        }elseif(isset($data['account'][$account][$step]['fields'][$field])){
+            if(isset($data['account'][$account][$step]['fields'][$field]['value'])){
+                $value = $data['account'][$account][$step]['fields'][$field]['value'];
+            }
+        }
+        return $value;
+        
+    }
 
-	public function get_d_payment_fee(){
-		if($this->config->get('d_payment_fee_module')){
-			$modules = $this->config->get('d_payment_fee_module');
-			return $modules;
-		}
-		return false;
-	}
-/**
- * Used by get_login_view()
- */
-	public static function getCurrentUrl( $request_uri = true ) 
-	{
-		if(
-			isset( $_SERVER['HTTPS'] ) && ( $_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1 )
-		|| 	isset( $_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
-		){
-			$protocol = 'https://';
-		}
-		else {
-			$protocol = 'http://';
-		}
+    public function createOrder(){
+        $order_data = array();
+        
+        $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        
+        $this->load->language('checkout/checkout');
 
-		$url = $protocol . $_SERVER['HTTP_HOST'];
+        if(isset($this->session->data['payment_address']['zone_id'])){
+            $order_data['payment_zone_id'] = $this->session->data['payment_address']['zone_id'];
+        }else{
+            $order_data['payment_zone_id'] = $this->config->get('config_zone_id');
+        }
+        if(isset($this->session->data['payment_address']['country_id'])){
+           $order_data['payment_country_id'] = $this->session->data['payment_address']['country_id']; 
+        }else{
+           $order_data['payment_country_id'] = $this->config->get('config_country_id');
+        }
+        
+        $order_data['invoice_prefix'] = $this->config->get('config_invoice_prefix');
+        $order_data['store_id'] = $this->config->get('config_store_id');
+        $order_data['store_name'] = $this->config->get('config_name');
 
-		if( isset( $_SERVER['SERVER_PORT'] ) && strpos( $url, ':'.$_SERVER['SERVER_PORT'] ) === FALSE ) {
-			$url .= ($protocol === 'http://' && $_SERVER['SERVER_PORT'] != 80 && !isset( $_SERVER['HTTP_X_FORWARDED_PROTO']))
-				|| ($protocol === 'https://' && $_SERVER['SERVER_PORT'] != 443 && !isset( $_SERVER['HTTP_X_FORWARDED_PROTO']))
-				? ':' . $_SERVER['SERVER_PORT'] 
-				: '';
-		}
+        if ($order_data['store_id']) {
+            $order_data['store_url'] = $this->config->get('config_url');
+        } else {
+            $order_data['store_url'] = HTTP_SERVER;
+        }
 
-		if( $request_uri ){
-			$url .= $_SERVER['REQUEST_URI'];
-		}
-		else{
-			$url .= $_SERVER['PHP_SELF'];
-		}
+        $order_data['total'] = $total;
 
-		// return current url
-		return $url;
-	}
-	
+        if (isset($this->request->cookie['tracking'])) {
+            $order_data['tracking'] = $this->request->cookie['tracking'];
 
-	public function after_load_settings(){
-		if(isset($this->session->data['payment_method']['title'])){
-			if(strpos($this->session->data['payment_method']['title'], 'larna Factuur') ){
-				$this->db->query("UPDATE `" . DB_PREFIX . "order` SET `payment_method` = '" . $this->db->escape('Klarna Factuur') . "' WHERE `order_id` = " . (int)$this->session->data['order_id']);
-			}
-			
-			if(strpos($this->session->data['payment_method']['title'], 'larna Invoice') ){
-				$this->db->query("UPDATE `" . DB_PREFIX . "order` SET `payment_method` = '" . $this->db->escape('Klarna Invoice') . "' WHERE `order_id` = " . (int)$this->session->data['order_id']);
-			}	
-		}
-		
-	}
+            $subtotal = $this->cart->getSubTotal();
+
+            // Affiliate
+            $this->load->model('affiliate/affiliate');
+
+            $affiliate_info = $this->model_affiliate_affiliate->getAffiliateByCode($this->request->cookie['tracking']);
+
+            if ($affiliate_info) {
+                $order_data['affiliate_id'] = $affiliate_info['affiliate_id'];
+                $order_data['commission'] = ($subtotal / 100) * $affiliate_info['commission'];
+            } else {
+                $order_data['affiliate_id'] = 0;
+                $order_data['commission'] = 0;
+            }
+
+            // Marketing
+            $this->load->model('checkout/marketing');
+
+            $marketing_info = $this->model_checkout_marketing->getMarketingByCode($this->request->cookie['tracking']);
+
+            if ($marketing_info) {
+                $order_data['marketing_id'] = $marketing_info['marketing_id'];
+            } else {
+                $order_data['marketing_id'] = 0;
+            }
+        } else {
+            $order_data['affiliate_id'] = 0;
+            $order_data['commission'] = 0;
+            $order_data['marketing_id'] = 0;
+            $order_data['tracking'] = '';
+        }
+
+        $order_data['language_id'] = $this->config->get('config_language_id');
+        $order_data['currency_id'] = $this->currency->getId();
+        $order_data['currency_code'] = $this->currency->getCode();
+        $order_data['currency_value'] = $this->currency->getValue($this->currency->getCode());
+        $order_data['ip'] = $this->request->server['REMOTE_ADDR'];
+
+        if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {
+            $order_data['forwarded_ip'] = $this->request->server['HTTP_X_FORWARDED_FOR'];
+        } elseif (!empty($this->request->server['HTTP_CLIENT_IP'])) {
+            $order_data['forwarded_ip'] = $this->request->server['HTTP_CLIENT_IP'];
+        } else {
+            $order_data['forwarded_ip'] = '';
+        }
+
+        if (isset($this->request->server['HTTP_USER_AGENT'])) {
+            $order_data['user_agent'] = $this->request->server['HTTP_USER_AGENT'];
+        } else {
+            $order_data['user_agent'] = '';
+        }
+
+        if (isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) {
+            $order_data['accept_language'] = $this->request->server['HTTP_ACCEPT_LANGUAGE'];
+        } else {
+            $order_data['accept_language'] = '';
+        }
+
+        return $this->model_d_quickcheckout_order->addOrder($order_data);
+    }
 }
-
-
-?>

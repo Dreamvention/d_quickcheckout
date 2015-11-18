@@ -1,105 +1,93 @@
-<!-- Quick Checkout v4.0 by Dreamvention.com quickcheckout/shipping_method.tpl -->
-<div id="shipping_method_wrap" <?php echo (!$data['display']) ? 'class="qc-hide"' : ''; ?>>
-<?php if ($error_warning) { ?>
-<div class="error"><?php echo $error_warning; ?></div>
-<?php } ?>
+<!-- 
+	Ajax Quick Checkout 
+	v6.0.0
+	Dreamvention.com 
+	d_quickcheckout/shipping_method.tpl 
+-->
+<div id="shipping_method" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
+<script type="text/html" id="shipping_method_template">
+<form id="shipping_method_form" <%= parseInt(model.config.display) && model.show_shipping_method ? '' : 'class="hidden"' %>>
+	<% if (model.shipping_methods) { %>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<span class="icon">
+						<i class="<%= model.config.icon %>"></i>
+					</span>
+					<span class="text"><%= model.config.title %></span>
+				</h4>
+			</div>
+			<div class="panel-body">
+				<% if(model.error){ %>
+					<div class="alert alert-danger">
+						<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+					</div>
+				<% } %>
+				<% if (model.config.description) { %> 
+					<p class="description"><%= model.config.description %></p>
+				<% } %>
+				<div id="shipping_method_list">
+					
 
-<?php if ($shipping_methods) { ?>
-
-<div class="panel panel-default">
-<div class="panel-heading">
-    <span class="wrap">
-        <span class="fa fa-fw qc-icon-shipping-method"></span>
-    </span> 
-    <span class="text"><?php echo $data['title']; ?></span>
-</div>
-<div class="panel-body">
-<?php if ($data['description']) { ?> <p class="description"><?php echo $data['description']; ?></p> <?php } ?>
-
-<div class="<?php if (!$data['display_options']) {  echo 'qc-hide';  } ?>">
-
-<?php if($data['input_style'] == 'select'){ ?>
-<div class="select-input form-group">
-    <select name="shipping_method" class="form-control shipping-method-select" data-refresh="5">
-        <?php foreach ($shipping_methods as $shipping_method) { ?>
-        <?php foreach ($shipping_method['quote'] as $quote) { ?>
-                <?php if ($quote['code'] == $code || !$code) { ?>
-                <?php $code = $quote['code']; ?>
-                <option  value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" selected="selected" ><?php echo $quote['title']; ?> <?php echo $quote['text']; ?></option>
-                <?php } else { ?>
-                <option  value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" ><?php echo $quote['title']; ?> <?php echo $quote['text']; ?></option>
-                <?php } ?>
-                <?php } ?>
-            <?php } ?>
-    </select> 
-</div>
-<?php } else { ?> 
-
-
-<?php foreach ($shipping_methods as $shipping_method) { ?>
-    <?php if ($data['display_title']) { ?> 
-        <div class="title"><?php echo $shipping_method['title']; ?></div>
-    <?php } ?>
-    <?php if (!$shipping_method['error']) { ?>
-        <?php foreach ($shipping_method['quote'] as $quote) { ?>
-            <div class="radio-input radio">
-                <label for="<?php echo $quote['code']; ?>">
-                <?php if ($quote['code'] == $code || !$code) { ?>
-                    <?php $code = $quote['code']; ?>
-                    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" checked="checked"  data-refresh="5" class="styled"/> 
-                <?php } else { ?>
-                    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>"  data-refresh="5" class="styled"/> 
-                <?php } ?>
-                <span class="text"><?php echo $quote['title']; ?></span><span class="price"><?php echo $quote['text']; ?></span></label>
-            </div>
-        <?php } ?>
-    <?php } else { ?>
-    	<div class="error alert alert-error"><?php echo $shipping_method['error']; ?></div>
-    <?php } ?>
-<?php } ?>
+						<% if(model.config.input_style == 'select') { %>
+							<div class="select-input form-group">
+								<select name="shipping_method" class="form-control shipping-method-select" data-refresh="5" >
+								<% _.each(model.shipping_methods, function(shipping_method) { %>
+									<% if (parseInt(model.config.display_title)) { %> 
+										<optgroup label="<%= shipping_method.title %>">
+									<% } %>
+									<% _.each(shipping_method.quote, function(quote) { %>
+										<% if (quote.code == model.shipping_method.code) { %>
+											<option  value="<%= quote.code %>" id="<%= quote.code %>" selected="selected" ><%= quote.title %> <span class="price"><%= quote.text %></span></option>
+										<% } else { %>
+											<option  value="<%= quote.code %>" id="<%= quote.code %>" ><%= quote.title %> <span class="price"><%= quote.text %></span></option>
+										<% } %>
+									<% }) %>
+									<% if (parseInt(model.config.display_title)) { %> 
+										</optgroup>
+									<% } %>
+								<% }) %>
+								</select>
+							</div>
 
 
-<?php } ?>
+						<% }else{ %>
+							<% _.each(model.shipping_methods, function(shipping_method) { %>
+								<% if (parseInt(model.config.display_title)) { %> 
+									<strong class="title"><%= shipping_method.title %></strong>
+								<% } %>
 
-</div>
-<div class="clear"></div>
-</div>
-</div>
-
-<?php } ?>
-</div>
-<?php 
-// echo '<pre>';
-// print_r($this->session->data['shipping_methods']);
-// echo '</pre>'; 
-?>
-<?php
-// echo '<pre>';
-// print_r($this->session->data['shipping_address']);
-// echo '</pre>'; 
-?>
-<script><!--
-$(function(){
-	if($.isFunction($.fn.uniform)){
-        $(" .styled, input:radio.styled").uniform().removeClass('styled');
-	}
-	if($.isFunction($.fn.colorbox)){
-		$('.colorbox').colorbox({
-			width: 640,
-			height: 480
-		});
-	}
-	if($.isFunction($.fn.fancybox)){
-		$('.fancybox').fancybox({
-			width: 640,
-			height: 480
-		});
-	}
+								<% if (!shipping_method.error) { %>
+									<% _.each(shipping_method.quote, function(quote) { %>
+									  <div class="radio-input radio">
+									    <label for="<%= quote.code %>">
+									    <% if (quote.code == model.shipping_method.code) { %>
+									      <input type="radio" name="shipping_method" value="<%= quote.code %>" id="<%= quote.code %>" checked="checked" data-refresh="5" class="styled"/> 
+									    <% } else { %>
+									      <input type="radio" name="shipping_method" value="<%= quote.code %>" id="<%= quote.code %>" data-refresh="5" class="styled"/> 
+									    <% } %>
+									    <span class="text"><%= quote.title %></span><span class="price"><%= quote.text %></span></label>
+									  </div>
+									<% }) %>
+								<% } else { %>
+									<div class="error alert alert-error"><%= shipping_method.error %></div>
+								<% } %>
+							<% }) %>
+						<% } %>
+					
+				</div>
+			</div>
+		</div>
+	<% } %>
+</form>
+</script>
+<script>
+$(function() {
+	qc.shippingMethod = $.extend(true, {}, new qc.ShippingMethod(<?php echo $json; ?>));
+	qc.shippingMethodView = $.extend(true, {}, new qc.ShippingMethodView({
+		el:$("#shipping_method"), 
+		model: qc.shippingMethod, 
+		template: _.template($("#shipping_method_template").html())
+	}));
 });
-//--></script>
-
-
-
-
-
-
+</script>

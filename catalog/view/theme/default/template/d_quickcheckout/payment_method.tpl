@@ -1,82 +1,95 @@
-<!-- Quick Checkout v4.0 by Dreamvention.com quickcheckout/payment_method.tpl -->
-<div id="payment_method_wrap" <?php echo (!$data['display']) ? 'class="qc-hide"' : ''; ?>>
-<?php if ($error_warning) { ?>
-<div class="error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($payment_methods) { ?>
-<div class="panel panel-default" >
-  <div class="panel-heading <?php if (!$data['display']) {  echo 'qc-hide';  } ?>">
-    <span class="wrap"><span class="fa fa-fw qc-icon-payment-method"></span></span> 
-    <span class="text"><?php echo $data['title']; ?></span>
-  </div>
-  <div class="panel-body">
-  	<?php if ($data['description']) { ?> <p class="description"><?php echo $data['description']; ?></p> <?php } ?>
-    <div class="payment-methods <?php if (!$data['display_options']) {  echo 'qc-hide';  } ?>">
-      <?php if($data['input_style'] == 'select'){ ?>
-      <div class="select-input form-group">
-        <select name="payment_method" class="form-control payment-method-select" data-refresh="6" >
-          <?php foreach ($payment_methods as $payment_method) { ?>
-          <?php if ($payment_method['code'] == $code || !$code) { ?>
-          <?php $code = $payment_method['code']; ?>
-          <option  value="<?php echo $payment_method['code']; ?>" id="<?php echo $payment_method['code']; ?>" selected="selected" ><?php echo $payment_method['title']; ?> <span class="price"><?php if (isset($payment_method['cost'])) { echo $payment_method['cost']; } ?></span></option>
-          <?php } else { ?>
-          <option  value="<?php echo $payment_method['code']; ?>" id="<?php echo $payment_method['code']; ?>" ><?php echo $payment_method['title']; ?> <span class="price"><?php if (isset($payment_method['cost'])) { echo $payment_method['cost']; } ?></span></option>
-          <?php } ?>
-          <?php } ?>
-        </select>
-      </div>
-      <?php }else{?>
-      <?php foreach ($payment_methods as $payment_method) { ?>
-      <div class="radio-input radio">
-        <label for="<?php echo $payment_method['code']; ?>">
-          <?php if ($payment_method['code'] == $code || !$code) { ?>
-            <?php $code = $payment_method['code']; ?>
-            <input type="radio" name="payment_method" value="<?php echo $payment_method['code']; ?>" id="<?php echo $payment_method['code']; ?>" checked="checked" class="styled"  data-refresh="6"/>
-          <?php } else { ?>
-            <input type="radio" name="payment_method" value="<?php echo $payment_method['code']; ?>" id="<?php echo $payment_method['code']; ?>" class="styled"  data-refresh="6"/>
-          <?php } ?>
-        
-          <?php if(file_exists(DIR_IMAGE.'data/payment/'.$payment_method['code'].'.png')) { ?>
-          <img class="payment-image <?php if (!$data['display_images']) {  echo 'qc-hide';  } ?>" src="image/data/payment/<?php echo $payment_method['code']; ?>.png" />
-          <?php } ?>
-          <?php echo $payment_method['title']; ?><span class="price"><?php if (isset($payment_method['cost'])) { echo $payment_method['cost']; } ?></span></label>
-      </div>
-      <?php } ?>
-      <?php } ?>
-    </div>
-    <div class="clear"></div>
-  </div>
-</div>
-<?php } ?>
-</div>
-<?php 
-//echo '<pre>';
-// print_r($this->session->data['payment_methods']);
-// echo '</pre>'; 
-?>
-<?php 
+<!-- 
+	Ajax Quick Checkout 
+	v6.0.0
+	Dreamvention.com 
+	d_quickcheckout/payment_method.tpl 
+-->
+<div id="payment_method" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
+<script type="text/html" id="payment_method_template" >
+<form id="payment_method_form" <%= parseInt(model.config.display) ? '' : 'class="hidden"' %>>
+	<% if (model.error_warning) { %>
+		<div class="error"><%= model.error_warning %></div>
+	<% } %>
+	<% if (model.payment_methods) { %>
+		<div class="panel panel-default" >
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<span class="icon">
+						<i class="<%= model.config.icon %>"></i>
+					</span> 
+					<span class="text"><%= model.config.title %></span>
+				</h4>
+			</div>
+			<div class="panel-body">
+				<% if(model.error){ %>
+					<div class="alert alert-danger">
+						<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+					</div>
+				<% } %>
+				<% if (model.config.description) { %> 
+					<p class="description"><%= model.config.description %></p>
+				<% } %>
+				<div id="payment_method_list" class="<%= parseInt(model.config.display_options) ? '' : 'hidden' %>">
+				<% if(model.config.input_style == 'select') { %>
+					<div class="select-input form-group">
+						<select name="payment_method" class="form-control payment-method-select" data-refresh="6" >
+						<% _.each(model.payment_methods, function(payment_method) { %>
+							<% if (payment_method.code == model.payment_method.code) { %>
+								<option  value="<%= payment_method.code %>" id="<%= payment_method.code %>" selected="selected" ><%= payment_method.title %> <span class="price"><%= (payment_method.cost) ? payment_method.cost : '' %></span></option>
+							<% } else { %>
+								<option  value="<%= payment_method.code %>" id="<%= payment_method.code %>" ><%= payment_method.title %> <span class="price"><%= (payment_method.cost) ? payment_method.cost : '' %></span></option>
+							<% } %>
+						<% }) %>
+						</select>
+					</div>
+					<% _.each(model.payment_methods, function(payment_method) { %>
+						<% if (payment_method.terms) { %>
+							<% if (payment_method.code == model.payment_method.code) { %>
+								<p class="payment-method-terms <%= payment_method.code %>">(<%= payment_method.terms %>)</p>
+							<% } else { %>
+								<p class="payment-method-terms <%= payment_method.code %> hidden">(<%= payment_method.terms %>)</p>
+							<% } %>
+							
+						<% } %>
+					<% }) %>
 
-// echo '<pre>';
-// print_r($this->session->data['payment_method']);
-// echo '</pre>'; 
-?>
-<script><!--
-$(function(){
+				<% }else{ %>
+					<% _.each(model.payment_methods, function(payment_method) { %>
+						<div class="radio-input radio">
+							<label for="<%= payment_method.code %>">
+								<% if (payment_method.code == model.payment_method.code) { %>
+									<input type="radio" name="payment_method" value="<%= payment_method.code %>" id="<%= payment_method.code %>" checked="checked" class="styled"  data-refresh="6"/>
+								<% } else { %>
+									<input type="radio" name="payment_method" value="<%= payment_method.code %>" id="<%= payment_method.code %>" class="styled"  data-refresh="6"/>
+								<% } %>
 
-	if($.isFunction($.fn.uniform)){
-        $(" .styled, input:radio.styled").uniform().removeClass('styled');
-	}
-	if($.isFunction($.fn.colorbox)){
-		$('.colorbox').colorbox({
-			width: 640,
-			height: 480
-		});
-	}
-	if($.isFunction($.fn.fancybox)){
-		$('.fancybox').fancybox({
-			width: 640,
-			height: 480
-		});
-	}
+								<% if(parseInt(model.config.display_images)) { %>
+									<img class="payment-image" src="<%= payment_method.image %>" />
+								<% } %>
+      
+								<%= payment_method.title %>
+								<span class="price"><%= payment_method.cost ? payment_method.cost : '' %></span>
+
+								<% if (payment_method.terms) { %>
+								    <p class="payment-method-terms <%= payment_method.code %>">(<%= payment_method.terms %>)</p>
+								<% } %>
+							</label>
+						</div>
+					<% }) %>
+				<% } %>
+				</div>									
+			</div>
+		</div>
+	<% } %>
+</form>
+</script>
+<script>
+$(function() {
+	qc.paymentMethod = $.extend(true, {}, new qc.PaymentMethod(<?php echo $json; ?>));
+	qc.paymentMethodView = $.extend(true, {}, new qc.PaymentMethodView({
+		el:$("#payment_method"), 
+		model: qc.paymentMethod, 
+		template: _.template($("#payment_method_template").html())
+	}));
 });
-//--></script>
+</script>

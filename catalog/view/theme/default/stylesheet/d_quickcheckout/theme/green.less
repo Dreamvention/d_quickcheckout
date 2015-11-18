@@ -1,0 +1,126 @@
+#d_quickcheckout{
+
+	.dsl-label{
+		display: none;
+	}
+
+	.panel {
+		  border-color: #d6e9c6;
+
+		 .panel-heading {
+		   color: #3c763d;
+		   background-color: #dff0d8;
+		   border-color: #d6e9c6;
+		}
+		 .panel-heading + .panel-collapse > .panel-body {
+		  border-top-color: #d6e9c6;
+		}
+		 .panel-heading .badge {
+		  color: #dff0d8;
+  		  background-color: #3c763d;
+		}
+		 .panel-footer + .panel-collapse > .panel-body {
+		  border-bottom-color: #d6e9c6;
+		}
+
+		.list-group-item{
+			&.active, 
+			&.active:focus,
+			&.active:hover {
+				background-color: #5cb85c;
+		    	border-color: #4cae4c;
+
+			}
+
+		}
+
+	}
+	.btn-primary{
+    		background-color: #5cb85c;
+		    border-color: #4cae4c;
+	    	background-image:none;
+			&:focus,
+			&.focus {
+			  color: #ffffff;
+			  background-color: #449d44;
+  			  border-color: #255625;
+			}
+
+			&:hover,
+			&:active,
+			&.active {
+			  color: #ffffff;
+			  background-color: #449d44;
+  			  border-color: #398439;
+			}
+
+			&:active,
+			&.active{
+				&.hover,
+				&:focus,
+				&.focus{
+				  color: #ffffff;
+				    background-color: #398439;
+  					border-color: #255625;
+				}
+			}
+			&.disabled,
+			&[disabled]{
+				&:hover,
+				&:focus,
+				&.focus,
+				&:active,
+				&.active{
+					background-color: #5cb85c;
+  					border-color: #4cae4c;
+				}
+
+			}
+			.badge {
+			  color: #5cb85c;
+			}
+		}
+		.btn-danger{
+    		background-color: #d9534f;
+	    	border-color: #d43f3a;
+	    	background-image:none;
+			&:focus,
+			&.focus {
+			  color: #ffffff;
+			  background-color: #c9302c;
+			  border-color: #761c19;
+			}
+
+			&:hover,
+			&:active,
+			&.active {
+			  color: #ffffff;
+			  background-color: #c9302c;
+			  border-color: #ac2925;
+			}
+
+			&:active,
+			&.active{
+				&.hover,
+				&:focus,
+				&.focus{
+				  color: #ffffff;
+				  background-color: #ac2925;
+				  border-color: #761c19;
+				}
+			}
+			&.disabled,
+			&[disabled]{
+				&:hover,
+				&:focus,
+				&.focus,
+				&:active,
+				&.active{
+					background-color: #d9534f;
+		  			border-color: #d43f3a;
+				}
+
+			}
+		}
+}
+

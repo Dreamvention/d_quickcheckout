@@ -700,7 +700,6 @@ class ModelModuleDQuickcheckout extends Model {
 		define('DIR_ROOT', substr_replace(DIR_SYSTEM, '/', -8));
 		foreach($this->getDependencies($mbooth) as $extension){
 			if(isset($extension['codename'])){
-				echo $extension['codename'];
 				if(!$this->getVersion('mbooth_'.$extension['codename'].'.xml') || ($extension['version'] > $this->getVersion('mbooth_'.$extension['codename'].'.xml'))){
 					$this->download_extension($extension['codename'], $extension['version']);
 					$this->extract_extension();

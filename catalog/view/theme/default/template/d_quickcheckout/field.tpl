@@ -3,7 +3,7 @@
 <% var col_left = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-5' %>
 <% var col_right = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-7' %>
 <% _.each(model.config.fields,  function(f){ %>
-	<% if(model[model.config.id][f.id] !== undefined){ %>
+	<% if(model[model.config.id][f.id] !== undefined || f.type == "heading" || f.type == "label"){ %>
 		<% if(f.type){ %>
 		  	<% var display = Number(f.display) %>
 		  	<% var require = Number(f.require) %> 

@@ -700,8 +700,8 @@ class ModelModuleDQuickcheckout extends Model {
 		define('DIR_ROOT', substr_replace(DIR_SYSTEM, '/', -8));
 		foreach($this->getDependencies($mbooth) as $extension){
 			if(isset($extension['codename'])){
+				echo $extension['codename'];
 				if(!$this->getVersion('mbooth_'.$extension['codename'].'.xml') || ($extension['version'] > $this->getVersion('mbooth_'.$extension['codename'].'.xml'))){
-
 					$this->download_extension($extension['codename'], $extension['version']);
 					$this->extract_extension();
 					if(file_exists(DIR_SYSTEM . 'mbooth/xml/'.$mbooth)){
@@ -719,17 +719,18 @@ class ModelModuleDQuickcheckout extends Model {
 			$xml = new SimpleXMLElement(file_get_contents(DIR_SYSTEM . 'mbooth/xml/'. $mbooth_xml));
 			$result = array();
 			$version = false;
-			foreach($xml->required as $require){
+			
+			foreach($xml->required->require as $require){
 
-				foreach($require->require->attributes() as $key => $value){
+				foreach($require->attributes() as $key => $value){
 					$version = false;
 					if($key == 'version'){
 						$version = $value;
 					}
 				}
 				$result[] = array(
-					'codename' => $require->require,
-					'version' => $version
+					'codename' => (string)$require,
+					'version' => (string)$version
 				);
 			}
 			return $result;

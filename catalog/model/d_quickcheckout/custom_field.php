@@ -35,8 +35,8 @@ class ModelDQuickcheckoutCustomField extends Model {
 				'sort_order' => $custom_field['sort_order'],
 				'value' => $custom_field['value'],
 				'class' => '',
-				// 'display' => 1,
-				// 'require' => $custom_field['required'],
+				'display' => 1,
+				'require' => $custom_field['required'],
 
 			);
 

@@ -12,7 +12,7 @@ $_['d_quickcheckout_setting'] = array(
 		'main_checkout' => 1,
 		//'default_email' => $this->config->get('config_email'),
 		
-		'social_login_style' => 'icons',
+		'socila_login_style' => 'icons',
 		'store_id' => 0,
 		'clear_session' => 0,
 		'login_refresh' => 0,
@@ -20,7 +20,6 @@ $_['d_quickcheckout_setting'] = array(
 		'social_login' => 0,
 		'analytics_event' => 0,
 		'loader' => 'catalog/d_quickcheckout/svg-loaders/puff.svg',
-		'compress' => 1,
 	),
 	'design' => array(
 		'theme' => 'default',
@@ -28,7 +27,6 @@ $_['d_quickcheckout_setting'] = array(
 		'login_style' => 'popup',
 		'address_style' => 'radio',
 		'placeholder' => 1,
-		'breadcrumb' => 1,
 		'block_style' => 'row',
 		'uniform' => 0,
 		'max_width' => '',
@@ -41,7 +39,6 @@ $_['d_quickcheckout_setting'] = array(
 			'login' => array(
 				'id' => 'login',
 				'icon' => 'fa fa-user',
-				'description' => '',
 				'sort_order' => 1,
 				'column' => 1,
 				'row' => 1,
@@ -55,16 +52,13 @@ $_['d_quickcheckout_setting'] = array(
 												 	'description' => 'step_option_guest_desciption',
 													 'display' => 1
 								 				),
-								   'login' => array('title' => 'text_login',
-								   					'display' => 1
+								   'login' => array('display' => 1
 								 				)
 				)
 				
 			),
 			'payment_address' => array(
 					'id' => 'payment_address',
-					'title' => 'title_payment_address',
-					'description' => 'description_payment_address',
 					'icon' => 'fa fa-book',
 					'sort_order' => '2',
 					'column' => 1,
@@ -335,8 +329,6 @@ $_['d_quickcheckout_setting'] = array(
 			),
 			'shipping_address' => array(
 					'id' => 'shipping_address',
-					'title' => 'title_shipping_address',
-					'description' => 'description_shipping_address',
 					'icon' => 'fa fa-book',
 					'sort_order' => '3',
 					'column' => 1,
@@ -487,8 +479,6 @@ $_['d_quickcheckout_setting'] = array(
 			),
 			'shipping_method' => array(
 				'id' => 'shipping_method',
-				'title' => 'title_shipping_method',
-				'description' => 'description_shipping_method',
 				'icon' => 'fa fa-truck',
 				'sort_order' => 4,
 				'column' => 2,
@@ -504,8 +494,6 @@ $_['d_quickcheckout_setting'] = array(
 			),
 			'payment_method' =>array(
 				'id' => 'payment_method',
-				'title' => 'title_payment_method',
-				'description' => 'description_payment_method',
 				'icon' => 'fa fa-credit-card',
 				'sort_order' => 5,
 				'column' => 3,
@@ -520,8 +508,6 @@ $_['d_quickcheckout_setting'] = array(
 			),
 			'cart' => array(
 				'id' => 'cart',
-				'title' => 'title_shopping_cart',
-				'description' => 'description_shopping_сart',
 				'icon' => 'fa fa-shopping-cart',
 				'sort_order' => 6,
 				'column' => 4,
@@ -561,13 +547,10 @@ $_['d_quickcheckout_setting'] = array(
 			),
 			'payment' => array(
 				'id' => 'payment',
-				'title' => '',
 				'icon' => '',
 				'sort_order' => 7,
 				'column' => 4,
 				'row' => 2,
-				'default_payment_popup' => 0,
-				'payment_popups' => array(),
 				'width' => '50'
 			),
 			'confirm' => array(
@@ -618,6 +601,8 @@ $_['d_quickcheckout_setting'] = array(
 			'login' => array(),
 			'payment_address' => array(
 				'display' => 1,
+				'title' => 'text_your_details',
+				'description' => 'option_register_payment_address_description',
 				'fields' => array(
 					'firstname' => array('display' => 1, 
 										 'require' => 1,
@@ -730,6 +715,8 @@ $_['d_quickcheckout_setting'] = array(
 			'shipping_address' => array(
 				'display' => 1,
 				'require' => 0,
+				'title' => 'option_register_shipping_address_title',
+				'description' => 'option_register_shipping_address_description',
 				'fields' => array(
 					'firstname' => array( 
 										 'display' => 1, 
@@ -779,13 +766,17 @@ $_['d_quickcheckout_setting'] = array(
 					)
 			),
 			'shipping_method' => array(
-					 											  
+					  'title' => 'option_register_shipping_method_title',
+					  'description' => 'text_shipping_method',												  
 					  ),
 			'payment_method' =>array(
-				
+					  'title' => 'option_register_payment_method_title',
+					  'description' => 'text_payment_method',
 					  ),
 			'cart' => array(
 					  'display' => 1,
+					  'title' => 'text_cart',
+					  'description' => 'option_register_cart_description',
 					  'option' => array(
 							'voucher' => array(
 										'display' => 1,
@@ -829,6 +820,8 @@ $_['d_quickcheckout_setting'] = array(
 			'display' => 1,
 			'login' => array(),
 			'payment_address' => array(
+				'title' => 'text_your_details',
+				'description' => 'option_guest_payment_address_description',
 				'display' => 1,
 				'fields' => array(
 					'firstname' => array('display' => 1, 
@@ -925,6 +918,8 @@ $_['d_quickcheckout_setting'] = array(
 			'shipping_address' => array(
 				'display' => 1,
 				'require' => 0,
+				'title' => 'option_guest_shipping_address_title',
+				'description' => 'option_guest_shipping_address_description',
 				'fields' => array(
 					'firstname' => array( 
 										 'display' => 1, 
@@ -973,14 +968,20 @@ $_['d_quickcheckout_setting'] = array(
 										 )
 					)
 			),
-			'shipping_method' =>array( 
+			'shipping_method' =>array(
+					  'title' => 'option_guest_shipping_method_title',
+					  'description' => 'text_shipping_method',
+					  
 					  
 			),
 			'payment_method' =>array(
-		
+					  'title' => 'option_guest_payment_method_title',
+					  'description' => 'text_payment_method',
 			),
 			'cart' => array(
 					  'display' => 1,
+					  'title' => 'text_cart',
+					  'description' => 'option_guest_cart_description',
 					  'option' => array(
 							'voucher' => array(
 										'display' => 1,
@@ -1024,6 +1025,8 @@ $_['d_quickcheckout_setting'] = array(
 			'login' => array(),
 			'payment_address' => array(
 				'display' => 1,
+				'title' => 'option_logged_payment_address_title',
+				'description' => 'option_logged_payment_address_description',
 				'fields' => array(
 					'firstname' => array('display' => 1, 
 										 'require' => 1,
@@ -1079,6 +1082,8 @@ $_['d_quickcheckout_setting'] = array(
 			'shipping_address' => array(
 				'display' => 1,
 				'require' => 0,
+				'title' => 'option_logged_shipping_address_title',
+				'description' => 'option_logged_shipping_address_description',
 				'fields' => array(
 					'firstname' => array( 
 										 'display' => 1, 
@@ -1128,13 +1133,17 @@ $_['d_quickcheckout_setting'] = array(
 					)
 			),
 			'shipping_method' =>array(
-					  
+					  'title' => 'option_logged_shipping_method_title',
+					  'description' => 'text_shipping_method',
 			),
 			'payment_method' =>array(
-
+					  'title' => 'option_logged_payment_method_title',
+					  'description' => 'text_payment_method',
 			),
 			'cart' => array(
 					  'display' => 1,
+					  'title' => 'text_cart',
+					  'description' => 'option_logged_cart_description',
 					  'option' => array(
 							'voucher' => array(
 										'display' => 1,

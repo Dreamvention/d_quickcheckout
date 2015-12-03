@@ -3,6 +3,9 @@
 class ControllerDQuickcheckoutCart extends Controller {
    	
 	public function index($config){
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('Controller:: cart/index');
+
         $this->load->language('checkout/cart');
         if(VERSION >= '2.1.0.1'){
             $this->load->language('total/coupon');

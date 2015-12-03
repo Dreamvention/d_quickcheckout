@@ -4,6 +4,8 @@ class ControllerDQuickcheckoutShippingAddress extends Controller {
    
 	public function index($config){
         $this->load->model('d_quickcheckout/address');
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('controller:: shipping_address/index');
 
         if(!$config['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/model/shipping_address.js');

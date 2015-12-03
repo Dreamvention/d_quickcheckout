@@ -3,6 +3,8 @@
 class ControllerDQuickcheckoutPaymentMethod extends Controller {
    	
 	public function index($config){
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('controller:: payment_method/index');
 
         if(!$config['general']['compress']){
     		$this->document->addScript('catalog/view/javascript/d_quickcheckout/model/payment_method.js');
@@ -77,6 +79,8 @@ class ControllerDQuickcheckoutPaymentMethod extends Controller {
 
         $json['payment_methods'] = $this->session->data['payment_methods'];
         $json['payment_method'] = $this->session->data['payment_method'];
+
+        $this->model_module_d_quickcheckout->logWrite('Controller:: payment_method/prepare. paymet_methods = '.json_encode($json['payment_methods']) . ' payment_method = '.json_encode($json['payment_method']));
 
         return $json;
     }

@@ -85,6 +85,7 @@ qc.FieldView = qc.View.extend({
 			if(parseInt(config.general.analytics_event)){
 				ga('send', 'event', config.name, 'error', e.currentTarget.name+'.'+e.currentTarget.value);
 			}
+			
 			preloaderStop();
 		}
 		

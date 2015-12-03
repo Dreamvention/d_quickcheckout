@@ -3,6 +3,8 @@
 class ControllerDQuickcheckoutLogin extends Controller {
 
 	public function index($config){
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('Controller:: login/index');
 
         if(!$config['general']['compress']){
     		$this->document->addScript('catalog/view/javascript/d_quickcheckout/model/login.js');

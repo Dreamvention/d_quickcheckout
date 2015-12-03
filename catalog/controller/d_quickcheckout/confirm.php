@@ -5,6 +5,8 @@ class ControllerDQuickcheckoutConfirm extends Controller {
 	public function index($config){
 
         $this->load->model('d_quickcheckout/method');
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('Controller:: confirm/index');
 
         if(!$config['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/model/confirm.js');
@@ -61,10 +63,10 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         $this->load->model('account/address');
         $this->load->model('module/d_quickcheckout');
         $this->load->model('d_quickcheckout/address');
+        $this->load->model('d_quickcheckout/order');
 
         if($this->customer->isLogged()){
 
-            
             if (empty($this->session->data['payment_address']['address_id'])) {
                 $json['addresses'] = $this->model_d_quickcheckout_address->getAddresses();
                 $json['payment_address']['address_id'] = $this->customer->getAddressId();
@@ -94,8 +96,10 @@ class ControllerDQuickcheckoutConfirm extends Controller {
                         $json['payment_address']['address_id'] = $this->customer->getAddressId();
                         $json['shipping_address']['address_id'] = $this->customer->getAddressId();
                     }
-
                 }
+
+                //2.1.0.1 fix
+                $this->model_d_quickcheckout_order->updateCartForNewCustomerId();
             }
         }
         $this->load->model('d_quickcheckout/method');
@@ -283,6 +287,8 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             }
         }
 
+
+
         $order_data['comment'] = $this->session->data['comment'];
         $order_data['total'] = $total;
 
@@ -347,6 +353,7 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             $order_data['accept_language'] = '';
         }
         $this->load->model('d_quickcheckout/order');
+        $this->model_module_d_quickcheckout->logWrite('Controller:: confirm/updateOrder for order ='.$this->session->data['order_id'].' with $order_data =' .json_encode($order_data));
         return $this->model_d_quickcheckout_order->updateOrder($this->session->data['order_id'], $order_data);
     }
 }

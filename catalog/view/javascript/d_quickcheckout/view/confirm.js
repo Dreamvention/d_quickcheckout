@@ -19,6 +19,7 @@ qc.ConfirmView = qc.View.extend({
 			if(!$(this).valid()){
 				valid = false;
 				preloaderStop();
+				$('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');	
 			}
 		});
 

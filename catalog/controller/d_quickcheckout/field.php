@@ -3,6 +3,9 @@
 class ControllerDQuickcheckoutField extends Controller {
    
     public function index($config){
+        $this->load->model('module/d_quickcheckout');
+        $this->model_module_d_quickcheckout->logWrite('Controller:: field/index');
+
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/tinysort/jquery.tinysort.min.js');
         if(!$config['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/view/field.js');
@@ -23,8 +26,13 @@ class ControllerDQuickcheckoutField extends Controller {
     }
 
     public function getZone(){
-        $this->load->model('d_quickcheckout/address');
-        $json = $this->model_d_quickcheckout_address->getZonesByCountryId($this->request->post['country_id']);
+        if(isset($this->request->post['country_id'])){
+            $this->load->model('d_quickcheckout/address');
+            $json = $this->model_d_quickcheckout_address->getZonesByCountryId($this->request->post['country_id']);
+        }else{
+            $json = false;
+        }
+        
         if(!$json){
             $json = array( 0 => array( 'name' => $this->language->get('text_none'), 'value' => 0)); 
         }

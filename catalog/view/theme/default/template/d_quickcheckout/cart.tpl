@@ -18,7 +18,7 @@
 		</div>
 
 		<div class="qc-checkout-product panel-body" >
-			<p class="text"><%= model.config.description %></p>
+			<% if(model.config.description){ %><p class="text"><%= model.config.description %></p><% } %>
 			<% if(model.error){ %>
 				<div class="alert alert-danger">
 					<i class="fa fa-exclamation-circle"></i> <%= model.error %>

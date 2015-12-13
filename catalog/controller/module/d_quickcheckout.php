@@ -306,10 +306,6 @@ class ControllerModuleDQuickcheckout extends Controller {
         $this->session->data['payment_address'] = $this->model_d_quickcheckout_address->prepareAddress($this->session->data['payment_address']);
         $this->session->data['shipping_address'] = $this->model_d_quickcheckout_address->prepareAddress($this->session->data['shipping_address']);
 
-        $this->session->data['payment_address'] = $this->session->data['payment_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('guest', 'account', $customer_group_id );
-        $this->session->data['payment_address'] = $this->session->data['payment_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('payment_address', 'address', $customer_group_id );
-        $this->session->data['shipping_address'] = $this->session->data['shipping_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('shipping_address', 'address', $customer_group_id );
-        
         if($this->customer->isLogged()){
 
             if(!isset($this->session->data['payment_address']['address_id'])){
@@ -327,8 +323,15 @@ class ControllerModuleDQuickcheckout extends Controller {
             if($this->session->data['shipping_address']['address_id'] != 'new'){
                 $this->session->data['shipping_address'] = $this->model_d_quickcheckout_address->getAddress($this->session->data['shipping_address']['address_id']);
             }
+
+            $this->session->data['payment_address']['custom_field'] = (!empty($this->session->data['payment_address']['custom_field'])) ? array('address' => $this->session->data['payment_address']['custom_field']) :  $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $customer_group_id);
+            $this->session->data['shipping_address']['custom_field'] = (!empty($this->session->data['shipping_address']['custom_field'])) ? array('address' => $this->session->data['shipping_address']['custom_field']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $customer_group_id );
+
         }
-        
+
+        $this->session->data['payment_address'] = $this->session->data['payment_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('guest', 'account', $customer_group_id );
+        $this->session->data['payment_address'] = $this->session->data['payment_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('payment_address', 'address', $customer_group_id );
+        $this->session->data['shipping_address'] = $this->session->data['shipping_address'] + $this->model_d_quickcheckout_custom_field->getCustomFieldsSessionData('shipping_address', 'address', $customer_group_id );
         
         $this->model_module_d_quickcheckout->logWrite('Initialize:: set session payment address'.json_encode($this->session->data['payment_address']));
         $this->model_module_d_quickcheckout->logWrite('Initialize:: set session shipping address'.json_encode($this->session->data['shipping_address']));

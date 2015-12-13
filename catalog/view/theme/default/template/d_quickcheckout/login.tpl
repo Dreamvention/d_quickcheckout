@@ -45,7 +45,7 @@
 		</div>
 	</div>
 	<% } %>
-	<p><%= model.config.description %></p>
+	<% if(model.config.description){ %><p class="description"><%= model.config.description %></p><% } %>
 	<div class="<%= parseInt(model.config.option.login.display) ? '' : 'hidden' %>">
 		
 		<% if(config.design.login_style == 'block'){ %> 

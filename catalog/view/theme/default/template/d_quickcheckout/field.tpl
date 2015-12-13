@@ -68,26 +68,59 @@
 			    <% } %>
 
 	    	<% }else if(f.type == "checkbox"){ %>
+	    		
 
 			    <div id="<%= model.config.id %>_<%= f.id %>_input" 
 			    class="checkbox-input form-group sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
 			    data-sort="<%= f.sort_order %>">
-			    <div class="col-xs-12">
-			      <label for="<%= model.config.id %>_<%= f.id %>" class="control-label" >
-				      <input type="hidden" 
-				          name="<%= model.config.id %>.<%= f.id %>" 
-				          value="0" />
-			          <input type="checkbox" 
-			          name="<%= model.config.id %>.<%= f.id %>" 
-			          id="<%= model.config.id %>_<%= f.id %>" 
-			          class="validate <%= require ? 'required' : 'not-required' %>" 
-			          <%= require ? 'required' : '' %> 
-			          value="1" 
-			          <%= model[model.config.id][f.id] == 1 ? 'checked="checked"' : '' %> />
+			    	
+			    	<% if(f.options){ %>
+			    		<div class="col-xs-12">
+			    		<label>
+			    			<%= htmlDecode(f.title) %>
+			    		</label>
+			    		</div>
+			    		<%  var i = 0 %> 
+			    		<% _.each(f.options, function(option){ %>
+		    			<div class="col-xs-12">
+					      <label for="<%= model.config.id %>_<%= f.id %>" >
+						      <input type="hidden" 
+						          name="<%= model.config.id %>.<%= f.id %>" 
+						          value="0" />
+					          <input type="checkbox" 
+					          name="<%= model.config.id %>.<%= f.id %>.<%= i %>" 
+					          id="<%= model.config.id %>_<%= f.id %>_<%= option.value %>" 
+					          class="validate not-required" 
+					          <%= require ? 'required' : '' %> 
+					          value="<%= option.value %>" 
+					          <%= model[model.config.id][f.id][i] > 0 ? 'checked="checked"' : '' %> />
 
-			          <span <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"><%= htmlDecode(f.title) %></span> 
-			        </label>
-			      </div>
+					          <span <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"><%= htmlDecode(option.name) %></span> 
+					        </label>
+					    </div>
+					    <% i++ %>
+					    <% })%>
+			    	<% }else{ %>
+			    		<div class="col-xs-12">
+					      <label for="<%= model.config.id %>_<%= f.id %>" class="control-label" >
+						      <input type="hidden" 
+						          name="<%= model.config.id %>.<%= f.id %>" 
+						          value="0" />
+					          <input type="checkbox" 
+					          name="<%= model.config.id %>.<%= f.id %>" 
+					          id="<%= model.config.id %>_<%= f.id %>" 
+					          class="validate <%= require ? 'required' : 'not-required' %>" 
+					          <%= require ? 'required' : '' %> 
+					          value="1" 
+					          <%= model[model.config.id][f.id] == 1 ? 'checked="checked"' : '' %> />
+
+					          <span <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"><%= htmlDecode(f.title) %></span> 
+					        </label>
+					    </div>
+			    	<% } %>
+			    	
+
+			      
 			    </div>
 
 	    	<% }else if(f.type == "select"){ %>

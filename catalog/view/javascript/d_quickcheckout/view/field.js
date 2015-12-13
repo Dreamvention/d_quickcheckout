@@ -85,7 +85,6 @@ qc.FieldView = qc.View.extend({
 			if(parseInt(config.general.analytics_event)){
 				ga('send', 'event', config.name, 'error', e.currentTarget.name+'.'+e.currentTarget.value);
 			}
-			
 			preloaderStop();
 		}
 		
@@ -113,7 +112,7 @@ qc.FieldView = qc.View.extend({
 	
 	updateCheckbox: function(e){
 		if($(e.currentTarget).is(":checked")){
-			this.model.updateField(e.currentTarget.name, 1 );
+			this.model.updateField(e.currentTarget.name, e.currentTarget.value );
 		}else{
 			this.model.updateField(e.currentTarget.name, 0 );
 		}

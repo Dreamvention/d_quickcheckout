@@ -5,7 +5,7 @@
     Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.2.3.2</version>
+    <version>6.2.4.1</version>
     <license>commercial</license>
     <opencart_version>2.0.0.0;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1</opencart_version>
     <mbooth_version>3.0</mbooth_version>
@@ -42,6 +42,13 @@
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
+        <update version="6.2.4"><![CDATA[
+        1. Custom radio fields fix<br/>
+        2. Emtpy description tags removed<br/>
+        3. Dependency install fix<br/>
+        4. Update conpress file<br/>
+        5. fix update 2.1.0.1 jason custom field
+        ]]></update>
     	<update version="6.2.3"><![CDATA[
         1. Fix for 2.1.0.1 new customer id cart clear<br/>
         2. Fix dependency download function<br/>

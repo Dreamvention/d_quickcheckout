@@ -16,9 +16,6 @@ class ControllerDQuickcheckoutPayment extends Controller {
 		$data['col'] = $config['account']['guest']['payment']['column'];
         $data['row'] = $config['account']['guest']['payment']['row'];
 
-        $json['payment_payment_popup'] =  $this->model_d_quickcheckout_method->getPaymentPopup($this->session->data['payment_method']['code']);
-        $json['payment_payment_title'] = $this->session->data['payment_method']['title'];
-
         $json = array();
         $json = $this->prepare($json);
         $json['account'] = $this->session->data['account'];

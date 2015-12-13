@@ -9,7 +9,7 @@ $_['description_shipping_method'] 					= '';
 $_['title_payment_method'] 							= 'Payment method';
 $_['description_payment_method'] 					= '';
 $_['title_shopping_cart'] 							= 'Shopping cart';
-$_['description_shopping_сart'] 					= '';
+$_['description_shopping_cart'] 					= '';
 
 $_['error_field_required'] 							= 'This field is required';
 

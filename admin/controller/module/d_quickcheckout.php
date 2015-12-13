@@ -136,7 +136,7 @@ class ControllerModuleDQuickcheckout extends Controller {
 		$data['version'] = $this->model_module_d_quickcheckout->getVersion($data['mbooth']);
 		$data['token'] =  $this->session->data['token'];
 		$data['text_need_full_version'] = $this->language->get('text_need_full_version');
-
+		
 		// Tab
 		$data['tab_setting'] = $this->language->get('tab_setting');
 

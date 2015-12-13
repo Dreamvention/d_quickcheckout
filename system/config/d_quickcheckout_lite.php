@@ -12,7 +12,7 @@ $_['d_quickcheckout_setting'] = array(
 		'main_checkout' => 1,
 		//'default_email' => $this->config->get('config_email'),
 		
-		'social_login_style' => 'icons',
+		'socila_login_style' => 'icons',
 		'store_id' => 0,
 		'clear_session' => 0,
 		'login_refresh' => 0,

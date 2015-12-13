@@ -10,13 +10,15 @@ body > *{
 body > #d_quickcheckout{
 	display: block;
 } 
-#d_quickcheckout.container #logo{
+#d_quickcheckout.container #d_logo{
 	margin: 20px 0px;
 }
 <?php } ?>
 </style>
 <div id="d_quickcheckout">
-	<div id="logo" class="center-block text-center"></div>
+	<?php if($config['design']['only_quickcheckout']){ ?>
+	<div id="d_logo" class="center-block text-center"></div>
+	<?php } ?>
 	<?php echo $field; ?>
 	<div class="row">
 		<div class="col-md-12"></div>
@@ -56,7 +58,7 @@ $(function() {
 <?php if($config['design']['only_quickcheckout']){ ?>
 	$('body').prepend($('#d_quickcheckout'));
 	$('#d_quickcheckout').addClass('container')
-	$('#d_quickcheckout #logo ').prepend($('header #logo').html())
+	$('#d_quickcheckout #d_logo ').prepend($('header #logo').html())
 <?php } ?>
 <?php if(!$config['design']['breadcrumb']) { ?>
 	$('.qc-breadcrumb').hide();

@@ -17,7 +17,7 @@
 			</h4>
 		</div>
 		<div class="panel-body">
-		<p class="text"><%= model.config.description %></p>
+			<% if(model.config.description){ %><p class="description"><%= model.config.description %></p><% } %>
 			<% if(model.account == 'logged'){ %> 
 				<p><?php echo $text_address_existing; ?></p>
 				<% if(config.design.address_style == 'list') { %>

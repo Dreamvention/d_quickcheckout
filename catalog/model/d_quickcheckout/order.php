@@ -117,9 +117,13 @@ class ModelDQuickcheckoutOrder extends Model {
 			lastname = '" . $this->db->escape($data['lastname']) . "', 
 			email = '" . $this->db->escape($data['email']) . "', 
 			telephone = '" . $this->db->escape($data['telephone']) . "', 
-			fax = '" . $this->db->escape($data['fax']) . "', 
-			custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "', 
-			payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "', 
+			fax = '" . $this->db->escape($data['fax']) . "', ";
+			if(VERSION >= '2.1.0.1'){
+				$query .="custom_field = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', ";
+			}else{
+				$query .="custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "', ";
+			}
+			$query .= "payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "', 
 			payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "', 
 			payment_company = '" . $this->db->escape($data['payment_company']) . "', 
 			payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "', 
@@ -130,9 +134,13 @@ class ModelDQuickcheckoutOrder extends Model {
 			payment_country_id = '" . (int)$data['payment_country_id'] . "', 
 			payment_zone = '" . $this->db->escape($data['payment_zone']) . "', 
 			payment_zone_id = '" . (int)$data['payment_zone_id'] . "', 
-			payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "', 
-			payment_custom_field = '" . $this->db->escape(isset($data['payment_custom_field']) ? serialize($data['payment_custom_field']) : '') . "', 
-			payment_method = '" . $this->db->escape($data['payment_method']) . "', 
+			payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "', ";
+			if(VERSION >= '2.1.0.1'){
+				$query .="payment_custom_field = '" . $this->db->escape(isset($data['payment_custom_field']) ? json_encode($data['payment_custom_field']) : '') . "', ";
+			}else{
+				$query .="payment_custom_field = '" . $this->db->escape(isset($data['payment_custom_field']) ? serialize($data['payment_custom_field']) : '') . "', ";
+			}
+			$query .= "payment_method = '" . $this->db->escape($data['payment_method']) . "', 
 			payment_code = '" . $this->db->escape($data['payment_code']) . "', 
 			shipping_firstname = '" . $this->db->escape($data['shipping_firstname']) . "', 
 			shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "', 
@@ -145,9 +153,13 @@ class ModelDQuickcheckoutOrder extends Model {
 			shipping_country_id = '" . (int)$data['shipping_country_id'] . "', 
 			shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "', 
 			shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "', 
-			shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "', 
-			shipping_custom_field = '" . $this->db->escape(isset($data['shipping_custom_field']) ? serialize($data['shipping_custom_field']) : '') . "', 
-			shipping_method = '" . $this->db->escape($data['shipping_method']) . "', 
+			shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "', ";
+			if(VERSION >= '2.1.0.1'){
+				$query .="shipping_custom_field = '" . $this->db->escape(isset($data['shipping_custom_field']) ? json_encode($data['shipping_custom_field']) : '') . "', ";
+			}else{
+				$query .="shipping_custom_field = '" . $this->db->escape(isset($data['shipping_custom_field']) ? serialize($data['shipping_custom_field']) : '') . "', ";
+			}
+			$query .= "shipping_method = '" . $this->db->escape($data['shipping_method']) . "', 
 			shipping_code = '" . $this->db->escape($data['shipping_code']) . "', 
 			comment = '" . $this->db->escape($data['comment']) . "', 
 			total = '" . (float)$data['total'] . "', 

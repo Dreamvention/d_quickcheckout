@@ -9,7 +9,7 @@ qc.LoginView = qc.View.extend({
 
 	events: {
 		'change input[name=account]': 'updateAccount',
-		'click button#button_login': 'loginAccount',
+		'click button#button_login': 'loginAccount'
 	},
 
 	template: '',
@@ -40,7 +40,7 @@ qc.LoginView = qc.View.extend({
 	loginAccount: function(e){
 		$('#login_model').modal('hide');
 		$('body').removeClass('modal-open');
-		$('.modal-backdrop').remove();
+		$('.modal-backdrop').fadeOut();
 
 		var json = $('#login_form').serializeObject();
 

@@ -94,6 +94,7 @@ class ControllerDQuickcheckoutCart extends Controller {
 
     public function prepare($json){
         $this->load->language('checkout/cart');
+        $this->load->model('tool/upload');
 
         $json['show_price'] = $this->model_d_quickcheckout_order->showPrice();
 
@@ -152,7 +153,7 @@ class ControllerDQuickcheckoutCart extends Controller {
                 if ($option['type'] != 'file') {
                     $value = $option['value'];
                 } else {
-                    $this->load->mode('tool/upload');
+                    
                     $upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
 
                     if ($upload_info) {

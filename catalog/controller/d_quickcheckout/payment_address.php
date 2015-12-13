@@ -107,17 +107,19 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
                     $json['payment_address_refresh'] = true;
                     $json['shipping_address_refresh'] = true;
                 }
-                //update address data if contry_id or zone_id changed
-                $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->compareAddress($this->request->post['payment_address'], $this->session->data['payment_address']);
-                
-                //if logged in and address_id set and is not empty - fetch address by address_id
-                if($this->customer->isLogged()){
-                    if($this->request->post['payment_address']['address_id'] !== 'new' 
-                        && $this->request->post['payment_address']['address_id'] !== $this->session->data['payment_address']['address_id'] 
-                        && !empty($this->request->post['payment_address']['address_id'])){
-                        
-                        $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->request->post['payment_address']['address_id']);
-                    }
+            }
+
+            //update address data if contry_id or zone_id changed
+            $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->compareAddress($this->request->post['payment_address'], $this->session->data['payment_address']);
+           
+
+            //if logged in and address_id set and is not empty - fetch address by address_id
+            if($this->customer->isLogged()){
+                if($this->request->post['payment_address']['address_id'] !== 'new' 
+                    && $this->request->post['payment_address']['address_id'] !== $this->session->data['payment_address']['address_id'] 
+                    && !empty($this->request->post['payment_address']['address_id'])){
+                    
+                    $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->request->post['payment_address']['address_id']);
                 }
             }
 

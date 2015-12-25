@@ -270,12 +270,15 @@ class ControllerDQuickcheckoutCart extends Controller {
 
              //shipping address
             $json = $this->load->controller('d_quickcheckout/shipping_address/prepare', $json);
-
+            
+            //cart
+            $json = $this->prepare($json);
+            
             //shipping method
             $json = $this->load->controller('d_quickcheckout/shipping_method/prepare', $json);
 
-            //cart
-            $json = $this->prepare($json);
+            //payment method
+             $json = $this->load->controller('d_quickcheckout/payment_method/prepare', $json);
 
             //totals
             $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);

@@ -38,6 +38,10 @@ qc.PaymentMethodView = qc.View.extend({
 			this.model.set('payment_methods', data.payment_methods);
 		}
 
+		if(data.payment_error){
+			this.model.set('payment_error', data.payment_error);
+		}
+		
 		if(data.account && data.account !== this.model.get('account')){
 			this.changeAccount(data.account);
 		}

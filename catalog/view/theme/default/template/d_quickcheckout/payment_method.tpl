@@ -10,7 +10,7 @@
 	<% if (model.error_warning) { %>
 		<div class="error"><%= model.error_warning %></div>
 	<% } %>
-	<% if (model.payment_methods) { %>
+	<% if (model.payment_methods.length != 0) { %>
 		<div class="panel panel-default" >
 			<div class="panel-heading">
 				<h4 class="panel-title">
@@ -80,6 +80,10 @@
 				</div>									
 			</div>
 		</div>
+	<% } else{ %>
+    <% if (model.payment_error) { %> 
+       <div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> <%= model.payment_error %></div>
+   <% } %>
 	<% } %>
 </form>
 </script>

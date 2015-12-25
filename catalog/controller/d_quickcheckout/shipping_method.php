@@ -20,7 +20,11 @@ class ControllerDQuickcheckoutShippingMethod extends Controller {
         $json['shipping_methods'] = $this->session->data['shipping_methods'];
         $json['shipping_method'] = $this->session->data['shipping_method'];
         $json['show_shipping_method'] = $this->model_d_quickcheckout_method->shippingRequired();
-
+        if(empty($this->session->data['shipping_methods'])) {
+          $json['shipping_error'] = sprintf($this->language->get('error_no_shipping'), $this->url->link('information/contact'));
+        } else {
+          $json['shipping_error'] = '';
+        }
         $data['json'] = json_encode($json);
         
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/shipping_method.tpl')) {
@@ -93,6 +97,12 @@ class ControllerDQuickcheckoutShippingMethod extends Controller {
 
         $json['show_shipping_method'] = $this->model_d_quickcheckout_method->shippingRequired();
         $json['shipping_methods'] = $this->session->data['shipping_methods'];
+		if(empty($this->session->data['shipping_methods'])) {
+			$this->load->language('checkout/shipping');
+		  $json['shipping_error'] = sprintf($this->language->get('error_no_shipping'), $this->url->link('information/contact'));
+		} else {
+			 $json['shipping_error'] = '';
+		}
         $json['shipping_method'] = $this->session->data['shipping_method'];
         $this->model_module_d_quickcheckout->logWrite('Controller:: shipping_method/prepare. shipping_methods = '.json_encode($json['shipping_methods']) . ' shipping_method = '.json_encode($json['shipping_method']));
 

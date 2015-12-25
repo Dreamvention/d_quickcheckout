@@ -42,6 +42,10 @@ qc.ShippingMethodView = qc.View.extend({
 			this.model.set('shipping_methods', data.shipping_methods);
 		}
 
+		if(data.shipping_error){
+			this.model.set('shipping_error', data.shipping_error);
+		}
+		
 		if(data.account && data.account !== this.model.get('account')){
 			this.changeAccount(data.account);
 		}

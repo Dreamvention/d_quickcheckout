@@ -16,6 +16,11 @@ class ControllerDQuickcheckoutPaymentMethod extends Controller {
 
         $json['account'] = $this->session->data['account'];
         $json['payment_methods'] = $this->session->data['payment_methods'];
+		if(empty($this->session->data['payment_methods'])) {
+		  $json['payment_error'] = sprintf($this->language->get('error_no_payment'), $this->url->link('information/contact'));
+		} else {
+		  $json['payment_error'] = '';
+		}
         $json['payment_method'] = $this->session->data['payment_method'];
         $json['error_warning'] = '';
 
@@ -78,6 +83,14 @@ class ControllerDQuickcheckoutPaymentMethod extends Controller {
         }
 
         $json['payment_methods'] = $this->session->data['payment_methods'];
+		
+		if(empty($this->session->data['payment_methods'])) {
+		    $this->load->language('checkout/checkout');
+		    $json['payment_error'] = sprintf($this->language->get('error_no_payment'), $this->url->link('information/contact'));
+		} else {
+			$json['payment_error'] = '';
+		}
+		
         $json['payment_method'] = $this->session->data['payment_method'];
 
         $this->model_module_d_quickcheckout->logWrite('Controller:: payment_method/prepare. paymet_methods = '.json_encode($json['payment_methods']) . ' payment_method = '.json_encode($json['payment_method']));

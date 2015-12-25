@@ -1,11 +1,11 @@
 <extension>
-    <id>d_quickcheckout_lite</id>
+    <id>d_quickcheckout</id>
     <name>Ajax Quick Checkout</name>
     <description>
     Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.2.4.1</version>
+    <version>6.2.5</version>
     <license>commercial</license>
     <opencart_version>2.0.0.0;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1</opencart_version>
     <mbooth_version>3.0</mbooth_version>
@@ -26,9 +26,8 @@
         <file>catalog/view/theme/default/template/checkout/d_quickcheckout.tpl</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less</file>
-        <file>system/mbooth/xml/mbooth_d_quickcheckout_lite.xml</file>
-        <file>system/config/d_quickcheckout_lite.php</file>
-        <file>vqmod/xml/a_vqmod_d_quickcheckout.xml</file>
+        <file>system/mbooth/xml/mbooth_d_quickcheckout.xml</file>
+        <file>system/config/d_quickcheckout.php</file>
     </files>
     <dirs>
         <dir>catalog/controller/d_quickcheckout</dir>
@@ -42,6 +41,9 @@
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
+         <update version="6.2.5"><![CDATA[
+        1. Add Warning message when you have not shipping or payment method.<br/>
+        ]]></update>
         <update version="6.2.4"><![CDATA[
         1. Custom radio fields fix<br/>
         2. Emtpy description tags removed<br/>
@@ -49,7 +51,7 @@
         4. Update conpress file<br/>
         5. fix update 2.1.0.1 jason custom field
         ]]></update>
-    	<update version="6.2.3"><![CDATA[
+        <update version="6.2.3"><![CDATA[
         1. Fix for 2.1.0.1 new customer id cart clear<br/>
         2. Fix dependency download function<br/>
         3. Fix heading field display<br/>

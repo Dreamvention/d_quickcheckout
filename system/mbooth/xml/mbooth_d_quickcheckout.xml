@@ -1,0 +1,185 @@
+<extension>
+    <id>d_quickcheckout</id>
+    <name>Ajax Quick Checkout</name>
+    <description>
+    Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
+    </description>
+    <type>module</type>
+    <version>6.2.5</version>
+    <license>commercial</license>
+    <opencart_version>2.0.0.0;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1</opencart_version>
+    <mbooth_version>3.0</mbooth_version>
+    <author>Dreamvention</author>
+    <support_email>support@dreamvention.com</support_email>
+    <files>
+        <file>admin/controller/module/d_quickcheckout.php</file>
+        <file>admin/language/english/module/d_quickcheckout.php</file>
+        <file>admin/language/english/module/d_quickcheckout_instruction.php</file>
+        <file>admin/model/module/d_quickcheckout.php</file>
+        <file>admin/view/template/module/d_quickcheckout.tpl</file>
+        <file>admin/view/stylesheet/d_quickcheckout.css</file>
+        <file>admin/view/stylesheet/d_quickcheckout.less</file>
+        <file>catalog/controller/module/d_quickcheckout.php</file>
+        <file>catalog/language/english/module/d_quickcheckout.php</file>
+        <file>catalog/model/module/d_quickcheckout.php</file>
+        <file>catalog/view/theme/default/template/module/d_quickcheckout.tpl</file>
+        <file>catalog/view/theme/default/template/checkout/d_quickcheckout.tpl</file>
+        <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css</file>
+        <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less</file>
+        <file>system/mbooth/xml/mbooth_d_quickcheckout.xml</file>
+        <file>system/config/d_quickcheckout.php</file>
+    </files>
+    <dirs>
+        <dir>catalog/controller/d_quickcheckout</dir>
+        <dir>catalog/model/d_quickcheckout</dir>
+        <dir>catalog/view/javascript/d_quickcheckout</dir>
+        <dir>catalog/view/theme/default/stylesheet/d_quickcheckout</dir>
+        <dir>catalog/view/theme/default/template/d_quickcheckout</dir>
+        <dir>image/catalog/d_quickcheckout</dir>
+    </dirs>
+    <required>
+        <require version="2.2.0">shopunity</require>
+    </required>
+    <updates>
+         <update version="6.2.5"><![CDATA[
+        1. Add Warning message when you have not shipping or payment method.<br/>
+        ]]></update>
+        <update version="6.2.4"><![CDATA[
+        1. Custom radio fields fix<br/>
+        2. Emtpy description tags removed<br/>
+        3. Dependency install fix<br/>
+        4. Update conpress file<br/>
+        5. fix update 2.1.0.1 jason custom field
+        ]]></update>
+        <update version="6.2.3"><![CDATA[
+        1. Fix for 2.1.0.1 new customer id cart clear<br/>
+        2. Fix dependency download function<br/>
+        3. Fix heading field display<br/>
+        4. Update conpress file
+        ]]></update>
+        <update version="6.2.2"><![CDATA[
+        1. Added js compress option <br/>
+        2. payment popup fix<br/>
+        3. lazy loading for popup payment 
+        ]]></update>
+        <update version="6.2.1"><![CDATA[
+        1. lost input fields fix<br/>
+        2. focus fix<br/>
+        3. register after confirm address fix<br/>
+        4. breadcrumb display feature<br/>
+        5. fix mask<br/>
+        6. ISO_3 created on the load step for klarna
+        7. payment method terms
+        8. address_id loads only when logged in
+        ]]></update>
+        <update version="6.2.0"><![CDATA[
+        1. popup window for payment method<br/>
+        2. language edit of titles, icons and descriptions<br/>
+        3. fix for address format<br/>
+        4. fix for confirm trigger<br/>
+        5. fix for button bootstrap styling<br/>
+        6. Installation check for dependencies versions<br/>
+        7. fix total variable in getTotals<br/>
+        ]]></update>
+        <update version="6.1.1"><![CDATA[
+        1. fix custom fields based on customer group id<br/>
+        2. fix statistics for analytics<br/>
+        ]]></update>
+        <update version="6.1.0"><![CDATA[
+        1. feature country and zone default value<br/>
+        2. feature placeholder option<br/>
+        3. fix confirm trigger
+        ]]></update>
+        <update version="6.0.1"><![CDATA[
+        1. Compatibility 2.1.0.1
+        ]]></update>
+        <update version="6.0.0"><![CDATA[
+        1. Multi-settings - New Settings configuration<br/>
+        2. AB-testing<br/>
+        3. Analytics and Google Events<br/>
+        4. Backbone - speed increase<br/>
+        5. Autoinstall dependencies
+        ]]></update>
+        <update version="5.0.6"><![CDATA[
+        1. criticl issue fixed
+        ]]></update>
+        <update version="5.0.5"><![CDATA[
+        1. criticl issue fixed
+        ]]></update>
+        <update version="5.0.4"><![CDATA[
+        1. criticl issue fixed
+        ]]></update>
+        <update version="5.0.3"><![CDATA[
+        1. autocompleate on. <br/>
+        2. address confclict fix<br/>
+        ]]></update>
+        <update version="5.0.2"><![CDATA[
+        1. Bugfix.
+        ]]></update>
+        <update version="5.0.1"><![CDATA[
+        1. Bugfix.
+        ]]></update>
+        <update version="5.0.0"><![CDATA[
+        1. Updated to 2.0.0.0
+        ]]></update>
+        <update version="4.2.3"><![CDATA[
+        1. Fixes. <br/>
+        2. Added new funtion - clear session data
+        ]]></update>
+        <update version="4.2.2"><![CDATA[
+        1. Lite version fix.
+        ]]></update>
+        <update version="4.2.1"><![CDATA[
+        1. Switched from  Jquery .live() to .on() <br/>
+        2. New iOS theme.
+        ]]></update>
+        <update version="4.2.0"><![CDATA[
+        1. Code refactoring to optimize the checkout flow and speed up the process<br/>
+        2. Added new style option for addresses for logged in users
+        ]]></update>
+        <update version="4.1.4"><![CDATA[1. Added feature of a clean Quich checkout, without header, footer and other stuff.<br/>
+        2. Fixed the Zone_id bug<br/>
+        3. Fixed the Uniform bug<br/>
+        4. Fixed the cart clear styling bug.<br/>
+        5. Removed the first install error.<br/>
+        6. Email empty fix.<br/>
+        7. Comment fix<br/>
+        8. Customer group support<br/>
+        9. Double click of confirm button fix]]></update>
+        <update version="4.1.3"><![CDATA[1. Added checkbox styling and Image popup on text ]]></update>
+        <update version="4.1.2"><![CDATA[1. Socil login bug fix ]]></update>
+        <update version="4.1.1"><![CDATA[1. Added social login support. </br>
+        2.  Added Klarna support; ]]></update>
+        <update version="4.1.0"><![CDATA[1. Add image popup in cart. </br>
+        2. Updated the Shopunity admin design. 
+        3. Added the option of a 4-th column which is a combination of 2 and 3 column. ]]></update>
+        <update version="4.0.5"><![CDATA[1. Added a new option for login block - style as block or popup]]></update>
+        <update version="4.0.4"><![CDATA[1. fix: only vouchers can now be purchased;<br />
+        2. Update: when logging in with another method, AQC will show avalible addresses.<br />
+        3. Update: The tigger can now be edited in admin (usefull for special payment methods, that have different class or id's for the payment button.
+        4. Bug fix: https fix, admin folder change fix.<br />
+        5. Bug fix: sending admin emails with email field turned off.]]></update>
+        <update version="4.0.3"><![CDATA[1. Bug fixes: IE 9 checkout bug fix. Important;<br />
+        2. Bug fix: Tax calculation based on the address<br />
+        3. Email for Guest does not go through exist check]]></update>
+        <update version="4.0.2"><![CDATA[1. Bug fixes with admin languages]]></update>
+        <update version="4.0.1"><![CDATA[1. Bug fixes]]></update>
+        <update version="4.0"><![CDATA[<b>New Features: </b><br />
+        1. Responsive. Mobile friendly.<br />
+        2. Full module ability - can be placed into a position and layout.<br />
+        3. Update version control<br />
+        4. Better compatibility - compatible with opencart 1.5.1.3 and up<br />
+        5. Extensible. Now you can create and install plugins to extend the functionality of the module using hooks.<br />
+        6. Works with Shoppica and all major themes.<br /><br />
+        <b>New Design:</b><br />
+        1. New admin design.<br />
+        2. 4 design choices for frontend.<br /><br />
+        <b>Upgrade:</b><br />
+        If you are upgrading from 3x to 4x, please follow the next instructions.<br />
+        1. Uninstall v3.5 <br />
+        2. Delete all vqmod from v3.5<br />
+        3. Upload v4.0<br />
+        4. Run install from admin. Edit and save new settings.]]></update>
+        <update version="3.5"></update>
+    </updates>
+</extension>

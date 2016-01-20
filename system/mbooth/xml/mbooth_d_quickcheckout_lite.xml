@@ -1,5 +1,5 @@
 <extension>
-    <id>d_quickcheckout</id>
+    <id>d_quickcheckout_lite</id>
     <name>Ajax Quick Checkout lite</name>
     <description>
         Standard Module is a basic module that a developer can use to speed up the process of creating new modules.

@@ -138,6 +138,7 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
         if($this->customer->isLogged()){
             if(empty($this->session->data['payment_address']['address_id'])){
                 $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId();
+                $this->session->data['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->session->data['payment_address']['address_id']);
             }
 
             if(!isset($this->session->data['payment_address']['shipping_address'])){

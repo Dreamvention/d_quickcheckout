@@ -154,7 +154,11 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             $order_data['email'] = $customer_info['email'];
             $order_data['telephone'] = $customer_info['telephone'];
             $order_data['fax'] = $customer_info['fax'];
-            $order_data['custom_field'] = unserialize($customer_info['custom_field']);
+            if(VERSION >= '2.1.0.1'){
+             $order_data['custom_field'] = json_decode($customer_info['custom_field']);
+            }else{
+              $order_data['custom_field'] = unserialize($customer_info['custom_field']);
+            }
         } elseif (isset($this->session->data['guest'])) {
             $order_data['customer_id'] = 0;
             $order_data['customer_group_id'] = $this->session->data['guest']['customer_group_id'];

@@ -1,7 +1,9 @@
-qc.View = Backbone.View.extend({
+ qc.View = Backbone.View.extend({
 	defaults: '',
 
 	initialize: function(){
+        
+        
 		console.log("Engine View start");
 		//qc.event.bind("changeAccount", this.changeAccount, this);
 	},

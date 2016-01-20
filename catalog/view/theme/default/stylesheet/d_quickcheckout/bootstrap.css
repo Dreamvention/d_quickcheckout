@@ -3052,6 +3052,9 @@
     top: 0;
   }
 }
+#d_quickcheckout .form-horizontal{
+    clear: both;
+}
 #d_quickcheckout .form-horizontal .checkbox,
 #d_quickcheckout .form-horizontal .checkbox-inline,
 #d_quickcheckout .form-horizontal .radio,

@@ -61,6 +61,9 @@ class ControllerModuleDQuickcheckout extends Controller {
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/engine/model.js');
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/engine/view.js');
         }else{
+            if(!file_exists('catalog/view/javascript/d_quickcheckout/compress/d_quickcheckout.min.js')){
+               require_once(DIR_SYSTEM . 'library/d_compress/compress.php');
+            }
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/compress/d_quickcheckout.min.js');
         }
         

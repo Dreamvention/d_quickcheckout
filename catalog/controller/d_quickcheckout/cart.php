@@ -255,8 +255,10 @@ class ControllerDQuickcheckoutCart extends Controller {
         $this->load->model('d_quickcheckout/method');
         $this->load->model('d_quickcheckout/order');
 
-        foreach($this->request->post['cart'] as $key => $value){
-            $this->cart->update($key, $value);
+        if(isset($this->request->post['cart'])){
+            foreach($this->request->post['cart'] as $key => $value){
+                $this->cart->update($key, $value);
+            }
         }
 
         $json = array();

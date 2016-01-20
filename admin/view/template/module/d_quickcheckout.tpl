@@ -10,7 +10,7 @@
 			<div class="form-inline pull-right">
 
 				<?php if($stores){ ?>
-				<select class="form-control" onChange="location='<?php echo $module_link; ?>&store_id='+$(this).val()">
+                <select class="form-control" onChange="location = '<?php echo $module_link; ?>&store_id=' + $(this).val()">
 					<?php foreach($stores as $store){ ?>
 					<?php if($store['store_id'] == $store_id){ ?>
 					<option value="<?php echo $store['store_id']; ?>" selected="selected" ><?php echo $store['name']; ?></option>
@@ -39,6 +39,11 @@
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 		</div>
 		<?php } ?>
+        <?php if (!empty($error['shopunity'])) { ?>
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i> <?php echo $error['shopunity']; ?>
+        </div>
+        <?php } ?>
 		<?php if (!empty($success)) { ?>
 		<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> <?php echo $success; ?>
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -349,15 +354,19 @@
 																	<?php echo $entry_general_compress; ?>
 																</span>
 															</label>
-															<div class="col-sm-8">
+															<div class="col-sm-2">
 																<input type="hidden" value="0" name="<?php echo $id; ?>_setting[general][compress]" />
 																<input type="checkbox" value="1" name="<?php echo $id; ?>_setting[general][compress]" <?php if(isset($setting['general']['compress']) && $setting['general']['compress'] == 1){ ?>checked="checked"<?php } ?> id="general_compress" />
 															</div>
-														</div>
+                                                            <div class="col-sm-6">
+                                                                <button class="btn btn-primary btn-block" id="compress_update"><i class="fa fa-refresh"></i> <?php echo $compress_update; ?></button>
+                                                        	</div>
+                                                            <div id="compress-notification" class="col-sm-offset-4 help-block col-sm-8" >
 
-											
-														
-													</div>
+                                                            </div>
+									
+                                                    </div>
+                                                       </div>
 
 													<div class="col-md-6">
 							
@@ -863,6 +872,36 @@ $(function () {
 		$('#bulk_setting').val(JSON.stringify($('#form').serializeObject().<?php echo $id; ?>_setting));
 		return false;
 	})
+
+                                                                                        $('body').on('click', '#compress_update', function(e){
+
+                                                                                $.ajax({
+                                                                                //url: '<?php echo HTTP_CATALOG; ?>compress.php',
+                                                                                url: 'index.php?route=module/d_quickcheckout/updateCompress&token=<?php echo $token; ?>',
+                                                                                        type: 'post',
+                                                                                        dataType: 'json',
+                                                                                        data:  'setting_id=<?php echo $setting_id; ?>&setting=' + $('#bulk_setting').val(),
+                                                                                        beforeSend: function() {
+                                                                                        $('#form').fadeTo('slow', 0.5);
+                                                                                        },
+                                                                                        complete: function() {
+                                                                                        $('#form').fadeTo('slow', 1);
+                                                                                        },
+                                                                                        success: function(json) {
+                                                                                        $('.alert').remove();
+                                                                                                console.log(json);
+                                                                                                if (json['success']){
+                                                                                        $('#compress-notification').prepend('<div class="alert alert-success alert-inline">' + json['success'] + '</div>')
+                                                                                        }
+                                                                                        if (json['error']){
+                                                                                        $('#compress-notification').prepend('<div class="alert alert-warning alert-inline">' + json['error'] + '</div>')
+                                                                                        }
+
+
+                                                                                        }
+                                                                                });
+                                                                                        e.preventDefault();
+                                                                                });
 	$('body').on('click', '#save_bulk_setting', function(){ 
 	
 		$.ajax( {

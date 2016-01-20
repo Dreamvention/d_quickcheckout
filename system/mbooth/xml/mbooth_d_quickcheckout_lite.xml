@@ -30,8 +30,8 @@
         <file>system/library/d_compress/compress.php</file>
         <file>system/library/d_compress/cssmin.php</file>
         <file>system/library/d_compress/jsmin.php</file>
-        <file>system/mbooth/xml/mbooth_d_quickcheckout.xml</file>
-        <file>system/config/d_quickcheckout.php</file>
+        <file>system/mbooth/xml/mbooth_d_quickcheckout_lite.xml</file>
+        <file>system/config/d_quickcheckout_lite.php</file>
     </files>
     <dirs>
         <dir>catalog/controller/d_quickcheckout</dir>

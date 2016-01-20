@@ -1,7 +1,7 @@
 <?php
-/*
- *	location: admin/language
- */
+    /*
+     * 	location: admin/language
+     */
 $_['text_need_full_version']        		    = '<h4>To use this function full version required</h4><p>You can purchase the full version on <a href="http://www.opencart.com/index.php?route=extension/extension/info&amp;extension_id=9132" target="_blank">opencart</a> or from <a href="http://dreamvention.com/support" target="_blank">Dreamvention</a>. It has much more functions that will allow you to set up the perfect checkout.</p>';
 
 //heading
@@ -27,7 +27,8 @@ $_['error_text']                                    = 'Text required!';
 //setting
 $_['tab_setting']                                   = 'Settings';
 
-//update
+//update  
+$_['shopunity_download']                            = ' Library shopunity is not exist.<a href="http://opencart.dreamvention.com/api/1/extension/download/shopunity" class="text-danger" ><strong>Download</strong></a>';
 $_['entry_update']				                    = 'Your version is %s';
 $_['button_update']				                    = 'Check update';
 $_['success_no_update']                             = 'Super! You have the latest version.';
@@ -147,8 +148,11 @@ $_['button_create_bulk_setting']                = 'Create setting';
 $_['button_save_bulk_setting']                  = 'Save setting';
 $_['entry_general_analytics_event']             = 'Google analytics Events';
 $_['help_general_analytics_event']              = 'You can turn on events, part of google analytics. for this you must set up your google analytics account. Refer to instructions tab for more information.';
+$_['warning_analytics_event']                   = 'Please enable Google Analitics.';
 $_['entry_general_compress']                  	= 'Compress files';
 $_['help_general_compress']             		= 'This option alows you to compress all backbone vew and model js files into one min js file. This can solve some parallel lowing issues on some webservers and increase the speed of the first load';
+$_['compress_update']                           = 'Update Compress file';
+$_['success_compress_file']                     = 'Compress file update successfuly.';
 
 //modules
 $_['text_position_module']                      = 'Position modules:';      
@@ -303,7 +307,7 @@ $_['entry_newsletter']                          = 'I wish to subscribe to the ne
 $_['entry_shipping']                            = 'My delivery and billing addresses are the same.';
 $_['text_agree']                                = 'I agree to the conditions.';
 $_['text_comments']                             = 'Leave a comment for the order.';
- 
+
 
 // Entry
 $_['entry_layout']                              = 'Layout:';

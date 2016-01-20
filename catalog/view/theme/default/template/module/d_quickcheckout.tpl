@@ -1,5 +1,7 @@
 <script>
 var config = <?php echo $json_config; ?>;
+if(typeof(ga) == "undefined")
+   config.general.analytics_event = 0;
 </script>
 <style>
 <?php echo $config['design']['custom_style']; ?>

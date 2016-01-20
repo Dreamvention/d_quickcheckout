@@ -764,6 +764,10 @@ class ModelModuleDQuickcheckout extends Model {
 		curl_close($ch);
 
 	}
+    
+    public function get_extension_link($codename, $version ) {
+		return 'http://opencart.dreamvention.com/api/1/extension/download/?codename=' . $codename.'&opencart_version='.VERSION.'&extension_version='. $version;  	
+	}
 
 	
 

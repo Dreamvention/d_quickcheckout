@@ -19,7 +19,7 @@ qc.CartView = qc.View.extend({
 	template:'',
 
 	decreaseQuantity: function(e){
-		var quantity = $(e.currentTarget).parent().next();
+		var quantity = $(e.currentTarget).parents('.qc-quantity').find('input.qc-product-qantity');
 		this.model.updateQuantity(quantity.attr('name'), parseInt(quantity.val())-1);
 		if(parseInt(config.general.analytics_event)){
 			ga('send', 'event', config.name, 'click', 'cart.quantity.decrease');
@@ -27,8 +27,8 @@ qc.CartView = qc.View.extend({
 		preloaderStart();
 	},
 
-	increaseQuantity: function(e){
-		var quantity = $(e.currentTarget).parent().prev();
+	increaseQuantity: function(e){ 
+		var quantity = $(e.currentTarget).parents('.qc-quantity').find('input.qc-product-qantity');
 		this.model.updateQuantity(quantity.attr('name'), parseInt(quantity.val())+1);
 		if(parseInt(config.general.analytics_event)){
 			ga('send', 'event', config.name, 'click', 'cart.quantity.increase');
@@ -37,7 +37,7 @@ qc.CartView = qc.View.extend({
 	},
 
 	deleteQuantity: function(e){
-		var quantity = $(e.currentTarget).parent().prev();
+		var quantity = $(e.currentTarget).parents('.qc-quantity').find('input.qc-product-qantity');
 		this.model.updateQuantity(quantity.attr('name'), 0);
 		if(parseInt(config.general.analytics_event)){
 			ga('send', 'event', config.name, 'click', 'cart.quantity.delete');

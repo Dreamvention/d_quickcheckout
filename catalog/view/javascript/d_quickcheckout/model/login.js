@@ -16,7 +16,14 @@ qc.Login = qc.Model.extend({
 			if(parseInt(config.general.login_refresh)){ 
 				window.location.reload();
 			}else{
-				that.updateForm(data);
+                if(data.login_error){
+                      that.updateForm(data);
+                }else{
+                    $.post('index.php?route=d_quickcheckout/login/updateAll', json, function(data) {
+                        that.updateForm(data);
+                    }, 'json').error(
+                    );
+                }
 			}
 		}, 'json').error(
 		);

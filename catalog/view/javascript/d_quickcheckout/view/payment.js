@@ -29,12 +29,13 @@ qc.PaymentView = qc.View.extend({
 	},
 
 	update: function(data){
-		if(data.payment){
+		
+        if(data.payment && data.payment_payment_title){
+			this.model.set({'payment': data.payment, 'payment_payment_title': data.payment_payment_title});
+		}else if(data.payment && data.payment_payment_title == 'undefined'){
 			this.model.set('payment', data.payment);
-		}
-
-		if(data.payment_payment_title){
-			this.model.set('payment_payment_title', data.payment_payment_title);
+		}else if(data.payment !== 'undefined' && data.payment_payment_title){
+			this.model.set(data.payment_payment_title);
 		}
 
 		if(typeof(data.payment_payment_popup) !== 'undefined'){

@@ -135,10 +135,13 @@ qc.CartView = qc.View.extend({
 	},
 
 	render: function(){
+		this.focusedElementId = $(':focus').attr('id');
+		console.log('cart:render');
 		$(this.el).html(this.template({'model': this.model.toJSON()}));
 		$('.qc-product-qantity').each(function(){
 			$(this).mask($(this).attr('data-mask'),{placeholder:""});
-		})
+		});
+		$('#' + this.focusedElementId).focus();
 	},
 
 });

@@ -137,7 +137,7 @@
 		          <select name="<%= model.config.id %>.<%= f.id %>" 
 		            <%= require ? 'required' : '' %> 
 		            id="<%= model.config.id %>_<%= f.id %>"
-		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>">
+		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>"  autocomplete="off">
 		            <option value=""><?php echo $text_select; ?></option>
 		            <% if(f.options){ %>
 		                <% _.each(f.options, function(option){ %>
@@ -166,7 +166,7 @@
 					            class="form-control  <%= f.mask ? 'qc-mask': '' %> <%= f.type %> validate <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
 					            autocomplite="on" 
 					            qc-mask="<%=f.mask%>" 
-					            <% if(f.type == "date"){ %>data-date-format="YYYY-MM-DD" <% } %>
+					            <% if(f.type == "date"){ %>data-date-format="MM/DD/YYYY" <% } %>
 					            <% if(f.type == "time"){ %>data-date-format="HH:mm" <% } %>
 					            <% if(f.type == "datetime"){ %>data-date-format="YYYY-MM-DD HH:mm" <% } %>
 					            
@@ -236,6 +236,7 @@ function htmlDecode(value) {
 function htmlEncode(value) {
 	return $('<textarea/>').text(value).html();
 }
+
 function setValidateRules(rules){
 	var result = '';
 	_.each(rules, function(rule){
@@ -310,4 +311,5 @@ jQuery.extend(jQuery.validator.messages, {
     // max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
     // min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
 });
+
 </script>

@@ -24,10 +24,13 @@ qc.ShippingMethodView = qc.View.extend({
 	},
 
 	render: function(){
+		this.focusedElementId = $(':focus').attr('id');
 		$(this.el).html(this.template({'model': this.model.toJSON()}));
+		$('#' + this.focusedElementId).focus();
 	},
 
 	update: function(data){
+		console.log('shipping_method:render');
 		if(data.shipping_method){
 			this.model.set('shipping_method', data.shipping_method);
 

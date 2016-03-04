@@ -38,7 +38,9 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
 
         $data['json'] = json_encode($json);
 
-        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment_address.tpl')) {
+        if(VERSION >= '2.2.0.0'){
+            $template = 'd_quickcheckout/payment_address';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment_address.tpl')) {
             $template = $this->config->get('config_template') . '/template/d_quickcheckout/payment_address.tpl';
         } else {
             $template = 'default/template/d_quickcheckout/payment_address.tpl';
@@ -62,7 +64,7 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
         //shipping address
         $json = $this->load->controller('d_quickcheckout/shipping_address/prepare', $json);
 
-        // //tax
+        //tax
         $this->model_d_quickcheckout_address->updateTaxAddress();
 
         //shipping methods
@@ -73,7 +75,17 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
 
         //totals
         $json = $this->load->controller('d_quickcheckout/cart/prepare', $json);
-        $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        $totals = array();
+        $taxes = $this->cart->getTaxes();
+        $total = 0;
+
+        $total_data = array(
+            'totals' => &$totals,
+            'taxes'  => &$taxes,
+            'total'  => &$total
+        );
+
+        $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
         $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
         
         //order
@@ -122,16 +134,22 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
                     $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->request->post['payment_address']['address_id']);
                 }
             }
-
+            if(isset($this->request->post['payment_address']['customer_group_id'])){
+        
+                $this->request->post['payment_address']['custom_field'] = ((!empty($this->request->post['payment_address']['custom_field']['account'])) ? array('account' => $this->request->post['payment_address']['custom_field']['account']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account',$this->request->post['payment_address']['customer_group_id'])) + ((!empty($this->request->post['payment_address']['custom_field']['address'])) ? array('address' => $this->request->post['payment_address']['custom_field']['address']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $this->request->post['payment_address']['customer_group_id']));
+            }
+                    
+          //   print_r(  $this->session->data['payment_address'] );
             if((isset($this->request->post['payment_address']['custom_field']) && is_array($this->request->post['payment_address']['custom_field']))){
-                
+  
                 $this->request->post['payment_address'] = array_merge($this->request->post['payment_address'], $this->model_d_quickcheckout_custom_field->setCustomFieldValue($this->request->post['payment_address']['custom_field']));
             }
-
+         
             //merge post into session
             $this->session->data['payment_address'] = array_merge($this->session->data['payment_address'], $this->request->post['payment_address']);
-            
+                  
         }
+        
         $this->model_d_quickcheckout_custom_field->updateCustomFieldsConfigData('payment_address');
 
         //session
@@ -162,9 +180,8 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
                 'custom_field' => (!empty($this->request->post['payment_address']['custom_field'])) ? $this->request->post['payment_address']['custom_field'] :  array('account' => array()),
                 'shipping_address' => (!empty($this->request->post['payment_address']['shipping_address'])) ? $this->request->post['payment_address']['shipping_address'] : $this->session->data['guest']['shipping_address'],
             );
-
+        
         }
-
 
 
         $json['payment_address'] = $this->session->data['payment_address'];

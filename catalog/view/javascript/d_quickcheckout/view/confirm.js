@@ -15,6 +15,13 @@ qc.ConfirmView = qc.View.extend({
 	confirm: function(){
 		preloaderStart();
 		var valid = true;
+
+		if($(".has-error").length){
+			valid = false;
+			preloaderStop();
+			$('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
+		}
+
 		$("#d_quickcheckout form").each(function(){
 			if(!$(this).valid()){
 				valid = false;
@@ -23,9 +30,32 @@ qc.ConfirmView = qc.View.extend({
 			}
 		});
 
-		if(valid){
-			this.model.update();
-		}
+        if(this.model.get('account') == 'register'){
+            email = $("#d_quickcheckout #payment_address_form #payment_address_email")
+            emailVal = email.val();
+            var that = this;
+            $.ajax({
+                url: "index.php?route=d_quickcheckout/field/validate_email",
+                async: false,
+                method: 'GET',
+                dataType: "json",
+                data: 'email='+ emailVal,
+                success:function( data ) {
+                    if(data != true){
+                       valid = false
+                       preloaderStop();
+                       $('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
+                   	}
+                   	if(valid){
+						that.model.update();
+					}
+                }
+            });
+        }else{
+        	if(valid){
+				this.model.update();
+			}
+        }
 
 		if(parseInt(config.general.analytics_event)){
 			ga('send', 'event', config.name, 'click', 'confirm.confirm');
@@ -61,8 +91,11 @@ qc.ConfirmView = qc.View.extend({
 	},
 
 	render: function(){
+		this.focusedElementId = $(':focus').attr('id');
+		console.log('confirm:render');
 		$(this.el).html(this.template({'model': this.model.toJSON()}));
 		this.fields = new qc.FieldView({el:$("#confirm_form"), model: this.model, template: _.template($("#field_template").html())});
 		this.fields.render();
+		$('#' + this.focusedElementId).focus();
 	},
 });

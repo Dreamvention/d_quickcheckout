@@ -28,11 +28,15 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         
         
         $data['json'] = json_encode($json);
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl')) {
-			return $this->load->view($this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl', $data);
+		if(VERSION >= '2.2.0.0'){
+            $template = 'd_quickcheckout/confirm';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl')) {
+			$template = $this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl';
 		} else {
-			return $this->load->view('default/template/d_quickcheckout/confirm.tpl', $data);
+			$template ='default/template/d_quickcheckout/confirm.tpl';
 		}
+
+        return $this->load->view($template, $data);
 	}
 
 	public function updateField(){
@@ -83,23 +87,24 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             }
             
         }else{
+            
             if($this->session->data['account'] == 'register'){
 
                 $this->load->model('account/customer');
                 $this->model_account_customer->addCustomer($this->session->data['payment_address']);
 
                 if($this->customer->login($this->session->data['payment_address']['email'], $this->session->data['payment_address']['password'])){
+                    $this->model_d_quickcheckout_order->updateCartForNewCustomerId();
                     $json['account'] = $this->session->data['account'] = 'logged';
 
                     $json['addresses'] = $this->model_d_quickcheckout_address->getAddresses();
-                    if (empty($this->session->data['payment_address']['address_id'])) {
-                        $json['payment_address']['address_id'] = $this->customer->getAddressId();
-                        $json['shipping_address']['address_id'] = $this->customer->getAddressId();
-                    }
+                    
+                    $json = $this->load->controller('d_quickcheckout/payment_address/prepare', $json);
+                    $json = $this->load->controller('d_quickcheckout/shipping_address/prepare', $json);
                 }
 
                 //2.1.0.1 fix
-                $this->model_d_quickcheckout_order->updateCartForNewCustomerId();
+                
             }
         }
         $this->load->model('d_quickcheckout/method');
@@ -107,7 +112,7 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             $json['cofirm_order'] = true;
             $json = $this->load->controller('d_quickcheckout/payment/prepare', $json);
         }
-
+        
         $json['order_id'] = $this->session->data['order_id'] = $this->updateOrder();
 
         //statistic
@@ -127,7 +132,18 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         $order_data = array();
 
         $this->load->model('d_quickcheckout/order');
-        $this->model_d_quickcheckout_order->getTotals($order_data['totals'], $total, $taxes);
+
+        $order_data['totals'] = array();
+        $taxes = $this->cart->getTaxes();
+        $total = 0;
+
+        $total_data = array(
+            'totals' => &$order_data['totals'],
+            'taxes'  => &$taxes,
+            'total'  => &$total
+        );
+
+        $this->model_d_quickcheckout_order->getTotals($total_data);
 
 
         $this->load->language('checkout/checkout');
@@ -332,9 +348,9 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         }
 
         $order_data['language_id'] = $this->config->get('config_language_id');
-        $order_data['currency_id'] = $this->currency->getId();
-        $order_data['currency_code'] = $this->currency->getCode();
-        $order_data['currency_value'] = $this->currency->getValue($this->currency->getCode());
+        $order_data['currency_id'] = $this->currency->getId($this->session->data['currency']);
+        $order_data['currency_code'] = $this->session->data['currency'];
+        $order_data['currency_value'] = $this->currency->getValue($this->session->data['currency']);
         $order_data['ip'] = $this->request->server['REMOTE_ADDR'];
 
         if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {

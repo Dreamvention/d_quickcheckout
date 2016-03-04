@@ -63,13 +63,15 @@ class ModelDQuickcheckoutCustomField extends Model {
 		}
 
 		if($step == 'payment_address'){
-			$custom_fields = $this->model_d_quickcheckout_custom_field->getCustomFieldsConfigData('account', $this->request->post['payment_address']['customer_group_id']) + $this->model_d_quickcheckout_custom_field->getCustomFieldsConfigData('address', $this->request->post['payment_address']['customer_group_id']);
+			$custom_fields = $this->getCustomFieldsConfigData('account', $this->request->post['payment_address']['customer_group_id']) + $this->getCustomFieldsConfigData('address', $this->request->post['payment_address']['customer_group_id']);
         }else{
-        	$custom_fields = $this->model_d_quickcheckout_custom_field->getCustomFieldsConfigData('address', $this->request->post['payment_address']['customer_group_id']);
+        	$custom_fields = $this->getCustomFieldsConfigData('address', $this->request->post['payment_address']['customer_group_id']);
         }
+    
         foreach($this->session->data[$step] as $key => $value){
-
+                 
             if(strpos($key, 'custom_field.') !== false){
+          
                 if(in_array($key, $custom_fields)){
                     unset($custom_fields[$key]);
                 }else{

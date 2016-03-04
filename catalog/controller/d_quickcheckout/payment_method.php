@@ -26,11 +26,15 @@
 
             $data['json'] = json_encode($json);
 
-            if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment_method.tpl')) {
-                return $this->load->view($this->config->get('config_template') . '/template/d_quickcheckout/payment_method.tpl', $data);
+            if(VERSION >= '2.2.0.0'){
+                $template = 'd_quickcheckout/payment_method';
+            }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment_method.tpl')) {
+                $template = $this->config->get('config_template') . '/template/d_quickcheckout/payment_method.tpl';
             } else {
-                return $this->load->view('default/template/d_quickcheckout/payment_method.tpl', $data);
+                $template = 'default/template/d_quickcheckout/payment_method.tpl';
             }
+
+            return $this->load->view($template, $data);
         }
 
         public function update() {
@@ -40,8 +44,16 @@
             $json = array();
 
             $json = $this->prepare($json);
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
 
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
 
@@ -64,6 +76,7 @@
             $this->load->model('module/d_quickcheckout');
             $this->load->model('d_quickcheckout/method');
             $this->load->model('d_quickcheckout/address');
+             $this->load->model('d_quickcheckout/order');
 
             $this->session->data['payment_methods'] = $this->model_d_quickcheckout_method->getPaymentMethods($this->session->data['payment_address'], $this->session->data['total']);
 
@@ -89,8 +102,8 @@
             } else {
                 $json['payment_error'] = '';
             }
-
             $json['payment_method'] = $this->session->data['payment_method'];
+            $json['show_confirm'] = $this->model_d_quickcheckout_order->showConfirm();
 
             $this->model_module_d_quickcheckout->logWrite('Controller:: payment_method/prepare. paymet_methods = ' . json_encode($json['payment_methods']) . ' payment_method = ' . json_encode($json['payment_method']));
 

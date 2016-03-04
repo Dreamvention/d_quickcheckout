@@ -85,11 +85,13 @@ qc.PaymentAddressView = qc.View.extend({
 	},
 
 	render: function(){
+		this.focusedElementId = $(':focus').attr('id');
+		console.log('payment_address:render');
 		$(this.el).html(this.template({'model': this.model.toJSON()}));
 		this.fields = $.extend(true, {}, new qc.FieldView({el:$("#payment_address_form"), model: this.model, template: _.template($("#field_template").html())}));
 		this.fields.render();
 		//this.setZone(this.model.get('payment_address.country_id'));
 		this.shipping_required();
-		
+		$('#' + this.focusedElementId).focus();
 	},
 });

@@ -1,20 +1,16 @@
 #d_quickcheckout {
   /* login */
-
   /* field */
-
   /* payment address */
-
   /* shipping method */
-
   /* total */
-
   /* payment */
-
   /* helper */
-
   /* preloader */
-
+}
+#d_quickcheckout input[type=radio],
+#d_quickcheckout input[type=checkbox] {
+  display: inline-block;
 }
 #d_quickcheckout .login-btn-group {
   margin-bottom: 20px;
@@ -32,7 +28,6 @@
 }
 #d_quickcheckout .modal {
   /* ... */
-
   overflow-y: scroll;
 }
 #d_quickcheckout .col-md-0 {

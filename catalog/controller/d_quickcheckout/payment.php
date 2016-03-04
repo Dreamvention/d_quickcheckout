@@ -23,19 +23,23 @@ class ControllerDQuickcheckoutPayment extends Controller {
 		
 		$data['json'] = json_encode($json);
 
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment.tpl')) {
-			return $this->load->view($this->config->get('config_template') . '/template/d_quickcheckout/payment.tpl', $data);
+		if(VERSION >= '2.2.0.0'){
+            $template = 'd_quickcheckout/payment';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/payment.tpl')) {
+			$template = $this->config->get('config_template') . '/template/d_quickcheckout/payment.tpl';
 		} else {
-			return $this->load->view('default/template/d_quickcheckout/payment.tpl', $data);
+			$template = 'default/template/d_quickcheckout/payment.tpl';
 		}
+
+		return $this->load->view($template, $data);
 	}
 
 	public function prepare($json){
 		$this->load->model('d_quickcheckout/method');
 		if(isset($this->session->data['payment_method']) && isset($this->session->data['payment_method']['code'])){
-			$json['payment_payment_popup'] = $this->model_d_quickcheckout_method->getPaymentPopup($this->session->data['payment_method']['code']);
+			$json['payment_popup'] = $this->model_d_quickcheckout_method->getPaymentPopup($this->session->data['payment_method']['code']);
 			
-			if($json['payment_payment_popup']){
+			if($json['payment_popup']){
 				if(!empty($json['cofirm_order'])){
 					$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
 				}else{
@@ -45,7 +49,7 @@ class ControllerDQuickcheckoutPayment extends Controller {
 				$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);	
 			}
 			
-			$json['payment_payment_title'] = $this->session->data['payment_method']['title'];
+			$json['payment_popup_title'] = $this->session->data['payment_method']['title'];
 
 		}else{
 			$json['payment'] = '';

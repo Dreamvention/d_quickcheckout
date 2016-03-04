@@ -24,7 +24,7 @@ class ControllerModuleDQuickcheckout extends Controller {
         $this->load->model('d_quickcheckout/order');
         $this->load->model('d_quickcheckout/custom_field');
         $this->load->model('account/address');
-
+        $_SESSION['d_quickcheckout_minify'] = 1;
         $this->session->data['d_quickcheckout_debug'] = $this->config->get('d_quickcheckout_debug');
 
         $this->mbooth = $this->model_module_d_quickcheckout->getMboothFile($this->id, $this->sub_versions);
@@ -81,11 +81,16 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['payment'] = $this->load->controller('d_quickcheckout/payment', $this->setting);
         $data['confirm'] = $this->load->controller('d_quickcheckout/confirm', $this->setting);
 
-        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/d_quickcheckout.tpl')) {
-            return $this->load->view($this->config->get('config_template') . '/template/module/d_quickcheckout.tpl', $data);
+        if(VERSION >= '2.2.0.0'){
+            $template = 'module/d_quickcheckout';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/d_quickcheckout.tpl')) {
+            $template = $this->config->get('config_template') . '/template/module/d_quickcheckout.tpl';
         } else {
-            return $this->load->view('default/template/module/d_quickcheckout.tpl', $data);
+            $template = 'default/template/module/d_quickcheckout.tpl';
         }
+
+        return $this->load->view($template, $data);
+
     }
 
      
@@ -349,7 +354,17 @@ class ControllerModuleDQuickcheckout extends Controller {
             'agree' =>  $this->setSessionValue('agree','confirm', $data, $account),
         );
 
-        $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        $totals = array();
+        $taxes = $this->cart->getTaxes();
+        $total = 0;
+
+        $total_data = array(
+            'totals' => &$totals,
+            'taxes'  => &$taxes,
+            'total'  => &$total
+        );
+     
+        $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
         
         $this->load->controller('d_quickcheckout/payment_method/prepare');
 
@@ -388,7 +403,17 @@ class ControllerModuleDQuickcheckout extends Controller {
     public function createOrder(){
         $order_data = array();
         
-        $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        $totals = array();
+        $taxes = $this->cart->getTaxes();
+        $total = 0;
+
+        $total_data = array(
+            'totals' => &$totals,
+            'taxes'  => &$taxes,
+            'total'  => &$total
+        );
+
+        $this->model_d_quickcheckout_order->getTotals($total_data);
         
         $this->load->language('checkout/checkout');
 
@@ -451,9 +476,9 @@ class ControllerModuleDQuickcheckout extends Controller {
         }
 
         $order_data['language_id'] = $this->config->get('config_language_id');
-        $order_data['currency_id'] = $this->currency->getId();
-        $order_data['currency_code'] = $this->currency->getCode();
-        $order_data['currency_value'] = $this->currency->getValue($this->currency->getCode());
+        $order_data['currency_id'] = $this->currency->getId($this->session->data['currency']);
+        $order_data['currency_code'] = $this->session->data['currency'];
+        $order_data['currency_value'] = $this->currency->getValue($this->session->data['currency']);
         $order_data['ip'] = $this->request->server['REMOTE_ADDR'];
 
         if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {

@@ -2,49 +2,30 @@
  * Bootstrap v3.3.2 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- *//*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+ */
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 #d_quickcheckout {
   /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
   /* default font size */
-
   /* Override the bootstrap defaults */
-
   /* Fix some bootstrap issues */
-
   /* Gradent to all drop down menus */
-
   /* top */
-
   /* logo */
-
   /* search */
-
   /* cart */
-
   /* menu */
-
   /* content */
-
   /* footer */
-
   /* alert */
-
   /* breadcrumb */
-
   /* buttons */
-
   /* list group */
-
   /* carousel */
-
   /* product list */
-
   /* fixed colum left + content + right*/
-
   /* fixed product layouts used in left and right columns */
-
   /* fixed mobile cart quantity input */
-
 }
 #d_quickcheckout html {
   font-family: sans-serif;
@@ -3051,9 +3032,6 @@
   #d_quickcheckout .form-inline .has-feedback .form-control-feedback {
     top: 0;
   }
-}
-#d_quickcheckout .form-horizontal{
-    clear: both;
 }
 #d_quickcheckout .form-horizontal .checkbox,
 #d_quickcheckout .form-horizontal .checkbox-inline,

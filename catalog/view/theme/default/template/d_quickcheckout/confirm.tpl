@@ -12,7 +12,7 @@
 			<form id="confirm_form" class="form-horizontal">
 			</form>
 			
-			<button id="qc_confirm_order" class="btn btn-primary btn-lg btn-block" <%= model.show_confirm ? '' : 'disabled="disabled"' %>><% if(Number(model.payment_popup)) { %><?php echo $button_continue; ?><% }else{ %><?php echo $button_confirm; ?><% } %></span></button>
+			<button id="qc_confirm_order" class="btn btn-primary btn-lg btn-block " <%= model.show_confirm ? '' : 'disabled="disabled"' %>><% if(Number(model.payment_popup)) { %><?php echo $button_continue; ?><% }else{ %><?php echo $button_confirm; ?><% } %></span></button>
 
 		</div>
 	</div>

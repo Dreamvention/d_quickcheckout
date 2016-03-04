@@ -390,7 +390,7 @@
 
 																<?php foreach ($languages as $language) { ?>
 																<div id="tab_general_min_order_text_<?php echo $language['language_id']; ?>" class="input-group">
-																	<label class="input-group-addon" for="general_min_order_text_<?php echo $language['language_id']; ?>" title="<?php echo $language['name']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /></label>
+																	<label class="input-group-addon" for="general_min_order_text_<?php echo $language['language_id']; ?>" title="<?php echo $language['name']; ?>"><img src="<?php echo $language['flag']; ?>" title="<?php echo $language['name']; ?>" /></label>
 																	<input type="text" name="<?php echo $id; ?>_setting[general][min_order][text][<?php echo $language['language_id']; ?>]" id="general_min_order_text_<?php echo $language['language_id']; ?>" value="<?php echo isset($setting['general']['min_order']['text'][$language['language_id']]) ? $setting['general']['min_order']['text'][$language['language_id']] : $text_value_min_order; ?>" class="form-control" >
 																</div>
 																<?php } ?>
@@ -415,7 +415,7 @@
 
 																<?php foreach ($languages as $language) { ?>
 																<div id="tab_general_min_quantity_text_<?php echo $language['language_id']; ?>" class="input-group">
-																	<label class="input-group-addon" for="general_min_quantity_text_<?php echo $language['language_id']; ?>" title="<?php echo $language['name']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /></label>
+																	<label class="input-group-addon" for="general_min_quantity_text_<?php echo $language['language_id']; ?>" title="<?php echo $language['name']; ?>"><img src="<?php echo $language['flag']; ?>" title="<?php echo $language['name']; ?>" /></label>
 																	<input type="text" name="<?php echo $id; ?>_setting[general][min_quantity][text][<?php echo $language['language_id']; ?>]" id="general_min_quantity_text_<?php echo $language['language_id']; ?>" value="<?php echo isset($setting['general']['min_quantity']['text'][$language['language_id']]) ? $setting['general']['min_quantity']['text'][$language['language_id']] : $text_value_min_quantity; ?>" class="form-control" >
 																</div>
 																<?php } ?>

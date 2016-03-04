@@ -127,22 +127,45 @@ class ModelModuleDQuickcheckout extends Model {
 	    return false;
 	}
 
-	public function array_merge_r_d( array &$array1, array &$array2 ){
-      $merged = $array1;    
-      foreach ( $array2 as $key => &$value )
-          {
-            if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
-            {
-              $merged [$key] = $this->array_merge_r_d ( $merged [$key], $value );
-            }
-            else
-            {
-              $merged [$key] = $value;
-            }
-          }
+	// public function array_merge_r_d( array &$array1, array &$array2 ){
+ //      $merged = $array1;    
+ //      foreach ( $array2 as $key => &$value )
+ //          {
+ //            if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+ //            {
+ //              $merged [$key] = $this->array_merge_r_d ( $merged [$key], $value );
+ //            }
+ //            else
+ //            {
+ //              $merged [$key] = $value;
+ //            }
+ //          }
         
-      return $merged;
-    }
+ //      return $merged;
+ //    }
+
+public function array_merge_r_d() {
+ 	$arrays = func_get_args();
+ 	$base = array_shift($arrays);
+ 	if(!is_array($base)) $base = empty($base) ? array() : array($base);
+ 	foreach($arrays as $append) {
+ 		if(!is_array($append)) $append = array($append);
+ 		foreach($append as $key => $value) {
+ 			if(!array_key_exists($key, $base) and !is_numeric($key)) {
+ 				$base[$key] = $append[$key];
+ 				continue;
+ 			}
+ 			if(is_array($value) or is_array($base[$key])) {
+ 				$base[$key] = $this->array_merge_r_d($base[$key], $append[$key]);
+ 			} else if(is_numeric($key)) {
+ 				if(!in_array($value, $base)) $base[] = $value;
+ 			} else {
+ 				$base[$key] = $value;
+ 			}
+ 		}
+ 	}
+ 	return $base;
+ }
 
 	/*
 	*	Vqmod: turn on or off

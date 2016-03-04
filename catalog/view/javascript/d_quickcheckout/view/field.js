@@ -29,6 +29,8 @@ qc.FieldView = qc.View.extend({
 	template: '',
 
 	render: function(){
+
+		console.log('field:render');
 		this.setValidate();
 		$(this.el).html(this.template({'model': this.model.toJSON() }));
 		this.setDateTime();
@@ -45,15 +47,18 @@ qc.FieldView = qc.View.extend({
 		var that = this;
 		$('.date', this.el).datetimepicker({
 			pickTime: false,
+            dateFormat: "mm/DD/YYYY",
 		})
 
 		$('.time', this.el).datetimepicker({
 			pickDate: false,
+             dateFormat: "mm/DD/YYYY",
 		})
 
 		$('.datetime', this.el).datetimepicker({
 			pickDate: true,
 			pickTime: true,
+             dateFormat: "mm/DD/YYYY",
 		})
 	},
 
@@ -80,7 +85,7 @@ qc.FieldView = qc.View.extend({
 
 	validateField: function(e){
 		if($(e.currentTarget).valid()){
-			this.updateField(e);
+            this.updateField(e);
 		}else{
 			if(parseInt(config.general.analytics_event)){
 				ga('send', 'event', config.name, 'error', e.currentTarget.name+'.'+e.currentTarget.value);

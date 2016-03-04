@@ -392,8 +392,8 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['help_design_max_width'] = $this->language->get('help_design_max_width');
         $data['entry_design_bootstrap'] = $this->language->get('entry_design_bootstrap');
         $data['help_design_bootstrap'] = $this->language->get('help_design_bootstrap');
-        $data['entry_design_only_quickcheckout'] = $this->language->get('entry_design_only_quickcheckout');
-        $data['help_design_only_quickcheckout'] = $this->language->get('help_design_only_quickcheckout');
+        $data['entry_design_only_d_quickcheckout'] = $this->language->get('entry_design_only_d_quickcheckout');
+        $data['help_design_only_d_quickcheckout'] = $this->language->get('help_design_only_d_quickcheckout');
         $data['entry_design_column'] = $this->language->get('entry_design_column');
         $data['help_design_column'] = $this->language->get('help_design_column');
         $data['help_login'] = $this->language->get('help_login');
@@ -514,6 +514,14 @@ class ControllerModuleDQuickcheckout extends Controller {
         //languages
         $this->load->model('localisation/language');
         $data['languages'] = $this->model_localisation_language->getLanguages();
+        foreach ($data['languages'] as $key =>  $language){
+            if(VERSION >= '2.2.0.0'){
+                $data['languages'][$key]['flag'] = 'language/'.$language['code'].'/'.$language['code'].'.png';
+            }else{
+                $data['languages'][$key]['flag'] = 'view/image/flags/'.$language['image'];
+            }
+            
+        }
 
 
         $data['header'] = $this->load->controller('common/header');

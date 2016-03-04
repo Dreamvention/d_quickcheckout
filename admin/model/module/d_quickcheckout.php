@@ -440,12 +440,12 @@ class ModelModuleDQuickcheckout extends Model {
 		
 		$result['account']['guest']['payment_address']['fields'] = $result['account']['guest']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('account');
 		$result['account']['guest']['payment_address']['fields'] = $result['account']['guest']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
-		$result['account']['guest']['shipping_address']['fields'] = $result['account']['guest']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
+		$result['account']['guest']['shipping_address']['fields'] = $result['account']['guest']['shipping_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
 		$result['account']['register']['payment_address']['fields'] = $result['account']['register']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('account');
 		$result['account']['register']['payment_address']['fields'] = $result['account']['register']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
-		$result['account']['register']['payment_address']['fields'] = $result['account']['register']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
+		$result['account']['register']['shipping_address']['fields'] = $result['account']['register']['shipping_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
 		$result['account']['logged']['payment_address']['fields'] = $result['account']['logged']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
-		$result['account']['logged']['payment_address']['fields'] = $result['account']['logged']['payment_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
+		$result['account']['logged']['shipping_address']['fields'] = $result['account']['logged']['shipping_address']['fields'] + $this->getCustomFieldsConfigDataAccount('address');
 
 		if(!isset($this->request->post['config'])){
 			$this->load->model('setting/setting');

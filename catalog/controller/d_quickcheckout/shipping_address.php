@@ -35,11 +35,15 @@ class ControllerDQuickcheckoutShippingAddress extends Controller {
 
         $data['json'] = json_encode($json);
 
-        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/shipping_address.tpl')) {
-			return $this->load->view($this->config->get('config_template') . '/template/d_quickcheckout/shipping_address.tpl', $data);
+        if(VERSION >= '2.2.0.0'){
+            $template = 'd_quickcheckout/shipping_address';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/shipping_address.tpl')) {
+			$template = $this->config->get('config_template') . '/template/d_quickcheckout/shipping_address.tpl';
 		} else {
-			return $this->load->view('default/template/d_quickcheckout/shipping_address.tpl', $data);
+			$template = 'default/template/d_quickcheckout/shipping_address.tpl';
 		}
+
+        return $this->load->view($template, $data);
 	}
 
 	public function update(){
@@ -63,7 +67,16 @@ class ControllerDQuickcheckoutShippingAddress extends Controller {
         $json = $this->load->controller('d_quickcheckout/payment_method/prepare', $json);
 
         $json = $this->load->controller('d_quickcheckout/cart/prepare', $json);
-        $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        $totals = array();
+        $taxes = $this->cart->getTaxes();
+        $total = 0;
+
+        $total_data = array(
+            'totals' => &$totals,
+            'taxes'  => &$taxes,
+            'total'  => &$total
+        );
+        $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
         $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
         
         $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
@@ -101,7 +114,10 @@ class ControllerDQuickcheckoutShippingAddress extends Controller {
                     $this->request->post['shipping_address'] = $this->model_d_quickcheckout_address->getAddress($this->request->post['shipping_address']['address_id']);
                 }
             }
-
+            if(isset($this->request->post['shipping_address']['customer_group_id'])){
+        
+                $this->request->post['shipping_address']['custom_field'] =  ((!empty($this->request->post['shipping_address']['custom_field']['address'])) ? array('address' => $this->request->post['shipping_address']['custom_field']['address']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $this->request->post['payment_address']['customer_group_id']));
+            }
             
             if(isset($this->request->post['shipping_address']['custom_field']) && is_array($this->request->post['shipping_address']['custom_field'])){
                 $this->request->post['shipping_address'] = array_merge($this->request->post['shipping_address'], $this->model_d_quickcheckout_custom_field->setCustomFieldValue($this->request->post['shipping_address']['custom_field']));

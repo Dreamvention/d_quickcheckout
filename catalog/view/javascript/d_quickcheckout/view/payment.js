@@ -10,8 +10,8 @@ qc.PaymentView = qc.View.extend({
 	template: '',
 
 	paymentConfirm: function() {
-		$('.alert').remove();
-		if(Number(this.model.get('payment_payment_popup'))){
+		$('#payment_view .alert').remove();
+		if(Number(this.model.get('payment_popup'))){
 			$('#payment_modal').modal('show');
 		}else{
 			//console.log(this.model.get('trigger'));
@@ -30,16 +30,16 @@ qc.PaymentView = qc.View.extend({
 
 	update: function(data){
 		
-        if(data.payment && data.payment_payment_title){
-			this.model.set({'payment': data.payment, 'payment_payment_title': data.payment_payment_title});
-		}else if(data.payment && data.payment_payment_title == 'undefined'){
+        if(data.payment && data.payment_popup_title){
+			this.model.set({'payment': data.payment, 'payment_popup_title': data.payment_popup_title});
+		}else if(data.payment && typeof(data.payment_popup_title) == 'undefined'){
 			this.model.set('payment', data.payment);
-		}else if(data.payment !== 'undefined' && data.payment_payment_title){
-			this.model.set(data.payment_payment_title);
+		}else if(typeof(data.payment) == 'undefined' && data.payment_popup_title){
+			this.model.set(data.payment_popup_title);
 		}
 
-		if(typeof(data.payment_payment_popup) !== 'undefined'){
-			this.model.set('payment_payment_popup', data.payment_payment_popup);
+		if(typeof(data.payment_popup) !== 'undefined'){
+			this.model.set('payment_popup', data.payment_popup);
 		}
 
 		if(data.account && data.account !== this.model.get('account')){
@@ -48,8 +48,10 @@ qc.PaymentView = qc.View.extend({
 	},
 
 	render: function(){
+		this.focusedElementId = $(':focus').attr('id');
+		console.log('payment:render');
 		$(this.el).html(this.template({'model': this.model.toJSON()}));
-
+		$('#' + this.focusedElementId).focus();
 	},
 
 

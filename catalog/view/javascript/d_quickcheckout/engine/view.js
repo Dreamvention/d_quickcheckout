@@ -8,6 +8,8 @@
 		//qc.event.bind("changeAccount", this.changeAccount, this);
 	},
 
+	focusedElementId: $(':focus').attr('id'),
+
 	events: {
         'focus input': "updateFocus"
     },

@@ -22,13 +22,14 @@
             $data['button_login'] = $this->language->get('button_login');
             $data['text_forgotten'] = $this->language->get('text_forgotten');
             $data['step_option_guest_desciption'] = $this->language->get('step_option_guest_desciption');
+            
             $this->load->model('module/d_quickcheckout');
+            
             if ($this->model_module_d_quickcheckout->isInstalled('d_social_login') && $this->config->get('d_social_login_status') && $config['general']['social_login']) {
                 $data['d_social_login'] = $this->load->controller('module/d_social_login');
             } else {
                 $data['d_social_login'] = '';
             }
-
 
             $data['forgotten'] = $this->url->link('account/forgotten', '', 'SSL');
             $json['account'] = $this->session->data['account'];
@@ -42,7 +43,9 @@
 
             $data['json'] = json_encode($json);
 
-            if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/login.tpl')) {
+            if(VERSION >= '2.2.0.0'){
+                $template = 'd_quickcheckout/login';
+            }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/login.tpl')) {
                 $template = $this->config->get('config_template') . '/template/d_quickcheckout/login.tpl';
             } else {
                 $template = 'default/template/d_quickcheckout/login.tpl';
@@ -171,7 +174,18 @@
 
             //totals
             $json = $this->load->controller('d_quickcheckout/cart/prepare', $json);
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
+
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
 
             //order

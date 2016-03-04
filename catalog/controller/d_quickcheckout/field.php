@@ -16,7 +16,9 @@ class ControllerDQuickcheckoutField extends Controller {
         $data['error_email'] = $this->language->get('error_email');
         $data['settings'] =  $this->settings;
         
-        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/field.tpl')) {
+        if(VERSION >= '2.2.0.0'){
+            $template = 'd_quickcheckout/field';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/field.tpl')) {
             $template = $this->config->get('config_template') . '/template/d_quickcheckout/field.tpl';
         } else {
             $template = 'default/template/d_quickcheckout/field.tpl';

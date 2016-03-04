@@ -22,9 +22,11 @@ qc.statistic = qc.statistic || {};
       return o;
     };
 function preloaderStart(){
+  $('#qc_confirm_order').prop('disabled', true);
   $('.preloader').delay(500).fadeIn(300);
 }
 function preloaderStop(){
+  $('#qc_confirm_order').prop('disabled', false);
   $('.preloader').stop(true,true).fadeOut(300);
 }
 

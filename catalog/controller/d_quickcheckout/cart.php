@@ -80,16 +80,31 @@ class ControllerDQuickcheckoutCart extends Controller {
         $json['voucher'] = (isset($this->session->data['voucher'])) ? $this->session->data['voucher'] : '';
         $json['reward'] = (isset($this->session->data['reward'])) ? $this->session->data['reward'] : '';
 
-        $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+        $totals = array();
+        $taxes = $this->cart->getTaxes();
+        $total = 0;
+
+        $total_data = array(
+            'totals' => &$totals,
+            'taxes'  => &$taxes,
+            'total'  => &$total
+        );
+
+        $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
         $json['error'] = $json['cart_error'];
-        
+ 
         $data['json'] = json_encode($json);
 
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/cart.tpl')) {
-			return $this->load->view($this->config->get('config_template') . '/template/d_quickcheckout/cart.tpl', $data);
+		if(VERSION >= '2.2.0.0'){
+            $template = 'd_quickcheckout/cart';
+        }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/cart.tpl')) {
+			$template = $this->config->get('config_template') . '/template/d_quickcheckout/cart.tpl';
 		} else {
-			return $this->load->view('default/template/d_quickcheckout/cart.tpl', $data);
+			$template = 'default/template/d_quickcheckout/cart.tpl';
 		}
+
+        return $this->load->view($template, $data);
+
 	}
 
     public function prepare($json){
@@ -136,12 +151,6 @@ class ControllerDQuickcheckoutCart extends Controller {
             }
 
             if ($product['image']) {
-                $thumb = $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
-            } else {
-                $thumb = '';
-            } 
-
-            if ($product['image']) {
                 $image = $this->model_tool_image->resize($product['image'], $this->session->data['d_quickcheckout']['design']['cart_image_size']['width'], $this->session->data['d_quickcheckout']['design']['cart_image_size']['height']);
             } else {
                 $image = '';
@@ -171,14 +180,14 @@ class ControllerDQuickcheckoutCart extends Controller {
 
             // Display prices
             if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-                $price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+                $price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')),$this->session->data['currency']);
             } else {
                 $price = false;
             }
 
             // Display prices
             if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-                $total = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']);
+                $total = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'],$this->session->data['currency']);
             } else {
                 $total = false;
             }
@@ -195,13 +204,13 @@ class ControllerDQuickcheckoutCart extends Controller {
                 );
 
                 if ($product['recurring']['trial']) {
-                    $recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($product['recurring']['trial_price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax'))), $product['recurring']['trial_cycle'], $frequencies[$product['recurring']['trial_frequency']], $product['recurring']['trial_duration']) . ' ';
+                    $recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($product['recurring']['trial_price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')),$this->session->data['currency']), $product['recurring']['trial_cycle'], $frequencies[$product['recurring']['trial_frequency']], $product['recurring']['trial_duration']) . ' ';
                 }
 
                 if ($product['recurring']['duration']) {
-                    $recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax'))), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+                    $recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')),$this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
                 } else {
-                    $recurring .= sprintf($this->language->get('text_payment_until_canceled_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax'))), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+                    $recurring .= sprintf($this->language->get('text_payment_until_canceled_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')),$this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
                 }
             }
 
@@ -232,14 +241,14 @@ class ControllerDQuickcheckoutCart extends Controller {
                 $json['vouchers'][] = array(
                     'key'         => $key,
                     'description' => $voucher['description'],
-                    'amount'      => $this->currency->format($voucher['amount']),
+                    'amount'      => $this->currency->format($voucher['amount'],$this->session->data['currency']),
                     'remove'      => $this->url->link('checkout/cart', 'remove=' . $key)
                 );
             }
         }
 
         if ($this->config->get('config_cart_weight')) {
-            $json['cart_weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class_id'), $this->language->get('decimal_point'), $this->language->get('thousand_point'));
+            $json['cart_weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class_id'), $this->language->get('decimal_point'), $this->language->get('thousand_point'),$this->session->data['currency']);
         } else {
             $json['cart_weight'] = false;
         }
@@ -283,7 +292,16 @@ class ControllerDQuickcheckoutCart extends Controller {
              $json = $this->load->controller('d_quickcheckout/payment_method/prepare', $json);
 
             //totals
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
+
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
 
             //confirm
@@ -329,7 +347,16 @@ class ControllerDQuickcheckoutCart extends Controller {
         }
 
         if (empty($this->request->post['reward'])) {
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
+
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
             //payment
@@ -348,8 +375,16 @@ class ControllerDQuickcheckoutCart extends Controller {
             $this->session->data['reward'] = abs($this->request->post['reward']);
 
             $json['cart_successes']['reward'] = $this->language->get('text_success');
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
 
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
             //payment
@@ -400,7 +435,16 @@ class ControllerDQuickcheckoutCart extends Controller {
 
         if (empty($this->request->post['coupon'])) {
             unset($this->session->data['coupon']);
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
+
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
             //payment
@@ -410,8 +454,16 @@ class ControllerDQuickcheckoutCart extends Controller {
             $this->session->data['coupon'] = $this->request->post['coupon'];
 
             $json['cart_successes']['coupon'] =  $this->language->get('text_success');
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
 
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
             //payment
@@ -461,7 +513,16 @@ class ControllerDQuickcheckoutCart extends Controller {
     
         $statistic = array();
         if (empty($this->request->post['voucher'])) {
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
+
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
             //payment
@@ -475,8 +536,16 @@ class ControllerDQuickcheckoutCart extends Controller {
         } elseif ($voucher_info) {
             $this->session->data['voucher'] = $this->request->post['voucher'];
             $json['cart_successes']['voucher'] =  $this->language->get('text_success');
+            $totals = array();
+            $taxes = $this->cart->getTaxes();
+            $total = 0;
 
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data, $total, $taxes);
+            $total_data = array(
+                'totals' => &$totals,
+                'taxes'  => &$taxes,
+                'total'  => &$total
+            );
+            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
             $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
             //payment

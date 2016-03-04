@@ -5,9 +5,10 @@
         Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.2.6</version>
-    <installation>Ocmod</installation>
+    <version>6.3.0.1</version>
     <license>lite</license>
+    <ocmod>true</ocmod>
+    <vqmod>true</vqmod>
     <opencart_version>2.0.0.0;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1,2.1.0.2</opencart_version>
     <mbooth_version>3.0</mbooth_version>
     <author>Dreamvention</author>
@@ -27,9 +28,6 @@
         <file>catalog/view/theme/default/template/checkout/d_quickcheckout.tpl</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css</file>
         <file>catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less</file>
-        <file>system/library/d_compress/compress.php</file>
-        <file>system/library/d_compress/cssmin.php</file>
-        <file>system/library/d_compress/jsmin.php</file>
         <file>system/mbooth/xml/mbooth_d_quickcheckout_lite.xml</file>
         <file>system/config/d_quickcheckout_lite.php</file>
     </files>
@@ -40,11 +38,35 @@
         <dir>catalog/view/theme/default/stylesheet/d_quickcheckout</dir>
         <dir>catalog/view/theme/default/template/d_quickcheckout</dir>
         <dir>image/catalog/d_quickcheckout</dir>
+        <dir>system/library/d_compress</dir>
     </dirs>
     <required>
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
+        <update version="6.3.0.1">
+            <![CDATA[
+        1. fix empty totals
+        ]]>
+        </update>
+        <update version="6.3.0.0">
+            <![CDATA[
+        1. support oc v.2.2.0.0.<br/>
+        2. confirm button disable.<br/>
+        3. Focus.<br/>
+        4. Fix register unique emails.
+        ]]>
+        </update>
+        <update version="6.2.6.3">
+            <![CDATA[
+        1. Fix bugs with custom field.<br/>
+        ]]>
+        </update>
+        <update version="6.2.6.2">
+            <![CDATA[
+        1. Fix bugs with custom field.<br/>
+        ]]>
+        </update>
         <update version="6.2.6">
             <![CDATA[
         1. Add shopunity dowload.<br/>

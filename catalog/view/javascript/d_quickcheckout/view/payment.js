@@ -14,14 +14,14 @@ qc.PaymentView = qc.View.extend({
 		if(Number(this.model.get('payment_popup'))){
 			$('#payment_modal').modal('show');
 		}else{
-			//console.log(this.model.get('trigger'));
+			console.log(this.model.get('trigger'));
 			var href = $(this.model.get('trigger'), this.$el).attr('href');
 			
 			if(href != '' && href != undefined) {
-				//console.log('clicked link with href='+href);
+				console.log('clicked link with href='+href);
 				document.location.href = href;
 			}else{
-				//console.log('clicked button');
+				console.log('clicked button');
 				$(this.model.get('trigger'), this.$el).click();
 			}
 		}

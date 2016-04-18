@@ -3,6 +3,9 @@ qc.ConfirmView = qc.View.extend({
 		this.template = e.template;
 		qc.event.bind("update", this.update, this);
 		qc.event.bind("changeAccount", this.changeAccount, this);
+		qc.event.bind("paymentConfirm", this.paymentConfirm, this);
+		
+		//fix lost data
 		this.render();
 	},
 
@@ -12,7 +15,17 @@ qc.ConfirmView = qc.View.extend({
 
 	template: '',
 
+	forceConfirm: function(){
+		var that = this;
+		if(qc.confirmOrderVar == 1){
+			qc.confirmOrderVar = 0;
+  			console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
+			that.confirm();
+		}
+	},
+
 	confirm: function(){
+		
 		preloaderStart();
 		var valid = true;
 
@@ -29,6 +42,7 @@ qc.ConfirmView = qc.View.extend({
 				$('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
 			}
 		});
+
 
         if(this.model.get('account') == 'register'){
             email = $("#d_quickcheckout #payment_address_form #payment_address_email")
@@ -62,6 +76,14 @@ qc.ConfirmView = qc.View.extend({
 		}
 	},
 
+	paymentConfirm: function(){
+		console.log('confirm:paymentConfirm');
+		preloaderStart();
+		$(document).ajaxStop(function() {
+			preloaderStop();
+		});
+	},
+
 	changeAccount: function(account){
 
 		if(this.model.get('account') !== account){
@@ -71,6 +93,10 @@ qc.ConfirmView = qc.View.extend({
 	},
 
 	update: function(data){
+		//fix lost data
+		this.model.set('data', data);
+		var that = this;
+
 		if(data.confirm){
 			this.model.set('confirm', data.confirm);
 		}
@@ -88,6 +114,9 @@ qc.ConfirmView = qc.View.extend({
 		if(data.account && data.account !== this.model.get('account')){
 			this.changeAccount(data.account);
 		}
+
+		that.forceConfirm();
+		
 	},
 
 	render: function(){

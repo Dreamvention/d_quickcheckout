@@ -418,13 +418,16 @@ class ModelModuleDQuickcheckout extends Model {
 
 
 	public function getConfigSetting($id, $config_key, $store_id, $config_file = false){
-		if(!$config_file){
-			$config_file = $this->config_file;
+
+		if($this->getCurrentSettingId($id, $store_id) !== false){
+			$setting = $this->getSetting($this->getCurrentSettingId($id, $store_id));
+			$setting[$config_key] = $setting['value'];
 		}
 
-		if($config_file){
+		if(isset($setting[$config_key]['general']['config'])){
+			$this->config->load($setting[$config_key]['general']['config']);
+		}elseif($config_file){
 			$this->config->load($config_file);
-
 		}
 
 		$result = ($this->config->get($config_key)) ? $this->config->get($config_key) : array();

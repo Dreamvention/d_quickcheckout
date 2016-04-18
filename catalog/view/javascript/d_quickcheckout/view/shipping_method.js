@@ -36,13 +36,12 @@ qc.ShippingMethodView = qc.View.extend({
 
 		}
 
-		if(typeof(data.show_shipping_method) !== 'undefined'){
-			this.model.set('show_shipping_method', data.show_shipping_method);
-
-		}
-
 		if(data.shipping_methods){
 			this.model.set('shipping_methods', data.shipping_methods);
+		}
+
+		if(typeof(data.show_shipping_method) !== 'undefined'){
+			this.model.set('show_shipping_method', data.show_shipping_method);
 		}
 
 		if(data.shipping_error){

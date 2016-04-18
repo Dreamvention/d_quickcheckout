@@ -4,6 +4,7 @@ if (!window.console.log) window.console.log = function (){}; //IE fix
 var qc = qc || {};
 var focused = window;
 qc.event = _.extend({}, Backbone.Events);
+qc.confirmOrderVar = 0;
 qc.statistic = qc.statistic || {};
 
  $.fn.serializeObject = function() {
@@ -21,8 +22,11 @@ qc.statistic = qc.statistic || {};
       });
       return o;
     };
+
 function preloaderStart(){
   $('#qc_confirm_order').prop('disabled', true);
+  if ($('#qc_confirm_order').is(':hover')) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
+  console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
   $('.preloader').delay(500).fadeIn(300);
 }
 function preloaderStop(){

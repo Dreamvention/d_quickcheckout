@@ -133,7 +133,7 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['store_id'] = $this->store_id;
         $data['stores'] = $this->model_module_d_quickcheckout->getStores();
         $data['mbooth'] = $this->mbooth;
-        $data['config'] = $this->config_file;
+        
         $data['support_email'] = $this->model_module_d_quickcheckout->getMboothInfo($this->mbooth)->support_email;
         $data['version'] = $this->model_module_d_quickcheckout->getVersion($data['mbooth']);
         $data['token'] = $this->session->data['token'];
@@ -438,7 +438,10 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['debug_file'] = $this->model_module_d_quickcheckout->getConfigData($this->id, $this->id . '_debug_file', $this->store_id, $this->config_file);
         $data['setting'] = $this->model_module_d_quickcheckout->getConfigSetting($this->id, $this->id . '_setting', $this->store_id, $this->config_file);
         $data[$this->id . '_trigger'] = $this->model_module_d_quickcheckout->getConfigData($this->id, $this->id . '_trigger', $this->store_id, $this->config_file);
-
+        if(isset($data['setting']['general']['config'])){
+            $this->config_file = $data['setting']['general']['config'];
+        }
+        $data['config'] = $this->config_file;
         //language for fields
         $data['setting'] = $this->model_module_d_quickcheckout->languageFilter($data['setting']);
 

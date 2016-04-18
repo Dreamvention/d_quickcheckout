@@ -95,15 +95,19 @@
             }
 
             if (isset($this->session->data['shipping_method']['code'])) {
+          
                 if (!$this->model_module_d_quickcheckout->in_array_multi($this->session->data['shipping_method']['code'], $this->session->data['shipping_methods'])) {
                     $this->session->data['shipping_method'] = $this->model_d_quickcheckout_method->getFirstShippingMethod();
+             
                 } else {
                     $shipping = explode('.', $this->session->data['shipping_method']['code']);
                     $this->session->data['shipping_method'] = array_merge($this->session->data['shipping_method'], $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]]);
+                  
                 }
             }
 
             if (empty($this->session->data['shipping_method'])) {
+            
                 $this->session->data['shipping_method'] = $this->model_d_quickcheckout_method->getFirstShippingMethod();
             }
 

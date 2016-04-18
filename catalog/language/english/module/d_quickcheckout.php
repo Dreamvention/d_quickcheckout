@@ -1,5 +1,5 @@
 <?php 
-
+$_['text_login'] 									= 'Login';
 $_['title_payment_address']  						= 'Payment details';
 $_['description_payment_address']  					= '';
 $_['title_shipping_address']  						= 'Delivery details';

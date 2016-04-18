@@ -272,7 +272,14 @@ public function array_merge_r_d() {
 
 	public function getConfigSetting($id, $config_key, $store_id, $config_file = false, $customer_group_id = 0){
 		
-		if($config_file){
+		if($this->getCurrentSettingId($id, $store_id) !== false){
+			$setting = $this->getSetting($this->getCurrentSettingId($id, $store_id));
+			$setting[$config_key] = $setting['value'];
+		}
+
+		if(isset($setting[$config_key]['general']['config'])){
+			$this->config->load($setting[$config_key]['general']['config']);
+		}elseif($config_file){
 			$this->config->load($config_file);
 		}
 

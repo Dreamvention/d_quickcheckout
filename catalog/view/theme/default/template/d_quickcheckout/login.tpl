@@ -39,7 +39,7 @@
 		<% } %>
 		<% if(config.design.login_style == 'popup' && parseInt(model.config.option.login.display)){ %> 
 			<div class="btn-group" role="group">	
-				<button id="login_button_popup" type="button" class="btn btn-default"  data-toggle="modal" data-target="#login_model"><?php echo $button_login; ?></button>
+				<button id="login_button_popup" type="button" class="btn btn-default"  data-toggle="modal" data-target="#login_model"><%= model.config.option.login.title %></button>
 			</div>
 		<% } %>
 		</div>

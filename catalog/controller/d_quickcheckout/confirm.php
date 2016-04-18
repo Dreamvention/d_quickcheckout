@@ -21,6 +21,8 @@ class ControllerDQuickcheckoutConfirm extends Controller {
 		
         $json['account'] = $this->session->data['account'];
         $json['confirm'] = $this->session->data['confirm'];
+        //fix lost data
+        $json['data'] = $this->session->data;
 
         $this->load->model('d_quickcheckout/order');
         $json['show_confirm'] = $this->model_d_quickcheckout_order->showConfirm();
@@ -68,6 +70,13 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         $this->load->model('module/d_quickcheckout');
         $this->load->model('d_quickcheckout/address');
         $this->load->model('d_quickcheckout/order');
+
+        if(isset($this->session->data['payment_address']) && isset($this->request->post['payment_address'])){
+            $this->session->data['payment_address'] = array_replace($this->session->data['payment_address'], $this->request->post['payment_address']);
+        }
+        if(isset($this->session->data['shipping_address']) && isset($this->request->post['shipping_address'])){
+            $this->session->data['shipping_address'] = array_replace($this->session->data['shipping_address'], $this->request->post['shipping_address']);
+        }
 
         if($this->customer->isLogged()){
 

@@ -2,7 +2,8 @@ qc.Confirm = qc.Model.extend({
 	defaults: {
 		'confirm': '',
 		'config': '',
-		'account': ''
+		'account': '',
+		'data': ''
 	},
 
 
@@ -28,8 +29,9 @@ qc.Confirm = qc.Model.extend({
 	},
 
 	update: function(){
-		var that = this;
-		$.post('index.php?route=d_quickcheckout/confirm/update', {}, function(data) {
+		var json = this.toJSON();
+			that = this;
+		$.post('index.php?route=d_quickcheckout/confirm/update', json.data, function(data) {
 			that.updateForm(data);
 			qc.event.trigger('paymentConfirm');
 			that.recreateOrder();

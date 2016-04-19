@@ -365,16 +365,22 @@
                                                             </div>
                                                    		</div>
                                                     	<?php if ($config_files) { ?>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label" for="select_config"><?php echo $entry_config_files; ?></label>
-                                                            <div class="col-sm-8">
-                                                                <select id="select_config" name="<?php echo $id; ?>_setting[general][config]"  class="form-control">
-                                                                    <?php foreach ($config_files as $config_file) { ?>
-                                                                    <option value="<?php echo $config_file; ?>" <?php echo ($config_file == $config)? 'selected="selected"' : ''; ?>><?php echo $config_file; ?></option>
-                                                                    <?php } ?>
-                                                                </select>
+                                                            <div class="form-group">
+                                                            <label class="col-sm-2 control-label" for="select_config"><?php echo $entry_config_files; ?></label>
+                                                            <div class="col-sm-10">
+                                                                <div class="input-group">
+                                                                    <select id="select_config"  class="form-control" name="<?php echo $id;?>_setting[general][config]">
+                                                                        <?php foreach ($config_files as $config_file) { ?>
+                                                                        <option value="<?php echo $config_file; ?>" <?php echo ($config_file == $config)? 'selected="selected"' : ''; ?>><?php echo $config_file; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary" id="select_config_submit" type="button">Apply</button>
+                                                                    </span>
+                                                                </div><!-- /input-group -->
+                                                                
                                                             </div>
-                                                        </div>
+                                                            </div>
                                                         <?php } ?>
                                                         <!-- //config -->
                                                        </div>
@@ -739,12 +745,11 @@ $(function () {
   })
 
 
-	$('body').on('change', '#select_config', function(){
-		console.log('#select_config changed')
-		var config = $(this).val();
-		$('body').append('<form action="<?php echo $action; ?>" id="config_update" method="post" style="display:none;"><input type="text" name="config" value="' + config + '" /></form>');
-		$('#config_update').submit();
-	});
+	$('#select_config_submit').on('click', function(){
+	    var config = $('#select_config').val();
+	    $('#content').append('<form action="<?php echo $module_link; ?><?php echo ($stores) ? "&store_id=' + $('#store').val() + '" : ''; ?>" id="config_update" method="post" style="display:none;"><input type="text" name="config" value="' + config + '" /></form>');
+	    $('#config_update').submit();
+	})
 
 	$('body').on('click', '#save_and_stay', function(){
 

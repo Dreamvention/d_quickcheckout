@@ -362,16 +362,24 @@
                                                                 <button class="btn btn-primary btn-block" id="compress_update"><i class="fa fa-refresh"></i> <?php echo $compress_update; ?></button>
                                                         	</div>
                                                             <div id="compress-notification" class="col-sm-offset-4 help-block col-sm-8" >
-
                                                             </div>
-									
-                                                    </div>
+                                                   		</div>
+                                                    	<?php if ($config_files) { ?>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="select_config"><?php echo $entry_config_files; ?></label>
+                                                            <div class="col-sm-8">
+                                                                <select id="select_config" name="<?php echo $id; ?>_setting[general][config]"  class="form-control">
+                                                                    <?php foreach ($config_files as $config_file) { ?>
+                                                                    <option value="<?php echo $config_file; ?>" <?php echo ($config_file == $config)? 'selected="selected"' : ''; ?>><?php echo $config_file; ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <?php } ?>
+                                                        <!-- //config -->
                                                        </div>
 
 													<div class="col-md-6">
-							
-														
-
 														<div class="form-group">
 															<label class="col-sm-4 control-label" for="input-catalog-limit">
 																<span data-toggle="tooltip" title="<?php echo $help_general_min_order; ?>">

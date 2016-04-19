@@ -366,8 +366,8 @@
                                                    		</div>
                                                     	<?php if ($config_files) { ?>
                                                             <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="select_config"><?php echo $entry_config_files; ?></label>
-                                                            <div class="col-sm-10">
+                                                            <label class="col-sm-4 control-label" for="select_config"><?php echo $entry_config_files; ?></label>
+                                                            <div class="col-sm-8">
                                                                 <div class="input-group">
                                                                     <select id="select_config"  class="form-control" name="<?php echo $id;?>_setting[general][config]">
                                                                         <?php foreach ($config_files as $config_file) { ?>

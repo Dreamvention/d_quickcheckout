@@ -5,6 +5,8 @@ var qc = qc || {};
 var focused = window;
 qc.event = _.extend({}, Backbone.Events);
 qc.confirmOrderVar = 0;
+qc.payment_address_waiting = {};
+qc.shipping_address_waiting = {};
 qc.statistic = qc.statistic || {};
 
  $.fn.serializeObject = function() {

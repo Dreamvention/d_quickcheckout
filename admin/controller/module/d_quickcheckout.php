@@ -299,6 +299,9 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['warning_analytics_event'] = $this->language->get('warning_analytics_event');
         $data['entry_general_compress'] = $this->language->get('entry_general_compress');
         $data['help_general_compress'] = $this->language->get('help_general_compress');
+        $data['entry_general_update_mini_cart'] = $this->language->get('entry_general_update_mini_cart');
+        $data['help_general_update_mini_cart'] = $this->language->get('help_general_update_mini_cart');
+        
 
         //social login
         $data['text_social_login_required'] = $this->language->get('text_social_login_required');
@@ -406,6 +409,8 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['help_confirm'] = $this->language->get('help_confirm');
         $data['entry_design_custom_style'] = $this->language->get('entry_design_custom_style');
         $data['help_design_custom_style'] = $this->language->get('help_design_custom_style');
+        $data['entry_design_autocomplete'] = $this->language->get('entry_design_autocomplete');
+        $data['help_design_autocomplete'] = $this->language->get('help_design_autocomplete');
 
         //statistic
         $data['column_order_id'] = $this->language->get('column_order_id');

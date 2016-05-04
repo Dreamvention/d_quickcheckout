@@ -90,7 +90,9 @@ class ControllerDQuickcheckoutConfirm extends Controller {
                 $json['payment_address']['address_id'] = $this->session->data['payment_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['payment_address']);
             }
             if($this->model_d_quickcheckout_address->showShippingAddress()){
-                if($this->session->data['shipping_address']['address_id'] == 'new'){
+                if($this->session->data['payment_address']['shipping_address'] == 1){
+                    $json['shipping_address']['address_id'] = $json['payment_address']['address_id'];
+                }else if($this->session->data['shipping_address']['address_id'] == 'new'){
                     $json['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
                 }
             }
@@ -100,14 +102,23 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             if($this->session->data['account'] == 'register'){
 
                 $this->load->model('account/customer');
-                $this->model_account_customer->addCustomer($this->session->data['payment_address']);
+                $showShippingAddress = $this->model_d_quickcheckout_address->showShippingAddress();
 
+                $this->model_account_customer->addCustomer($this->session->data['payment_address']);
+  
                 if($this->customer->login($this->session->data['payment_address']['email'], $this->session->data['payment_address']['password'])){
                     $this->model_d_quickcheckout_order->updateCartForNewCustomerId();
                     $json['account'] = $this->session->data['account'] = 'logged';
 
-                    $json['addresses'] = $this->model_d_quickcheckout_address->getAddresses();
-                    
+                    if($showShippingAddress){
+                        $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
+                    }
+
+                    $address = $json['addresses'] = $this->model_d_quickcheckout_address->getAddresses();
+
+                    reset($address);
+                    $this->session->data['payment_address']['address_id'] = key($address);
+
                     $json = $this->load->controller('d_quickcheckout/payment_address/prepare', $json);
                     $json = $this->load->controller('d_quickcheckout/shipping_address/prepare', $json);
                 }

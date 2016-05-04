@@ -64,17 +64,18 @@ qc.FieldView = qc.View.extend({
 
 	setValidate: function(){
 		$(this.el).validate({
+
 			submitHandler: function(form) {
 			},
 			errorPlacement: function(error, element) {
 				error.appendTo( element.closest('div[class^="col-"]'));
 			},
 			highlight: function(element, errorClass, validClass) {
-				$(element.form).find("#" + element.id + "_input")
+				$(element.form).find("#" + element.id.replace(/\./g, '\\\.') + "_input")
 					.addClass("has-error");
 			},
 			unhighlight: function(element, errorClass, validClass) {
-				$(element.form).find("#" + element.id + "_input")
+				$(element.form).find("#" + element.id.replace(/\./g, '\\\.') + "_input")
 					.removeClass("has-error");
 			},
 

@@ -56,5 +56,11 @@ qc.Cart = qc.Model.extend({
 
         }, 'json').error();
     },
-
+    updateMiniCart: function() {
+        setTimeout(function () {
+            $.get('index.php?route=common/cart/info', {}, function(data) {
+                $('#cart').replaceWith(data);
+            });
+        }, 100);
+    }
 });

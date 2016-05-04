@@ -53,6 +53,7 @@ class ModelModuleDQuickcheckout extends Model {
 			$payment = basename($payment, '.php');
 			$this->load->language('payment/' . $payment);
 			$result[] = array(
+				'status' => $this->config->get($payment . '_status'),
 				'code' => $payment,
 				'title' => $this->language->get('heading_title')
 			);

@@ -18,7 +18,6 @@ qc.ConfirmView = qc.View.extend({
 	forceConfirm: function(){
 		var that = this;
 		if(qc.confirmOrderVar == 1){
-			qc.confirmOrderVar = 0;
   			console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
 			that.confirm();
 		}
@@ -27,12 +26,19 @@ qc.ConfirmView = qc.View.extend({
 	confirm: function(){
 		
 		preloaderStart();
+		qc.confirmOrderVar = 0;
 		var valid = true;
 
 		if($(".has-error").length){
 			valid = false;
 			preloaderStop();
 			$('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
+		}
+
+		if($("#d_quickcheckout #cart_view .alert-danger").length){
+			valid = false;
+			preloaderStop();
+			$('html,body').animate({ scrollTop: $("#d_quickcheckout #cart_view .alert-danger").offset().top-60}, 'slow');
 		}
 
 		$("#d_quickcheckout form").each(function(){
@@ -42,7 +48,6 @@ qc.ConfirmView = qc.View.extend({
 				$('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
 			}
 		});
-
 
         if(this.model.get('account') == 'register'){
             email = $("#d_quickcheckout #payment_address_form #payment_address_email")
@@ -74,6 +79,7 @@ qc.ConfirmView = qc.View.extend({
 		if(parseInt(config.general.analytics_event)){
 			ga('send', 'event', config.name, 'click', 'confirm.confirm');
 		}
+
 	},
 
 	paymentConfirm: function(){

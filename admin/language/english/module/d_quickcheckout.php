@@ -154,6 +154,8 @@
     $_['entry_general_compress'] = 'Compress files';
     $_['help_general_compress'] = 'This option alows you to compress all backbone vew and model js files into one min js file. This can solve some parallel lowing issues on some webservers and increase the speed of the first load';
     $_['success_compress_file'] = 'Compress file update successfuly.';
+    $_['entry_general_update_mini_cart'] = 'Update mini cart in header';
+    $_['help_general_update_mini_cart'] = 'Use this option if you want the header minicart to update when you edit the checkout cart. Warning! Some themes will have a different design and this option will not wrok properly.';
 //modules
     $_['text_position_module'] = 'Position modules:';
     $_['help_position_module'] = 'If you want the AQC to show up in other locations, then you can use this option. If you just want to replace the main checkout - then do not use this option and use the optiob "Replace main checkout"';
@@ -258,6 +260,7 @@
     $_['entry_design_only_d_quickcheckout'] = 'Show only the checkout';
     $_['entry_design_column'] = 'Set columns';
     $_['entry_design_custom_style'] = 'Set Custom styles';
+    $_['entry_design_autocomplete'] = 'Form field autocomplete';
 
     $_['help_login'] = 'Login block where a customer can login or select a checkout option.';
     $_['help_payment_address'] = 'Customer information and payment address.';
@@ -281,6 +284,7 @@
     $_['help_design_only_d_quickcheckout'] = 'Enable this option to hide all the information in header, footer and columns to make the checkout process as simple and clean as possible.';
     $_['help_design_column'] = 'Set the number of columns. You can set up to 3 columns and there widths.';
     $_['help_design_custom_style'] = 'Add custom styles to the checkout. Follow the right CSS standards.';
+    $_['help_design_autocomplete'] = 'Turn on/off browser autocomplete option.';
 
 // Entry
     $_['text_your_address'] = 'Your Address';

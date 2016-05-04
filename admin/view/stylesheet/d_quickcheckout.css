@@ -174,3 +174,10 @@ body.dragging * {
 .portlet.dragged {
   height: 120px;
 }
+/* payment method */
+.status-payment {
+  margin-left:5px;
+  color:green;
+  font-size:20px;
+  float:right;
+}

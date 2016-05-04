@@ -2,6 +2,7 @@
 
 <% var col_left = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-5' %>
 <% var col_right = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-7' %>
+<% var autocomplete = (Number(config.design.autocomplete)) ? 'on' : 'off' %>
 <% _.each(model.config.fields,  function(f){ %>
 	<% if(model[model.config.id][f.id] !== undefined || f.type == "heading" || f.type == "label"){ %>
 		<% if(f.type){ %>
@@ -53,6 +54,7 @@
 				            <div class="radio">
 				            	<label for="<%= model.config.id %>_<%= f.id %>_<%= option.value %>">
 				            		<input type="radio" 
+				            			autocomplete="<%= autocomplete %>" 
 						                name="<%= model.config.id %>.<%= f.id %>" 
 						                value="<%= option.value %>" 
 						                <%= require ? 'required' : '' %>
@@ -88,6 +90,7 @@
 						          name="<%= model.config.id %>.<%= f.id %>" 
 						          value="0" />
 					          <input type="checkbox" 
+					          autocomplete="<%= autocomplete %>" 
 					          name="<%= model.config.id %>.<%= f.id %>.<%= i %>" 
 					          id="<%= model.config.id %>_<%= f.id %>_<%= option.value %>" 
 					          class="validate not-required" 
@@ -107,6 +110,7 @@
 						          name="<%= model.config.id %>.<%= f.id %>" 
 						          value="0" />
 					          <input type="checkbox" 
+					          autocomplete="<%= autocomplete %>" 
 					          name="<%= model.config.id %>.<%= f.id %>" 
 					          id="<%= model.config.id %>_<%= f.id %>" 
 					          class="validate <%= require ? 'required' : 'not-required' %>" 
@@ -137,7 +141,7 @@
 		          <select name="<%= model.config.id %>.<%= f.id %>" 
 		            <%= require ? 'required' : '' %> 
 		            id="<%= model.config.id %>_<%= f.id %>"
-		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>"  autocomplete="off">
+		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>"  autocomplete="<%= autocomplete %>"  >
 		            <option value=""><?php echo $text_select; ?></option>
 		            <% if(f.options){ %>
 		                <% _.each(f.options, function(option){ %>
@@ -164,7 +168,7 @@
 					            id="<%= model.config.id %>_<%= f.id %>" 
 					            value="<%= model[model.config.id][f.id] %>" 
 					            class="form-control  <%= f.mask ? 'qc-mask': '' %> <%= f.type %> validate <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
-					            autocomplite="on" 
+					            autocomplete="<%= autocomplete %>" 
 					            qc-mask="<%=f.mask%>" 
 					            <% if(f.type == "date"){ %>data-date-format="MM/DD/YYYY" <% } %>
 					            <% if(f.type == "time"){ %>data-date-format="HH:mm" <% } %>
@@ -193,7 +197,7 @@
 			            name="<%= model.config.id %>.<%= f.id %>" 
 			            id="<%= model.config.id %>_<%= f.id %>"
 			            class="form-control validate <%= require ? 'required' : 'not-required' %> <%= f.type %> <%= f.id %>" 
-			            autocomplite="on" 
+			            autocomplete="<%= autocomplete %>" 
 			            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= require ? '*' : '' %> <%= htmlDecode(f.title).replace(':', '') %>"<% } %> 
 			            <%= setValidateRules(f.error) %> ><%= model[model.config.id][f.id] %></textarea>
 			        </div>
@@ -214,7 +218,7 @@
 			            id="<%= model.config.id %>_<%= f.id %>" 
 			            value="<%= model[model.config.id][f.id] %>" 
 			            class="form-control <%= f.mask ? 'qc-mask': '' %> <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
-			            autocomplite="on"
+			            autocomplete="<%= autocomplete %>" 
 			            <% if(f.mask){ %>
 			            qc-mask="<%= f.mask %>"
 			            <% } %> 

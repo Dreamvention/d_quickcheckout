@@ -56,6 +56,7 @@
         public function showShippingAddress() {
             if (!$this->session->data['d_quickcheckout']['account'][$this->session->data['account']]['shipping_address']['display']) {
                 return false;
+                
             }
             if (!$this->cart->hasShipping()) {
                 return false;

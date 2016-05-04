@@ -31,14 +31,17 @@ qc.PaymentAddress = qc.Model.extend({
 	},
 
 	updateField: function(name, value){
+		clearTimeout(qc.payment_address_waiting);
 		this.set(name, value);
 		var that = this;
 		var json = this.toJSON();
-		$.post('index.php?route=d_quickcheckout/payment_address/update', { 'payment_address' : json.payment_address }, function(data) {
-			that.updateForm(data);
-		}, 'json').error(
-		);
-
+		qc.payment_address_waiting = setTimeout(function () {
+			$.post('index.php?route=d_quickcheckout/payment_address/update', { 'payment_address' : json.payment_address }, function(data) {
+				that.updateForm(data);
+			}, 'json').error();
+		}, 500);
+		
+	
 	},
 
 	

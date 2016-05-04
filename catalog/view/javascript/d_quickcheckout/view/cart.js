@@ -54,11 +54,10 @@ qc.CartView = qc.View.extend({
 		preloaderStart();
 	},
 
-	updateHeaderCart: function(total){
-		setTimeout(function () {
-			$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + total+ '</span>');
-		}, 100);
-		$('#cart > ul').load('index.php?route=common/cart/info ul li');
+	updateMiniCart: function(total){
+		if(parseInt(config.general.update_mini_cart)){
+			this.model.updateMiniCart();
+		}
 	},
 
 	updateVoucher: function(e){
@@ -106,7 +105,7 @@ qc.CartView = qc.View.extend({
 
 		if(data.totals){
 			this.model.set('totals', data.totals);
-			this.updateHeaderCart(data.total);
+			this.updateMiniCart(data.total);
 		}
 
 		if(data.cart_errors){

@@ -127,9 +127,10 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
 
             //if logged in and address_id set and is not empty - fetch address by address_id
             if($this->customer->isLogged()){
-                if($this->request->post['payment_address']['address_id'] !== 'new' 
+                if(!empty($this->request->post['payment_address']['address_id'])
+                    && $this->request->post['payment_address']['address_id'] !== 'new' 
                     && $this->request->post['payment_address']['address_id'] !== $this->session->data['payment_address']['address_id'] 
-                    && !empty($this->request->post['payment_address']['address_id'])){
+                    ){
                     
                     $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->request->post['payment_address']['address_id']);
                 }
@@ -155,15 +156,21 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
         //session
         if($this->customer->isLogged()){
             if(empty($this->session->data['payment_address']['address_id'])){
-                $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId();
-                $this->session->data['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->session->data['payment_address']['address_id']);
+                if($this->model_account_address->getAddresses()){
+                    $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId();
+                    $this->session->data['payment_address'] = current($this->model_d_quickcheckout_address->getAddresses());
+                }else{
+                    $this->session->data['payment_address']['country_id'] =  $this->config->get('config_country_id');
+                    $this->session->data['payment_address']['zone_id'] = $this->config->get('config_zone_id');
+                }
             }
 
             if(!isset($this->session->data['payment_address']['shipping_address'])){
                 $this->session->data['payment_address']['shipping_address'] = 0;
             }
-
-            if($this->session->data['payment_address']['address_id'] !== 'new'){
+            if(empty($this->session->data['payment_address']['address_id'])){
+                $this->session->data['payment_address']['address_id'] = 'new';
+            }else if($this->session->data['payment_address']['address_id'] !== 'new'){
                $this->session->data['payment_address']['shipping_address'] = 0; 
             }
 

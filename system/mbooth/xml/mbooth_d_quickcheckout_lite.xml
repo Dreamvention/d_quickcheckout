@@ -5,7 +5,7 @@
         Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.3.1.0</version>
+    <version>6.3.2.0</version>
     <license>lite</license>
     <ocmod>true</ocmod>
     <vqmod>true</vqmod>
@@ -45,6 +45,21 @@
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
+        <update version="6.3.2.0">
+            <![CDATA[
+        1. Autocomplete option added.<br/>
+        2. Fix shipping and payment addres conflict on registration<br/>
+        3. Fix multiple request sent<br/>
+        4. Small bug fixes.
+        ]]>
+        </update>
+        <update version="6.3.1.1">
+            <![CDATA[
+        1. added confrim data update.<br/>
+        2. refacor updateMiniCart<br/>
+        3. option added to update header mini cart
+        ]]>
+        </update>
         <update version="6.3.1.0">
             <![CDATA[
         1. added confrim data update.

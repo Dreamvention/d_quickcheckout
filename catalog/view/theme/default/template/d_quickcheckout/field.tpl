@@ -77,11 +77,6 @@
 			    data-sort="<%= f.sort_order %>">
 			    	
 			    	<% if(f.options){ %>
-			    		<div class="col-xs-12">
-			    		<label>
-			    			<%= htmlDecode(f.title) %>
-			    		</label>
-			    		</div>
 			    		<%  var i = 0 %> 
 			    		<% _.each(f.options, function(option){ %>
 		    			<div class="col-xs-12">

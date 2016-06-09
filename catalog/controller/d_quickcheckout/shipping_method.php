@@ -29,7 +29,7 @@
 
             if(VERSION >= '2.2.0.0'){
                 $template = 'd_quickcheckout/shipping_method';
-            }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/shipping_method.tpl')) {
+			}elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/shipping_method.tpl')) {
                 $template = $this->config->get('config_template') . '/template/d_quickcheckout/shipping_method.tpl';
             } else {
                 $template = 'default/template/d_quickcheckout/shipping_method.tpl';
@@ -107,8 +107,8 @@
             }
 
             if (empty($this->session->data['shipping_method'])) {
-            
-                $this->session->data['shipping_method'] = $this->model_d_quickcheckout_method->getFirstShippingMethod();
+				
+                $this->session->data['shipping_method'] = $this->model_d_quickcheckout_method->getDefaultShippingMethod($this->session->data['d_quickcheckout']['account']['register']['shipping_method']['default_option']);
             }
 
 

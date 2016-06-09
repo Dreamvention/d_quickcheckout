@@ -22,7 +22,7 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         $json['account'] = $this->session->data['account'];
         $json['confirm'] = $this->session->data['confirm'];
         //fix lost data
-        $json['data'] = $this->session->data;
+     //   $json['data'] = $this->session->data;
 
         $this->load->model('d_quickcheckout/order');
         $json['show_confirm'] = $this->model_d_quickcheckout_order->showConfirm();
@@ -91,7 +91,7 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             }
             if($this->model_d_quickcheckout_address->showShippingAddress()){
                 if($this->session->data['payment_address']['shipping_address'] == 1){
-                    $json['shipping_address']['address_id'] = $json['payment_address']['address_id'];
+                    $json['shipping_address']['address_id'] = $this->session->data['payment_address']['address_id'];
                 }else if($this->session->data['shipping_address']['address_id'] == 'new'){
                     $json['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
                 }
@@ -205,6 +205,8 @@ class ControllerDQuickcheckoutConfirm extends Controller {
             $order_data['fax'] = $this->session->data['guest']['fax'];
             $order_data['custom_field'] = (isset($this->session->data['guest']['custom_field']['account'])) ? $this->session->data['guest']['custom_field']['account'] : array();
         }
+		
+		if (!$order_data['email']) $order_data['email'] = $this->config->get('config_email');
 
         $order_data['payment_firstname'] = $this->session->data['payment_address']['firstname'];
         $order_data['payment_lastname'] = $this->session->data['payment_address']['lastname'];

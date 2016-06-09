@@ -27,10 +27,11 @@ qc.statistic = qc.statistic || {};
 
 function preloaderStart(){
   $('#qc_confirm_order').prop('disabled', true);
-  if ($('#qc_confirm_order').is(':hover')) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
-  console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
+  if ($('#qc_confirm_order:hover').length>0) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
+  // console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
   $('.preloader').delay(500).fadeIn(300);
 }
+
 function preloaderStop(){
   $('#qc_confirm_order').prop('disabled', false);
   $('.preloader').stop(true,true).fadeOut(300);

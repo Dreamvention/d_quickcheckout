@@ -91,7 +91,7 @@
             }
 
             if (empty($this->session->data['payment_method'])) {
-                $this->session->data['payment_method'] = $this->model_d_quickcheckout_method->getFirstPaymentMethod();
+                $this->session->data['payment_method'] = $this->model_d_quickcheckout_method->getDefaultPaymentMethod($this->session->data['d_quickcheckout']['account']['register']['payment_method']['default_option']);
             }
 
             $json['payment_methods'] = $this->session->data['payment_methods'];

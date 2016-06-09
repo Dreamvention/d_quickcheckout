@@ -7,7 +7,7 @@
 <div id="cart_view" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
 <script type="text/html" id="cart_template">
 
-	<div class="panel panel-default <%= model.config.display ? '' : 'hidden' %>">
+	<div class="panel panel-default <%= parseInt(model.config.display) ? '' : 'hidden' %>">
 		<div class="panel-heading">
 			<h4 class="panel-title">
 				<span class="icon">

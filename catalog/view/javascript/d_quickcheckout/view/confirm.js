@@ -100,7 +100,7 @@ qc.ConfirmView = qc.View.extend({
 
 	update: function(data){
 		//fix lost data
-		this.model.set('data', data);
+		//this.model.set('data', data);
 		var that = this;
 
 		if(data.confirm){

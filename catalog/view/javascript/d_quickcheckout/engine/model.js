@@ -18,7 +18,7 @@ qc.Model = Backbone.NestedModel.extend({
 		//stop preloader
 		preloaderStop();
 
-		if(parseInt(config.general.debug)){ 
+		if(parseInt(config.general.debug)){
 			console.log(data);
 		}
 

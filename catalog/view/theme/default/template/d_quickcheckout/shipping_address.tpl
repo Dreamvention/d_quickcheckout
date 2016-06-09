@@ -43,7 +43,8 @@
 			                <%= address.address_1 %> 
 			                <%= address.city %> 
 			                <%= address.zone %>
-			                <%= address.country %>
+			                <%= address.country %>,
+							<%= address.postcode %>
 			            </label>
 			          </div>
 			        <% }) %>

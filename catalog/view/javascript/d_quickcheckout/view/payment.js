@@ -29,8 +29,8 @@ qc.PaymentView = qc.View.extend({
 	},
 
 	update: function(data){
-		
-        if(data.payment && data.payment_popup_title){
+
+		if(data.payment && data.payment_popup_title != undefined){
 			this.model.set({'payment': data.payment, 'payment_popup_title': data.payment_popup_title});
 		}else if(data.payment && typeof(data.payment_popup_title) == 'undefined'){
 			this.model.set('payment', data.payment);

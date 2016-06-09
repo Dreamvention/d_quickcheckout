@@ -136,13 +136,13 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
                 }
             }
             if(isset($this->request->post['payment_address']['customer_group_id'])){
-        
+
                 $this->request->post['payment_address']['custom_field'] = ((!empty($this->request->post['payment_address']['custom_field']['account'])) ? array('account' => $this->request->post['payment_address']['custom_field']['account']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account',$this->request->post['payment_address']['customer_group_id'])) + ((!empty($this->request->post['payment_address']['custom_field']['address'])) ? array('address' => $this->request->post['payment_address']['custom_field']['address']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $this->request->post['payment_address']['customer_group_id']));
             }
                     
           //   print_r(  $this->session->data['payment_address'] );
             if((isset($this->request->post['payment_address']['custom_field']) && is_array($this->request->post['payment_address']['custom_field']))){
-  
+                
                 $this->request->post['payment_address'] = array_merge($this->request->post['payment_address'], $this->model_d_quickcheckout_custom_field->setCustomFieldValue($this->request->post['payment_address']['custom_field']));
             }
          

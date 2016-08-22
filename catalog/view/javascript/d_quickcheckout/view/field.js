@@ -126,6 +126,9 @@ qc.FieldView = qc.View.extend({
 			ga('send', 'event', config.name, 'update', e.currentTarget.name);
 		}
 		preloaderStart();
+		if(e.currentTarget.name == 'payment_address.shipping_address'){
+			$("#payment_address_zone_id").attr("disabled", true);
+		}
 	},
 
 });

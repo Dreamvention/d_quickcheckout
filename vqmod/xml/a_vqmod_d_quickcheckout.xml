@@ -7,9 +7,9 @@
 	<file name="catalog/controller/checkout/checkout.php">
 		<operation error="skip" info="for 2.0.x and 2.1.x">
 			<search position="replace" offset="4"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/checkout.tpl')) {]]></search>
-			<ignoreif><![CDATA[// a_vqmod_d_quickcheckout.xml]]></ignoreif>
+			<ignoreif><![CDATA[//a_vqmod_d_quickcheckout.xml]]></ignoreif>
 			<add><![CDATA[
-			// a_vqmod_d_quickcheckout.xml
+			//a_vqmod_d_quickcheckout.xml
 			
 			if($this->config->get('d_quickcheckout_status')){
 				$template = 'd_quickcheckout';
@@ -26,9 +26,9 @@
 		</operation>
 		<operation error="skip" info="For 2.2.x and up">
 			<search position="replace"><![CDATA[$this->response->setOutput($this->load->view('checkout/checkout', $data));]]></search>
-			<ignoreif><![CDATA[// a_vqmod_d_quickcheckout.xml]]></ignoreif>
+			<ignoreif><![CDATA[//a_vqmod_d_quickcheckout.xml]]></ignoreif>
 			<add><![CDATA[
-			// a_vqmod_d_quickcheckout.xml
+			//a_vqmod_d_quickcheckout.xml
 			
 			if($this->config->get('d_quickcheckout_status')){
 				$template = 'd_quickcheckout';
@@ -50,9 +50,9 @@
 	<file name="system/library/tax.php,system/library/cart/tax.php">
 		<operation error="skip">
 			<search position="after"><![CDATA[final class Tax {]]></search>
-			<ignoreif><![CDATA[// a_vqmod_d_quickcheckout.xml]]></ignoreif>
+			<ignoreif><![CDATA[//a_vqmod_d_quickcheckout.xml]]></ignoreif>
 			<add><![CDATA[
-	// a_vqmod_d_quickcheckout.xml
+	//a_vqmod_d_quickcheckout.xml
 	public function clearRates(){
 		$this->tax_rates = array();
 	}
@@ -62,9 +62,9 @@
 	<file name="system/library/tax.php,system/library/tax.php">
 		<operation error="skip">
 			<search position="after"><![CDATA[final class Tax {]]></search>
-			<ignoreif><![CDATA[// a_vqmod_d_quickcheckout.xml]]></ignoreif>
+			<ignoreif><![CDATA[//a_vqmod_d_quickcheckout.xml]]></ignoreif>
 			<add><![CDATA[
-	// a_vqmod_d_quickcheckout.xml
+	//a_vqmod_d_quickcheckout.xml
 	public function clearRates(){
 		$this->tax_rates = array();
 	}

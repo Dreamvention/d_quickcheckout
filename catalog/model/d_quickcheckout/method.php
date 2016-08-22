@@ -56,11 +56,17 @@ class ModelDQuickcheckoutMethod extends Model {
 		foreach ($results as $result) {
 
 			if ($this->config->get($result['code'] . '_status')) {
-   
-				$this->load->model('shipping/' . $result['code']);
+   				
+   				if(VERSION < '2.3.0.0'){
+   					$this->load->model('shipping/' . $result['code']);
 
-				$quote = $this->{'model_shipping_' . $result['code']}->getQuote($shipping_address);
+					$quote = $this->{'model_shipping_' . $result['code']}->getQuote($shipping_address);
+   				}else{
+   					$this->load->model('extension/shipping/' . $result['code']);
 
+					$quote = $this->{'model_extension_shipping_' . $result['code']}->getQuote($shipping_address);
+   				}
+				
 				if ($quote) {
 					$method_data[$result['code']] = array(
 						'title'      => $quote['title'],
@@ -120,14 +126,27 @@ class ModelDQuickcheckoutMethod extends Model {
 
 		foreach ($results as $result) {
 			if ($this->config->get($result['code'] . '_status')) {
-				$this->load->model('payment/' . $result['code']);
 
-				$method = $this->{'model_payment_' . $result['code']}->getMethod($payment_address, $total);
+				if(VERSION < '2.3.0.0'){
+   					$this->load->model('payment/' . $result['code']);
+
+					$method = $this->{'model_payment_' . $result['code']}->getMethod($payment_address, $total);
+   				}else{
+   					$this->load->model('extension/payment/' . $result['code']);
+
+					$method = $this->{'model_extension_payment_' . $result['code']}->getMethod($payment_address, $total);
+   				}
 
 				if ($method) {
 					if ($recurring) {
-						if (method_exists($this->{'model_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_payment_' . $result['code']}->recurringPayments()) {
-							$method_data[$result['code']] = $method;
+						if(VERSION < '2.3.0.0'){
+							if (method_exists($this->{'model_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_payment_' . $result['code']}->recurringPayments()) {
+								$method_data[$result['code']] = $method;
+							}
+						}else{
+							if (property_exists($this->{'model_extension_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_extension_payment_' . $result['code']}->recurringPayments()) {
+								$method_data[$result['code']] = $method;
+							}
 						}
 					} else {
 						$method_data[$result['code']] = $method;

@@ -27,9 +27,17 @@ qc.statistic = qc.statistic || {};
 
 function preloaderStart(){
   $('#qc_confirm_order').prop('disabled', true);
-  if ($('#qc_confirm_order:hover').length>0) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
+  if(is_touch_device()){
+    
+  }else{
+    if ($('#qc_confirm_order:hover').length>0) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
+  }
+  
   // console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
   $('.preloader').delay(500).fadeIn(300);
+}
+function is_touch_device() {
+  return 'ontouchstart' in window;
 }
 
 function preloaderStop(){

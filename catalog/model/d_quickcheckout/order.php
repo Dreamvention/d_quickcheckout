@@ -107,7 +107,9 @@ class ModelDQuickcheckoutOrder extends Model {
     }
 
     public function updateOrder($order_id, $data) {
-        $this->event->trigger('pre.order.add', $data);
+        if(VERSION < '2.3.0.0'){
+            $this->event->trigger('pre.order.add', $data);
+        }
 
         $query = "UPDATE `" . DB_PREFIX . "order` SET 
             invoice_prefix = '" . $this->db->escape($data['invoice_prefix']) . "', 
@@ -225,8 +227,9 @@ class ModelDQuickcheckoutOrder extends Model {
         foreach ($data['totals'] as $total) {
             $this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int) $order_id . "', code = '" . $this->db->escape($total['code']) . "', title = '" . $this->db->escape($total['title']) . "', `value` = '" . (float) $total['value'] . "', sort_order = '" . (int) $total['sort_order'] . "'");
         }
-
-        $this->event->trigger('post.order.add', $order_id);
+        if(VERSION < '2.3.0.0'){
+            $this->event->trigger('post.order.add', $order_id);
+        }
 
         return $order_id;
     }
@@ -255,15 +258,22 @@ class ModelDQuickcheckoutOrder extends Model {
 
         foreach ($results as $result) {
             if ($this->config->get($result['code'] . '_status')) {
-                $this->load->model('total/' . $result['code']);
-                if(VERSION >= '2.2.0.0'){
+                
+                if(VERSION < '2.2.0.0'){
+                    $this->load->model('total/' . $result['code']);
+                    $this->{'model_total_' . $result['code']}->getTotal($total_data['totals'], $total_data['total'], $total_data['taxes']);
+                }elseif(VERSION < '2.3.0.0'){
+                    $this->load->model('total/' . $result['code']);
                     $this->{'model_total_' . $result['code']}->getTotal($total_data);
                 }else{
-                    $this->{'model_total_' . $result['code']}->getTotal($total_data['totals'], $total_data['total'], $total_data['taxes']);
+                    $this->load->model('extension/total/' . $result['code']);
+                    $this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
                 }
                 
             }
         }
+
+     
 
         $sort_order = array();
 

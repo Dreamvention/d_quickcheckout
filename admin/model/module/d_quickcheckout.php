@@ -18,7 +18,6 @@ class ModelModuleDQuickcheckout extends Model {
 
 	}
 
-
 	public function getZonesByCountryId($country_id){
 		$this->load->model('localisation/zone');
 		$zones =  $this->model_localisation_zone->getZonesByCountryId($country_id);
@@ -417,6 +416,43 @@ class ModelModuleDQuickcheckout extends Model {
     	return $query->rows;
     }
 
+	public function getTotalStatistics($setting_id){
+		$query = $this->db->query("SELECT COUNT(*) as total FROM `" . DB_PREFIX . "dqc_statistic` WHERE setting_id = '" . (int)$setting_id . "'");
+
+		return $query->row['total'];
+	}
+
+	public function getAnalytics($setting_id, $data = array()){
+		$sql = "SELECT *, (s.date_modified - s.date_added) as checkout_time FROM `" . DB_PREFIX . "dqc_statistic` s
+    		LEFT JOIN `" . DB_PREFIX . "order` o ON (o.order_id = s.order_id)
+    		WHERE setting_id = '" . (int)$setting_id . "' ORDER BY o.order_id DESC";
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+		$query = $this->db->query($sql);
+
+		foreach($query->rows as $key => $data){
+			$query->rows[$key]['data'] = $this->rateStatistic(json_decode($data['data'], true));
+			if($data['rating'] == '0.00' && $data['order_status_id']){
+				$this->db->query("UPDATE `" . DB_PREFIX . "dqc_statistic` SET `rating` = '" . (int)$query->rows[$key]['data']['rating'] . "' WHERE `statistic_id` = '" . (float)$data['statistic_id'] . "'");
+			}
+			if($data['order_status_id']){
+				$query->rows[$key]['rating'] = $query->rows[$key]['data']['rating'];
+			}
+		}
+
+		return $query->rows;
+	}
 
 	public function getConfigSetting($id, $config_key, $store_id, $config_file = false){
 

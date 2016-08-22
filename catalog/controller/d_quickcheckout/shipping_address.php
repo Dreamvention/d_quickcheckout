@@ -103,7 +103,19 @@ class ControllerDQuickcheckoutShippingAddress extends Controller {
 
         //post
         if(isset($this->request->post['shipping_address'])){
-
+            
+            if(isset($this->session->data['shipping_address']['country_id']) && isset($this->request->post['shipping_address']['country_id'])){
+                if($this->session->data['shipping_address']['country_id'] != $this->request->post['shipping_address']['country_id']){
+                    $json['payment_address_refresh'] = true;
+                    $json['shipping_address_refresh'] = true;
+                }
+            }
+            if(isset($this->session->data['shipping_address']['city_id']) && isset($this->request->post['shipping_address']['city_id'])){
+                if($this->session->data['shipping_address']['city_id'] != $this->request->post['shipping_address']['city_id']){
+                    $json['payment_address_refresh'] = true;
+                    $json['shipping_address_refresh'] = true;
+                }
+            }
             $this->request->post['shipping_address'] = $this->model_d_quickcheckout_address->compareAddress($this->request->post['shipping_address'], $this->session->data['shipping_address']);
 
             if($this->customer->isLogged()){

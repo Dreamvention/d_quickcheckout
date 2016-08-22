@@ -120,6 +120,18 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
                     $json['shipping_address_refresh'] = true;
                 }
             }
+            if(isset($this->session->data['payment_address']['country_id']) && isset($this->request->post['payment_address']['country_id'])){
+                if($this->session->data['payment_address']['country_id'] != $this->request->post['payment_address']['country_id']){
+                    $json['payment_address_refresh'] = true;
+                    $json['shipping_address_refresh'] = true;
+                }
+            }
+            if(isset($this->session->data['payment_address']['city_id']) && isset($this->request->post['payment_address']['city_id'])){
+                if($this->session->data['payment_address']['city_id'] != $this->request->post['payment_address']['city_id']){
+                    $json['payment_address_refresh'] = true;
+                    $json['shipping_address_refresh'] = true;
+                }
+            }
 
             //update address data if contry_id or zone_id changed
             $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->compareAddress($this->request->post['payment_address'], $this->session->data['payment_address']);

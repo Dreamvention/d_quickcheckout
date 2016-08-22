@@ -31,18 +31,19 @@ qc.ShippingAddressView = qc.View.extend({
 	},
 
 	changeCountry: function(e){
-	  if(e.currentTarget.value !== ''){
-	   this.model.set('shipping_address.zone_id', 0);
-	   this.setZone(e.currentTarget.value);
-	   if(parseInt(config.general.analytics_event)){
-	    ga('send', 'event', config.name, 'update', 'payment_address.changeCountry');
-	   }
-	   preloaderStart();
-	  } else {
-	   this.model.set('payment_address.zone_id', '');
-	   this.render();   
-	   	  }
-	 },
+		if(e.currentTarget.value !== ''){
+			this.model.set('shipping_address.zone_id', 0);
+			this.setZone(e.currentTarget.value);
+			if(parseInt(config.general.analytics_event)){
+				ga('send', 'event', config.name, 'update', 'shipping_address.changeCountry');
+			}
+			preloaderStart();
+		} else {
+			this.model.set('shipping_address.zone_id', '');
+			this.render();   
+		}
+
+	},
 
 
 	setZone: function(country_id){
@@ -74,14 +75,16 @@ qc.ShippingAddressView = qc.View.extend({
 			this.setZone(this.model.get('shipping_address.country_id'));
 		}
 
-		if(data.shipping_address_refresh){
-			// this.render();
-			if(data.shipping_address){
-				this.model.set('shipping_address', data.shipping_address);
-			}
+		if(data.shipping_address){
+			this.model.set('shipping_address', data.shipping_address);
 			render_state = true;
 		}
-		if(!render_state){
+
+		if(data.shipping_address_refresh){			// this.render();
+			
+			render_state = true;
+		}
+		if(render_state){
 			this.render();
 		}
 	},

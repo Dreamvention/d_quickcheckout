@@ -1,7 +1,7 @@
 <?php
 
 /*
- * 	location: admin/controller
+ *  location: admin/controller
  */
 
 class ControllerModuleDQuickcheckout extends Controller {
@@ -209,8 +209,8 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['text_create_setting_probability'] = $this->language->get('text_create_setting_probability');
 
         //action
-        $data['module_link'] = $this->model_module_d_quickcheckout->ajax($this->url->link($this->route, 'token=' . $this->session->data['token'], 'SSL'));
-        $data['action'] = $this->model_module_d_quickcheckout->ajax($this->url->link($this->route, 'token=' . $this->session->data['token'] . $url, 'SSL'));
+        $data['module_link'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '&token=' . $this->session->data['token'] . $url;
+        $data['action'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '&token=' . $this->session->data['token'] . $url; 
         $data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
         if(VERSION >= '2.1.0.1'){
             $data['add_field'] = $this->url->link('customer/custom_field/add', 'token=' . $this->session->data['token'], 'SSL');
@@ -464,8 +464,8 @@ class ControllerModuleDQuickcheckout extends Controller {
         }
 
         $data['setting_id'] = $this->model_module_d_quickcheckout->getCurrentSettingId($this->id, $this->store_id);
-        $data['create_setting'] = $this->model_module_d_quickcheckout->ajax($this->url->link($this->route . '/createSetting', 'token=' . $this->session->data['token'] . $url, 'SSL'));
-        $data['delete_setting'] = $this->model_module_d_quickcheckout->ajax($this->url->link($this->route . '/deleteSetting', 'setting_id=' . $data['setting_id'] . '&token=' . $this->session->data['token'] . $url, 'SSL'));
+        $data['create_setting'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '/createSetting&token=' . $this->session->data['token'] . $url;
+        $data['delete_setting'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '/deleteSetting&token=' . $this->session->data['token'] . $url; 
         $data['save_bulk_setting'] = $this->model_module_d_quickcheckout->ajax($this->url->link($this->route . '/saveBulkSetting', 'token=' . $this->session->data['token'] . $url, 'SSL'));
         $data['setting_cycle'] = $this->config->get($this->id . '_setting_cycle');
         $data['setting_name'] = $this->model_module_d_quickcheckout->getSettingName($data['setting_id']);
@@ -531,6 +531,41 @@ class ControllerModuleDQuickcheckout extends Controller {
             
         }
 
+        //pagination of analytics
+
+        if (isset($this->request->get['page'])) {
+            $page = $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
+
+        $limit = array (
+            'start'     => ($page - 1) * $this->config->get('config_limit_admin'),
+            'limit'     => $this->config->get('config_limit_admin')
+        );
+
+        $data['analytics_getAll'] = $this->model_module_d_quickcheckout->getAnalytics($data['setting_id'], $limit);
+        foreach ($data['analytics_getAll'] as $key => $value) {
+            $data['analytics_getAll'][$key]['total'] = $this->currency->format($value['total'], $value['currency_code'], $value['currency_value']);
+            $data['analytics_getAll'][$key]['rating'] = round($value['rating'] * 100) . '%';
+
+            if ($value['customer_id']) {
+                $data['analytics_getAll'][$key]['href_customer'] = $this->url->link('sale/customer/edit', 'token=' . $this->session->data['token'] . '&customer_id=' . $value['customer_id'], 'SSL');
+            } else {
+                $data['analytics_getAll'][$key]['href_customer'] = '';
+            }
+        }
+
+        $analytics_total = $this->model_module_d_quickcheckout->getTotalStatistics($data['setting_id']);
+
+        $pagination = new Pagination();
+        $pagination->total = $analytics_total;
+        $pagination->page = $page;
+        $pagination->limit = $this->config->get('config_limit_admin');
+        $pagination->url = $this->url->link('module/d_quickcheckout', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+
+        $data['pagination'] = $pagination->render();
+        $data['results'] = sprintf($this->language->get('text_pagination'), ($analytics_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($analytics_total - $this->config->get('config_limit_admin'))) ? $analytics_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $analytics_total, ceil($analytics_total / $this->config->get('config_limit_admin')));
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
@@ -615,25 +650,29 @@ class ControllerModuleDQuickcheckout extends Controller {
     }
 
     public function install() {
-        $this->load->model('module/d_quickcheckout');
-        $this->model_module_d_quickcheckout->setVqmod('a_vqmod_d_quickcheckout.xml', 1);
+        if($this->validate()){
+            $this->load->model('module/d_quickcheckout');
+            $this->model_module_d_quickcheckout->setVqmod('a_vqmod_d_quickcheckout.xml', 1);
 
-        $this->model_module_d_quickcheckout->installDatabase();
+            $this->model_module_d_quickcheckout->installDatabase();
 
-        $this->getUpdate(1);
+            $this->getUpdate(1);
+        }
     }
 
     public function uninstall() {
-        $this->load->model('module/d_quickcheckout');
-        $this->model_module_d_quickcheckout->setVqmod('a_vqmod_d_quickcheckout.xml', 0);
+        if($this->validate()){
+             $this->load->model('module/d_quickcheckout');
+            $this->model_module_d_quickcheckout->setVqmod('a_vqmod_d_quickcheckout.xml', 0);
 
-        $this->model_module_d_quickcheckout->uninstallDatabase();
+            $this->model_module_d_quickcheckout->uninstallDatabase();
 
-        $this->getUpdate(0);
+            $this->getUpdate(0);
+        }
     }
 
     /*
-     * 	Ajax: clear debug file.
+     *  Ajax: clear debug file.
      */
 
     public function clearDebugFile() {
@@ -657,7 +696,7 @@ class ControllerModuleDQuickcheckout extends Controller {
     }
 
     /*
-     * 	Ajax: Get the update information on this module. 
+     *  Ajax: Get the update information on this module. 
      */
 
     public function getZone() {

@@ -8,7 +8,7 @@ qc.PaymentAddressView = qc.View.extend({
 	events: {
 		'change input[type=radio].payment-address': 'changeAddress',
 		'change select.country_id': 'changeCountry',
-
+		'change select.zone_id': 'zoneDelay'
 	},
 
 	template: '',
@@ -34,19 +34,18 @@ qc.PaymentAddressView = qc.View.extend({
 	},
 
 	changeCountry: function(e){
-	  if(e.currentTarget.value !== ''){
-	   this.model.set('shipping_address.zone_id', 0);
-	   this.setZone(e.currentTarget.value);
-	   if(parseInt(config.general.analytics_event)){
-	    ga('send', 'event', config.name, 'update', 'payment_address.changeCountry');
-	   }
-	   preloaderStart();
-	  } else {
-	   this.model.set('payment_address.zone_id', '');
-	   this.render();   
-	  }
-	 },
-
+		if(e.currentTarget.value !== ''){
+			this.model.set('shipping_address.zone_id', 0);
+			this.setZone(e.currentTarget.value);
+			if(parseInt(config.general.analytics_event)){
+				ga('send', 'event', config.name, 'update', 'payment_address.changeCountry');
+			}
+			preloaderStart();
+		} else {
+			this.model.set('payment_address.zone_id', '');
+			this.render();   
+		}
+	},
 	setZone: function(country_id){
 		var that = this;
 		$.post('index.php?route=d_quickcheckout/field/getZone', { country_id : country_id }, function(data) {
@@ -77,17 +76,20 @@ qc.PaymentAddressView = qc.View.extend({
 			this.setZone(this.model.get('payment_address.country_id'));
 		}
 
-		if(data.payment_address_refresh){
-			if(data.payment_address){
-				this.model.set('payment_address', data.payment_address);
-			}
+		if(data.payment_address){
+			this.model.set('payment_address', data.payment_address);
+			render_state = true;
+		}
+
+		if(data.payment_address_refresh){			
 			//this.render();
 			render_state = true;
 		}
 		if(render_state){
 			this.render();
 		}
-
+		$("#payment_address_shipping_address").attr("disabled", false);
+		$("#payment_address_zone_id").attr("disabled", false);
 	},
 
 	shipping_required: function(){
@@ -108,4 +110,9 @@ qc.PaymentAddressView = qc.View.extend({
 		this.shipping_required();
 		$('#' + this.focusedElementId).focus();
 	},
+
+	zoneDelay: function(){
+		console.log("payment_address:zone_delay");
+		$("#payment_address_shipping_address").attr("disabled", true);
+	}
 });

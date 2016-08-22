@@ -41,12 +41,20 @@ class ControllerDQuickcheckoutPayment extends Controller {
 			
 			if($json['payment_popup']){
 				if(!empty($json['cofirm_order'])){
-					$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
+					if(VERSION < '2.3.0.0'){
+						$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
+					}else{
+						$json['payment'] = $this->load->controller('extension/payment/' . $this->session->data['payment_method']['code']);
+					}
 				}else{
 					$json['payment'] = '';
 				}
 			}else{
-				$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);	
+				if(VERSION < '2.3.0.0'){
+					$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
+				}else{
+					$json['payment'] = $this->load->controller('extension/payment/' . $this->session->data['payment_method']['code']);
+				}
 			}
 			
 			$json['payment_popup_title'] = $this->session->data['payment_method']['title'];

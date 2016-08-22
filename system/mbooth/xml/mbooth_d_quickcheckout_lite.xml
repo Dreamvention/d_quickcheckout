@@ -5,7 +5,7 @@
         Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.3.2.4</version>
+    <version>6.3.3</version>
     <license>lite</license>
     <ocmod>true</ocmod>
     <vqmod>true</vqmod>
@@ -45,12 +45,13 @@
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
-        <update version="6.3.2.4">
+        <update version="6.3.3">
             <![CDATA[
         1. Fix default payment and shipping
         2. Fix the problem did not work when the payment popup
         3. Fix problem when the logged in user can not make an order
         4. Fix loss of data address
+        5. Replaced mbooth.xml with extension.json
         ]]>
         </update>
         <update version="6.3.2.3">

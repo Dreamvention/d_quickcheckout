@@ -41,7 +41,7 @@
     },
     "files": [
         "system/mbooth/extension/d_quickcheckout_lite.json",
-        "system/mbooth/xml/mbooth_d_quickcheckout.xml",
+        "system/mbooth/xml/mbooth_d_quickcheckout_lite.xml",
         "admin/controller/module/d_quickcheckout.php",
         "admin/language/english/module/d_quickcheckout.php",
         "admin/language/english/module/d_quickcheckout_instruction.php",

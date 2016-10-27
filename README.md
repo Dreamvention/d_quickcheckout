@@ -5,4 +5,4 @@ The full version can be viewed and purchased here http://demo.shopunity.net/inde
 
 You can also install a social login lite with it.
 
-deplo
+deploy

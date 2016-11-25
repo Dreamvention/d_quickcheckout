@@ -4,6 +4,12 @@
  */
 
 class ModelModuleDQuickcheckout extends Model {
+	public function __construct($registry){
+		parent::__construct($registry);
+		if(!defined('DIR_ROOT')){
+			define('DIR_ROOT', substr_replace(DIR_SYSTEM, '/', -8));
+		}
+	}
 
 	public function getCountries(){
 		$this->load->model('localisation/country');	
@@ -32,30 +38,52 @@ class ModelModuleDQuickcheckout extends Model {
 	}
 
 	public function getShippingMethods() {
-		$shipping_methods = glob(DIR_APPLICATION . 'controller/shipping/*.php');
+		if(VERSION >= '2.3.0.0'){
+			$shipping_methods = glob(DIR_APPLICATION . 'controller/extension/shipping/*.php');
+		} else {
+			$shipping_methods = glob(DIR_APPLICATION . 'controller/shipping/*.php');
+		}
 		$result = array();
 		foreach ($shipping_methods as $shipping){
 			$shipping = basename($shipping, '.php');
-			$this->load->language('shipping/' . $shipping);
-			$result[] = array(
-				'code' => $shipping,
-				'title' => $this->language->get('heading_title')
-			);
+			if(VERSION >= '2.3.0.0'){
+				$this->load->language('extension/shipping/' . $shipping);
+			} else {
+				$this->load->language('shipping/' . $shipping);
+			}
+			$shipping_status = $this->config->get($shipping.'_status');
+			if(isset($shipping_status)){
+				$result[] = array(
+					'code' => $shipping,
+					'title' => $this->language->get('heading_title')
+				);
+			}
 		}
 		return $result;
 	}
 
 	public function getPaymentMethods(){
-		$payment_methods = glob(DIR_APPLICATION . 'controller/payment/*.php');
+		if(VERSION >= '2.3.0.0'){
+			$payment_methods = glob(DIR_APPLICATION . 'controller/extension/payment/*.php');
+		} else {
+			$payment_methods = glob(DIR_APPLICATION . 'controller/payment/*.php');
+		}
 		$result = array();
 		foreach ($payment_methods as $payment){
 			$payment = basename($payment, '.php');
-			$this->load->language('payment/' . $payment);
-			$result[] = array(
-				'status' => $this->config->get($payment . '_status'),
-				'code' => $payment,
-				'title' => $this->language->get('heading_title')
-			);
+			if(VERSION >= '2.3.0.0'){
+				$this->load->language('extension/payment/' . $payment);
+			} else {
+				$this->load->language('payment/' . $payment);
+			}
+			$payment_status = $this->config->get($payment.'_status');
+			if(isset($payment_status)){
+				$result[] = array(
+					'status' => $this->config->get($payment . '_status'),
+					'code' => $payment,
+					'title' => $this->language->get('heading_title')
+				);
+			}
 		}
 		return $result;
 	}
@@ -737,7 +765,7 @@ class ModelModuleDQuickcheckout extends Model {
 	*/
 
 	public function installDependencies($mbooth){
-		define('DIR_ROOT', substr_replace(DIR_SYSTEM, '/', -8));
+		
 		foreach($this->getDependencies($mbooth) as $extension){
 			if(isset($extension['codename'])){
 				if(!$this->getVersion('mbooth_'.$extension['codename'].'.xml') || ($extension['version'] > $this->getVersion('mbooth_'.$extension['codename'].'.xml'))){

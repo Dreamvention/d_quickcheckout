@@ -20,9 +20,15 @@
 		<div class="qc-checkout-product panel-body" >
 			<% if(model.config.description){ %><p class="text"><%= model.config.description %></p><% } %>
 			<% if(model.error){ %>
-				<div class="alert alert-danger">
-					<i class="fa fa-exclamation-circle"></i> <%= model.error %>
-				</div>
+				<% if(model.config_stock_warning){ %>
+					<div class="save-alert save-alert-danger">
+						<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+					</div>
+				<% } else { %>
+					<div class="alert alert-danger">
+						<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+					</div>
+				<% } %>
 			<% } %>
 
 			<table class="table table-bordered qc-cart">

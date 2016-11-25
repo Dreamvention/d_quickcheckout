@@ -305,7 +305,10 @@ class ModelDQuickcheckoutOrder extends Model {
 
     public function addVoucher($order_id, $voucher) {
 
-        if (VERSION >= '2.1.0.1') {
+        if(VERSION >= '2.3.0.0'){
+            $this->load->model('extension/total/voucher');
+            return $this->model_extension_total_voucher->addVoucher($order_id, $voucher);
+        } elseif (VERSION >= '2.1.0.1') {
             $this->load->model('total/voucher');
             return $this->model_total_voucher->addVoucher($order_id, $voucher);
         } else {

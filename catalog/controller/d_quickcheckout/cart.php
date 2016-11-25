@@ -7,7 +7,9 @@ class ControllerDQuickcheckoutCart extends Controller {
         $this->model_module_d_quickcheckout->logWrite('Controller:: cart/index');
 
         $this->load->language('checkout/cart');
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >= '2.3.0.0'){
+            $this->load->language('extension/total/coupon');
+        }elseif(VERSION >= '2.1.0.1'){
             $this->load->language('total/coupon');
         }else{
             $this->load->language('checkout/coupon');
@@ -29,14 +31,18 @@ class ControllerDQuickcheckoutCart extends Controller {
         $data['column_total'] = $this->language->get('column_total');
         $data['text_recurring_item'] = $this->language->get('text_recurring_item');
         
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >= '2.3.0.0'){
+            $this->load->language('extension/total/coupon');
+        }elseif(VERSION >= '2.1.0.1'){
             $this->load->language('total/coupon');
         }else{
             $this->load->language('checkout/coupon');
         }
         $data['text_use_coupon'] = $this->language->get('heading_title');
         
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >= '2.3.0.0'){
+            $this->load->language('extension/total/voucher');
+        }elseif(VERSION >= '2.1.0.1'){
             $this->load->language('total/voucher');
         }else{
             $this->load->language('checkout/voucher');
@@ -56,7 +62,9 @@ class ControllerDQuickcheckoutCart extends Controller {
         if ($points && $points_total && $this->config->get('reward_status')) {
             $data['reward_points'] = true;
            
-            if(VERSION >= '2.1.0.1'){
+            if(VERSION >= '2.3.0.0'){
+                $this->load->language('extension/total/reward');
+            }elseif(VERSION >= '2.1.0.1'){
                  $this->load->language('total/reward');
             }else{
                 $this->load->language('checkout/reward');
@@ -115,6 +123,8 @@ class ControllerDQuickcheckoutCart extends Controller {
 
         if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
             $data['error_warning'] = $this->language->get('error_stock');
+            $stock_warning_status = $this->config->get('config_stock_warning');
+            $data['config_stock_warning'] = isset($stock_warning_status)?true:false;
         } else {
             $data['error_warning'] = '';
         }
@@ -252,7 +262,7 @@ class ControllerDQuickcheckoutCart extends Controller {
         } else {
             $json['cart_weight'] = false;
         }
-
+        $json['config_stock_warning'] = isset($data['config_stock_warning'])?$data['config_stock_warning']:'';
         $json['cart_error'] = (!empty($data['error_warning'])) ? $data['error_warning'] : '';
 
         return $json;
@@ -407,14 +417,18 @@ class ControllerDQuickcheckoutCart extends Controller {
     public function updateCoupon(){
         $this->load->model('module/d_quickcheckout');
         $this->load->model('d_quickcheckout/order');
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >='2.3.0.0'){
+            $this->load->language('extension/total/coupon');
+        }elseif(VERSION >= '2.1.0.1'){
             $this->load->language('total/coupon');
         }else{
             $this->load->language('checkout/coupon');
         }
 
         $json = array();
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >= '2.3.0.0'){
+            $this->load->model('extension/total/coupon');
+        }elseif(VERSION >= '2.1.0.1'){
             $this->load->model('total/coupon');
         }else{
             $this->load->model('checkout/coupon');
@@ -427,10 +441,12 @@ class ControllerDQuickcheckoutCart extends Controller {
             $coupon = '';
         }
 
-        if(VERSION >= '2.1.0.1'){
-               $coupon_info = $this->model_total_coupon->getCoupon($coupon);
+        if(VERSION >= '2.3.0.0'){
+            $coupon_info = $this->model_extension_total_coupon->getCoupon($coupon);
+        }elseif(VERSION >= '2.1.0.1'){
+            $coupon_info = $this->model_total_coupon->getCoupon($coupon);
         }else{
-               $coupon_info = $this->model_checkout_coupon->getCoupon($coupon);
+            $coupon_info = $this->model_checkout_coupon->getCoupon($coupon);
         }
 
         if (empty($this->request->post['coupon'])) {
@@ -489,7 +505,10 @@ class ControllerDQuickcheckoutCart extends Controller {
         $this->load->model('module/d_quickcheckout');
         $this->load->model('d_quickcheckout/order');
         
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >= '2.3.0.0'){
+            $this->load->language('extension/total/voucher');
+             $this->load->model('extension/total/voucher');
+        }elseif(VERSION >= '2.1.0.1'){
             $this->load->language('total/voucher');
              $this->load->model('total/voucher');
         }else{
@@ -505,7 +524,9 @@ class ControllerDQuickcheckoutCart extends Controller {
             $voucher = '';
         }
 
-        if(VERSION >= '2.1.0.1'){
+        if(VERSION >= '2.3.0.0'){
+            $voucher_info = $this->model_extension_total_voucher->getVoucher($voucher);
+        }elseif(VERSION >= '2.1.0.1'){
              $voucher_info = $this->model_total_voucher->getVoucher($voucher);
         }else{
              $voucher_info = $this->model_checkout_voucher->getVoucher($voucher);

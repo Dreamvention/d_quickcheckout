@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout_lite",
-    "version": "6.3.3",
+    "version": "6.3.4",
     "name": "Ajax Quick Checkout Lite",
     "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
     "images": {
@@ -70,35 +70,39 @@
     ],
     "changelog": [
         {
-            "varsion":"6.3.3",
-            "change": "1. Replaced mbooth.xml with extension.json"
-        }, 
+          "version":"6.3.4",
+          "change": "1. Fixes for 2.3.0.2 (coupon/voucher)"
+        },
         {
-            "varsion":"6.3.2.5",
+            "version":"6.3.3",
+            "change": "1. Replaced mbooth.xml with extension.json"
+        },
+        {
+            "version":"6.3.2.5",
             "change": "1. Fix lost region."
         },
         {
-            "varsion":"6.3.2.5",
+            "version":"6.3.2.5",
             "change": "1. Bug fixes \r\n2. Mobile hover fix."
         },
         {
-            "varsion":"6.3.2.4",
+            "version":"6.3.2.4",
             "change": "1. Fix default payment and shipping \r\n 2. Fix the problem did not work when the payment popup \r\n3. Fix problem when the logged in user can not make an order \r\n4. Fix loss of data address"
         },
         {
-            "varsion":"6.3.2.3",
+            "version":"6.3.2.3",
             "change": "1. Delete label from checkbox(custom_field)."
         },
         {
-            "varsion":"6.3.2.2",
+            "version":"6.3.2.2",
             "change": "1. minor bug fixes"
         },
         {
-            "varsion":"6.3.2.1",
+            "version":"6.3.2.1",
             "change": "1. Added postcode in shipping address."
         },
         {
-            "varsion":"6.3.2.0",
+            "version":"6.3.2.0",
             "change": "1. Autocomplete option added. \r\n2. Fix shipping and payment addres conflict on registration \r\n3. Fix multiple request sent \r\n4. Small bug fixes."
         }
     ]

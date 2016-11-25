@@ -29,7 +29,7 @@ class ControllerModuleDQuickcheckout extends Controller {
     }
 
     public function index() {
-     
+
         $this->model_module_d_quickcheckout->installDatabase();
 
         $this->config_file = $this->model_module_d_quickcheckout->getConfigFile($this->id, $this->sub_versions);
@@ -48,8 +48,11 @@ class ControllerModuleDQuickcheckout extends Controller {
             }
             $this->model_setting_setting->editSetting($this->id, $this->request->post, $this->store_id);
             $this->session->data['success'] = $this->language->get('text_success');
-
-            $this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+            if(VERSION < '2.3.0.0'){
+              $this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+            } else {
+              $this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'], '&type=module', 'SSL'));
+            }
         }
 
         // styles and scripts
@@ -133,7 +136,7 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['store_id'] = $this->store_id;
         $data['stores'] = $this->model_module_d_quickcheckout->getStores();
         $data['mbooth'] = $this->mbooth;
-        
+
         $data['support_email'] = $this->model_module_d_quickcheckout->getMboothInfo($this->mbooth)->support_email;
         $data['version'] = $this->model_module_d_quickcheckout->getVersion($data['mbooth']);
         $data['token'] = $this->session->data['token'];
@@ -210,8 +213,14 @@ class ControllerModuleDQuickcheckout extends Controller {
 
         //action
         $data['module_link'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '&token=' . $this->session->data['token'] . $url;
-        $data['action'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '&token=' . $this->session->data['token'] . $url; 
-        $data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
+        $data['action'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '&token=' . $this->session->data['token'] . $url;
+
+        if(VERSION < '2.3.0.0'){
+            $data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
+        }else{
+            $data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'].'&type=module', 'SSL');
+        }
+
         if(VERSION >= '2.1.0.1'){
             $data['add_field'] = $this->url->link('customer/custom_field/add', 'token=' . $this->session->data['token'], 'SSL');
             $data['custom_field'] = $this->url->link('customer/custom_field', 'token=' . $this->session->data['token'], 'SSL');
@@ -219,7 +228,7 @@ class ControllerModuleDQuickcheckout extends Controller {
             $data['add_field'] = $this->url->link('sale/custom_field/add', 'token=' . $this->session->data['token'], 'SSL');
             $data['custom_field'] = $this->url->link('sale/custom_field', 'token=' . $this->session->data['token'], 'SSL');
         }
-         
+
         //update
         $data['entry_update'] = sprintf($this->language->get('entry_update'), $data['version']);
         $data['button_update'] = $this->language->get('button_update');
@@ -301,7 +310,7 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['help_general_compress'] = $this->language->get('help_general_compress');
         $data['entry_general_update_mini_cart'] = $this->language->get('entry_general_update_mini_cart');
         $data['help_general_update_mini_cart'] = $this->language->get('help_general_update_mini_cart');
-        
+
 
         //social login
         $data['text_social_login_required'] = $this->language->get('text_social_login_required');
@@ -465,13 +474,13 @@ class ControllerModuleDQuickcheckout extends Controller {
 
         $data['setting_id'] = $this->model_module_d_quickcheckout->getCurrentSettingId($this->id, $this->store_id);
         $data['create_setting'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '/createSetting&token=' . $this->session->data['token'] . $url;
-        $data['delete_setting'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '/deleteSetting&token=' . $this->session->data['token'] . $url; 
+        $data['delete_setting'] = HTTPS_SERVER . 'index.php?route=' . $this->route . '/deleteSetting&token=' . $this->session->data['token'] . $url;
         $data['save_bulk_setting'] = $this->model_module_d_quickcheckout->ajax($this->url->link($this->route . '/saveBulkSetting', 'token=' . $this->session->data['token'] . $url, 'SSL'));
         $data['setting_cycle'] = $this->config->get($this->id . '_setting_cycle');
         $data['setting_name'] = $this->model_module_d_quickcheckout->getSettingName($data['setting_id']);
 
         $data['options'] = array('guest', 'register', 'logged');
-        //get config 
+        //get config
         $data['config_files'] = $this->model_module_d_quickcheckout->getConfigFiles($this->id);
 
         //Get Shipping methods
@@ -490,8 +499,8 @@ class ControllerModuleDQuickcheckout extends Controller {
         $data['social_login'] = $this->model_module_d_quickcheckout->isInstalled('d_social_login');
 
         //Google Analytics
-        $data['analytics'] = $this->checkGoogleAnalytics();   
-        
+        $data['analytics'] = $this->checkGoogleAnalytics();
+
         //Statistic
         $data['statistics'] = $this->model_module_d_quickcheckout->getStatistics($data['setting_id']);
         foreach ($data['statistics'] as $key => $value) {
@@ -528,7 +537,7 @@ class ControllerModuleDQuickcheckout extends Controller {
             }else{
                 $data['languages'][$key]['flag'] = 'view/image/flags/'.$language['image'];
             }
-            
+
         }
 
         //pagination of analytics
@@ -696,7 +705,7 @@ class ControllerModuleDQuickcheckout extends Controller {
     }
 
     /*
-     *  Ajax: Get the update information on this module. 
+     *  Ajax: Get the update information on this module.
      */
 
     public function getZone() {
@@ -757,18 +766,18 @@ class ControllerModuleDQuickcheckout extends Controller {
 
         $this->response->setOutput(json_encode($json));
     }
-    
+
     public function checkGoogleAnalytics() {
         $this->load->model('setting/setting');
         $analytics_config = false;
         if(VERSION >= '2.1.0.1') {
-            
+
             $analytics = $this->model_setting_setting->getSetting('google_analytics');
-            
+
             if (isset($analytics['google_analytics_status']) && $analytics['google_analytics_status']) {
                $analytics_config = true;
             }
-            
+
         }else{
             if ($this->config->get('config_google_analytics_status')) {
                 $analytics_config = true;

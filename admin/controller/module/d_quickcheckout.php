@@ -51,7 +51,7 @@ class ControllerModuleDQuickcheckout extends Controller {
             if(VERSION < '2.3.0.0'){
               $this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
             } else {
-              $this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'], '&type=module', 'SSL'));
+              $this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=module', true));
             }
         }
 

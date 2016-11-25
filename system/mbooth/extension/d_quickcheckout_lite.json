@@ -3,6 +3,7 @@
     "version": "6.3.4",
     "name": "Ajax Quick Checkout Lite",
     "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
+    "index":"module/d_quickcheckout",
     "images": {
         "thumb": "https://opencart.dreamvention.com/market/image/d_blog_module/small.png",
         "main": "https://opencart.dreamvention.com/market/image/d_blog_module/big.png"
@@ -31,6 +32,9 @@
     },
     "install": {
         "url": "extension/module/install&extension=d_quickcheckout"
+    },
+    "uninstall": {
+        "url": "extension/module/uninstall&extension=d_quickcheckout"
     },
     "support": {
         "email": "support@dreamvention.com",

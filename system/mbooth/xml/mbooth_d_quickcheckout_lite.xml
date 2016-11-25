@@ -5,7 +5,7 @@
         Standard Module is a basic module that a developer can use to speed up the process of creating new modules.
     </description>
     <type>module</type>
-    <version>6.3.3</version>
+    <version>6.3.4</version>
     <license>lite</license>
     <ocmod>true</ocmod>
     <vqmod>true</vqmod>
@@ -45,6 +45,11 @@
         <require version="2.2.0">shopunity</require>
     </required>
     <updates>
+      <update version="6.3.3">
+          <![CDATA[
+      1. Fixes for 2.3.0.2 (coupon/voucher)    
+      ]]>
+      </update>
         <update version="6.3.3">
             <![CDATA[
         1. Fix default payment and shipping
@@ -168,7 +173,7 @@
             <![CDATA[
         1. Added js compress option <br/>
         2. payment popup fix<br/>
-        3. lazy loading for popup payment 
+        3. lazy loading for popup payment
         ]]>
         </update>
         <update version="6.2.1">
@@ -303,7 +308,7 @@
         </update>
         <update version="4.1.0">
             <![CDATA[1. Add image popup in cart. </br>
-        2. Updated the Shopunity admin design. 
+        2. Updated the Shopunity admin design.
         3. Added the option of a 4-th column which is a combination of 2 and 3 column. ]]>
         </update>
         <update version="4.0.5">

@@ -45,7 +45,6 @@
     },
     "files": [
         "system/mbooth/extension/d_quickcheckout_lite.json",
-        "system/mbooth/xml/mbooth_d_quickcheckout_lite.xml",
         "admin/controller/module/d_quickcheckout.php",
         "admin/language/english/module/d_quickcheckout.php",
         "admin/language/english/module/d_quickcheckout_instruction.php",
@@ -61,7 +60,7 @@
         "catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less",
         "system/config/d_quickcheckout_lite.php",
-        "vqmod/xml/a_vqmod_d_quickcheckout.xml"
+        "system/mbooth/install/d_quickcheckout.xml"
     ],
     "dirs":[
         "catalog/controller/d_quickcheckout",
@@ -73,6 +72,10 @@
         "system/library/d_compress"
     ],
     "changelog": [
+        {
+          "version":"6.4.5",
+          "change": "1. Update to 6.4.5 version, bug fixes from full."
+        },
         {
           "version":"6.3.4",
           "change": "1. Fixes for 2.3.0.2 (coupon/voucher)"

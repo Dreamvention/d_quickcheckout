@@ -1,9 +1,3 @@
-<!-- 
-	Ajax Quick Checkout 
-	v6.0.0
-	Dreamvention.com 
-	d_quickcheckout/shipping_method.tpl 
--->
 <div id="shipping_method" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
 <script type="text/html" id="shipping_method_template">
 

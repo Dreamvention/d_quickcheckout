@@ -1,9 +1,3 @@
-<!-- 
-	Ajax Quick Checkout 
-	v6.0.0
-	Dreamvention.com 
-	d_quickcheckout/cart.tpl 
--->
 <div id="cart_view" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
 <script type="text/html" id="cart_template">
 

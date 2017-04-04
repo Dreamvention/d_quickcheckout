@@ -114,6 +114,19 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
         //post
         if(isset($this->request->post['payment_address'])){
 
+            //fix &amp; 
+            foreach ($this->request->post['payment_address'] as $key => $value) {
+                if(is_array($this->request->post['payment_address'][$key])){
+                    foreach ($this->request->post['payment_address'][$key] as $custom_field_type => $custom_field_data) {
+                        foreach ($custom_field_data as $custom_field_id => $custom_field_value) {
+                            $this->request->post['payment_address'][$key][$custom_field_type][$custom_field_id] = htmlspecialchars_decode($custom_field_value);
+                        }
+                    }
+                } else {
+                    $this->request->post['payment_address'][$key] = htmlspecialchars_decode($value);
+                }
+            }
+
             if(isset($this->session->data['payment_address']['customer_group_id']) && isset($this->request->post['payment_address']['customer_group_id'])){
                 if($this->session->data['payment_address']['customer_group_id'] != $this->request->post['payment_address']['customer_group_id']){
                     $json['payment_address_refresh'] = true;

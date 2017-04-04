@@ -43,7 +43,7 @@ qc.PaymentAddressView = qc.View.extend({
 			preloaderStart();
 		} else {
 			this.model.set('payment_address.zone_id', '');
-			this.render();
+			this.render();   
 		}
 	},
 	setZone: function(country_id){
@@ -57,7 +57,7 @@ qc.PaymentAddressView = qc.View.extend({
 	update: function(data){
 		console.log('payment_address:render');
 		var render_state = false;
-
+		
 
 		if(typeof(data.shipping_required) !== 'undefined'){
 			this.model.set('shipping_required', data.shipping_required);
@@ -81,7 +81,7 @@ qc.PaymentAddressView = qc.View.extend({
 			// render_state = true;
 		}
 
-		if(data.payment_address_refresh){
+		if(data.payment_address_refresh){			
 			//this.render();
 			render_state = true;
 		}

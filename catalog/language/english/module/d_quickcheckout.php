@@ -1,5 +1,5 @@
 <?php 
-$_['text_login'] 									= 'Login';
+
 $_['title_payment_address']  						= 'Payment details';
 $_['description_payment_address']  					= '';
 $_['title_shipping_address']  						= 'Delivery details';
@@ -11,8 +11,11 @@ $_['description_payment_method'] 					= '';
 $_['title_shopping_cart'] 							= 'Shopping cart';
 $_['description_shopping_сart'] 					= '';
 
-$_['error_field_required'] 							= 'This field is required';
 
+$_['placeholder_telephone'] 						= '050 123 45 54';
+
+$_['error_field_required'] 							= 'This field is required';
+$_['error_valid_telephone'] 						= 'Please enter a valid telephone number';
 $_['entry_email_confirm'] 							= 'Confirm E-mail';
 $_['error_email_confirm'] 							= 'Email confirmation does not match email!';
 

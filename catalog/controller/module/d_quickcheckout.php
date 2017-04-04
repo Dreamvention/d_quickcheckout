@@ -45,6 +45,7 @@ class ControllerModuleDQuickcheckout extends Controller {
         $this->initialize();
 
         $this->model_module_d_quickcheckout->logWrite('Load Styles and Scripts.');
+        $this->document->addStyle('catalog/view/javascript/d_quickcheckout/library/phoneformat/css/intlTelInput.css');
         if($this->setting['design']['bootstrap']){
             $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
         }
@@ -54,6 +55,7 @@ class ControllerModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/jquery-maskedinput/jquery.maskedinput.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/underscore/underscore-min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/backbone/backbone-min.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/phoneformat/js/intlTelInput.js');
         if(!$this->setting['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/library/backbone-nested/backbone-nested.js');
             //$this->document->addScript('catalog/view/javascript/d_quickcheckout/library/backbone/backbone.validation.min.js');

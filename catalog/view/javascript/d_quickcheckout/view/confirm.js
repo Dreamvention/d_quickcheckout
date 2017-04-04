@@ -131,6 +131,9 @@ qc.ConfirmView = qc.View.extend({
 		$(this.el).html(this.template({'model': this.model.toJSON()}));
 		this.fields = new qc.FieldView({el:$("#confirm_form"), model: this.model, template: _.template($("#field_template").html())});
 		this.fields.render();
-		$('#' + this.focusedElementId).focus();
+		if(typeof(this.focusedElementId) !== 'undefined') {
+		   this.focusedElementId = this.focusedElementId.replace(/\./g, '\\\.');
+		   $('#' + this.focusedElementId).focus();
+		}
 	},
 });

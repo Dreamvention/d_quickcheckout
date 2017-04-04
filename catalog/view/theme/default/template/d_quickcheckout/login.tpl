@@ -1,9 +1,3 @@
-<!-- 
-	Ajax Quick Checkout 
-	v6.0.0
-	Dreamvention.com 
-	d_quickcheckout/login.tpl 
--->
 <div class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>">
 	<div id="login_view"></div>
 	<div id="login_social_login"><?php echo $d_social_login; ?></div>

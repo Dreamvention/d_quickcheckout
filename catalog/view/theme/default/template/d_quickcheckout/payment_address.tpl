@@ -1,9 +1,3 @@
-<!-- 
-	Ajax Quick Checkout 
-	v6.0.0
-	Dreamvention.com 
-	d_quickcheckout/payment_address.tpl 
--->
 <div id="payment_address" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
 <script type="text/html" id="payment_address_template">
 <div class="<%= parseInt(model.config.display) ? '' : 'hidden' %>">
@@ -81,5 +75,5 @@ $(function() {
 	}));
 	qc.paymentAddressView.setZone(qc.paymentAddress.get('payment_address.country_id'));
 
-});
+})
 </script>

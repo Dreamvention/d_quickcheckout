@@ -26,7 +26,7 @@ class ModelModuleDQuickcheckout extends Model {
 	public function languageFilter($data){
         $this->load->model('catalog/information');
         $result = $data;
-        $translate = array('title', 'tooltip', 'description', 'text');
+        $translate = array('title', 'tooltip', 'description', 'text', 'placeholder');
 
         if(is_array($data)){
 
@@ -71,7 +71,7 @@ class ModelModuleDQuickcheckout extends Model {
     public function languageFilterRec($data){
 
         $result = $data;
-        $translate = array('title', 'tooltip', 'description', 'text');
+        $translate = array('title', 'tooltip', 'description', 'text', 'placeholder');
 
         if(is_array($data)){
 
@@ -525,7 +525,7 @@ public function array_merge_r_d() {
 					$data[$key] = '';
 				}
 				if(is_int($value)){
-					$data[$key] = $data[$key] + $value;
+					$data[$key] = (int)$data[$key] + (int)$value;
 				}else{
 					$data[$key] = $value;
 				}

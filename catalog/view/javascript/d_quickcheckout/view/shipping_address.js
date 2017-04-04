@@ -40,7 +40,7 @@ qc.ShippingAddressView = qc.View.extend({
 			preloaderStart();
 		} else {
 			this.model.set('shipping_address.zone_id', '');
-			this.render();
+			this.render();   
 		}
 
 	},
@@ -57,7 +57,7 @@ qc.ShippingAddressView = qc.View.extend({
 	update: function(data){
 		console.log('shipping_address:render');
 		var render_state = false;
-
+	
 		if(typeof(data.show_shipping_address) !== 'undefined' && data.show_shipping_address !== this.model.get('show_shipping_address')){
 			this.model.set('show_shipping_address', data.show_shipping_address);
 			// this.render();
@@ -77,11 +77,11 @@ qc.ShippingAddressView = qc.View.extend({
 
 		if(data.shipping_address){
 			this.model.set('shipping_address', data.shipping_address);
-			// render_state = true;
+			//render_state = true;
 		}
 
 		if(data.shipping_address_refresh){			// this.render();
-
+			
 			render_state = true;
 		}
 		if(render_state){

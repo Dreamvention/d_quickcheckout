@@ -50,7 +50,15 @@ qc.PaymentView = qc.View.extend({
 	render: function(){
 		this.focusedElementId = $(':focus').attr('id');
 		console.log('payment:render');
-		$(this.el).html(this.template({'model': this.model.toJSON()}));
+		var card_number = $('#d_quickcheckout #payment_view #card-number').val();
+            var card_month = $('#d_quickcheckout #payment_view #card-month').val();
+            var card_year = $('#d_quickcheckout #payment_view #card-year').val();
+            var card_security = $('#d_quickcheckout #payment_view #card-security').val();
+			$(this.el).html(this.template({'model': this.model.toJSON()}));
+            $('#d_quickcheckout #payment_view #card-number').val(card_number);
+            $('#d_quickcheckout #payment_view #card-month').val(card_month);
+            $('#d_quickcheckout #payment_view #card-year').val(card_year);
+            $('#d_quickcheckout #payment_view #card-security').val(card_security);
 		$('#' + this.focusedElementId).focus();
 	},
 

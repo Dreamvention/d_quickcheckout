@@ -45,6 +45,9 @@ class ControllerDQuickcheckoutConfirm extends Controller {
         $json['confirm'] = $this->session->data['confirm'] = array_merge($this->session->data['confirm'], $this->request->post['confirm']);
         $this->session->data['comment'] = $this->session->data['confirm']['comment'];
 
+        $this->load->model('d_quickcheckout/order');
+        $json['show_confirm'] = $this->model_d_quickcheckout_order->showConfirm();
+
         //statistic
         $this->load->model('module/d_quickcheckout');
         $statistic = array(

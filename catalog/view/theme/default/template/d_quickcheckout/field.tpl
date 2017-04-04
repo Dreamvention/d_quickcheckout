@@ -3,6 +3,9 @@
 <% var col_left = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-5' %>
 <% var col_right = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-7' %>
 <% var autocomplete = (Number(config.design.autocomplete)) ? 'on' : 'off' %>
+<% var telephone_countries = config.design.telephone_countries.split(',') %>
+<% var telephone_preferred_countries = config.design.telephone_preferred_countries.split(',') %>
+<% var telephone_validation = (Number(config.design.telephone_validation)) %>
 <% _.each(model.config.fields,  function(f){ %>
 	<% if(model[model.config.id][f.id] !== undefined || f.type == "heading" || f.type == "label"){ %>
 		<% if(f.type){ %>
@@ -197,6 +200,32 @@
 			            <%= setValidateRules(f.error) %> ><%= model[model.config.id][f.id] %></textarea>
 			        </div>
 			      </div>
+			<% }else if(f.type == "tel"){ %>
+			      <div id="<%= model.config.id %>_<%= f.id %>_input" 
+			        class="text-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+			        data-sort="<%= f.sort_order %>">
+			        <div class="<%= col_left %>">
+			          <label class="control-label" for="<%= model.config.id %>_<%= f.id %>"> 
+			            <span class="text" <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"> <%= htmlDecode(f.title) %></span> 
+			          </label>
+			        </div>
+			        <div class="<%= col_right %>"> 
+			          <input type="<%= f.type %>" 
+			            name="<%= model.config.id %>.<%= f.id %>" 
+			            id="<%= model.config.id %>_<%= f.id %>" 
+			            value="<%= model[model.config.id][f.id] %>" 
+			            class="form-control <%= f.mask ? 'qc-mask': '' %> <%= require ? 'required' : 'not-required' %> <%= f.id %> <%= telephone_validation ? 'telephone-validation' : '' %> " 
+			            autocomplete="<%= autocomplete %>" 
+			            data-telephone_countries="<%= telephone_countries %>"
+			            data-telephone_preferred_countries="<%= telephone_preferred_countries %>"
+			            
+			            <% if(f.mask){ %>
+			            qc-mask="<%= f.mask %>"
+			            <% } %> 
+			            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= htmlDecode(f.placeholder).replace(':', '') %>"<% } %> 
+			            <%= setValidateRules(f.error) %> />
+			        </div>
+			      </div>
 
 	    	<% }else{ %>
 	    		<div id="<%= model.config.id %>_<%= f.id %>_input" 
@@ -269,6 +298,12 @@ function setValidateRules(rules){
 			result+= 'data-rule-equalto="'+rule.compare_to+'" ';
 			if(rule.text){
 				result+= 'data-msg-equalto="'+rule.text+'" ';
+			}
+		}
+
+		if(rule.telephone){
+			if(rule.text){
+				result+= 'data-msg-telephone="'+rule.text+'" ';
 			}
 		}
 

@@ -54,6 +54,9 @@ class ModelDQuickcheckoutOrder extends Model {
         if (empty($this->session->data['shipping_methods'])) {
                $result = false;
         }
+        if (empty($this->session->data['shipping_method'])) {
+            $result = false;
+        }
 
         return $result;
     }

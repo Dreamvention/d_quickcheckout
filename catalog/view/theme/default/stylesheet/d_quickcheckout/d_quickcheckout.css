@@ -78,6 +78,9 @@
 #d_quickcheckout .qc-product-qantity {
   min-width: 38px;
 }
+#d_quickcheckout .telephone-validation {
+  padding-left: 46px;
+}
 #d_quickcheckout #payment_view #button-confirm,
 #d_quickcheckout #payment_view a,
 #d_quickcheckout #payment_view button,

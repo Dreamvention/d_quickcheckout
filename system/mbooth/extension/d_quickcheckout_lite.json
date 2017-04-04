@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout_lite",
-    "version": "6.3.4",
+    "version": "6.4.5",
     "name": "Ajax Quick Checkout Lite",
     "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
     "index":"module/d_quickcheckout",

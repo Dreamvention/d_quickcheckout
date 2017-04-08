@@ -18,12 +18,12 @@ class ControllerModuleDQuickcheckout extends Controller {
         parent::__construct($registry);
 
         $this->load->model('module/d_quickcheckout');
-        $this->load->model('d_shopunity/mbooth');
-        $this->load->model('d_shopunity/setting');
         $this->d_shopunity = (file_exists(DIR_SYSTEM.'mbooth/extension/d_shopunity.json'));
-
-        $this->extension = $this->model_d_shopunity_mbooth->getExtension($this->codename);
-
+        if($this->d_shopunity){
+            $this->load->model('d_shopunity/mbooth');
+            $this->load->model('d_shopunity/setting');
+            $this->extension = $this->model_d_shopunity_mbooth->getExtension($this->codename);
+        }
         if (isset($this->request->get['store_id'])) {
             $this->store_id = $this->request->get['store_id'];
         }

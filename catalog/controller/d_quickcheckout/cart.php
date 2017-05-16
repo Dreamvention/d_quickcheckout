@@ -356,22 +356,22 @@ class ControllerDQuickcheckoutCart extends Controller {
             }
         }
 
-        if (empty($this->request->post['reward'])) {
-            $totals = array();
-            $taxes = $this->cart->getTaxes();
-            $total = 0;
+        // if (empty($this->request->post['reward'])) {
+        //     $totals = array();
+        //     $taxes = $this->cart->getTaxes();
+        //     $total = 0;
 
-            $total_data = array(
-                'totals' => &$totals,
-                'taxes'  => &$taxes,
-                'total'  => &$total
-            );
-            $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
-            $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
-            $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
-            //payment
-            $json = $this->load->controller('d_quickcheckout/payment/prepare', $json);
-        }
+        //     $total_data = array(
+        //         'totals' => &$totals,
+        //         'taxes'  => &$taxes,
+        //         'total'  => &$total
+        //     );
+        //     $json['totals'] = $this->session->data['totals'] = $this->model_d_quickcheckout_order->getTotals($total_data);
+        //     $json['total'] = $this->model_d_quickcheckout_order->getCartTotal($total);
+        //     $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('d_quickcheckout/confirm/updateOrder');
+        //     //payment
+        //     $json = $this->load->controller('d_quickcheckout/payment/prepare', $json);
+        // }
 
         if ($this->request->post['reward'] > $points) {
             $json['cart_errors']['reward'] = sprintf($this->language->get('error_points'), $this->request->post['reward']);

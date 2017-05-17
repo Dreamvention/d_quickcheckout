@@ -220,9 +220,10 @@ class ModelDQuickcheckoutOrder extends Model {
 
             $order_voucher_id = $this->db->getLastId();
 
-            $voucher_id = $this->addVoucher($order_id, $voucher);
-
-            $this->db->query("UPDATE " . DB_PREFIX . "order_voucher SET voucher_id = '" . (int) $voucher_id . "' WHERE order_voucher_id = '" . (int) $order_voucher_id . "'");
+             if(!$this->isVoucher($order_id, $voucher)) {
+                $voucher_id = $this->addVoucher($order_id, $voucher);
+                $this->db->query("UPDATE " . DB_PREFIX . "order_voucher SET voucher_id = '" . (int) $voucher_id . "' WHERE order_voucher_id = '" . (int) $order_voucher_id . "'");
+            }
         }
 
         // Totals   
@@ -317,6 +318,16 @@ class ModelDQuickcheckoutOrder extends Model {
         } else {
             $this->load->model('checkout/voucher');
             return $this->model_checkout_voucher->addVoucher($order_id, $voucher);
+        }
+    }
+
+    public function isVoucher($order_id, $voucher) {
+
+        $result = $this->db->query("SELECT * FROM " . DB_PREFIX . "voucher WHERE order_id = " . (int)$order_id . " AND message = '" . $this->db->escape($voucher['message']) . "' AND amount = '" . (float) $voucher['amount'] . "'");   
+        if($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

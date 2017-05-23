@@ -51,11 +51,14 @@ class ModelDQuickcheckoutOrder extends Model {
         if (empty($this->session->data['payment_methods'])) {
                $result = false;
         }
-        if (empty($this->session->data['shipping_methods'])) {
+        $this->load->model('d_quickcheckout/method');
+        if($this->model_d_quickcheckout_method->shippingRequired()){
+            if (empty($this->session->data['shipping_methods'])) {
                $result = false;
-        }
-        if (empty($this->session->data['shipping_method'])) {
-            $result = false;
+            }
+            if (empty($this->session->data['shipping_method'])) {
+                $result = false;
+            }
         }
 
         return $result;

@@ -100,7 +100,7 @@
     "changelog": [
         {
             "version":"6.5.0",
-            "change":"1: Add support Opencart 3.0.x.x"
+            "change":"1. Add support Opencart 3.0.x.x"
         }
     ]
 }

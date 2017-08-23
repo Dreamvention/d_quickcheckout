@@ -1,6 +1,6 @@
 <?php
 //instruction
-$_['tab_instruction']                               = 'Instructions';
+$_['tab_instruction']                               = 'Instructions.';
 $_['text_instruction']                              = '
 <div class="row">
 	<div class="col-md-2">

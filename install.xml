@@ -45,7 +45,7 @@
 			<search ><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
 			<add position="before"><![CDATA[
 		if($this->config->get('d_quickcheckout_status')){
-			$data['d_quickcheckout'] = $this->load->controller('module/d_quickcheckout');
+			$data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
 		}
 		]]></add>
 		</operation>

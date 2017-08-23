@@ -24,7 +24,7 @@ qc.ConfirmView = qc.View.extend({
 	},
 
 	confirm: function(){
-		
+		qc.paymentAddressView.render();
 		preloaderStart();
 		qc.confirmOrderVar = 0;
 		var valid = true;
@@ -54,7 +54,7 @@ qc.ConfirmView = qc.View.extend({
             emailVal = email.val();
             var that = this;
             $.ajax({
-                url: "index.php?route=d_quickcheckout/field/validate_email",
+                url: "index.php?route=extension/d_quickcheckout/field/validate_email",
                 async: false,
                 method: 'GET',
                 dataType: "json",

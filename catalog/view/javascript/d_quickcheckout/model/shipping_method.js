@@ -12,7 +12,7 @@ qc.ShippingMethod = qc.Model.extend({
 
 	update: function(json) {
 		var that = this;
-		$.post('index.php?route=d_quickcheckout/shipping_method/update', json, function(data) {
+		$.post('index.php?route=extension/d_quickcheckout/shipping_method/update', json, function(data) {
 			that.updateForm(data);
 			
 		}, 'json').error(

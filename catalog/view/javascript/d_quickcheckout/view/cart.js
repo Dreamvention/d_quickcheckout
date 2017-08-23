@@ -102,6 +102,16 @@ qc.CartView = qc.View.extend({
 		if(data.vouchers){
 			this.model.set('vouchers', data.vouchers);
 		}
+		
+		if(data.reward_points){
+			this.model.set('reward_points', data.reward_points);
+		}
+		if(data.text_use_reward){
+			this.model.set('text_use_reward', data.text_use_reward);
+		}
+		if(data.entry_reward){
+			this.model.set('entry_reward', data.entry_reward);
+		}
 
 		if(data.totals){
 			this.model.set('totals', data.totals);

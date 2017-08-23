@@ -20,7 +20,7 @@ qc.Confirm = qc.Model.extend({
 		this.set(name, value);
 		var json = this.toJSON();
 		var that = this;
-		$.post('index.php?route=d_quickcheckout/confirm/updateField', { 'confirm' : json.confirm }, function(data) {
+		$.post('index.php?route=extension/d_quickcheckout/confirm/updateField', { 'confirm' : json.confirm }, function(data) {
 			that.updateForm(data);
 
 		}, 'json').error(
@@ -31,7 +31,7 @@ qc.Confirm = qc.Model.extend({
 	update: function(){
 		var json = this.toJSON();
 			that = this;
-		$.post('index.php?route=d_quickcheckout/confirm/update', json.data, function(data) {
+		$.post('index.php?route=extension/d_quickcheckout/confirm/update', json.data, function(data) {
 			that.updateForm(data);
 			qc.event.trigger('paymentConfirm');
 			that.recreateOrder();
@@ -40,7 +40,7 @@ qc.Confirm = qc.Model.extend({
 	},
 
 	recreateOrder: function(){
-		$.post('index.php?route=d_quickcheckout/confirm/recreateOrder', '', function(data) {
+		$.post('index.php?route=extension/d_quickcheckout/confirm/recreateOrder', '', function(data) {
 		}, 'json').error();
 	}
 

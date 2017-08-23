@@ -59,7 +59,8 @@ qc.FieldView = qc.View.extend({
                 telephone_preferred_countries=telephone_preferred_countries.split(',');
             }
             $(this).intlTelInput({
-                preferredCountries: ["ee"],
+                onlyCountries: telephone_countries,
+                preferredCountries: telephone_preferred_countries,
                 autoPlaceholder: true,
                 utilsScript: "catalog/view/javascript/d_quickcheckout/library/phoneformat/js/utils.js"
             });

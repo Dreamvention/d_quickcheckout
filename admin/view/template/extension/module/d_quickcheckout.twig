@@ -1,0 +1,2173 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline pull-right">
+                {% if stores|length >1 %}
+                <select class="form-control" onChange="location = '{{ module_link }} & store_id=' + $(this).val()">
+                    {% for store in stores %}
+                        {% if store.store_id  ==  store_id %} 
+                            <option value="{{ store.store_id }}" selected="selected" >{{ store.name }}</option>
+                        {% else %}  
+                            <option value="{{ store.store_id }}" >{{ store.name }}</option>
+                        {% endif %} 
+                    {% endfor %}
+                     
+                </select>
+                 {% endif %}
+                <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
+                <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{ heading_title }} {{ version }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %} 
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %} 
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        {% if error.warning %}
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i> {{ error.warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %} 
+        {% if error.shopunity %}
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i>
+           {{ error.shopunity }}
+        </div>
+        {% endif %} 
+        {% if success %} 
+        <div class="alert alert-success">
+            <i class="fa fa-exclamation-circle"></i> {{ success }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %} 
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }} {{ setting_name }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+
+                    <ul  class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#setting" data-toggle="tab">
+                                <span class="fa fa-cog"></span>
+                               {{ tab_setting }}
+                            </a>
+                        </li>
+                        {% if debug %} 
+                        <li>
+                            <a href="#debug" data-toggle="tab">
+                                <span class="fa fa-bug"></span>
+                               {{ tab_debug }}
+                            </a>
+                        </li>
+                        {% endif %} 
+                        {% if setting.support %}
+                        <li>
+                            <a href="#support" data-toggle="tab">
+                                <span class="fa fa-support"></span>
+                               {{ tab_support }}
+                            </a>
+                        </li>
+                        {% endif %} 
+                        <li>
+                            <a href="#instruction" data-toggle="tab">
+                                <span class="fa fa-graduation-cap"></span>
+                               {{ tab_instruction }}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="setting" >
+                            <div class="tab-body">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <ul class="nav nav-pills s-nav-stacked">
+                                            <li class="active">
+                                                <a href="#d_home" data-toggle="tab">
+                                                    <span class="fa fa-home fa-fw"></span> <span>{{ text_home }}</span>
+                                                </a>
+                                            </li>
+                                            {% if setting_id %}
+                                            <li>
+                                                <a href="#d_general" data-toggle="tab">
+                                                    <i class="fa fa-cog fa-fw"></i> <span>{{ text_general }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_login" data-toggle="tab">
+                                                    <i class="fa fa-key fa-fw"></i> <span>{{ text_login }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_payment_address" data-toggle="tab">
+                                                    <i class="fa fa-book fa-fw"></i> <span>{{ text_payment_address }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_shipping_address" data-toggle="tab">
+                                                    <i class="fa fa-book fa-fw"></i> <span>{{ text_shipping_address }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_shipping_method" data-toggle="tab">
+                                                    <i class="fa fa-truck fa-fw"></i> <span>{{ text_shipping_method }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_payment_method" data-toggle="tab">
+                                                    <i class="fa fa-credit-card fa-fw"></i> <span>{{ text_payment_method }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_confirm" data-toggle="tab">
+                                                    <i class="fa fa-shopping-cart fa-fw"></i> <span>{{ text_cart }} & {{ text_confirm }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_design" data-toggle="tab">
+                                                    <i class="fa fa-paint-brush fa-fw"></i> <span>{{ text_design }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#d_analytics" data-toggle="tab">
+                                                    <i class="fa fa-bar-chart fa-fw"></i> <span>{{ text_analytics }}</span>
+                                                </a>
+                                            </li>
+                                           {% endif %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="tab-content">
+
+                                        <div id="d_home" class="tab-pane active">
+                                                <div class="page-header">
+                                                    <h3><span class="fa fa-home"></span> <span>{{ text_home }}</span></h3>
+                                                </div>
+                                                {% if not settings %} 
+                                                <div class="bs-callout bs-callout-warning">{{ text_intro_create_setting }}</div>
+                                                {% endif %} 
+                                                <div class="row">
+                                                    {% for setting_value in settings %}
+                                                    <div id="setting_id_{{ setting_value.setting_id }}" class="col-lg-3 col-md-4 col-sm-6 ">
+                                                        <div class="tile {{setting_value.setting_id ==  setting_id ? 'selected' : '' }}">
+                                                            <a href="#" class="view-setting " data-setting-id="{{ setting_value.setting_id }}" >
+                                                                <div class="tile-heading clearfix">
+                                                                   {{ setting_value.name }}
+                                                                    <span class="pull-right" data-toggle="tooltip" title="{{ help_average_time }}" >{{ ((setting_value.average_checkout_time / 100 )|round() )|date("H:i:s") }}</span>
+                                                                </div>
+                                                                <div class="tile-body">
+                                                                    <a href="{{ setting_value.href }} " target="_blank" data-toggle="tooltip" title="{{ help_view_shop }}"><i class="fa fa-eye"></i></a>
+                                                                    <a href="#" class="view-setting " data-setting-id="{{ setting_value.setting_id }}" data-toggle="tooltip" title="{{ help_view_setting }}"><i class="fa fa-pencil"></i></a>
+                                                                    <h3 class="pull-right" data-toggle="tooltip" title="{{ help_average_rating }}">{{(setting_value.average_rating * 100)|round() }}%</h3>
+                                                                </div>
+                                                            </a>
+                                                            <div class="tile-footer form-inline clearfix">
+                                                                <div class="">
+                                                                   {{ text_probability }}:
+                                                                    <div class="input-group pull-right probability">
+                                                                        <span class="input-group-btn probability-down">
+                                                                            <button class="btn btn-default btn-sm " type="button"><i class="fa fa-chevron-down"></i></button>
+                                                                        </span>
+                                                                        <input type="text" style="width:50px; text-align:center" class="form-control input-sm probability-value" name="{{ id }}_setting_cycle[{{ setting_value.setting_id }}]" value="{{ setting_cycle.setting_value.setting_id ? setting_cycle.setting_value.setting_id : '' }}1  " aria-describedby="sizing-addon2" />
+                                                                        <span class="input-group-btn probability-up">
+                                                                            <button class="btn btn-default btn-sm " type="button"><i class="fa fa-chevron-up"></i></button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    <script>
+                                                                $('.probability .probability-down').on('click', function(){
+                                                        $(this).next().val($(this).next().val() - 1);
+                                                                $('.probability-value').trigger('change');
+                                                        })
+                                                                $('.probability .probability-up').on('click', function(){
+                                                        $(this).prev().val(Number($(this).prev().val()) + 1);
+                                                                $('.probability-value').trigger('change');
+                                                        })
+
+                                                                $('.probability-value').on('change', function(){
+                                                        if ($(this).val() < 0){
+                                                        $(this).val(0)
+                                                        }
+                                                        })
+                                                    </script>
+                                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                                        <div class="tile">
+                                                            <div class="tile-heading">
+                                                               {{ text_create_setting_heading }}
+                                                            </div>
+                                                            <a href="#" id="create_setting" class="create-setting" >
+                                                                <div class="tile-body">
+                                                                    <i class="fa fa-plus"></i>
+                                                                    <h3 class="pull-right">{{ text_create_setting }}</h3>
+                                                                </div>
+                                                            </a>
+                                                            <div class="tile-footer">
+                                                               {{ text_create_setting_probability }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input_status">{{ entry_status }}</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="hidden" value="0" name="{{ id }}_status" id="input_status" class="form-control" />
+                                                                <input type="checkbox"  value="1" name="{{ id }}_status" id="input_status" {% if attribute(_context,id~'_status') %}  checked="checked" {% endif %} class="form-control" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_trigger }}">
+                                                                   {{ entry_trigger }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" value="{{ attribute(_context,id~'_trigger') }}" name="{{ id }}_trigger" id="trigger" class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input_debug">{{ entry_debug }}</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="hidden" name="{{ id }}_debug" value="0" />
+                                                                <input type="checkbox" id="input_debug" name="{{ id }}_debug" {{ debug ? 'checked="checked"': ''}} value="1" />
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                $('.tab-content a[data-toggle]').click(function(){
+                                                    $('.panel .nav-stacked li.active').removeClass('active')
+                                                    $('.panel .nav-stacked li a[href="' + $(this).attr('href') + '"]').parent().addClass('active')
+                                                    
+                                                })
+                                            </script>
+
+
+                                        <div id="d_general" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-cog fa-fw"></span> <span>{{ text_general }}</span>
+                                                </h3>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input_setting_name">
+                                                                <span data-toggle="tooltip" title="{{ help_name }}">
+                                                                   {{ entry_name }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" value="{{ setting_name }}" name="{{ id }}_setting[name]" id="input_setting_name" class="form-control"/>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_clear_session }}">
+                                                                   {{ entry_general_clear_session }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="hidden" value="0" name="{{ id }}_setting[general][clear_session]" />
+                                                                <input type="checkbox" value="1" name="{{ id }}_setting[general][clear_session]" {% if setting.general.clear_session  and  setting.general.clear_session  ==  1 %} checked="checked"{% endif %}  id="general_clear_session" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_login_refresh }}">
+                                                                   {{ entry_general_login_refresh }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="hidden" value="0" name="{{ id }}_setting[general][login_refresh]" />
+                                                                <input type="checkbox" value="1" name="{{ id }}_setting[general][login_refresh]" {% if setting.general.login_refresh  and  setting.general.login_refresh  ==  1 %} checked="checked"{% endif %}  id="general_login_refresh" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_analytics_event }}">
+                                                                   {{ entry_general_analytics_event }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-2">
+                                                                <input type="hidden" value="0" name="{{ id }}_setting[general][analytics_event]" />
+                                                                <input type="checkbox" value="1" name="{{ id }}_setting[general][analytics_event]" {% if setting.general.analytics_event  and  setting.general.analytics_event  ==  1 %} checked="checked"{% endif %}  id="general_analytics_event" />
+                                                            </div>
+                                                            <script>
+                                                                $("#general_analytics_event").on('switchChange.bootstrapSwitch', function(event, state){
+                                                                    if (state){
+                                                                        if ( {{ analytics ? 0 : 1 }} ){
+                                                                            $("#analytics_message").removeClass('hidden');
+                                                                        }
+                                                                    } else{
+                                                                        $("#analytics_message").addClass('hidden');
+                                                                    }
+                                                                })
+                                                            </script>
+                                                            <div class="col-sm-6">
+                                                                <div id="analytics_message" class="alert alert-danger alert-inline    {% if setting.general.analytics_event  !=  1  or   setting.general.analytics_event  ==  1  and  analytics%} {{   'hidden'  }}{% endif %} "  >{{ warning_analytics_event }}</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_update_mini_cart }}">
+                                                                   {{ entry_general_update_mini_cart }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="hidden" value="0" name="{{ id }}_setting[general][update_mini_cart]" />
+                                                                <input type="checkbox" value="1" name="{{ id }}_setting[general][update_mini_cart]" {% if setting.general.update_mini_cart  and  setting.general.update_mini_cart  ==  1 %} checked="checked"{% endif %}  id="general_update_mini_cart" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_compress }}">
+                                                                   {{ entry_general_compress }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-4">
+                                                                <input type="hidden" value="0" name="{{ id }}_setting[general][compress]" />
+                                                                <input type="checkbox" value="1" name="{{ id }}_setting[general][compress]" {% if setting.general.compress  and  setting.general.compress  ==  1 %} checked="checked"{% endif %}  id="general_compress" />
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <button class="btn btn-primary btn-block" id="compress_update"><i class="fa fa-refresh"></i> {{ compress_update }}</button>
+                                                            </div>
+                                                            <div id="compress-notification" class="col-sm-offset-4 help-block col-sm-8" >
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_min_order }}">
+                                                                   {{ entry_general_min_order }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <label for="general_min_order_value" id="label_general_min_order_value" class="input-group-addon">%s</label>
+                                                                    {% if setting.general.min_order.value  and  setting.general.min_order.value  !=  "" %} 
+                                                                    <input type="text" value="{{ setting.general.min_order.value }}" name="{{ id }}_setting[general][min_order][value]" id="general_min_order_value" class="form-control"/>
+                                                                    {% else %}  
+                                                                    <input type="text" value="0" name="{{ id }}_setting[general][min_order][value]" class="form-control" id="general_min_order_value"/>
+                                                                    {% endif %}
+                                                                </div>
+
+                                                                {% for language in languages %} 
+                                                                <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                                    <label class="input-group-addon" for="general_min_order_text_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                                    <input type="text" name="{{ id }}_setting[general][min_order][text][{{ language.language_id }}]" id="general_min_order_text_{{ language.language_id }}" value="{{ setting.general.min_order.text[language.language_id] ? setting.general.min_order.text[language.language_id] : text_value_min_order }}  " class="form-control" >
+                                                                </div>
+                                                                {% endfor %} 
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="input-catalog-limit">
+                                                                <span data-toggle="tooltip" title="{{ help_general_min_quantity }}">
+                                                                   {{ entry_general_min_quantity }}
+                                                                </span>
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <label for="general_min_quantity_value" id="label_general_min_quantity_value" class="input-group-addon">%s</label>
+                                                                    {% if setting.general.min_quantity.value  and  setting.general.min_quantity.value  !=  ""%} 
+                                                                    <input type="text" value="{{ setting.general.min_quantity.value }}" name="{{ id }}_setting[general][min_quantity][value]" id="general_min_quantity_value" class="form-control"/>
+                                                                    {% else %}  
+                                                                    <input type="text" value="0" name="{{ id }}_setting[general][min_quantity][value]" class="form-control" id="general_min_quantity_value"/>
+                                                                     {% endif %}
+                                                                </div>
+
+                                                                {% for language in languages %} 
+                                                                <div id="tab_general_min_quantity_text_{{ language.language_id }}" class="input-group">
+                                                                    <label class="input-group-addon" for="general_min_quantity_text_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                                    <input type="text" name="{{ id }}_setting[general][min_quantity][text][{{ language.language_id }}]" id="general_min_quantity_text_{{ language.language_id }}" value="{{ setting.general.min_quantity.text[language.language_id] ? setting.general.min_quantity.text[language.language_id] : text_value_min_quantity }} " class="form-control" >
+                                                                </div>
+                                                                {% endfor %} 
+                                                            </div>
+                                                        </div>
+
+                                                        {% if config_files %} 
+                                                            <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="select_config">{{ entry_config_files }}</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <select id="select_config"  class="form-control" name="{{ id }}_setting[general][config]">
+                                                                        {% for config_file in config_files %} 
+                                                                        <option value="{{ config_file }}" {{ config_file  ==  config ? 'selected="selected"' : ''}} >{{ config_file }}</option>
+                                                                        {% endfor %}
+                                                                        {% endif %} 
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary" id="select_config_submit" type="button">Apply</button>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                            </div>
+                                                         
+                                                      
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" for="button_delete_setting">{{ entry_delete_setting }}</label>
+                                                            <div class="col-sm-4">
+                                                                <a onclick="confirm('{{ text_confirm_delete_setting }}') ? location.href = '{{ delete_setting }}' : false;" id="button_delete_setting" class="btn btn-primary btn-block"><i class="fa fa-trash-o"></i> {{ button_delete_setting }}</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" for="button_delete_setting">
+                                                        <span data-toggle="tooltip" title="{{ help_action_bulk_setting }}">
+                                                           {{ entry_action_bulk_setting }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <button class="btn btn-primary btn-block" id="generate_setting"><i class="fa fa-cog"></i> {{ button_create_bulk_setting }}</button>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button class="btn btn-primary btn-block" id="save_bulk_setting"><i class="fa fa-floppy-o"></i> {{ button_save_bulk_setting }}</button>
+                                                    </div>
+                                                    <div class="col-sm-6" id="notification_setting">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" for="button_delete_setting">
+                                                        <span data-toggle="tooltip" title="{{ help_bulk_setting }}">
+                                                           {{ entry_bulk_setting }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-10">
+                                                        <textarea id="bulk_setting" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div id="d_login" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-key fa-fw"></span> <span>{{ text_login }}</span>
+                                                </h3>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_general_default_option }}">
+                                                           {{ entry_general_default_option }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-success {% if setting.step.login.default_option  and  setting.step.login.default_option  ==  'guest'%}  active {% endif %} ">
+                                                                <input type="radio" value="guest" name="{{ id }}_setting[step][login][default_option]" {% if setting.step.login.default_option  and  setting.step.login.default_option  ==  'guest' %}  checked="checked" {% endif %}  id="general_default_option_guest" /> {{ text_guest }}
+                                                            </label>
+                                                            <label class="btn btn-success {% if setting.step.login.default_option  and  setting.step.login.default_option  ==  'register'%}  active {% endif %} ">
+                                                                <input type="radio" value="register" name="{{ id }}_setting[step][login][default_option]" {% if setting.step.login.default_option  and  setting.step.login.default_option  ==  'register' %}  checked="checked" {% endif %}  id="general_default_option_register" /> {{ text_register }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_login_option }}">{{ entry_design_login_option }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][login][option][login][display]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_login }}"  name="{{ id }}_setting[step][login][option][login][display]" {% if setting.step.login.option.login.display  and  setting.step.login.option.login.display  ==  1 %} checked="checked"{% endif %}  id="step_login_option_login_display"/>
+
+                                                               <input type="hidden" value="0" name="{{ id }}_setting[step][login][option][register][display]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_register }}"  name="{{ id }}_setting[step][login][option][register][display]" {% if setting.step.login.option.register.display  and  setting.step.login.option.register.display  ==  1 %} checked="checked"{% endif %}  id="step_login_option_register_display"/>
+
+                                                               <input type="hidden" value="0" name="{{ id }}_setting[step][login][option][guest][display]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_guest }}"  name="{{ id }}_setting[step][login][option][guest][display]" {% if setting.step.login.option.guest.display  and  setting.step.login.option.guest.display  ==  1 %} checked="checked"{% endif %}  id="step_login_option_guest_display"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_login }}">{{ entry_design_login }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-success {% if setting.design.login_style  and  setting.design.login_style  ==  'block' %} active {% endif %} ">
+                                                                <input type="radio" value="block" name="{{ id }}_setting[design][login_style]" {% if setting.design.login_style  and  setting.design.login_style  ==  'block' %} checked="checked"{% endif %}  id="login_style_block" /> {{ text_block }}
+                                                            </label>
+                                                            <label class="btn btn-success {% if setting.design.login_style  and  setting.design.login_style  ==  'popup'%} active{% endif %} ">
+                                                                <input type="radio" value="popup" name="{{ id }}_setting[design][login_style]" {% if setting.design.login_style  and  setting.design.login_style  ==  'popup' %} checked="checked"{% endif %}  id="login_style_popup"/> {{ text_popup }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_icon }}">
+                                                           {{ text_icon }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" name="{{ id }}_setting[step][login][icon]" id="login_icon; " value="{{ setting.step.login.icon }}" class="form-control" placeholder="{{ text_icon }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_title }}">
+                                                           {{ text_title }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="login_option_guest_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][login][option][guest][title][{{ language.language_id }}]" id="login_option_guest_title_{{ language.language_id }}" value="{% if setting.step.login.option.guest.title[language.language_id] is defined and setting.step.login.option.guest.title is iterable %}{{ setting.step.login.option.guest.title[language.language_id] }}"{% else %}{{ setting.step.login.option.guest.title }}"{% endif %}class="form-control" placeholder="{{ text_guest }}">
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="login_option_register_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][login][option][register][title][{{ language.language_id }}]" id="login_option_register_title_{{ language.language_id }}" value="{% if setting.step.login.option.register.title[language.language_id] is defined and setting.step.login.option.register.title is iterable %}{{ setting.step.login.option.register.title[language.language_id] }}"{% else %}{{ setting.step.login.option.register.title }}"{% endif %}class="form-control"  placeholder="{{ text_register }}">
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="login_option_login_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][login][option][login][title][{{ language.language_id }}]" id="login_option_login_title_{{ language.language_id }}" value="{% if setting.step.login.option.login.title[language.language_id] is defined and setting.step.login.option.login.title is iterable %}{{ setting.step.login.option.login.title[language.language_id] }}"{% else %}{{ setting.step.login.option.login.title }}"{% endif %}class="form-control"  placeholder="{{ text_login }}">
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_description }}">
+                                                           {{ text_description }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="login_description_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][login][description][{{ language.language_id }}]" id="login_description_{{ language.language_id }}" value="{% if setting.step.login.description[language.language_id] is defined and setting.step.login.description %} {{ setting.step.login.description[language.language_id] }}"{% else %} {{ setting.step.login.description }}"{% endif %}class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                {% if social_login %} 
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                    <span data-toggle="tooltip" title="{{ help_social_login }}">
+                                                       {{ entry_social_login }}
+                                                    </span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="hidden" value="0" name="{{ id }}_setting[general][social_login]" />
+                                                    <input type="checkbox" value="1" name="{{ id }}_setting[general][social_login]" {% if setting.general.social_login  and  setting.general.social_login  ==  1 %} checked="checked"{% endif %}  id="social_login" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-9">
+                                                    <a href="{{ link_social_login_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ button_social_login_edit}}</a>
+                                                </div>
+                                            </div>
+
+                                           {% else %}  
+                                                <div class="bs-callout bs-callout-warning">{{ text_social_login_required }}</div>
+                                             
+
+                                            <script>
+                                                        // $(function() {
+                                                        //   $( "#sortable_social_login" ).sortable({
+                                                        //    axis: "y",
+                                                        //    placeholder: "ui-state-highlight",
+                                                        //    distance: 5,
+                                                        //    stop: function( event, ui ) {
+                                                        //     ui.item.children( ".sort-item" ).triggerHandler( "focusout" );
+                                                        //   $(this).find(".sort-item").each(function(i, el){
+                                                        //    $(this).find(".sort-value").val($(el).index())
+                                                        //   });
+                                                        //    }
+                                                        //   });
+                                                        // });
+                                            </script>
+                                            </div>
+                                            {% endif %}
+
+                                            <div id="d_payment_address" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-book fa-fw"></span> <span>{{ text_payment_address }}</span>
+                                                </h3>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>{{ text_defualt }}</th>
+                                                                <th class="guest">{{ text_guest }}</th>
+                                                                <th class="register">{{ text_register }}</th>
+                                                                <th class="login">{{ text_logged }}</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr id="payment_address_display_input" sort-data="-1">
+                                                                <td class="name">
+                                                                    <label  class="control-label">
+                                                                        <span data-toggle="tooltip" title="{{ help_payment_address_display }}">
+                                                                           {{ entry_payment_address_display }}
+                                                                        </span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                {% for option in options %} 
+                                                                <td>
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][payment_address][display]" />
+                                                                    <input type="checkbox"
+                                                                        value="1"
+                                                                        data-size="mini"
+                                                                        data-label-text="{{ text_display }}"
+                                                                        name="{{ id }}_setting[account][{{ option }}][payment_address][display]"
+                                                                        id="{{ option }}_payment_address_fields_display_display"
+                                                                        {% if setting.account[option].payment_address.display  and  setting.account[option].payment_address.display  ==  1 %} checked="checked"{% endif %} 
+                                                                    />
+                                                                </td>
+                                                                 {% endfor %}
+                                                              </tr>
+                                                        </tbody>
+
+                                                        <tbody class="sortable table-sortable ">
+                                                        {% for field in setting.step.payment_address.fields %}{% if field.title %}
+                                                                <tr id="payment_address_{{ field.id }}_input" class="sort-item {{ field.type  ==  'system'? 'hide' : '' }}" sort-data="{{ setting.step.payment_address.fields[field.id].sort_order ? setting.step.payment_address.fields[field.id].sort_order : '' }}">
+                                                                    <td class="name">
+                                                                        <label class="">
+                                                                            <span class="btn btn-link"><i class="fa fa-bars"></i></span>
+                                                                            <span data-toggle="tooltip" title="{{ text_type }} {{ setting.step.payment_address.fields[field.id].type }}">
+                                                                               {{ field.title }} <i class="fa fa-question-circle"></i>
+                                                                            </span>
+                                                                            <input class="sort" type="hidden" value="{{ setting.step.payment_address.fields[field.id].sort_order ? setting.step.payment_address.fields[field.id].sort_order : '' }}" name="{{ id }}_setting[step][payment_address][fields][{{ field.id }}][sort_order]" />
+                                                                        </label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        {% if setting.step.payment_address.fields[field.id].type  ==  'checkbox'%} 
+                                                                            <input type="hidden" name="{{ id }}_setting[step][payment_address][fields][{{ field.id }}][value]" value="0" />
+                                                                            <input class="form-control pull-right" type="{{ setting.step.payment_address.fields[field.id].type }}" name="{{ id }}_setting[step][payment_address][fields][{{ field.id }}][value]" {{ setting.step.payment_address.fields[field.id].value  and  setting.step.payment_address.fields[field.id].value ?  'checked="checked"' : '' }} value="1" />
+                                                                        {% endif %} 
+                                                                        {% if setting.step.payment_address.fields[field.id].type == 'select'%} 
+                                                                            {% if setting.step.payment_address.fields[field.id].custom %} 
+                                                                                <a class="btn btn-primary btn-block" href="{{ custom_field }}"><i class="fa fa-pencil"></i> {{ text_custom_field }}</a>
+                                                                            {% else %}  
+                                                                                <select class="form-control" name="{{ id }}_setting[step][payment_address][fields][{{ field.id }}][value]">
+                                                                                    <option value="">{{ text_select }}</option>
+                                                                                    {% for option_item in setting.step.payment_address.fields[field.id].options %}
+                                                                                    <option value="{{ option_item.value}}" {{ setting.step.payment_address.fields[field.id].value  and  setting.step.payment_address.fields[field.id].value  ==  option_item.value ?  'selected="selected"' : '' }} >{{ option_item.name}}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            {% endif %} 
+                                                                         {% endif %}
+                                                                        {% if setting.step.payment_address.fields[field.id].type  ==  'text'
+                                                                               or  setting.step.payment_address.fields[field.id].type  ==  'email'
+                                                                               or  setting.step.payment_address.fields[field.id].type  ==  'tel' 
+                                                                               or  setting.step.payment_address.fields[field.id].type  ==  'date'
+                                                                               or  setting.step.payment_address.fields[field.id].type  ==  'time'
+                                                                               or  setting.step.payment_address.fields[field.id].type  ==  'datetime'%} 
+                                                                            {% if setting.step.payment_address.fields[field.id].custom %} 
+                                                                                <a class="btn btn-primary btn-block" href="{{ custom_field }}"><i class="fa fa-pencil"></i> {{ text_custom_field }}</a>
+                                                                            {% else %}  
+                                                                                <input class="form-control pull-right"
+                                                                                    placeholder="{{ setting.step.payment_address.fields[field.id].type }}"
+                                                                                    type="{{ setting.step.payment_address.fields[field.id].type }}"
+                                                                                    {% if setting.step.payment_address.fields[field.id].type  ==  "date"%} data-date-format="YYYY-MM-DD" {% endif %} 
+                                                                                    {% if setting.step.payment_address.fields[field.id].type  ==  "time"%} data-date-format="HH:mm" {% endif %} 
+                                                                                    {% if setting.step.payment_address.fields[field.id].type  ==  "datetime"%} data-date-format="YYYY-MM-DD HH:mm" {% endif %} 
+                                                                                    name="{{ id }}_setting[step][payment_address][fields][{{ field.id }}][value]"
+                                                                                    value="{{ setting.step.payment_address.fields[field.id].value ? setting.step.payment_address.fields[field.id].value : '' }}" />
+                                                                            {% endif %} 
+                                                                            <input class="form-control pull-right" data-toggle="tooltip" title="{{ help_maskedinput }}" placeholder="mask" type="text" name="{{ id }}_setting[step][payment_address][fields][{{ field.id }}][mask]" value="{% if setting.step.payment_address.fields[field.id].mask %}{{setting.step.payment_address.fields[field.id].mask}}{% else %}{% endif %}" />
+                                                                         {% endif %}
+                                                                    </td>
+                                                                    {% for option in options %} 
+                                                                    <td >
+                                                                        {% if setting.account[option].payment_address.fields[field.id].display %} 
+                                                                            <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][payment_address][fields][{{ field.id }}][display]" />
+                                                                            <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_display }}" name="{{ id }}_setting[account][{{ option }}][payment_address][fields][{{ field.id }}][display]" {% if setting.account[option].payment_address.fields[field.id].display  and  setting.account[option].payment_address.fields[field.id].display  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_payment_address_fields_{{ field.id }}_display"/>
+                                                                            {% if setting.account[option].payment_address.fields[field.id].require %} 
+                                                                                <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][payment_address][fields][{{ field.id }}][require]" />
+                                                                                <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_require }}" name="{{ id }}_setting[account][{{ option }}][payment_address][fields][{{ field.id }}][require]" {% if setting.account[option].payment_address.fields[field.id].require  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_payment_address_fields_{{ field.id }}_require"/>
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                     {% endfor %}
+                                                                </tr>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_new_field }}">{{ entry_new_field }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <a href="{{ add_field }}" class="btn btn-primary">
+                                                            <i class="fa fa-plus-square"></i> {{ button_new_field }}
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_icon }}">
+                                                           {{ text_icon }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" name="{{ id }}_setting[step][payment_address][icon]" id="login_icon; " value="{{ setting.step.payment_address.icon }}" class="form-control" placeholder="{{ text_icon }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_title }}">
+                                                           {{ text_title }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="payment_address_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][payment_address][title][{{ language.language_id }}]"id="payment_address_title_{{ language.language_id }}"value="{% if setting.step.payment_address.title[language.language_id] is defined and setting.step.payment_address.title is iterable %}{{ setting.step.payment_address.title[language.language_id] }}"{% else %}{{ setting.step.payment_address.title }}"{% endif %}class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_description }}">
+                                                           {{ text_description }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="payment_address_description_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][payment_address][description][{{ language.language_id }}]" id="payment_address_description_{{ language.language_id }}" value="{% if setting.step.payment_address.description[language.language_id] is defined and setting.step.payment_address.description is iterable %} {{ setting.step.payment_address.description[language.language_id] }}"{% else %}{{ setting.step.payment_address.description }}"{% endif %}class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div id="d_shipping_address" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-book fa-fw"></span> <span>{{ text_shipping_address }}</span>
+                                                </h3>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>{{ text_defualt }}</th>
+                                                                <th class="guest">{{ text_guest }}</th>
+                                                                <th class="register">{{ text_register }}</th>
+                                                                <th class="login">{{ text_logged }}</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr id="shipping_address_display_input" >
+                                                                <td class="name">
+                                                                    <label class="control-label">
+                                                                        <span data-toggle="tooltip" title="{{ help_shipping_address_display }}">
+                                                                           {{ entry_shipping_address_display }}
+                                                                        </span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                {% for option in options %} 
+                                                                <td>
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][shipping_address][display]" />
+                                                                    <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_display }}" name="{{ id }}_setting[account][{{ option }}][shipping_address][display]" {% if setting.account[option].shipping_address.display  and  setting.account[option].shipping_address.display  ==  1 %}  checked="checked" {% endif %}  id="{{ option }}_shipping_address_display"/>
+
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][shipping_address][require]" />
+                                                                    <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_require }}" name="{{ id }}_setting[account][{{ option }}][shipping_address][require]" {% if setting.account[option].shipping_address.require  and  setting.account[option].shipping_address.require  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_shipping_address_require"/>
+                                                                </td>
+                                                                 {% endfor %}
+                                                            </tr>
+                                                        </tbody>
+
+                                                        <tbody class="sortable table-sortable">
+                                                        {% for field in setting.step.shipping_address.fields %}{% if field.title %} 
+                                                            <tr id="shipping_address_{{ field.id }}_input" class="sort-item {{ field.type  ==  'system' ? 'hide' : '' }} " sort-data="{{ setting.step.shipping_address.fields[field.id].sort_order ? setting.step.shipping_address.fields[field.id].sort_order : '' }} ">
+                                                                <td class="name">
+                                                                    <label class="">
+                                                                        <span class="btn btn-link"><i class="fa fa-bars"></i></span>
+                                                                        <span data-toggle="tooltip" title="{{ text_type }} {{ setting.step.shipping_address.fields[field.id].type }}">
+                                                                           {{ field.title }} <i class="fa fa-question-circle"></i>
+                                                                        </span>
+                                                                        <input class="sort" type="hidden" value="{{ setting.step.shipping_address.fields[field.id].sort_order ? setting.step.shipping_address.fields[field.id].sort_order : '' }}" name="{{ id }}_setting[step][shipping_address][fields][{{ field.id }}][sort_order]" />
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                {% if setting.step.shipping_address.fields[field.id].type  ==  'checkbox' %} 
+                                                                    <input type="hidden" name="{{ id }}_setting[step][shipping_address][fields][{{ field.id }}][value]" value="0" />
+                                                                    <input class="form-control pull-right" type="{{ setting.step.shipping_address.fields[field.id].type }}" name="{{ id }}_setting[step][shipping_address][fields][{{ field.id }}][value]" {{ setting.step.shipping_address.fields[field.id].value  and  setting.step.shipping_address.fields[field.id].value ? 'checked="checked"' : '' }} value="1" />
+                                                                {% endif %} 
+                                                                {% if setting.step.shipping_address.fields[field.id].type == 'select'%} 
+                                                                    {% if setting.step.shipping_address.fields[field.id].custom %} 
+                                                                        <a class="btn btn-primary btn-block" href="{{ custom_field }}"><i class="fa fa-pencil"></i> {{ text_custom_field }}</a>
+                                                                    {% else %}  
+                                                                        <select class="form-control" name="{{ id }}_setting[step][shipping_address][fields][{{ field.id }}][value]">
+                                                                            <option value="">{{ text_select }}</option>
+                                                                            {% for option_item in setting.step.shipping_address.fields[field.id].options %}
+                                                                            <option value="{{ option_item.value}}" {{ setting.step.shipping_address.fields[field.id].value  and  setting.step.shipping_address.fields[field.id].value == option_item.value ? 'selected="selected"' : '' }} >{{ option_item.name}}</option>
+                                                                            {% endfor %}
+                                                                            {% endif %} 
+                                                                        </select>
+                                                                    {% endif %} 
+                                                                {% if setting.step.shipping_address.fields[field.id].type  ==  'text'
+                                                                       or  setting.step.shipping_address.fields[field.id].type  ==  'email'
+                                                                       or  setting.step.shipping_address.fields[field.id].type  ==  'tel' 
+                                                                       or  setting.step.shipping_address.fields[field.id].type  ==  'date'
+                                                                       or  setting.step.shipping_address.fields[field.id].type  ==  'time'
+                                                                       or  setting.step.shipping_address.fields[field.id].type  ==  'datetime'%} 
+                                                                    {% if setting.step.shipping_address.fields[field.id].custom %} 
+                                                                        <a class="btn btn-primary btn-block" href="{{ custom_field }}"><i class="fa fa-pencil"></i> {{ text_custom_field }}</a>
+                                                                    {% else %}  
+                                                                        <input class="form-control pull-right"
+                                                                            placeholder="{{ setting.step.shipping_address.fields[field.id].type }}"
+                                                                            type="{{ setting.step.shipping_address.fields[field.id].type }}"
+                                                                            name="{{ id }}_setting[step][shipping_address][fields][{{ field.id }}][value]"
+                                                                            {% if setting.step.shipping_address.fields[field.id].type  ==  "date"%} data-date-format="YYYY-MM-DD" {% endif %} 
+                                                                            {% if setting.step.shipping_address.fields[field.id].type  ==  "time"%} data-date-format="HH:mm" {% endif %} 
+                                                                            {% if setting.step.shipping_address.fields[field.id].type  ==  "datetime"%} data-date-format="YYYY-MM-DD HH:mm" {% endif %} 
+                                                                            value="{{ setting.step.shipping_address.fields[field.id].value ? setting.step.shipping_address.fields[field.id].value : '' }}" />
+                                                                    {% endif %}
+                                                                        <input class="form-control pull-right" placeholder="mask" type="text" name="{{ id }}_setting[step][shipping_address][fields][{{ field.id }}][mask]" value="{{ setting.step.shipping_address.fields[field.id].mask ? setting.step.shipping_address.fields[field.id].mask : '' }}" />
+                                                                 {% endif %}
+                                                                </td>
+                                                                {% for option in options %} 
+                                                                <td>
+                                                                    {% if setting.account[option].shipping_address.fields[field.id].display %} 
+                                                                        <input type="hidden" value="0" name="{{ id }}_setting.account][{{ option }}][shipping_address][fields][{{ field.id }}][display]" />
+                                                                        <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_display }}" name="{{ id }}_setting[account][{{ option }}][shipping_address][fields][{{ field.id }}][display]" {% if setting.account[option].shipping_address.fields[field.id].display  and  setting.account[option].shipping_address.fields[field.id].display  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_shipping_address_fields_{{ field.id }}_display"/>
+                                                                        {% if setting.account[option].shipping_address.fields[field.id].require %} 
+                                                                            <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][shipping_address][fields][{{ field.id }}][require]" />
+                                                                            <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_require }}" name="{{ id }}_setting[account][{{ option }}][shipping_address][fields][{{ field.id }}][require]" {% if setting.account[option].shipping_address.fields[field.id].require  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_shipping_address_fields_{{ field.id }}_require"/>
+                                                                        {% endif %} 
+                                                                     {% endif %}
+                                                                </td>
+                                                                 {% endfor %}
+                                                            </tr>
+                                                            {% endif %}
+                                                          {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_new_field }}">{{ entry_new_field }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <a href="{{ add_field }}" class="btn btn-primary">
+                                                            <i class="fa fa-plus-square"></i> {{ button_new_field }}
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_icon }}">
+                                                           {{ text_icon }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" name="{{ id }}_setting[step][shipping_address][icon]" id="login_icon; " value="{{ setting.step.shipping_address.icon }}" class="form-control" placeholder="{{ text_icon }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_title }}">
+                                                           {{ text_title }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="shipping_address_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][shipping_address][title][{{ language.language_id }}]" id="shipping_address_title_{{ language.language_id }}" value="{% if setting.step.shipping_address.title[language.language_id] is defined and setting.step.shipping_address.title is iterable %}{{ setting.step.shipping_address.title[language.language_id] }}"{% else %}{{ setting.step.shipping_address.title }}"{% endif %} class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_description }}">
+                                                           {{ text_description }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="shipping_address_description_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][shipping_address][description][{{ language.language_id }}]" id="shipping_address_description_{{ language.language_id }}" value="{% if setting.step.shipping_address.description[language.language_id] is defined and setting.step.shipping_address.description is iterable %}{{ setting.step.shipping_address.description[language.language_id] }}"{% else %}{{ setting.step.shipping_address.description }}"{% endif %} class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div id="d_shipping_method" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-truck fa-fw"></span> <span>{{ text_shipping_method }}</span>
+                                                </h3>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_shipping_method_display }}">{{ entry_shipping_method_display }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][shipping_method][display]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][shipping_method][display]" {% if setting.step.shipping_method.display  and  setting.step.shipping_method.display  ==  1 %} checked="checked"{% endif %}  id="shipping_method_display" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_shipping_method_display_options }}">{{ entry_shipping_method_display_options }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][shipping_method][display_options]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][shipping_method][display_options]" {% if setting.step.shipping_method.display  and  setting.step.shipping_method.display_options  ==  1 %} checked="checked"{% endif %}  id="shipping_method_display_options" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_shipping_method_display_title }}">{{ entry_shipping_method_display_title }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][shipping_method][display_title]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][shipping_method][display_title]" {% if setting.step.shipping_method.display  and  setting.step.shipping_method.display_title == 1 %} checked="checked"{% endif %}  id="shipping_method_display_title" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_shipping_method_input_style }}">{{ entry_shipping_method_input_style }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-success {% if setting.step.shipping_method.input_style  and  setting.step.shipping_method.input_style  ==  'radio'%}  active {% endif %} ">
+                                                                <input type="radio" value="radio" name="{{ id }}_setting[step][shipping_method][input_style]" {% if setting.step.shipping_method.input_style  and  setting.step.shipping_method.input_style  ==  'radio'%} checked="checked"{% endif %}  id="shipping_method_input_style_radio" />
+                                                                      {{ text_input_radio }}
+                                                            </label>
+                                                            <label class="btn btn-success {% if setting.step.shipping_method.input_style  and  setting.step.shipping_method.input_style  ==  'select'%}  active {% endif %} ">
+                                                                <input type="radio" value="select" name="{{ id }}_setting[step][shipping_method][input_style]" {% if setting.step.shipping_method.input_style  and  setting.step.shipping_method.input_style  ==  'select'%} checked="checked"{% endif %}  id="shipping_method_input_style_select" />
+                                                                      {{ text_input_select }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_shipping_method_default_option }}">{{ entry_shipping_method_default_option }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="{{ id }}_setting[step][shipping_method][default_option]" class="form-control">
+                                                            {% for shipping_method in shipping_methods %} 
+
+                                                                {% if setting.step.shipping_method.default_option  and  setting.step.shipping_method.default_option  ==  shipping_method.code%} 
+                                                                    <option value="{{ shipping_method.code }}" selected="selected">{{ shipping_method.title }}</option>
+                                                                {% else %}  
+                                                                    <option value="{{ shipping_method.code }}">{{ shipping_method.title }}</option>
+                                                                 {% endif %}
+                                                             {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_icon }}">
+                                                           {{ text_icon }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" name="{{ id }}_setting[step][shipping_method][icon]" id="login_icon; " value="{{ setting.step.shipping_method.icon }}" class="form-control" placeholder="{{ text_icon }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_title }}">
+                                                           {{ text_title }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="shipping_method_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][shipping_method][title][{{ language.language_id }}]" id="shipping_method_title_{{ language.language_id }}" value="{% if setting.step.shipping_method.title[language.language_id] and setting.step.shipping_method.title is iterable %}{{setting.step.shipping_method.title[language.language_id]}} {% else %} {{ setting.step.shipping_method.title }} {% endif %} " class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_description }}">
+                                                           {{ text_description }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="shipping_method_description_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][shipping_method][description][{{ language.language_id }}]" id="shipping_method_description_{{ language.language_id }}" value="{% if setting.step.shipping_method.description[language.language_id] is defined and setting.step.shipping_method.description is iterable %}{{ setting.step.shipping_method.description[language.language_id] }}"{% else %}{{ setting.step.shipping_method.description }}"{% endif %}class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div id="d_payment_method" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-credit-card fa-fw"></span> <span>{{ text_payment_method }}</span>
+                                                </h3>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_payment_method_display }}">{{ entry_payment_method_display }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][payment_method][display]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][payment_method][display]" {% if setting.step.payment_method.display  and  setting.step.payment_method.display  ==  1 %} checked="checked" {% endif %} id="payment_method_display" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_payment_method_display_options }}">{{ entry_payment_method_display_options }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][payment_method][display_options]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][payment_method][display_options]" {% if setting.step.payment_method.display  and  setting.step.payment_method.display_options  ==  1 %} checked="checked"{% endif %}  id="payment_method_display_options" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_payment_method_display_images }}">{{ entry_payment_method_display_images }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][payment_method][display_images]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][payment_method][display_images]" {% if setting.step.payment_method.display  and  setting.step.payment_method.display_images  ==  1 %} checked="checked"{% endif %}  id="payment_method_display_images" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_payment_method_input_style }}">{{ entry_payment_method_input_style }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-success {% if setting.step.payment_method.input_style  and  setting.step.payment_method.input_style  ==  'radio'%} active {% endif %} ">
+                                                                <input type="radio" value="radio" name="{{ id }}_setting[step][payment_method][input_style]" {% if setting.step.payment_method.input_style  and  setting.step.payment_method.input_style  ==  'radio'%} checked="checked"{% endif %}  id="payment_method_input_style_radio" />
+                                                                      {{ text_input_radio }}
+                                                            </label>
+                                                            <label class="btn btn-success {% if setting.step.payment_method.input_style  and  setting.step.payment_method.input_style  ==  'select'%} active {% endif %} ">
+                                                                <input type="radio" value="select" name="{{ id }}_setting[step][payment_method][input_style]" {% if setting.step.payment_method.input_style  and  setting.step.payment_method.input_style  ==  'select'%} checked="checked"{% endif %}  id="payment_method_input_style_select" />
+                                                                      {{ text_input_select }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_payment_method_default_option }}">{{ entry_payment_method_default_option }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="{{ id }}_setting[step][payment_method][default_option]" class="form-control">
+                                                            {% for payment_method in payment_methods %} 
+                                                                {% if setting.step.payment_method.default_option  and  setting.step.payment_method.default_option  ==  payment_method.code%} 
+                                                                    <option value="{{ payment_method.code }}" selected="selected">{{ payment_method.title }}</option>
+                                                                {% else %}
+                                                                    <option value="{{ payment_method.code }}">{{ payment_method.title }}</option>
+                                                                 {% endif %}
+                                                             {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_icon }}">
+                                                           {{ text_icon }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" name="{{ id }}_setting[step][payment_method][icon]" id="login_icon; " value="{{ setting.step.payment_method.icon }}" class="form-control" placeholder="{{ text_icon }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_title }}">
+                                                           {{ text_title }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="payment_method_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][payment_method][title][{{ language.language_id }}]" id="payment_method_title_{{ language.language_id }}" value="{% if setting.step.payment_method.title[language.language_id] is defined and setting.step.payment_method.title is iterable %}{{ setting.step.payment_method.title[language.language_id] }}"{% else %}{{ setting.step.payment_method.title }}"{% endif %}class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_description }}">
+                                                           {{ text_description }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="payment_method_description_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][payment_method][description][{{ language.language_id }}]" id="payment_method_description_{{ language.language_id }}" value="{% if setting.step.payment_method.description[language.language_id] is defined and setting.step.payment_method.description is iterable %}{{ setting.step.payment_method.description[language.language_id] }}"{% else %}{{ setting.step.payment_method.description }}"{% endif %} class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="bs-callout bs-callout-info">{{ callout_payment_payment_popup }}</div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_payment_default_payment_popup }}">{{ entry_payment_default_payment_popup }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[step][payment][default_payment_popup]" />
+                                                        <input type="checkbox" value="1" name="{{ id }}_setting[step][payment][default_payment_popup]" {% if setting.step.payment.default_payment_popup  and  setting.step.payment.default_payment_popup  ==  1 %} checked="checked"{% endif %}  id="payment_default_payment_popup" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    {% set i = 0 %} {% for payment_method in payment_methods %} 
+                                                        {% if i  ==  2 %}
+                                                         {% set i = 0 %}
+                                                            </div>
+                                                            <div class="form-group">
+                                                        {% endif %} 
+                                                        <label class="col-sm-3 control-label" >
+                                                           {{ payment_method.status  ==  1 ? '<i class="fa fa-toggle-on status-payment" title="This payment is enabled" aria-hidden="true"></i>' : '' }} 
+                                                           {{ payment_method.title }}
+                                                        </label>
+                                                        <div class="col-sm-3">
+                                                            <input type="hidden" value="0" name="{{ id }}_setting[step][payment][payment_popups][{{ payment_method.code }}]" />
+                                                            <input type="checkbox" value="1" name="{{ id }}_setting[step][payment][payment_popups][{{ payment_method.code }}]" {% if setting.step.payment.payment_popups[payment_method.code]  and  setting.step.payment.payment_popups[payment_method.code]  ==  1 %} checked="checked"{% endif %}  id="payment_payment_popups_{{ payment_method.code }}" />
+                                                        </div>
+                                                        {% set i = i + 1 %} 
+                                                     {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div id="d_confirm" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-shopping-cart fa-fw"></span> <span>{{ text_cart }}</span>
+                                                </h3>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th class="guest">{{ text_guest }}</th>
+                                                                <th class="register">{{ text_register }}</th>
+                                                                <th class="login">{{ text_logged }}</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="name">
+                                                                    <label class="control-label">
+                                                                        <span data-toggle="tooltip" title="{{ help_cart_display }}">
+                                                                           {{ entry_cart_display }}
+                                                                        </span>
+                                                                    </label>
+                                                                </td>
+                                                                {% for option in options %}
+                                                                <td>
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][cart][display]" />
+                                                                    <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_display }}" name="{{ id }}_setting[account][{{ option }}][cart][display]" {% if setting.account[option].cart.display  and  setting.account[option].cart.display  ==  1 %} checked="checked"{% endif %}  id="option_{{ option }}_cart_display" />
+                                                                </td>
+                                                                 {% endfor %}
+                                                            </tr>
+                                                            {% set fields= ['image', 'name', 'model', 'quantity', 'price', 'total'] %}
+                                                            {% for field in fields %}
+                                                            <tr>
+                                                                <td class="name">
+                                                                    <label>
+                                                                        {% set field_name= 'entry_cart_columns_'~field %}
+
+                                                                         {{ attribute(_context, 'entry_cart_columns_'~field)}}
+                                                                    </label>
+                                                                </td>
+                                                                {% for option in options %}
+                                                                <td>
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][cart][columns][{{ field }}]" />
+                                                                    <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_display }}" name="{{ id }}_setting[account][{{ option }}][cart][columns][{{ field }}]" {% if setting.account[option].cart.columns[field]  and  setting.account[option].cart.columns[field]  ==  1 %} checked="checked"{% endif %}  id="option_{{ option }}_cart_columns_{{ field }}" />
+                                                                </td>
+                                                                {% endfor %} 
+                                                            </tr>
+                                                             {% endfor %}
+
+                                                            {% set fields=  ['coupon', 'voucher', 'reward'] %}
+                                                            {% for field in fields %}
+                                                            <tr>
+                                                                <td class="name">
+                                                                    <label  class="control-label">
+                                                                        <span data-toggle="tooltip" title=" " data-original-title="'help_cart_option_'{{ field }} ">
+                                                                            {% set field_name= 'entry_cart_option_'~field %}
+                                                                            {{ attribute(_context, 'entry_cart_option_'~field)}}
+                                                                        </span>
+                                                                    </label>
+                                                                </td>
+                                                                {% for option in options %}
+                                                                <td>
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][cart][option][{{ field }}][display]" />
+                                                                    <input type="checkbox" value="1" data-size="mini" data-label-text="{{ text_display }}" name="{{ id }}_setting[account][{{ option }}][cart][option][{{ field }}][display]" {% if setting.account[option].cart.option[field].display  and  setting.account[option].cart.option[field].display  ==  1 %} checked="checked"{% endif %}  id="option_{{ option }}_cart_option_{{ field }}_display" />
+                                                                </td>
+                                                                 {% endfor %}
+                                                            </tr>
+                                                             {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_icon }}">
+                                                           {{ text_icon }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" name="{{ id }}_setting[step][cart][icon]" id="login_icon; " value="{{ setting.step.cart.icon }}" class="form-control" placeholder="{{ text_icon }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_title }}">
+                                                           {{ text_title }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                    
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="cart_title_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][cart][title][{{ language.language_id }}]" id="cart_title_{{ language.language_id }}" value="{% if setting.step.cart.title[language.language_id] is defined and setting.step.cart.title is iterable %}{{ setting.step.cart.title[language.language_id] }}"{% else %}{{ setting.step.cart.title }}"{% endif %}class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_description }}">
+                                                           {{ text_description }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% for language in languages %} 
+                                                        <div id="tab_general_min_order_text_{{ language.language_id }}" class="input-group">
+                                                            <label class="input-group-addon" for="cart_description_{{ language.language_id }}" title="{{ language.name }}"><img src="{{ language.flag }}" title="{{ language.name }}" /></label>
+                                                            <input type="text" name="{{ id }}_setting[step][cart][description][{{ language.language_id }}]" id="cart_description_{{ language.language_id }}" value="{% if setting.step.cart.description[language.language_id] is defined and setting.step.cart.description is iterable %}
+                                                            {{ setting.step.cart.description[language.language_id] }}"
+                                                            {% else %}
+                                                            {{ setting.step.cart.description }} "
+                                                            {% endif %} 
+                                                            class="form-control" >
+                                                        </div>
+                                                        {% endfor %} 
+                                                    </div>
+                                                </div>
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-check fa-fw"></span> <span>{{ text_confirm }}</span>
+                                                </h3>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>{{ text_defualt }}</th>
+                                                                <th class="guest">{{ text_guest }}</th>
+                                                                <th class="register">{{ text_register }}</th>
+                                                                <th class="login">{{ text_logged }}</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody class="sortable table-sortable">
+                                                        {% for field in setting.step.confirm.fields %}{% if field.title%} 
+                                                            <tr id="confirm_{{ field.id }}_input" class="sort-item {{ field.type  ==  'system'? 'hide' : '' }} " sort-data="{{ setting.step.confirm.fields[field.id].sort_order ? setting.step.confirm.fields[field.id].sort_order : '' }} ">
+                                                                <td class="name">
+                                                                    <label class="">
+                                                                        <span class="btn btn-link"><i class="fa fa-bars"></i> </span>
+                                                                        <span data-toggle="tooltip" title="{{ text_type }} {{ setting.step.confirm.fields[field.id].type }}">
+                                                                           {{ field.title }} <i class="fa fa-question-circle"></i>
+                                                                        </span>
+                                                                        <input class="sort" type="hidden" value="{{ setting.step.confirm.fields[field.id].sort_order ? setting.step.confirm.fields[field.id].sort_order : '' }} " name="{{ id }}_setting[step][confirm][fields][{{ field.id }}][sort_order]" />
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                {% if setting.step.confirm.fields[field.id].type  ==  'checkbox'%} 
+                                                                    <input type="hidden" name="{{ id }}_setting[step][confirm][fields][{{ field.id }}][value]" value="0" />
+                                                                    <input class="form-control pull-right" type="{{ setting.step.confirm.fields[field.id].type }}" data-size="small" name="{{ id }}_setting[step][confirm][fields][{{ field.id }}][value]" {{ setting.step.confirm.fields[field.id].value  and  setting.step.confirm.fields[field.id].value ?  'checked="checked"' : '' }} value="1" />
+                                                                {% endif %} 
+                                                                {% if setting.step.confirm.fields[field.id].type  ==  'text'
+                                                                       or  setting.step.confirm.fields[field.id].type  ==  'email'%} 
+                                                                    <input class="form-control pull-right" placeholder="{{ setting.step.confirm.fields[field.id].type }}" type="{{ setting.step.confirm.fields[field.id].type }}" name="{{ id }}_setting[step][confirm][fields][{{ field.id }}][value]" value="{{ setting.step.confirm.fields[field.id].value ? setting.step.confirm.fields[field.id].value : '' }} " />
+                                                                {% endif %} 
+                                                                </td>
+                                                                {% for option in options %}
+                                                                <td>
+                                                                {% if setting.account[option].confirm.fields[field.id].display %} 
+                                                                    <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][confirm][fields][{{ field.id }}][display]" />
+                                                                    <input type="checkbox" data-size="mini" data-label-text="{{ text_display }}"  value="1" name="{{ id }}_setting[account][{{ option }}][confirm][fields][{{ field.id }}][display]" {% if setting.account[option].confirm.fields[field.id].display  and  setting.account[option].confirm.fields[field.id].display  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_confirm_fields_{{ field.id }}_display"/>
+                                                                    {% if setting.account[option].confirm.fields[field.id].require %} 
+                                                                        <input type="hidden" value="0" name="{{ id }}_setting[account][{{ option }}][confirm][fields][{{ field.id }}][require]" />
+                                                                        <input type="checkbox" data-size="mini" data-label-text="{{ text_require }}"  value="1" name="{{ id }}_setting[account][{{ option }}][confirm][fields][{{ field.id }}][require]" {% if setting.account[option].confirm.fields[field.id].require  ==  1 %} checked="checked"{% endif %}  id="{{ option }}_confirm_fields_{{ field.id }}_require"/>
+                                                                    {% endif %} 
+                                                                {% endif %} 
+                                                                </td>
+                                                               
+                                                                {% endfor %} 
+                                                            </tr>
+                                                             {% endif %}{% endfor %}
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                            <div id="d_design" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-paint-brush fa-fw"></span> <span>{{ text_design }}</span>
+                                                </h3>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_theme }}">{{ entry_design_theme }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="{{ id }}_setting[design][theme]" class="form-control">
+                                                            {% for theme in themes %} 
+                                                                {% if setting.design.theme  ==  theme %} 
+                                                                    <option value="{{ theme }}" selected="selected">{{ theme }}</option>
+                                                               {% else %}  
+                                                                    <option value="{{ theme }}">{{ theme }}</option>
+                                                                 {% endif %}
+                                                              {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_field }}">{{ entry_design_field }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-success {% if setting.design.block_style  and  setting.design.block_style  ==  'row'%}  active {% endif %} ">
+                                                                <input type="radio" value="row" name="{{ id }}_setting[design][block_style]" {% if setting.design.block_style  and  setting.design.block_style  ==  'row'%} checked="checked"{% endif %}  id="block_style_row" />
+                                                                      {{ text_row }}
+                                                            </label>
+                                                            <label class="btn btn-success {% if setting.design.block_style  and  setting.design.block_style  ==  'block'%}  active {% endif %} ">
+                                                                <input type="radio" value="block" name="{{ id }}_setting[design][block_style]" {% if setting.design.block_style  and  setting.design.block_style  ==  'block'%} checked="checked"{% endif %}  id="block_style_block"/>
+                                                                      {{ text_block }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_design_placeholder }}">
+                                                           {{ entry_design_placeholder }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[design][placeholder]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_enable }}" name="{{ id }}_setting[design][placeholder]" {{ setting.design.placeholder  and  setting.design.placeholder? 'checked="checked"' : '' }} id="design_placeholder" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_design_breadcrumb }}">
+                                                           {{ entry_design_breadcrumb }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[design][breadcrumb]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_enable }}" name="{{ id }}_setting[design][breadcrumb]" {{ setting.design.breadcrumb  and  setting.design.breadcrumb? 'checked="checked"' : '' }} id="design_breadcrumb" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_address }}">{{ entry_design_address }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-success {% if setting.design.address_style  and  setting.design.address_style  ==  'radio'%}  active {% endif %} ">
+                                                                <input type="radio" value="radio" name="{{ id }}_setting[design][address_style]" {% if setting.design.address_style  and  setting.design.address_style  ==  'radio'%} checked="checked"{% endif %}  id="address_style_radio" />
+                                                                      {{ text_input_radio }}
+                                                            </label>
+                                                            <label class="btn btn-success {% if setting.design.address_style  and  setting.design.address_style  ==  'list'%}  active {% endif %} ">
+                                                                <input type="radio" value="list" name="{{ id }}_setting[design][address_style]" {% if setting.design.address_style  and  setting.design.address_style  ==  'list'%} checked="checked"{% endif %}  id="address_style_list"/>
+                                                                      {{ text_input_list }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_cart_image_size }}">{{ entry_design_cart_image_size }}</span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <div class="input-group">
+                                                            <label for="cart_image_size_width" class="input-group-addon">{{ text_width }}</label>
+                                                            <input id="cart_image_size_width" name="{{ id }}_setting[design][cart_image_size][width]" value="{{ setting.design.cart_image_size.width ? setting.design.cart_image_size.width : '150' }}" class="form-control"/>
+                                                            <span class="input-group-addon">px</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="input-group">
+                                                            <label for="cart_image_size_height" class="input-group-addon">{{ text_height }}</label>
+                                                            <input id="cart_image_size_height" name="{{ id }}_setting[design][cart_image_size][height]" value="{{ setting.design.cart_image_size.height ? setting.design.cart_image_size.height : '150' }}" class="form-control"/>
+                                                            <span class="input-group-addon">px</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group hidden">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_max_width }}">{{ entry_design_max_width }}</span>
+                                                    </label>
+                                                    <div class="col-sm-3" >
+                                                        <div class="input-group">
+                                                            <input id="max_width" name="{{ id }}_setting[design][max_width]" value="{{ setting.design.max_width ? setting.design.max_width : '960' }}" class="form-control" />
+                                                            <span class="input-group-addon">px</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_design_bootstrap }}">
+                                                           {{ entry_design_bootstrap }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[design][bootstrap]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_enable }}" name="{{ id }}_setting[design][bootstrap]" {{ setting.design.bootstrap  and  setting.design.bootstrap? 'checked="checked"' : '' }} id="design_bootstrap" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_design_autocomplete }}">
+                                                           {{ entry_design_autocomplete }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[design][autocomplete]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_enable }}" name="{{ id }}_setting[design][autocomplete]" {{ setting.design.autocomplete  and  setting.design.autocomplete? 'checked="checked"' : '' }} id="design_autocomplete" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_design_only_d_quickcheckout }}">
+                                                           {{ entry_design_only_d_quickcheckout }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[design][only_quickcheckout]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_enable }}" name="{{ id }}_setting[design][only_quickcheckout]" {{ setting.design.only_quickcheckout  and  setting.design.only_quickcheckout? 'checked="checked"' : '' }} id="design_only_quickcheckout" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_telephone_countries }}">{{ entry_design_telephone_countries }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input id="cart_image_size_width" name="{{ id }}_setting[design][telephone_countries]" value="{{ setting.design.telephone_countries ? setting.design.telephone_countries : '' }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_telephone_preferred_countries }}">{{ entry_design_telephone_preferred_countries }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input id="cart_image_size_width" name="{{ id }}_setting[design][telephone_preferred_countries]" value="{{ setting.design.telephone_preferred_countries ? setting.design.telephone_preferred_countries : '' }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-catalog-limit">
+                                                        <span data-toggle="tooltip" title="{{ help_design_telephone_validation }}">
+                                                           {{ entry_design_telephone_validation }}
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="hidden" value="0" name="{{ id }}_setting[design][telephone_validation]" />
+                                                        <input type="checkbox" value="1" data-label-text="{{ text_enable }}" name="{{ id }}_setting[design][telephone_validation]" {{ setting.design.telephone_validation  and  setting.design.telephone_validation? 'checked="checked"' : '' }} id="design_telephone_validation" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_column }}">{{ entry_design_column }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div id="column_design" style="position:static; ">
+
+                                                            <div class="column-width-group">
+                                                                <input id="column_width_1" type="text" class="column-width hidden" name="{{ id }}_setting[design][column_width][1]" value="{{ setting.design.column_width[1] }}"
+                                                                       /><input id="column_width_2" type="text" class="column-width hidden" name="{{ id }}_setting[design][column_width][2]" value="{{ setting.design.column_width[2] }}"
+                                                                       /><input id="column_width_3" type="text" class="column-width hidden" name="{{ id }}_setting[design][column_width][3]" value="{{ setting.design.column_width[3] }}"
+                                                                       /><input id="column_width_4" type="hidden" class="column-width hidden" name="{{ id }}_setting[design][column_width][4]" value="{{ setting.design.column_width[4] }}" />
+                                                            </div >
+                                                            <input id="column_slider" type="text" class="span2" value="" data-slider-min="0" data-slider-max="12" data-slider-step="1" tooltip="hide" data-slider-value="[{{ setting.design.column_width.1 }},{{ setting.design.column_width[1]|number_format+setting.design.column_width[2]|number_format }}]"/>
+                                                            <div id="column_groups">
+
+
+                                                                <ul class="column column-group column-group-1 qc-col-1" id="column_1">
+                                                                    {% for step, value in steps %} 
+                                                                    
+                                                                    <li class="portlet qc-step" id="step_{{step}}" data-col="{{ setting.step[step].column }}" data-row="{{ setting.step[step].row }}" data-id="{{ step }}">
+                                                                        <div class="portlet-wrap">
+                                                                            <div class="portlet-header"><span class="fa fa-{{ setting.step[step].icon }} fa-fw"></span>{{attribute(_context,'text_'~step)}} </div>
+                                                                            <div class="portlet-content">
+
+                                                                                <div class="text">{{attribute(_context,'help_'~step) }}</div>
+                                                                                <div class="text"><i class="fa fa-drag"></i></div>
+                                                                                <input type="hidden" class="sort data-column" name="{{ id }}_setting[step][{{ step }}][column]" value="{{ setting.step[step].column }}" />
+                                                                                <input type="hidden" class="sort data-row" name="{{ id }}_setting[step][{{ step }}][row]" value="{{ setting.step[step].row }}" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+
+                                                                     {% endfor %}
+                                                                </ul>
+                                                                <div class="column-group column-group-2">
+                                                                    <ul class="column qc-col-2" id="column_2">
+                                                                    </ul>
+                                                                    <ul class="column qc-col-3" id="column_3">
+                                                                    </ul>
+                                                                    <ul class="column qc-col-4" id="column_4">
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" >
+                                                        <span data-toggle="tooltip" title="" data-original-title="{{ help_design_custom_style }}">{{ entry_design_custom_style }}</span>
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        {% if setting.design.custom_style%} 
+                                                        <textarea name="{{ id }}_setting[design][custom_style]" id="design_custom_style" class="form-control" rows="5">{{ setting.design.custom_style }}</textarea>
+                                                        {% else %}  
+                                                        <textarea name="{{ id }}_setting[design][custom_style]" id="design_custom_style" class="form-control" rows="5"></textarea>
+                                                         {% endif %}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div id="d_analytics" class="tab-pane">
+
+                                                <h3 class="page-header">
+                                                    <span class="fa fa-bar-chart fa-fw"></span> <span>{{ text_analytics }}</span>
+                                                </h3>
+
+                                                <table class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>{{ column_order_id }}</th>
+                                                            <th>{{ column_customer }}</th>
+                                                            <th>{{ column_account }}</th>
+                                                            <th>{{ column_total }}</th>
+                                                            <th>{{ column_status }}</th>
+                                                            <th>{{ column_shipping_method }}</th>
+                                                            <th>{{ column_payment_method }}</th>
+                                                            <th>{{ column_data }}</th>
+                                                            <th>{{ column_checkout_time }}</th>
+                                                            <th>{{ column_rating }}</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        {% for stat in analytics_getAll %}
+                                                        <tr>
+                                                            <td>{{ stat.order_id }}</td>
+                                                            {% if stat.href_customer %} 
+                                                            <td><a href="{{ stat.href_customer }}"> {{ stat.firstname }} {{ stat.lastname }}</a></td>
+                                                            {% else %}  
+                                                            <td>{{ stat.firstname }} {{ stat.lastname }}</td>
+                                                             {% endif %}
+                                                            <td>{{ stat.data.account }}</td>
+                                                            <td>{{ stat.total }}</td>
+                                                            <td>{{ stat.order_status_id }}</td>
+                                                            <td>{{ stat.shipping_method }}</td>
+                                                            <td>{{ stat.payment_method }}</td>
+                                                            <td>
+                                                                {% if stat.data.field%} <span class="label label-default" data-toggle="tooltip" title="<samp>print_r(stat.data.data.field.stat.data.account) </samp>"><i class="fa fa-bars"></i> {{ stat.data.field }}</span> {% endif %} 
+                                                                {% if stat.data.data.update%} <span class="label label-info" data-toggle="tooltip" title="<samp>print_r(stat.data.data.update) </samp>"><i class="fa fa-pencil"></i> {{ stat.data.total.update }}</span> {% endif %} 
+                                                                {% if stat.data.data.click%} <span class="label label-success" data-toggle="tooltip" title="<samp>print_r(stat.data.data.click) </samp>"><i class="fa fa-hand-o-down"></i> {{ stat.data.total.click }}</span> {% endif %} 
+                                                                {% if stat.data.data.error%} <span class="label label-danger" data-toggle="tooltip" title="<samp>print_r(stat.data.data.error) </samp>"><i class="fa fa-exclamation-triangle"></i> {{ stat.data.total.error }}</span> {% endif %} 
+                                                            </td>
+                                                            <td>{{ ((stat.checkout_time / 100 )|round() )|date("H:i:s") }}</td>
+                                                            <td>{{ stat.rating }}</td>
+                                                        </tr>
+                                                         {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                <div class="row">
+                                                    <div class="col-sm-6 text-left">{{ pagination }}</div>
+                                                    <div class="col-sm-6 text-right">{{ results }}</div>
+                                                </div>
+                                            </div>
+
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="debug" >
+                            <div class="tab-body">
+                                <textarea id="textarea_debug_log" wrap="off" rows="15" readonly="readonly" class="form-control">{{ debug_log }}</textarea>
+                                <br/>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="input_debug_file">{{ entry_debug_file }}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="input_debug_file" name="{{ id }}_debug_file" value="{{ debug_file }}"  class="form-control"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <a class="btn btn-danger" id="clear_debug_file">{{ button_clear }}</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="support" >
+                            <div class="tab-body">
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="instruction" >
+                            <div class="tab-body">
+                               {{ text_instruction }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    {% set column_1 = setting.design.column_width[1] / 12 * 100 %}
+    {% set column_2 = setting.design.column_width[2] / 12 * 100 %}
+    {% set column_3 = setting.design.column_width[3] / 12 * 100 %}
+    {% set column_4 = column_2 + column_3 %}
+
+
+<style>
+    #column_width_1,
+    #column_1{
+        width: {{ column_1 }}%;
+    }
+    #column_width_2,
+    #column_2{
+        width: {{ column_2 }}%;
+    }
+    #column_width_3,
+    #column_3{
+        width: {{ column_3 }}%;
+    }
+
+    #column_4{
+        width: {{ column_4 }}%
+    }
+</style>
+
+<script type="text/javascript"><!--
+    $('#column_slider').slider({
+        'tooltip': 'hide'
+    }).on('slide', function(ev){
+        var val1 = Number(ev.value[0]);
+        var pos1 = (val1 / 12) * 100;
+        var val2 = Number(ev.value[1]);
+        var pos2 = (val2 / 12) * 100;
+        $("#column_1, #column_width_1").css({'width' : pos1+'%'})
+        $("#column_width_1").val(val1)
+        $("#column_2, #column_width_2").css({'width' : pos2-pos1 +'%'})
+        $("#column_width_2").val(val2 - val1)
+        $("#column_3, #column_width_3").css({'width' : Number(100-pos2) +'%'})
+        $("#column_width_3").val(Number(12 - val2))
+        $("#column_4").css({'width' : Number(100 - pos1) +'%'})
+        $("#column_width_4").val(Number(12 - val1))
+        console.log(ev.value[0])
+        console.log($('#form').serializeArray())
+    })
+    var adjustment;
+    var group = $("#column_groups ul.column").sortable({
+        group: 'column',
+        pullPlaceholder: false,
+        // animation on drop
+        onDrop: function  (item, targetContainer, _super) {
+            var clonedItem = $('<li/>').css({height: 0})
+            item.before(clonedItem)
+            clonedItem.animate({'height': item.height()})
+            item.animate(clonedItem.position(), function  () {
+                clonedItem.detach()
+                _super(item)
+            })
+            console.log($('#form').serializeArray())
+            var data = group.sortable("serialize").get();
+            var jsonString = JSON.stringify(data, null, ' ');
+            $.each(data, function(column, column_value) {
+                $.each(column_value, function(row, row_value) {
+                    console.log(row_value['id'] + ' column: ' + column + 1 + 'row: ' + row)
+                    $('#step_' + row_value['id'] + ' .data-column').val(column + 1)
+                    $('#step_' + row_value['id'] + ' .data-row').val(row)
+                });
+            });
+        },
+        // set item relative to cursor position
+        onDragStart: function ($item, container, _super) {
+            var offset = $item.offset(),
+                    pointer = container.rootGroup.pointer
+
+            adjustment = {
+                left: pointer.left - offset.left,
+                top: pointer.top - offset.top
+            }
+
+            _super($item, container)
+        },
+        onDrag: function ($item, position) {
+            $item.css({
+                left: position.left - adjustment.left,
+                top: position.top - adjustment.top
+            })
+        }
+    })
+
+    $('.sortable > tr').tsort({attr:'sort-data'});
+    $(function () {
+        $("[type='checkbox']").bootstrapSwitch({
+            'onColor': 'success',
+            'onText': '{{ text_yes}}',
+            'offText': '{{ text_no }}',
+        });
+        $('[data-toggle="popover"]').popover()
+
+        $('.qc-step').each(function(){
+            $(this).appendTo('.qc-col-' + $(this).attr('data-col'));
+            })
+        $('.qc-step').tsort({attr:'data-row'});
+        $(".table-sortable").sortable({
+            containerSelector: 'table',
+            itemPath: '',
+            itemSelector: 'tr',
+            distance: '10',
+            pullPlaceholder: false,
+            placeholder: '<tr class="placeholder"><td colspan="5" /></tr>',
+            onDragStart: function (item, container, _super) {
+                var offset = item.offset(),
+                        pointer = container.rootGroup.pointer
+
+                adjustment = {
+                    left: pointer.left - offset.left,
+                    top: pointer.top - offset.top
+                }
+
+                _super(item, container)
+            },
+            onDrag: function (item, position) {
+                item.css({
+                    left: position.left - adjustment.left,
+                    top: position.top - adjustment.top
+                })
+            },
+            onDrop: function  (item, container, _super) {
+                item.closest('tbody').find('tr').each(function (i, row) {
+                    console.log(i)
+                    $(row).find('.sort').val(i)
+
+                })
+
+                _super(item)
+            }
+        })
+
+        $('#select_config_submit').on('click', function(){
+            var config = $('#select_config').val();
+            var setting_id = '{{ setting_id }}';
+            var store_id = '{{ store_id }}';
+            $('#content').append('<form action="{{ module_link }}{{ stores ? "&store_id=' + store_id + '" : '' }} {{ setting_id ? "&setting_id=' + setting_id + '" : '' }} " id="config_update" method="post" style="display:none;"><input type="text" name="config" value="' + config + '" /><input type="text" name="setting_id" value="' + setting_id + '" /></form>');
+            $('#config_update').submit();
+        })
+
+        $('body').on('click', '#save_and_stay', function(){
+            $.ajax({
+                type: 'post',
+                url: $('#form').attr('action') + '&save',
+                data: $('#form').serialize(),
+                beforeSend: function() {
+                    $('#form').fadeTo('slow', 0.5);
+                },
+                complete: function() {
+                    $('#form').fadeTo('slow', 1);
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        });
+        $('body').on('click', '#button_update', function(){
+            $.ajax({
+                url: '{{ update }}',
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#button_update').find('.fa-refresh').addClass('fa-spin');
+                },
+                complete: function() {
+                    $('#button_update').find('.fa-refresh').removeClass('fa-spin');
+                },
+                success: function(json) {
+                    console.log(json);
+                    if (json['error']){
+                        $('#notification_update').html('<div class="alert alert-danger m-b-none">' + json['error'] + '</div>')
+                    }
+
+                    if (json['warning']){
+                        $html = '';
+                        if (json['update']){
+                            $.each(json['update'], function(k, v) {
+                                $html += '<div>Version: ' + k + '</div><div>' + v + '</div>';
+                            });
+                        }
+                        $('#notification_update').html('<div class="alert alert-warning alert-inline">' + json['warning'] + $html + '</div>')
+                    }
+
+                    if (json['success']){
+                        $('#notification_update').html('<div class="alert alert-success alert-inline">' + json['success'] + '</div>')
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+        });
+        $('body').on('click', '#clear_debug_file', function(){
+            $.ajax({
+                url: '{{ clear_debug_file }}',
+                type: 'post',
+                dataType: 'json',
+                data: 'debug_file={{ debug_file }}',
+                beforeSend: function() {
+                    $('#form').fadeTo('slow', 0.5);
+                },
+                complete: function() {
+                    $('#form').fadeTo('slow', 1);
+                },
+                success: function(json) {
+                    $('.alert').remove();
+                    console.log(json);
+                    if (json['error']){
+                        $('#debug .tab-body').prepend('<div class="alert alert-danger">' + json['error'] + '</div>')
+                    }
+
+                    if (json['success']){
+                        $('#debug .tab-body').prepend('<div class="alert alert-success">' + json['success'] + '</div>')
+                        $('#textarea_debug_log').val('');
+                    }
+                }
+            });
+        });
+
+        $('body').on('click', '.view-setting', function(){
+            var setting_id = $(this).attr('data-setting-id');
+            location.href = updateURLParameter($(location).attr('href'), 'setting_id', setting_id);
+            return false;
+        });
+        $('body').on('click', '#create_setting', function(){
+            $.ajax({
+                url: '{{ create_setting }}',
+                type: 'post',
+                dataType: 'json',
+                data:  $('#form').serialize(),
+                beforeSend: function() {
+                    $('#form').fadeTo('slow', 0.5);
+                },
+                complete: function() {
+                    $('#form').fadeTo('slow', 1);
+                },
+                success: function(json) {
+                    $('.alert').remove();
+                    console.log(json);
+                    if (json['error']){
+                        $('#content > .container-fluid').prepend('<div class="alert alert-warning">' + json['error'] + '</div>')
+                    }
+
+                    if (json['redirect']){
+                        location.href = json['redirect'];
+                    }
+                }
+            });
+            return false;
+        });
+        $('body').on('click', '#generate_setting', function () {
+            $('#bulk_setting').val(JSON.stringify($('#form').serializeObject().{{ id }}_setting));
+            return false;
+        })
+
+        $('body').on('click', '#compress_update', function (e) {
+            $.ajax({
+                url: 'index.php?route=extension/module/d_quickcheckout/updateCompress&user_token={{ token }}',
+                type: 'post',
+                dataType: 'json',
+                data: 'setting_id={{ setting_id }}&setting=' + $('#bulk_setting').val(),
+                beforeSend: function () {
+                    $('#form').fadeTo('slow', 0.5);
+                },
+                complete: function () {
+                    $('#form').fadeTo('slow', 1);
+                },
+                success: function (json) {
+                    $('.alert').remove();
+                    console.log(json);
+                    if (json['success']) {
+                        $('#compress-notification').prepend('<div class="alert alert-success alert-inline">' + json['success'] + '</div>')
+                    }
+                    if (json['error']) {
+                        $('#compress-notification').prepend('<div class="alert alert-warning alert-inline">' + json['error'] + '</div>')
+                    }
+                }
+            });
+            e.preventDefault();
+        });
+        $('body').on('click', '#save_bulk_setting', function () {
+            $.ajax({
+                url: '{{ save_bulk_setting }}',
+                type: 'post',
+                dataType: 'json',
+                data: 'setting_id={{ setting_id }}&setting=' + $('#bulk_setting').val(),
+                beforeSend: function () {
+                    $('#form').fadeTo('slow', 0.5);
+                },
+                complete: function () {
+                    $('#form').fadeTo('slow', 1);
+                },
+                success: function (json) {
+                    $('.alert').remove();
+                    console.log(json);
+                    if (json['error']) {
+                        $('#notification_setting').prepend('<div class="alert alert-warning alert-inline">' + json['error'] + '</div>')
+                    }
+
+                    if (json['redirect']) {
+                        location.href = json['redirect'];
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+    function updateURLParameter(url, param, paramVal) {
+        var TheAnchor = null;
+        var newAdditionalURL = "";
+        var tempArray = url.split("?");
+        var baseURL = tempArray[0];
+        var additionalURL = tempArray[1];
+        var temp = "";
+        if (additionalURL) {
+            var tmpAnchor = additionalURL.split("#");
+            var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+            if (TheAnchor)
+                additionalURL = TheParams;
+            tempArray = additionalURL.split("&");
+            for (i = 0; i < tempArray.length; i++) {
+                if (tempArray[i].split('=')[0] != param) {
+                    newAdditionalURL += temp + tempArray[i];
+                    temp = "&";
+                }
+            }
+        }
+        else {
+            var tmpAnchor = baseURL.split("#");
+            var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+            if (TheParams)
+                baseURL = TheParams;
+        }
+
+        if (TheAnchor)
+            paramVal += "#" + TheAnchor;
+        var rows_txt = temp + "" + param + "=" + paramVal;
+        return baseURL + "?" + newAdditionalURL + rows_txt;
+    }
+
+    $('body').on('change', '#payment_address_country_id_input select', function () {
+        $.ajax({
+            url: 'index.php?route=extension/module/d_quickcheckout/getZone&user_token={{ token }}&country_id=' + this.value,
+            dataType: 'json',
+            success: function(json) {
+                html = '<option value="">{{ text_select }}</option>';
+                if (json && json != '') {
+                    for (i = 0; i < json.length; i++) {
+                        html += '<option value="' + json[i]['value'] + '"';
+                        html += '>' + json[i]['name'] + '</option>';
+                    }
+                } else {
+                    html += '<option value="0" selected="selected">{{ text_none }}</option>';
+                }
+
+                $('#payment_address_zone_id_input select').html(html);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+    $('body').on('change', '#shipping_address_country_id_input select', function() {
+        $.ajax({
+            url: 'index.php?route=extension/module/d_quickcheckout/getZone&user_token={{ token }}&country_id=' + this.value,
+            dataType: 'json',
+            success: function(json) {
+                html = '<option value="">{{ text_select }}</option>';
+                if (json && json != '') {
+                    for (i = 0; i < json.length; i++) {
+                        html += '<option value="' + json[i]['value'] + '"';
+                        html += '>' + json[i]['name'] + '</option>';
+                    }
+                } else {
+                    html += '<option value="0" selected="selected">{{ text_none }}</option>';
+                }
+
+                $('#shipping_address_zone_id_input select').html(html);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+    $('body').on('click', '.pagination li a', function() {
+        var pag_url = $(this).attr('href');
+
+        $.ajax({
+            url: pag_url,
+            type: 'get',
+            data: pag_url,
+            dataType: 'html',
+            success: function(html) {
+                var data_analytics = $(html).find("#d_analytics").html();
+                $("#d_analytics").html(data_analytics);
+            }
+        });
+        return false;
+
+    });
+    //--></script>
+
+{{ footer }}

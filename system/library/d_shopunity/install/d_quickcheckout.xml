@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Ajax Quick Checkout</name>
+    <code>d_quickcheckout</code>
+    <version>6.4.1</version>
+    <author>Dreamvention</author>
+    <link>https://dreamvention.zendesk.com</link>
+
+    <file path="catalog/controller/checkout/checkout.php">
+        <operation>
+            <search ><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/checkout.tpl')) {]]></search>
+            <add position="replace" offset="4"><![CDATA[
+            // a_vqmod_d_quickcheckout.xml
+            if($this->config->get('d_quickcheckout_status')){
+                $template = 'd_quickcheckout';
+            }else{
+                $template = 'checkout';
+            }
+            
+            if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/'.$template.'.tpl')) {
+                $template = $this->config->get('config_template') . '/template/checkout/'.$template.'.tpl';
+            } else {
+                $template = 'default/template/checkout/'.$template.'.tpl';
+            }
+            $this->response->setOutput($this->load->view($template, $data));]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/controller/checkout/checkout.php">
+        <operation error="skip">
+            <search><![CDATA[$this->response->setOutput($this->load->view('checkout/checkout', $data));]]></search>
+            <add position="replace"><![CDATA[
+            // a_vqmod_d_quickcheckout.xml
+            if($this->config->get('d_quickcheckout_status')){
+                $template = 'd_quickcheckout';
+            }else{
+                $template = 'checkout';
+            }
+            
+            $this->response->setOutput($this->load->view('checkout/'.$template, $data));]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/checkout/checkout.php">
+        <operation>
+            <search ><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
+            <add position="before"><![CDATA[
+        if($this->config->get('d_quickcheckout_status')){
+            $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
+        }
+        ]]></add>
+        </operation>
+    </file>
+    <file path="system/library/cart/tax.php">
+        <operation>
+            <search ><![CDATA[final class Tax {]]></search>
+            <add position="after"><![CDATA[
+    // a_vqmod_d_quickcheckout.xml
+    public function clearRates(){
+        $this->tax_rates = array();
+    }
+            ]]></add>
+        </operation>
+    </file> 
+    <file path="system/library/tax.php">
+        <operation>
+            <search ><![CDATA[final class Tax {]]></search>
+            <add position="after"><![CDATA[
+    // a_vqmod_d_quickcheckout.xml
+    public function clearRates(){
+        $this->tax_rates = array();
+    }
+            ]]></add>
+        </operation>
+    </file> 
+</modification>

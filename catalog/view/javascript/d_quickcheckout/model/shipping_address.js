@@ -22,7 +22,7 @@ qc.ShippingAddress = qc.Model.extend({
 
 		var json = this.toJSON();
 		var that = this;
-		$.post('index.php?route=d_quickcheckout/shipping_address/update', { 'shipping_address' :  json.shipping_address }, function(data) {
+		$.post('index.php?route=extension/d_quickcheckout/shipping_address/update', { 'shipping_address' :  json.shipping_address }, function(data) {
 			that.updateForm(data);
 
 		}, 'json').error(
@@ -35,7 +35,7 @@ qc.ShippingAddress = qc.Model.extend({
 		var json = this.toJSON();
 		var that = this;
 		qc.shipping_address_waiting = setTimeout(function () {
-			$.post('index.php?route=d_quickcheckout/shipping_address/update', { 'shipping_address' : json.shipping_address }, function(data) {
+			$.post('index.php?route=extension/d_quickcheckout/shipping_address/update', { 'shipping_address' : json.shipping_address }, function(data) {
 				that.updateForm(data);
 
 			}, 'json').error(

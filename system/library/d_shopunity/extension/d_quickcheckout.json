@@ -1,0 +1,106 @@
+{
+    "codename": "d_quickcheckout_lite",
+    "version": "6.5.0",
+    "name": "Ajax Quick Checkout Lite",
+    "index": "extension/module/d_quickcheckout",
+    "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
+    "images": {
+        "thumb": "https://opencart.dreamvention.com/market/image/d_blog_module/small.png",
+        "main": "https://opencart.dreamvention.com/market/image/d_blog_module/big.png"
+    },
+    "author": {
+        "name": "Dreamvention",
+        "email": "info@dreamvention.com",
+        "url": "https://dreamvention.com/"
+    },
+    "opencart_version": [
+        "2.0.1.0",
+        "2.0.1.1",
+        "2.0.2.0",
+        "2.0.3.1",
+        "2.1.0.1",
+        "2.1.0.2",
+        "2.2.0.0",
+        "2.3.0.0",
+        "2.3.0.1",
+        "2.3.0.2",
+        "3.0.0.0",
+        "3.0.1.1",
+        "3.0.1.2",
+        "3.0.2.0"
+    ],
+    "type": "module",
+    "license": {
+        "type": "free",
+        "url": "https://shopunity.net/licenses/free"
+    },
+    "install": {
+        "url": "extension/extension/module/install&extension=d_quickcheckout"
+    },
+    "uninstall": {
+        "url": "extension/extension/module/uninstall&extension=d_quickcheckout"
+    },
+    "support": {
+        "email": "support@dreamvention.com",
+        "url": "https://shopunity.net/"
+    },
+    "required": {
+        "d_opencart_patch": ">= 1.0.0",
+        "d_tinysort": ">=1.0.0",
+        "d_bootstrap_switch": ">= 3.3.5",
+        "d_twig_manager": ">= 1.5.0",
+        "d_rubaxa_sortable": ">=1.0.0"
+    },
+    "files": [
+        "system/library/d_shopunity/extension/d_quickcheckout.json",
+        "admin/controller/extension/module/d_quickcheckout.php",
+        "admin/language/en-gb/extension/module/d_quickcheckout.php",
+        "admin/language/en-gb/extension/module/d_quickcheckout_instruction.php",
+        "admin/model/extension/module/d_quickcheckout.php",
+        "admin/view/template/extension/module/d_quickcheckout.twig",
+        "admin/view/stylesheet/d_quickcheckout.css",
+        "admin/view/stylesheet/d_quickcheckout.less",
+        "catalog/controller/extension/module/d_quickcheckout.php",
+        "catalog/language/en-gb/extension/module/d_quickcheckout.php",
+        "catalog/model/extension/module/d_quickcheckout.php",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/d_quickcheckout.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/blue.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/blue.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/dark.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/dark.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/default.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/green.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/green.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/journal.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/journal.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/red.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/red.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/BurnEngine.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/seablue.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/seablue.css",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/yellow.less",
+        "catalog/view/theme/default/stylesheet/d_quickcheckout/theme/yellow.css",
+
+        "catalog/view/theme/default/template/module/d_quickcheckout.twig",
+        "catalog/view/theme/default/template/checkout/d_quickcheckout.twig",
+        "system/config/d_quickcheckout.php",
+        "system/library/d_shopunity/install/d_quickcheckout.xml"
+    ],
+    "dirs":[
+        "catalog/controller/extension/d_quickcheckout",
+        "catalog/model/extension/d_quickcheckout",
+        "catalog/view/javascript/d_quickcheckout",
+        "catalog/view/theme/default/template/d_quickcheckout",
+        "image/catalog/d_quickcheckout",
+        "system/library/d_compress"
+    ],
+    "changelog": [
+        {
+            "version":"6.5.0",
+            "change":"1. Add support Opencart 3.0.x.x"
+        }
+    ]
+}

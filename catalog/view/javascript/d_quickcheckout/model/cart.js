@@ -12,7 +12,7 @@ qc.Cart = qc.Model.extend({
 
     updateCart: function() {
         var that = this;
-        $.post('index.php?route=d_quickcheckout/cart/update', '', function(data) {
+        $.post('index.php?route=extension/d_quickcheckout/cart/update', '', function(data) {
             qc.event.trigger('updateCart', data);
             that.updateForm(data);
 
@@ -22,7 +22,7 @@ qc.Cart = qc.Model.extend({
     updateQuantity: function(name, value) {
         this.set(name, value);
         var that = this;
-        $.post('index.php?route=d_quickcheckout/cart/update', this.toJSON(), function(data) {
+        $.post('index.php?route=extension/d_quickcheckout/cart/update', this.toJSON(), function(data) {
             qc.event.trigger('updateCart', data);
             that.updateForm(data);
 
@@ -32,7 +32,7 @@ qc.Cart = qc.Model.extend({
     updateVoucher: function(voucher) {
         this.set('voucher', voucher);
         var that = this;
-        $.post('index.php?route=d_quickcheckout/cart/updateVoucher', this.toJSON(), function(data) {
+        $.post('index.php?route=extension/d_quickcheckout/cart/updateVoucher', this.toJSON(), function(data) {
             qc.event.trigger('updateCart', data);
             that.updateForm(data);
 
@@ -42,7 +42,7 @@ qc.Cart = qc.Model.extend({
     updateCoupon: function(coupon) {
         this.set('coupon', coupon);
         var that = this;
-        $.post('index.php?route=d_quickcheckout/cart/updateCoupon', this.toJSON(), function(data) {
+        $.post('index.php?route=extension/d_quickcheckout/cart/updateCoupon', this.toJSON(), function(data) {
             qc.event.trigger('updateCart', data);
             that.updateForm(data);
 
@@ -52,7 +52,7 @@ qc.Cart = qc.Model.extend({
     updateReward: function(reward) {
         this.set('reward', reward);
         var that = this;
-        $.post('index.php?route=d_quickcheckout/cart/updateReward', this.toJSON(), function(data) {
+        $.post('index.php?route=extension/d_quickcheckout/cart/updateReward', this.toJSON(), function(data) {
             qc.event.trigger('updateCart', data);
             that.updateForm(data);
 

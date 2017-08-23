@@ -48,7 +48,7 @@ qc.PaymentAddressView = qc.View.extend({
 	},
 	setZone: function(country_id){
 		var that = this;
-		$.post('index.php?route=d_quickcheckout/field/getZone', { country_id : country_id }, function(data) {
+		$.post('index.php?route=extension/d_quickcheckout/field/getZone', { country_id : country_id }, function(data) {
 			that.model.set('config.fields.zone_id.options', data);
 			that.render();
 		}, 'json');

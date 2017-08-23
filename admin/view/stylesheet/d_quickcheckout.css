@@ -14,6 +14,9 @@
 .tile-body a {
   display: inline-block;
 }
+.tile {
+  background-color: #279FE0;
+}
 .view-setting i {
   margin-left: 10px;
 }

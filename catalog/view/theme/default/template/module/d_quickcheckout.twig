@@ -1,0 +1,69 @@
+<script>
+var config = {{ json_config }} ;
+if(typeof(ga) == "undefined")
+   config.general.analytics_event = 0;
+</script>
+<style>
+{{ config['design']['custom_style'] }}
+{% if config.design.only_quickcheckout %} 
+body > *{
+	display: none
+}
+body > #d_quickcheckout{
+	display: block;
+} 
+#d_quickcheckout.container #d_logo{
+	margin: 20px 0px;
+}
+{% endif %} 
+</style>
+<div id="d_quickcheckout">
+	{% if config.design.only_quickcheckout %} 
+	<div id="d_logo" class="center-block text-center"></div>
+	{% endif %} 
+	{{ field }} 
+	<div class="row">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="qc-col-0">
+		{{ login }} 
+		{{ payment_address }} 
+		{{ shipping_address }} 
+		{{ shipping_method }} 
+		{{ payment_method }} 
+		{{ cart }} 
+		{{ payment }} 
+		{{ confirm }} 
+	</div>
+	<div class="row">
+		<div class="qc-col-1 col-md-{{ config.design.column_width[1] }}">
+		</div>
+		<div class="col-md-{{ config.design.column_width[4] }}">
+			<div class="row">
+				<div class="qc-col-2 col-md-{{  config.design.column_width[4] ? (config.design.column_width[2] / config.design.column_width[4] * 12)|round : '0' }}  ">
+    			</div>
+    			<div class="qc-col-3 col-md-{{ config.design.column_width[4] ? 12 - (config.design.column_width[2] / config.design.column_width[4] * 12)|round : '0' }} ">
+    			</div>
+				<div class="qc-col-4 col-md-12">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$(function() {
+	
+	$('.qc-step').each(function(){
+		$(this).appendTo('.qc-col-' + $(this).attr('data-col'));	
+	})
+	$('.qc-step').tsort({attr:'data-row'});
+{% if config.design.only_quickcheckout %} 
+	$('body').prepend($('#d_quickcheckout'));
+	$('#d_quickcheckout').addClass('container')
+	$('#d_quickcheckout #d_logo ').prepend($('header #logo').html())
+{% endif %} 
+{% if not config.design.breadcrumb %} 
+	$('.qc-breadcrumb').hide();
+{% endif %} 
+})
+</script>

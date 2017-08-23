@@ -52,7 +52,7 @@
         "d_rubaxa_sortable": ">=1.0.0"
     },
     "files": [
-        "system/library/d_shopunity/extension/d_quickcheckout.json",
+        "system/library/d_shopunity/extension/d_quickcheckout_lite.json",
         "admin/controller/extension/module/d_quickcheckout.php",
         "admin/language/en-gb/extension/module/d_quickcheckout.php",
         "admin/language/en-gb/extension/module/d_quickcheckout_instruction.php",

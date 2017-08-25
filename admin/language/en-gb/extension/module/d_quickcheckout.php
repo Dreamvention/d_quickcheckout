@@ -8,6 +8,8 @@
     $_['heading_title_main'] = 'Ajax Quick Checkout Lite';
     $_['text_edit'] = 'Edit Ajax Quick Checkout settings';
     $_['text_module'] = 'Modules';
+    $_['success_twig_compatible']='Twig support successfuly installed';
+//entry
 //entry
     $_['entry_status'] = 'Status';
     $_['entry_config_files'] = 'Config files';

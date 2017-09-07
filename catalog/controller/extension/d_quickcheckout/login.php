@@ -67,7 +67,7 @@
             }
 
             if ($this->model_extension_d_quickcheckout_order->isCartEmpty()) {
-                $json['redirect'] = $this->model_extenssion_module_d_quickcheckout->ajax($this->url->link('checkout/cart'));
+                $json['redirect'] = $this->model_extension_module_d_quickcheckout->ajax($this->url->link('checkout/cart'));
             }
 
             if (!$json) {
@@ -83,24 +83,24 @@
                 // Check if customer has been approved.
                 $customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
 
-                if ($customer_info && !$customer_info['approved']) {
-                    $json['login_error'] = $this->language->get('error_approved');
-                }
+                // if ($customer_info && !$customer_info['approved']) {
+                //     $json['login_error'] = $this->language->get('error_approved');
+                // }
 
                  
-					if (!isset($json['login_error'])) {
-						if (!$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
-							$json['login_error'] = $this->language->get('error_login');
+                    if (!isset($json['login_error'])) {
+                        if (!$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
+                            $json['login_error'] = $this->language->get('error_login');
                             if(VERSION >= '2.0.2.0'){
                                 $this->model_account_customer->addLoginAttempt($this->request->post['email']);
                             }
-						} else {
+                        } else {
                             if(VERSION >= '2.0.2.0'){
                                 $this->model_account_customer->deleteLoginAttempts($this->request->post['email']);
                             }
-						}
-					}
-				
+                        }
+                    }
+                
             }
 
             if (!$json) {
@@ -127,7 +127,7 @@
                     'login' => 1
                 )
             );
-            $this->model_extenssion_module_d_quickcheckout->updateStatistic($statistic);
+            $this->model_extension_module_d_quickcheckout->updateStatistic($statistic);
 
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode($json));
@@ -195,7 +195,7 @@
                     'update' => 1
                 )
             );
-            $this->model_extenssion_module_d_quickcheckout->updateStatistic($statistic);
+           $this->model_extension_module_d_quickcheckout->updateStatistic($statistic);
 
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode($json));

@@ -266,13 +266,17 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
         }
 
 
-        foreach ($results as $key => $value) {
+        if(VERSION>='3.0.0.0'){
+            foreach ($results as $key => $value) {
+            $sort_order[$key] = $this->config->get('total_'.$value['code'] . '_sort_order');
+            }
+        }else{
+            foreach ($results as $key => $value) {
             $sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+            }
         }
-
-        if(VERSION<='2.3.0.2'){
+        
             array_multisort($sort_order, SORT_ASC, $results);
-        }
         
 
         foreach ($results as $result) {

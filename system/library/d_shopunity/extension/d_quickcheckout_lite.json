@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout_lite",
-    "version": "6.5.2",
+    "version": "6.5.3",
     "name": "Ajax Quick Checkout Lite",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
@@ -98,6 +98,10 @@
         "system/library/d_compress"
     ],
     "changelog": [
+        {
+            "version":"6.5.3",
+            "change":"1. Fix totals"
+        },
         {
             "version":"6.5.2",
             "change":"1. Add Login to language file"

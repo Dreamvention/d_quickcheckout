@@ -109,18 +109,23 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                 $showShippingAddress = $this->model_extension_d_quickcheckout_address->showShippingAddress();
 
                 $this->model_account_customer->addCustomer($this->session->data['payment_address']);
-
-                if(VERSION >= '3.0.0.0'){
-                    $this->model_account_address->addAddress($this->session->data['payment_address']);
-                }
+                
+                
 
   
                 if($this->customer->login($this->session->data['payment_address']['email'], $this->session->data['payment_address']['password'])){
                     $this->model_extension_d_quickcheckout_order->updateCartForNewCustomerId();
                     $json['account'] = $this->session->data['account'] = 'logged';
-
+                    $customer_id = $this->customer->getId();
+                    if(VERSION >= '3.0.0.0'){
+                        $this->model_account_address->addAddress($customer_id, $this->session->data['payment_address']);
+                    }
                     if($showShippingAddress){
-                        $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
+                        if(VERSION >= '3.0.0.0'){
+                            $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress( $customer_id,$this->session->data['shipping_address']);
+                        }else{
+                            $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
+                        }
                     }
 
                     $address = $json['addresses'] = $this->model_extension_d_quickcheckout_address->getAddresses();

@@ -276,7 +276,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         
         $data['action'] = $this->url->link($this->route, $this->model_extension_d_opencart_patch_user->getUrlToken() . $url, 'SSL'); 
         
-        
+        $data['update_compress_url'] = $this->model_extension_d_opencart_patch_url->ajax('extension/module/d_quickcheckout/updateCompress');
         $data['cancel'] = $this->model_extension_d_opencart_patch_url->link('marketplace/extension','type=module');
 
         if(VERSION >= '2.1.0.1'){

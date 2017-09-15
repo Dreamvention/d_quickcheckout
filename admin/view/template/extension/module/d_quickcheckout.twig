@@ -878,9 +878,9 @@
             return false;
         })
 
-        $('body').on('click', '#compress_update', function (e) {
+         $('body').on('click', '#compress_update', function (e) {
             $.ajax({
-                url: 'index.php?route=extension/module/d_quickcheckout/updateCompress&user_token={{ token }}',
+                url: '{{ update_compress_url }}',
                 type: 'post',
                 dataType: 'json',
                 data: 'setting_id={{ setting_id }}&setting=' + $('#bulk_setting').val(),

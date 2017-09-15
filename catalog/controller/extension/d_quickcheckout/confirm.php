@@ -110,7 +110,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
 
                 $this->model_account_customer->addCustomer($this->session->data['payment_address']);
 
-                if(VERSION >= '3.0.0.0')
+                if(VERSION >= '3.0.0.0'){
                     $this->model_account_address->addAddress($this->session->data['payment_address']);
                 }
 

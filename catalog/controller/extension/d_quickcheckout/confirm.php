@@ -2,7 +2,7 @@
 
 class ControllerExtensionDQuickcheckoutConfirm extends Controller {
 
-	public function index($config){
+    public function index($config){
 
         $this->load->model('extension/d_quickcheckout/method');
         $this->load->model('extension/module/d_quickcheckout');
@@ -18,7 +18,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
 
         $data['col'] = $config['account']['guest']['confirm']['column'];
         $data['row'] = $config['account']['guest']['confirm']['row'];
-		
+        
         $json['account'] = $this->session->data['account'];
         $json['confirm'] = $this->session->data['confirm'];
         //fix lost data
@@ -30,19 +30,19 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
         
         
         $data['json'] = json_encode($json);
-		if(VERSION >= '2.2.0.0'){
+        if(VERSION >= '2.2.0.0'){
             $template = 'd_quickcheckout/confirm';
         }elseif (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl')) {
-			$template = $this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl';
-		} else {
-			$template ='default/template/d_quickcheckout/confirm.tpl';
-		}
+            $template = $this->config->get('config_template') . '/template/d_quickcheckout/confirm.tpl';
+        } else {
+            $template ='default/template/d_quickcheckout/confirm.tpl';
+        }
 
         $this->load->model('extension/d_opencart_patch/load');
         return $this->model_extension_d_opencart_patch_load->view($template, $data);
-	}
+    }
 
-	public function updateField(){
+    public function updateField(){
         $json['confirm'] = $this->session->data['confirm'] = array_merge($this->session->data['confirm'], $this->request->post['confirm']);
         $this->session->data['comment'] = $this->session->data['confirm']['comment'];
 
@@ -109,6 +109,11 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                 $showShippingAddress = $this->model_extension_d_quickcheckout_address->showShippingAddress();
 
                 $this->model_account_customer->addCustomer($this->session->data['payment_address']);
+
+                if(VERSION >= '3.0.0.0')
+                    $this->model_account_address->addAddress($this->session->data['payment_address']);
+                }
+
   
                 if($this->customer->login($this->session->data['payment_address']['email'], $this->session->data['payment_address']['password'])){
                     $this->model_extension_d_quickcheckout_order->updateCartForNewCustomerId();
@@ -208,8 +213,8 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
             $order_data['fax'] = $this->session->data['guest']['fax'];
             $order_data['custom_field'] = (isset($this->session->data['guest']['custom_field']['account'])) ? $this->session->data['guest']['custom_field']['account'] : array();
         }
-		
-		if (!$order_data['email']) $order_data['email'] = $this->config->get('config_email');
+        
+        if (!$order_data['email']) $order_data['email'] = $this->config->get('config_email');
 
         $order_data['payment_firstname'] = $this->session->data['payment_address']['firstname'];
         $order_data['payment_lastname'] = $this->session->data['payment_address']['lastname'];

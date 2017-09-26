@@ -44,6 +44,22 @@ qc.ShippingAddress = qc.Model.extend({
 
 	},
 
+	validate: function(attrs, options){
+    var errors = [];
+    if(typeof(this.get('shipping_address.'+options.key)) !== 'undefined' && this.get('shipping_address.'+options.key).length > 0 && typeof(attrs.shipping_address[options.key]) !== 'undefined' && attrs.shipping_address[options.key].length == 0){
+        console.log('trying to set an empty value key:'+ options.key +"value "+ this.get('shipping_address.'+options.key));
+        errors.push({filed:'shipping_address',key:options.key,value:this.get('shipping_address.'+options.key)});
+        return errors.length > 0 ? errors : false;
+    }
+},
+	handleError:function (model, error){
+	    var that = this;
+	    _.each(error,function(element){
+	        console.log('write an old value');
+	        that.model.set(element.field + "." + element.key,element.value);
+	    });
+	}
+
 	
 
 });

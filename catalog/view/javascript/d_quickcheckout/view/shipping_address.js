@@ -76,8 +76,11 @@ qc.ShippingAddressView = qc.View.extend({
 		}
 
 		if(data.shipping_address){
-			this.model.set('shipping_address', data.shipping_address);
-			//render_state = true;
+		    var shipping_address = data.shipping_address;
+		    var that = this;
+		    _.each(data.shipping_address,function (element,index){
+		        that.model.set('shipping_address.'+index, element, {validate: true, key: index, value: element, error: that.model.handleError()});
+		    });
 		}
 
 		if(data.shipping_address_refresh){			// this.render();

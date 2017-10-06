@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class ControllerExtensionDQuickcheckoutConfirm extends Controller {
 
@@ -12,13 +12,13 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/model/confirm.js');
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/view/confirm.js');
         }
-        
+
         $data['button_confirm'] = $this->language->get('button_confirm');
         $data['button_continue'] = $this->language->get('button_continue');
 
         $data['col'] = $config['account']['guest']['confirm']['column'];
         $data['row'] = $config['account']['guest']['confirm']['row'];
-        
+
         $json['account'] = $this->session->data['account'];
         $json['confirm'] = $this->session->data['confirm'];
         //fix lost data
@@ -27,8 +27,8 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
         $this->load->model('extension/d_quickcheckout/order');
         $json['show_confirm'] = $this->model_extension_d_quickcheckout_order->showConfirm();
         $json['payment_popup'] =  $this->model_extension_d_quickcheckout_method->getPaymentPopup($this->session->data['payment_method']['code']);
-        
-        
+
+
         $data['json'] = json_encode($json);
         if(VERSION >= '2.2.0.0'){
             $template = 'd_quickcheckout/confirm';
@@ -91,28 +91,41 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
             }
 
             if($this->session->data['payment_address']['address_id'] == 'new'){
-                $json['payment_address']['address_id'] = $this->session->data['payment_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['payment_address']);
+                $customer_id = $this->customer->getId();
+                if(VERSION >= '3.0.0.0'){
+                        $json['payment_address']['address_id'] = $this->model_account_address->addAddress($customer_id, $this->session->data['payment_address']);
+                    }else{
+                         $json['payment_address']['address_id'] = $this->session->data['payment_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['payment_address']);
+                    }
+
             }
             if($this->model_extension_d_quickcheckout_address->showShippingAddress()){
+                $customer_id = $this->customer->getId();
                 if($this->session->data['payment_address']['shipping_address'] == 1){
                     $json['shipping_address']['address_id'] = $this->session->data['payment_address']['address_id'];
                 }else if($this->session->data['shipping_address']['address_id'] == 'new'){
-                    $json['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
+
+                    if(VERSION >= '3.0.0.0'){
+                           $json['shipping_address']['address_id'] = $this->model_account_address->addAddress( $customer_id,$this->session->data['shipping_address']);
+                        }else{
+                            $json['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
+                        }
+
                 }
             }
-            
+
         }else{
-            
+
             if($this->session->data['account'] == 'register'){
 
                 $this->load->model('account/customer');
                 $showShippingAddress = $this->model_extension_d_quickcheckout_address->showShippingAddress();
 
                 $this->model_account_customer->addCustomer($this->session->data['payment_address']);
-                
-                
 
-  
+
+
+
                 if($this->customer->login($this->session->data['payment_address']['email'], $this->session->data['payment_address']['password'])){
                     $this->model_extension_d_quickcheckout_order->updateCartForNewCustomerId();
                     $json['account'] = $this->session->data['account'] = 'logged';
@@ -138,7 +151,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                 }
 
                 //2.1.0.1 fix
-                
+
             }
         }
         $this->load->model('extension/d_quickcheckout/method');
@@ -146,7 +159,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
             $json['cofirm_order'] = true;
             $json = $this->load->controller('extension/d_quickcheckout/payment/prepare', $json);
         }
-        
+
         $json['order_id'] = $this->session->data['order_id'] = $this->updateOrder();
         //statistic
         $statistic = array(
@@ -218,7 +231,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
             $order_data['fax'] = $this->session->data['guest']['fax'];
             $order_data['custom_field'] = (isset($this->session->data['guest']['custom_field']['account'])) ? $this->session->data['guest']['custom_field']['account'] : array();
         }
-        
+
         if (!$order_data['email']) $order_data['email'] = $this->config->get('config_email');
 
         $order_data['payment_firstname'] = $this->session->data['payment_address']['firstname'];

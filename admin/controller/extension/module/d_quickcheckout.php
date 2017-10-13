@@ -21,12 +21,17 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->language($this->route);
         $this->load->model($this->route);
         $this->load->model('setting/setting');
-        $this->load->model('extension/d_opencart_patch/module');
-        $this->load->model('extension/d_opencart_patch/url');
-        $this->load->model('extension/d_opencart_patch/load');
-        $this->load->model('extension/d_opencart_patch/user');
         $this->d_shopunity = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_shopunity.json'));
         $this->d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
+
+        if($this->d_opencart_patch){
+            $this->load->model('extension/d_opencart_patch/module');
+            $this->load->model('extension/d_opencart_patch/url');
+            $this->load->model('extension/d_opencart_patch/load');
+            $this->load->model('extension/d_opencart_patch/user');
+        }
+
+
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'_lite.json'), true);
         $this->d_twig_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_twig_manager.json'));
 
@@ -44,15 +49,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
         if($this->d_twig_manager){
             $this->load->model('extension/module/d_twig_manager');
-            if(!$this->model_extension_module_d_twig_manager->isCompatible()){
-                $this->model_extension_module_d_twig_manager->installCompatibility();
-                $this->session->data['success'] = $this->language->get('success_twig_compatible');
-                $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
-            }
+            $this->model_extension_module_d_twig_manager->installCompatibility();
         }
-
-        $this->load->model('extension/d_shopunity/mbooth');
-        $this->model_extension_d_shopunity_mbooth->installDependencies($this->codename);
 
         $this->model_extension_module_d_quickcheckout->installDatabase();
 
@@ -719,6 +717,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
             $this->load->model('extension/module/d_quickcheckout');
             $this->model_extension_module_d_quickcheckout->installDatabase();
+
             if($this->d_shopunity){
                 $this->load->model('extension/d_shopunity/mbooth');
                 $this->model_extension_d_shopunity_mbooth->installDependencies($this->codename);

@@ -28,8 +28,10 @@ class ControllerDQuickcheckoutShippingAddress extends Controller {
 
             if (!empty($this->session->data['shipping_address']['address_id'])) {
                 $json['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'];
-            } else {
+            } else if($this->customer->getAddressId()){
                 $json['shipping_address']['address_id'] = $this->customer->getAddressId();
+            } else {
+                $json['shipping_address']['address_id'] = "new";
             }
         }
 

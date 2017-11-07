@@ -31,8 +31,10 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
 
             if (!empty($this->session->data['payment_address']['address_id'])) {
                 $json['payment_address']['address_id'] = $this->session->data['payment_address']['address_id'];
-            } else {
+            } else if($this->customer->getAddressId()) {
                 $json['payment_address']['address_id'] = $this->customer->getAddressId();
+            } else {
+                $json['payment_address']['address_id'] = "new";
             }
         }
 

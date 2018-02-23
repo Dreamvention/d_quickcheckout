@@ -10,6 +10,7 @@ $_['title_payment_method'] 							= 'Payment method';
 $_['description_payment_method'] 					= '';
 $_['title_shopping_cart'] 							= 'Shopping cart';
 $_['description_shopping_сart'] 					= '';
+$_['text_login']                                    = 'Login';
 
 
 $_['placeholder_telephone'] 						= '050 123 45 54';

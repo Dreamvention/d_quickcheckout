@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout_lite",
-    "version": "6.6.0",
+    "version": "6.6.1",
     "name": "Ajax Quick Checkout Lite",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
@@ -100,6 +100,10 @@
         "system/library/d_compress"
     ],
     "changelog": [
+        {
+            "version":"6.6.1",
+            "change":"Removed phone validation"
+        },
         {
             "version":"6.6.0",
             "change":"updated to latest version of pro "

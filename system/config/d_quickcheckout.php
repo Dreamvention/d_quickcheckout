@@ -36,7 +36,7 @@ $_['d_quickcheckout_setting'] = array(
 		'only_quickcheckout' => 0,
 		'telephone_countries' => '',
 		'telephone_preferred_countries' => '',
-		'telephone_validation' =>1,
+		'telephone_validation' => 0,
 		'cart_image_size' => array('width' => 80, 'height' => 80),
 		'custom_style' => '',
 		'bootstrap' => 1,

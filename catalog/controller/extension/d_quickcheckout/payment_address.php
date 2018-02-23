@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
-   
+
     public function index($config){
 
         $this->load->model('account/address');
@@ -24,7 +24,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         $json['account'] = $this->session->data['account'];
         $json['payment_address'] = $this->session->data['payment_address'];
         $json['shipping_required'] = $this->model_extension_d_quickcheckout_method->shippingRequired();
-        
+
         //logged
         if($this->customer->isLogged()){
 
@@ -46,12 +46,12 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         // } else {
         //     $template = 'default/template/d_quickcheckout/payment_address.tpl';
         // }
-        
+
         $this->load->model('extension/d_opencart_patch/load');
         return $this->model_extension_d_opencart_patch_load->view('d_quickcheckout/payment_address', $data);
 	}
 
-    public function update(){       
+    public function update(){
         $this->load->model('extension/module/d_quickcheckout');
         $this->load->model('extension/d_quickcheckout/address');
         $this->load->model('extension/d_quickcheckout/method');
@@ -87,7 +87,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
         $json['totals'] = $this->session->data['totals'] = $this->model_extension_d_quickcheckout_order->getTotals($total_data);
         $json['total'] = $this->model_extension_d_quickcheckout_order->getCartTotal($total);
-        
+
         //order
         $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('extension/d_quickcheckout/confirm/updateOrder');
 
@@ -101,7 +101,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             )
         );
         $this->model_extension_module_d_quickcheckout->updateStatistic($statistic);
-        
+
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
     }
@@ -158,15 +158,15 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
             //update address data if contry_id or zone_id changed
             $this->request->post['payment_address'] = $this->model_extension_d_quickcheckout_address->compareAddress($this->request->post['payment_address'], $this->session->data['payment_address']);
-           
+
 
             //if logged in and address_id set and is not empty - fetch address by address_id
             if($this->customer->isLogged()){
                 if(!empty($this->request->post['payment_address']['address_id'])
-                    && $this->request->post['payment_address']['address_id'] !== 'new' 
-                    && $this->request->post['payment_address']['address_id'] !== $this->session->data['payment_address']['address_id'] 
+                    && $this->request->post['payment_address']['address_id'] !== 'new'
+                    && $this->request->post['payment_address']['address_id'] !== $this->session->data['payment_address']['address_id']
                     ){
-                    
+
                     $this->request->post['payment_address'] = $this->model_extension_d_quickcheckout_address->getAddress($this->request->post['payment_address']['address_id']);
                 }
             }
@@ -174,17 +174,17 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
                 $this->request->post['payment_address']['custom_field'] = ((!empty($this->request->post['payment_address']['custom_field']['account'])) ? array('account' => $this->request->post['payment_address']['custom_field']['account']) : $this->model_extension_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account',$this->request->post['payment_address']['customer_group_id'])) + ((!empty($this->request->post['payment_address']['custom_field']['address'])) ? array('address' => $this->request->post['payment_address']['custom_field']['address']) : $this->model_extension_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $this->request->post['payment_address']['customer_group_id']));
             }
-                    
+
           //   print_r(  $this->session->data['payment_address'] );
             if((isset($this->request->post['payment_address']['custom_field']) && is_array($this->request->post['payment_address']['custom_field']))){
-                
+
                 $this->request->post['payment_address'] = array_merge($this->request->post['payment_address'], $this->model_extension_d_quickcheckout_custom_field->setCustomFieldValue($this->request->post['payment_address']['custom_field']));
             }
             //merge post into session
             $this->session->data['payment_address'] = array_merge($this->session->data['payment_address'], $this->request->post['payment_address']);
-                  
+
         }
-        
+
         $this->model_extension_d_quickcheckout_custom_field->updateCustomFieldsConfigData('payment_address');
 
         //session
@@ -205,7 +205,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             if(empty($this->session->data['payment_address']['address_id'])){
                 $this->session->data['payment_address']['address_id'] = 'new';
             }else if($this->session->data['payment_address']['address_id'] !== 'new'){
-               $this->session->data['payment_address']['shipping_address'] = 0; 
+               $this->session->data['payment_address']['shipping_address'] = 0;
             }
 
 
@@ -221,7 +221,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 'custom_field' => (!empty($this->request->post['payment_address']['custom_field'])) ? $this->request->post['payment_address']['custom_field'] :  array('account' => array()),
                 'shipping_address' => (!empty($this->request->post['payment_address']['shipping_address'])) ? $this->request->post['payment_address']['shipping_address'] : $this->session->data['guest']['shipping_address'],
             );
-        
+
         }
 
 

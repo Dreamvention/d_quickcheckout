@@ -88,19 +88,19 @@
                 // }
 
                  
-                    if (!isset($json['login_error'])) {
-                        if (!$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
-                            $json['login_error'] = $this->language->get('error_login');
+					if (!isset($json['login_error'])) {
+						if (!$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
+							$json['login_error'] = $this->language->get('error_login');
                             if(VERSION >= '2.0.2.0'){
                                 $this->model_account_customer->addLoginAttempt($this->request->post['email']);
                             }
-                        } else {
+						} else {
                             if(VERSION >= '2.0.2.0'){
                                 $this->model_account_customer->deleteLoginAttempts($this->request->post['email']);
                             }
-                        }
-                    }
-                
+						}
+					}
+				
             }
 
             if (!$json) {

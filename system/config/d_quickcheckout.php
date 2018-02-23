@@ -1,4 +1,4 @@
-<?php 
+<?php
 $_['d_quickcheckout_debug'] = 0;
 $_['d_quickcheckout_debug_file'] = 'd_quickcheckout.log';
 $_['d_quickcheckout_trigger'] = '#button-confirm, .button, .btn, .button_oc, input[type=submit]';
@@ -11,7 +11,7 @@ $_['d_quickcheckout_setting'] = array(
 		'min_quantity' => array('value' => 0, 'text' => array(1 => 'You must have a quantity more then %s to make an order ')),
 		'main_checkout' => 1,
 		//'default_email' => $this->config->get('config_email'),
-		
+
 		'social_login_style' => 'icons',
 		'store_id' => 0,
 		'clear_session' => 0,
@@ -25,7 +25,7 @@ $_['d_quickcheckout_setting'] = array(
 	),
 	'design' => array(
 		'theme' => 'default',
-		'column_width' => array(1 => '4', 2 => '4', 3 => '4', 4 => '8'),							
+		'column_width' => array(1 => '4', 2 => '4', 3 => '4', 4 => '8'),
 		'login_style' => 'popup',
 		'address_style' => 'radio',
 		'placeholder' => 1,
@@ -37,7 +37,7 @@ $_['d_quickcheckout_setting'] = array(
 		'telephone_countries' => '',
 		'telephone_preferred_countries' => '',
 		'telephone_validation' =>1,
-		'cart_image_size' => array('width' => 80, 'height' => 80),				
+		'cart_image_size' => array('width' => 80, 'height' => 80),
 		'custom_style' => '',
 		'bootstrap' => 1,
 		'autocomplete' => 1
@@ -64,7 +64,7 @@ $_['d_quickcheckout_setting'] = array(
 								   					'display' => 1
 								 				)
 				)
-				
+
 			),
 			'payment_address' => array(
 					'id' => 'payment_address',
@@ -73,15 +73,15 @@ $_['d_quickcheckout_setting'] = array(
 					'icon' => 'fa fa-book',
 					'sort_order' => '2',
 					'column' => 1,
-					'row' => 2,  
+					'row' => 2,
 					'width' => '50',
 					'fields' => array(
 						'firstname' => array(
 								'id' => 'firstname',
-								'title' => 'entry_firstname', 
+								'title' => 'entry_firstname',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 1, 
-															 'max_length' => 32, 
+								'error' => array(0 => array('min_length' => 1,
+															 'max_length' => 32,
 															 'text' => 'error_firstname')),
 								'type' => 'text',
 								'refresh' => '0',
@@ -92,10 +92,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'lastname' => array(
 								'id' => 'lastname',
-								 'title' => 'entry_lastname', 
+								 'title' => 'entry_lastname',
 								 'tooltip' => '',
-								 'error' => array(0 => array('min_length' => 1, 
-															 'max_length' => 32, 
+								 'error' => array(0 => array('min_length' => 1,
+															 'max_length' => 32,
 															 'text' => 'error_lastname')),
 								 'type' => 'text',
 								 'refresh' => '0',
@@ -106,7 +106,7 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'email' => array(
 								'id' => 'email',
-								'title' => 'entry_email', 
+								'title' => 'entry_email',
 								'tooltip' => '',
 								'error' => array(),
 								'type' => 'email',
@@ -118,11 +118,11 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'email_confirm' => array(
 								'id' => 'email_confirm',
-								'title' => 'entry_email_confirm', 
+								'title' => 'entry_email_confirm',
 								'tooltip' => '',
 								'error' => array(0 => array('compare_to' => '#payment_address_email',
 															 'text' => 'error_email_confirm')),
-								
+
 								'type' => 'text',
 								'refresh' => '0',
 								'custom' => 0,
@@ -132,16 +132,16 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'telephone' => array(
 								'id' => 'telephone',
-								'title' => 'entry_telephone', 
+								'title' => 'entry_telephone',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
+								'error' => array(0 => array('min_length' => 3,
 															'max_length' => 32,
-															  
+
 															'text' => 'error_telephone'),
 												1 => array('telephone' => true,
 															'text' => 'error_valid_telephone')
 												),
-								'placeholder' => 'placeholder_telephone', 
+								'placeholder' => 'placeholder_telephone',
 								'type' => 'tel',
 								'refresh' => '0',
 								'custom' => 0,
@@ -149,13 +149,13 @@ $_['d_quickcheckout_setting'] = array(
 								'class' => '',
 								'mask' => '',
 						),
-						
+
 						'fax' => array(
 								'id' => 'fax',
 								'title' => 'entry_fax',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 32, 
+								'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 32,
 															 'text' => 'error_telephone')),
 								'type' => 'text',
 								'refresh' => '0',
@@ -166,10 +166,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'password' => array(
 								'id' => 'password',
-								'title' => 'entry_password', 
+								'title' => 'entry_password',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 20, 
+								'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 20,
 															 'text' => 'error_password')),
 								'type' => 'password',
 								'refresh' => '3',
@@ -193,7 +193,7 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'heading' => array(
 								'id' => 'heading',
-								'title' => 'text_your_address', 
+								'title' => 'text_your_address',
 								'type' => 'heading',
 								'sort_order' => 8,
 								'class' => ''
@@ -202,8 +202,8 @@ $_['d_quickcheckout_setting'] = array(
 								'id' => 'company',
 								'title' => 'entry_company',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 34, 
+								'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 34,
 															 'text' => 'error_step_payment_address_fields_company')),
 								'type' => 'text',
 								'refresh' => '0',
@@ -214,7 +214,7 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'customer_group_id' => array(
 								'id' => 'customer_group_id',
-								'title' => 'entry_customer_group', 
+								'title' => 'entry_customer_group',
 								'tooltip' => '',
 								'type' => 'radio',
 								'refresh' => '2',
@@ -224,10 +224,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'address_1' => array(
 								'id' => 'address_1',
-								'title' => 'entry_address_1', 
+								'title' => 'entry_address_1',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 128, 
+								'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 128,
 															 'text' => 'error_address_1')),
 								'type' => 'text',
 								'refresh' => '0',
@@ -238,10 +238,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'address_2' => array(
 								'id' => 'address_2',
-								'title' => 'entry_address_2', 
+								'title' => 'entry_address_2',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 128, 
+								'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 128,
 															 'text' => 'error_address_1')),
 								'type' => 'text',
 								'refresh' => '0',
@@ -252,10 +252,10 @@ $_['d_quickcheckout_setting'] = array(
 						 ),
 						'city' => array(
 								'id' => 'city',
-								'title' => 'entry_city', 
+								'title' => 'entry_city',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 128, 
+								'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 128,
 															 'text' => 'error_city')),
 								'type' => 'text',
 								'refresh' => '0',
@@ -265,10 +265,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'postcode' => array(
 								'id' => 'postcode',
-								'title' => 'entry_postcode', 
+								'title' => 'entry_postcode',
 								'tooltip' => '',
-								'error' => array(0 => array('min_length' => 2, 
-															 'max_length' => 10, 
+								'error' => array(0 => array('min_length' => 2,
+															 'max_length' => 10,
 															 'text' => 'error_postcode')),
 								'type' => 'text',
 								'refresh' => '3',
@@ -279,9 +279,9 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'country_id' => array(
 								'id' => 'country_id',
-								'title' => 'entry_country', 
+								'title' => 'entry_country',
 								'tooltip' => '',
-								'error' => array(0 => array('not_empty' => true,																		
+								'error' => array(0 => array('not_empty' => true,
 															 'text' => 'error_country')),
 								'type' => 'select',
 								'refresh' => '3',
@@ -291,7 +291,7 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'zone_id' => array(
 								'id' => 'zone_id',
-								'title' => 'entry_zone', 
+								'title' => 'entry_zone',
 								'tooltip' => '',
 								'error' => array(0 => array('not_empty' => true,																		 																		 'text' => 'error_zone')),
 								'type' => 'select',
@@ -324,11 +324,11 @@ $_['d_quickcheckout_setting'] = array(
 								'custom' => 0,
 								'sort_order' => 18,
 								'class' => '',
-								
+
 						),
 						'agree' => array(
 								'id' => 'agree',
-								'title' => 'text_agree', 
+								'title' => 'text_agree',
 								//'information_id' => $this->config->get('config_account_id'),
 								'tooltip' => '',
 								'error' => array(0 => array('checked' => true,
@@ -341,7 +341,7 @@ $_['d_quickcheckout_setting'] = array(
 								'sort_order' => 19,
 								'class' => ''
 						)
-						
+
 					)
 			),
 			'shipping_address' => array(
@@ -352,14 +352,14 @@ $_['d_quickcheckout_setting'] = array(
 					'sort_order' => '3',
 					'column' => 1,
 					'row' => 3,
-					'width' => '30', 
+					'width' => '30',
 					'fields' => array(
 						'firstname' => array(
 							'id' => 'firstname',
-							'title' => 'entry_firstname', 
+							'title' => 'entry_firstname',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 1, 
-														 'max_length' => 32, 
+							'error' => array(0 => array('min_length' => 1,
+														 'max_length' => 32,
 														 'text' => 'error_firstname')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -372,10 +372,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'lastname' => array(
 							'id' => 'lastname',
-							'title' => 'entry_lastname', 
+							'title' => 'entry_lastname',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 1, 
-														 'max_length' => 32, 
+							'error' => array(0 => array('min_length' => 1,
+														 'max_length' => 32,
 														 'text' => 'error_lastname')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -388,10 +388,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'company' => array(
 							'id' => 'company',
-							'title' => 'entry_company',  
+							'title' => 'entry_company',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 3, 
-														 'max_length' => 32, 
+							'error' => array(0 => array('min_length' => 3,
+														 'max_length' => 32,
 														 'text' => 'error_step_shipping_address_fields_company')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -404,10 +404,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'address_1' => array(
 							'id' => 'address_1',
-							'title' => 'entry_address_1', 
+							'title' => 'entry_address_1',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 3, 
-														 'max_length' => 128, 
+							'error' => array(0 => array('min_length' => 3,
+														 'max_length' => 128,
 														 'text' => 'error_address_1')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -420,10 +420,10 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'address_2' => array(
 							'id' => 'address_2',
-							'title' => 'entry_address_2', 
+							'title' => 'entry_address_2',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 3, 
-														 'max_length' => 128, 
+							'error' => array(0 => array('min_length' => 3,
+														 'max_length' => 128,
 														 'text' => 'error_address_1')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -438,8 +438,8 @@ $_['d_quickcheckout_setting'] = array(
 							'id' => 'city',
 							'title' => 'entry_city',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 3, 
-														 'max_length' => 128, 
+							'error' => array(0 => array('min_length' => 3,
+														 'max_length' => 128,
 														 'text' => 'error_city')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -454,8 +454,8 @@ $_['d_quickcheckout_setting'] = array(
 							'id' => 'postcode',
 							'title' => 'entry_postcode',
 							'tooltip' => '',
-							'error' => array(0 => array('min_length' => 2, 
-														'max_length' => 10, 
+							'error' => array(0 => array('min_length' => 2,
+														'max_length' => 10,
 														'text' => 'error_postcode')),
 							'type' => 'text',
 							'refresh' => '0',
@@ -468,7 +468,7 @@ $_['d_quickcheckout_setting'] = array(
 						),
 						'country_id' => array(
 							'id' => 'country_id',
-							'title' => 'entry_country', 
+							'title' => 'entry_country',
 							'tooltip' => '',
 							'error' => array(0 => array('min_length' => 1,
 														 'text' => 'error_country')),
@@ -511,7 +511,7 @@ $_['d_quickcheckout_setting'] = array(
 		        'display_options' => 1,
 				'width' => '30',
 				'default_option' => ''
-				
+
 			),
 			'payment_method' =>array(
 				'id' => 'payment_method',
@@ -539,7 +539,7 @@ $_['d_quickcheckout_setting'] = array(
 				'row' => 2,
 				'display_title' => 1,
 				'display_description' => 1,
-				'width' => '50',											
+				'width' => '50',
 				'option' => array(
 							'voucher' => array(
 										'id' => 'voucher',
@@ -613,13 +613,13 @@ $_['d_quickcheckout_setting'] = array(
 													  )),
 							'type' => 'checkbox',
 							'refresh' => '0',
-							'value' => 0, 
+							'value' => 0,
 							'custom' => 0,
 							'class' => '',
 							'sort_order' => 1,
 					)
-					
-					
+
+
 				)
 			)
 	),
@@ -630,185 +630,185 @@ $_['d_quickcheckout_setting'] = array(
 			'payment_address' => array(
 				'display' => 1,
 				'fields' => array(
-					'firstname' => array('display' => 1, 
+					'firstname' => array('display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'lastname' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''													
-										 ), 
-					'email' => array(	 'display' => 1, 
+										 'value' => ''
+										 ),
+					'email' => array(	 'display' => 1,
 										 'require' => 1,
-										 'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 96, 
+										 'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 96,
 															 'text' => array(1 => 'Sorry, but you need to have the length of the text more then 3 and less then 96 ')),
-												  
-												  2 => array('email_exists' => true, 
+
+												  2 => array('email_exists' => true,
 															 'text' => 'error_exists'),
-												  3 => array('not_empty' => true, 
+												  3 => array('not_empty' => true,
 															 'text' => 'error_email')
 												  ),
 										 'value' => ''
 										 ),
-					'email_confirm' => array(	 
-										 'display' => 1, 
+					'email_confirm' => array(
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'heading' => array(
 										 'display' => 1,
-										 'value' => ''														
+										 'value' => ''
 										 ),
 					'telephone' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'fax' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'password' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'confirm' => array(
-									     'display' => 1, 
+									     'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'company' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'customer_group_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_1' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_2' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'city' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'postcode' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'country_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'zone_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
-					'newsletter' => array( 
-										 'display' => 1, 
+					'newsletter' => array(
+										 'display' => 1,
 										 'require' => 0,
 										 'value' => '0'
 										 ),
-					'shipping_address' => array( 
+					'shipping_address' => array(
 										 'display' => 1,
 										 'value' => 1
 										 ),
-					'agree' => array( 
-										 'display' => 1, 
+					'agree' => array(
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => '0'
 										 )
-					
+
 				)
 			),
 			'shipping_address' => array(
 				'display' => 1,
 				'require' => 0,
 				'fields' => array(
-					'firstname' => array( 
-										 'display' => 1, 
+					'firstname' => array(
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'lastname' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'company' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_1' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_2' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
-					'city' => array( 
-										 'display' => 1, 
+					'city' => array(
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'postcode' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'country_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'zone_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 )
 					)
 			),
 			'shipping_method' => array(
-					 											  
+
 					  ),
 			'payment_method' =>array(
-				
+
 					  ),
 			'cart' => array(
 					  'display' => 1,
 					  'option' => array(
 							'voucher' => array(
 										'display' => 1,
-										 'value' => ''	
+										 'value' => ''
 							),
 							'coupon' => array(
 										'display' => 1,
-										 'value' => ''	
+										 'value' => ''
 							),
 							'reward' => array(
 										'display' => 1,
-										 'value' => ''	
+										 'value' => ''
 							)
 						),
 					  'columns' => array(
@@ -819,21 +819,21 @@ $_['d_quickcheckout_setting'] = array(
 							 'price' => 1,
 							 'total' => 1
 								)
-			),										
+			),
 			'confirm' => array(
 					  'display' => 1,
 					  'fields' => array(
-					  		'comment' => array( 
-								 'display' => 1, 
+					  		'comment' => array(
+								 'display' => 1,
 								 'require' => 0,
-								 'value' => ''	
+								 'value' => ''
 							 ),
-							'agree' => array( 
-								 'display' => 1, 
+							'agree' => array(
+								 'display' => 1,
 								 'require' => 1,
-								 'value' => ''	
+								 'value' => ''
 							 )
-					  )	   
+					  )
 			)
 		),
 		'guest' => array(
@@ -842,92 +842,92 @@ $_['d_quickcheckout_setting'] = array(
 			'payment_address' => array(
 				'display' => 1,
 				'fields' => array(
-					'firstname' => array('display' => 1, 
+					'firstname' => array('display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'lastname' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''														
-										 ), 
-					'email' => array(	 'display' => 1, 
+										 'value' => ''
+										 ),
+					'email' => array(	 'display' => 1,
 										 'require' => 1,
-										 'error' => array(0 => array('min_length' => 3, 
-															 'max_length' => 96, 
+										 'error' => array(0 => array('min_length' => 3,
+															 'max_length' => 96,
 															 'text' => array(1 => 'Sorry, but you need to have the length of the text more then 3 and less then 96 ')),
-												  1 => array('regex' => '/^[^\@]+@.*\.[a-z]{2,6}$/i', 
+												  1 => array('regex' => '/^[^\@]+@.*\.[a-z]{2,6}$/i',
 															 'text' => 'error_email'),
-												  2 => array('not_empty' => true, 
+												  2 => array('not_empty' => true,
 															 'text' => 'error_email')
 												  ),
-										 'value' => ''	
+										 'value' => ''
 										 ),
-					'email_confirm' => array(	 
-										 'display' => 1, 
+					'email_confirm' => array(
+										 'display' => 1,
 										 'require' => 1,
 										  'value' => ''
 										 ),
 					'heading' => array(
 										 'display' => 1,
-										 'value' => ''														
+										 'value' => ''
 										 ),
 					'telephone' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'fax' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'company' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'customer_group_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_1' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_2' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'city' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'postcode' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'country_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'zone_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
-					'shipping_address' => array( 
+					'shipping_address' => array(
 										 'display' => 1,
 										 'value' => 1
 										 ),
-					'agree' => array( 
-										 'display' => 1, 
+					'agree' => array(
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => '0'
 										 )
@@ -937,58 +937,58 @@ $_['d_quickcheckout_setting'] = array(
 				'display' => 1,
 				'require' => 0,
 				'fields' => array(
-					'firstname' => array( 
-										 'display' => 1, 
+					'firstname' => array(
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'lastname' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'company' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_1' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'address_2' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
 										 'value' => ''
 										 ),
-					'city' => array( 
-										 'display' => 1, 
+					'city' => array(
+										 'display' => 1,
 										 'require' => 0,
 										 'value' => ''
 										 ),
 					'postcode' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'country_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'zone_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 )
 					)
 			),
-			'shipping_method' =>array( 
-					  
+			'shipping_method' =>array(
+
 			),
 			'payment_method' =>array(
-		
+
 			),
 			'cart' => array(
 					  'display' => 1,
@@ -1014,21 +1014,21 @@ $_['d_quickcheckout_setting'] = array(
 							 'price' => 1,
 							 'total' => 1
 								)
-			),										
+			),
 			'confirm' => array(
 					  'display' => 1,
 					  'fields' => array(
-					  		'comment' => array( 
-								 'display' => 1, 
+					  		'comment' => array(
+								 'display' => 1,
 								 'require' => 0,
-								 'value' => ''	
+								 'value' => ''
 							 ),
-							'agree' => array( 
-								 'display' => 1, 
+							'agree' => array(
+								 'display' => 1,
 								 'require' => 1,
-								 'value' => ''	
+								 'value' => ''
 							 )
-					  )	   
+					  )
 			)
 		),
 		'logged'=> array(
@@ -1036,51 +1036,51 @@ $_['d_quickcheckout_setting'] = array(
 			'payment_address' => array(
 				'display' => 1,
 				'fields' => array(
-					'firstname' => array('display' => 1, 
+					'firstname' => array('display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'lastname' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''															
+										 'value' => ''
 										 ),
 					'company' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_1' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'address_2' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'city' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'postcode' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
-										 'value' => ''	
+										 'value' => ''
 										 ),
 					'country_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'zone_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
-					'shipping_address' => array( 
+					'shipping_address' => array(
 										 'display' => 1,
 										 'value' => 1
 										 ),
@@ -1091,55 +1091,55 @@ $_['d_quickcheckout_setting'] = array(
 				'display' => 1,
 				'require' => 0,
 				'fields' => array(
-					'firstname' => array( 
-										 'display' => 1, 
+					'firstname' => array(
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'lastname' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
 										 'value' => ''
 										 ),
 					'company' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 0,
 										 'value' => ''
 										 ),
 					'address_1' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'address_2' => array(
-										 'display' => 0, 
+										 'display' => 0,
 										 'require' => 0,
 										 'value' => ''
 										 ),
-					'city' => array( 
-										 'display' => 1, 
+					'city' => array(
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'postcode' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'country_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 ),
 					'zone_id' => array(
-										 'display' => 1, 
+										 'display' => 1,
 										 'require' => 1,
 										 'value' => ''
 										 )
 					)
 			),
 			'shipping_method' =>array(
-					  
+
 			),
 			'payment_method' =>array(
 
@@ -1168,21 +1168,21 @@ $_['d_quickcheckout_setting'] = array(
 							 'price' => 1,
 							 'total' => 1
 								)
-			),										
+			),
 			'confirm' => array(
 					  'display' => 1,
 					  'fields' => array(
-					  		'comment' => array( 
-								 'display' => 1, 
+					  		'comment' => array(
+								 'display' => 1,
 								 'require' => 0,
 								 'value' => ''
 							 ),
-							'agree' => array( 
-								 'display' => 1, 
+							'agree' => array(
+								 'display' => 1,
 								 'require' => 1,
 								 'value' => ''
 							 )
-					  )	   
+					  )
 			)
 		)
 	)

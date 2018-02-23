@@ -6,10 +6,10 @@
 
     class ModelExtensionDQuickcheckoutAddress extends Model {
         /*
-         * 	This is a Opencart Hack to update the Tax Address, because in opencart 
-         * 	the addresses are set in system/library/tax.php in _construct before the 
-         * 	session is changed. Therefore the tax address is not correctly set and  
-         * 	requires us to reset it according to the new session. 
+         * 	This is a Opencart Hack to update the Tax Address, because in opencart
+         * 	the addresses are set in system/library/tax.php in _construct before the
+         * 	session is changed. Therefore the tax address is not correctly set and
+         * 	requires us to reset it according to the new session.
          */
 
         public function getCustomerGroups() {
@@ -27,9 +27,14 @@
                     //name
                     $customer_group['title'] = $customer_group['name'];
 
-                    if (in_array($customer_group['value'], $this->config->get('config_customer_group_display'))) {
+                    if(VERSION>='3.0.0.0'){
                         $result[] = $customer_group;
+                    }else{
+                        if (in_array($customer_group['value'], $this->config->get('config_customer_group_display'))) {
+                        $result[] = $customer_group;
+                        }
                     }
+
                 }
             }
 
@@ -56,12 +61,12 @@
         public function showShippingAddress() {
             if (!$this->session->data['d_quickcheckout']['account'][$this->session->data['account']]['shipping_address']['display']) {
                 return false;
-                
+
             }
             if (!$this->cart->hasShipping()) {
                 return false;
             }
-            
+
             if ($this->session->data['d_quickcheckout']['account'][$this->session->data['account']]['shipping_address']['require']) {
                 return true;
             }
@@ -72,7 +77,7 @@
             }
 
             if (isset($this->session->data['payment_address']['shipping_address']) && $this->session->data['payment_address']['shipping_address'] && $this->customer->isLogged() && $this->session->data['payment_address']['address_id'] == 'new') {
-                  
+
                 return false;
             }
 
@@ -95,7 +100,7 @@
             return $this->config->get('config_country_id');
         }
 
-        /* 	
+        /*
          * 	Country and Zones
          */
 
@@ -231,4 +236,3 @@
         }
 
     }
-    

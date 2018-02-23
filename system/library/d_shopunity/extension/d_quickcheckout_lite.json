@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout_lite",
-    "version": "6.5.8",
+    "version": "6.6.0",
     "name": "Ajax Quick Checkout Lite",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart. We are proude to say we are the best.",
@@ -59,6 +59,7 @@
         "admin/model/extension/module/d_quickcheckout.php",
         "admin/view/template/extension/module/d_quickcheckout.twig",
         "admin/view/stylesheet/d_quickcheckout.css",
+        "admin/view/javascript/d_quickcheckout/jquery.tinysort.min.js",
         "admin/view/stylesheet/d_quickcheckout.less",
         "catalog/controller/extension/module/d_quickcheckout.php",
         "catalog/language/en-gb/extension/module/d_quickcheckout.php",
@@ -90,6 +91,7 @@
         "system/library/d_shopunity/install/d_quickcheckout.xml"
     ],
     "dirs":[
+        "admin/view/javascript/d_quickcheckout",
         "catalog/controller/extension/d_quickcheckout",
         "catalog/model/extension/d_quickcheckout",
         "catalog/view/javascript/d_quickcheckout",
@@ -98,6 +100,10 @@
         "system/library/d_compress"
     ],
     "changelog": [
+        {
+            "version":"6.6.0",
+            "change":"updated to latest version of pro "
+        },
         {
             "version":"6.5.8",
             "change":"1.fix "

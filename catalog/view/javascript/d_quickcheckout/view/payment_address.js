@@ -43,7 +43,7 @@ qc.PaymentAddressView = qc.View.extend({
             preloaderStart();
         } else {
             this.model.set('payment_address.zone_id', '');
-            this.render();   
+            this.render();
         }
     },
     setZone: function(country_id){
@@ -57,7 +57,7 @@ qc.PaymentAddressView = qc.View.extend({
     update: function(data){
         console.log('payment_address:render');
         var render_state = false;
-        
+
 
         if(typeof(data.shipping_required) !== 'undefined'){
             this.model.set('shipping_required', data.shipping_required);
@@ -80,21 +80,28 @@ qc.PaymentAddressView = qc.View.extend({
         //  this.model.set('payment_address', data.payment_address);
         //  // render_state = true;
         // }
+
         if(data.payment_address){
+            this.model.set('payment_address', data.payment_address);
             var payment_address = data.payment_address;
             var that = this;
             _.each(data.payment_address,function (element,index){
-                that.model.set('payment_address.'+index, element,{validate: true,key: index,value: element,error:that.model.handleError()});
+                if (index.indexOf('custom_field.') != -1) {
+                    qc.paymentAddress.attributes.payment_address[index] = element;
+                }
+                that.model.set('payment_address.'+index, element, {validate: true, key: index, value: element, error: that.model.handleError()});
             });
         }
 
-        if(data.payment_address_refresh){           
+        if(data.payment_address_refresh){
             //this.render();
             render_state = true;
         }
+
         if(render_state){
             this.render();
         }
+
         $("#payment_address_shipping_address").attr("disabled", false);
         $("#payment_address_zone_id").attr("disabled", false);
     },

@@ -6,13 +6,13 @@
                 {% if stores|length >1 %}
                 <select class="form-control" onChange="location = '{{ module_link }} & store_id=' + $(this).val()">
                     {% for store in stores %}
-                        {% if store.store_id  ==  store_id %} 
+                        {% if store.store_id  ==  store_id %}
                             <option value="{{ store.store_id }}" selected="selected" >{{ store.name }}</option>
-                        {% else %}  
+                        {% else %}
                             <option value="{{ store.store_id }}" >{{ store.name }}</option>
-                        {% endif %} 
+                        {% endif %}
                     {% endfor %}
-                     
+
                 </select>
                  {% endif %}
                 <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
@@ -21,9 +21,9 @@
             </div>
             <h1>{{ heading_title }} {{ version }}</h1>
             <ul class="breadcrumb">
-                {% for breadcrumb in breadcrumbs %} 
+                {% for breadcrumb in breadcrumbs %}
                 <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-                {% endfor %} 
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -34,19 +34,19 @@
             <i class="fa fa-exclamation-circle"></i> {{ error.warning }}
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
-        {% endif %} 
+        {% endif %}
         {% if error.shopunity %}
         <div class="alert alert-danger">
             <i class="fa fa-exclamation-circle"></i>
            {{ error.shopunity }}
         </div>
-        {% endif %} 
-        {% if success %} 
+        {% endif %}
+        {% if success %}
         <div class="alert alert-success">
             <i class="fa fa-exclamation-circle"></i> {{ success }}
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
-        {% endif %} 
+        {% endif %}
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -62,14 +62,14 @@
                                {{ tab_setting }}
                             </a>
                         </li>
-                        {% if debug %} 
+                        {% if debug %}
                         <li>
                             <a href="#debug" data-toggle="tab">
                                 <span class="fa fa-bug"></span>
                                {{ tab_debug }}
                             </a>
                         </li>
-                        {% endif %} 
+                        {% endif %}
                         {% if setting.support %}
                         <li>
                             <a href="#support" data-toggle="tab">
@@ -77,7 +77,7 @@
                                {{ tab_support }}
                             </a>
                         </li>
-                        {% endif %} 
+                        {% endif %}
                         <li>
                             <a href="#instruction" data-toggle="tab">
                                 <span class="fa fa-graduation-cap"></span>
@@ -708,6 +708,8 @@
     })
 
     $('.sortable > tr').tsort({attr:'sort-data'});
+
+
     $(function () {
         $("[type='checkbox']").bootstrapSwitch({
             'onColor': 'success',

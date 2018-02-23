@@ -3,7 +3,7 @@ qc.FieldView = qc.View.extend({
         this.template = e.template;
     },
 
-    
+
     events: {
         'change input[type=text].not-required': 'updateField',
         'change input[type=text].required': 'validateField',
@@ -40,14 +40,14 @@ qc.FieldView = qc.View.extend({
         $('.qc-mask').each(function(){
             $(this).mask($(this).attr('qc-mask'));
         })
-        
+
         $('.bootstrap-datetimepicker-widget').hide();
         var telephone = $('.telephone-validation');
         telephone.each(function(){
             var telephone_countries = $(this).data('telephone_countries');
 
             var telephone_preferred_countries = $(this).data('telephone_preferred_countries');
-            
+
             if (telephone_countries.length == 0){
                 telephone_countries="";
             }else{
@@ -65,12 +65,12 @@ qc.FieldView = qc.View.extend({
                 utilsScript: "catalog/view/javascript/d_quickcheckout/library/phoneformat/js/utils.js"
             });
         })
-        
-        
+
+
     },
 // #d_quickcheckout .country-list {display:none;}
 // #d_quickcheckout .iti-arrow {display:none;}
-    
+
     setDateTime: function(){
         var that = this;
         $('.date', this.el).datetimepicker({
@@ -150,7 +150,7 @@ qc.FieldView = qc.View.extend({
             }
             preloaderStop();
         }
-        
+
     },
 
     updateField:function(e){
@@ -158,7 +158,7 @@ qc.FieldView = qc.View.extend({
         setTimeout(function() {
             that.model.updateField(e.currentTarget.name, e.currentTarget.value );
         }, 500);
-      
+
         if(parseInt(config.general.analytics_event)){
             ga('send', 'event', config.name, 'update', e.currentTarget.name);
         }
@@ -176,7 +176,7 @@ qc.FieldView = qc.View.extend({
         }
 
     },
-    
+
     updateCheckbox: function(e){
         if($(e.currentTarget).is(":checked")){
             this.model.updateField(e.currentTarget.name, e.currentTarget.value );

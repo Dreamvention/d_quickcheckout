@@ -315,4 +315,10 @@
     $_['column_data'] = 'Data';
     $_['column_checkout_time'] = 'Checkout_time';
     $_['column_rating'] = 'rating';
+
+    $_['text_not_found'] = '<div class="jumbotron">
+          <h1>Please install Shopunity</h1>
+          <p>Before you can use this module you will need to install Shopunity. Simply download the archive for your version of opencart and install it view Extension Installer or unzip the archive and upload all the files into your root folder from the UPLOAD folder.</p>
+          <p><a class="btn btn-primary btn-lg" href="https://shopunity.net/download" target="_blank">Download</a></p>
+        </div>';
 ?>

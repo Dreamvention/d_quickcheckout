@@ -94,7 +94,11 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                 $customer_id = $this->customer->getId();
                 if(VERSION >= '3.0.0.0'){
                         $json['payment_address']['address_id'] = $this->session->data['payment_address']['address_id'] = $this->model_account_address->addAddress($customer_id, $this->session->data['payment_address']);
+               
                     }else{
+                        if(isset($this->session->data['payment_address']['custom_field']) && !empty($this->session->data['payment_address']['custom_field'])){
+                            $this->session->data['payment_address']['custom_field']=$this->session->data['payment_address']['custom_field']['address'];
+                        }
                          $json['payment_address']['address_id'] = $this->session->data['payment_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['payment_address']);
                     }
 
@@ -108,6 +112,9 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                     if(VERSION >= '3.0.0.0'){
                            $json['shipping_address']['address_id'] = $this->model_account_address->addAddress( $customer_id,$this->session->data['shipping_address']);
                         }else{
+                            if(isset($this->session->data['shipping_address']['custom_field']) && !empty($this->session->data['shipping_address']['custom_field'])){
+                            $this->session->data['shipping_address']['custom_field']=$this->session->data['shipping_address']['custom_field']['address'];
+                        }
                             $json['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'] = $this->session->data['shipping_address']['address_id'] = $this->model_account_address->addAddress($this->session->data['shipping_address']);
                         }
 

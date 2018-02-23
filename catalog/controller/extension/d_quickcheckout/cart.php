@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 class ControllerExtensionDQuickcheckoutCart extends Controller {
-   	
+
 	public function index($config){
         $this->load->model('extension/module/d_quickcheckout');
         $this->model_extension_module_d_quickcheckout->logWrite('Controller:: cart/index');
@@ -14,23 +14,23 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         }else{
             $this->load->language('checkout/coupon');
         }
-        
+
         if(!$config['general']['compress']){
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/model/cart.js');
             $this->document->addScript('catalog/view/javascript/d_quickcheckout/view/cart.js');
         }
-        
+
         $data['col'] = $config['account']['guest']['cart']['column'];
         $data['row'] = $config['account']['guest']['cart']['row'];
 
         $data['column_image'] = $this->language->get('column_image');
-        $data['column_name'] = $this->language->get('column_name'); 
+        $data['column_name'] = $this->language->get('column_name');
         $data['column_model'] = $this->language->get('column_model');
-        $data['column_quantity'] = $this->language->get('column_quantity'); 
-        $data['column_price'] = $this->language->get('column_price'); 
+        $data['column_quantity'] = $this->language->get('column_quantity');
+        $data['column_price'] = $this->language->get('column_price');
         $data['column_total'] = $this->language->get('column_total');
         $data['text_recurring_item'] = $this->language->get('text_recurring_item');
-        
+
         if(VERSION >= '2.3.0.0'){
             $this->load->language('extension/total/coupon');
         }elseif(VERSION >= '2.1.0.1'){
@@ -39,7 +39,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $this->load->language('checkout/coupon');
         }
         $data['text_use_coupon'] = $this->language->get('heading_title');
-        
+
         if(VERSION >= '2.3.0.0'){
             $this->load->language('extension/total/voucher');
         }elseif(VERSION >= '2.1.0.1'){
@@ -48,7 +48,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $this->load->language('checkout/voucher');
         }
         $data['text_use_voucher'] = $this->language->get('heading_title');
-            
+
 
         //reward
         $points = $this->customer->getRewardPoints();
@@ -61,7 +61,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         if ($points && $points_total && $this->config->get('reward_status')) {
             $data['reward_points'] = true;
-           
+
             if(VERSION >= '2.3.0.0'){
                 $this->load->language('extension/total/reward');
             }elseif(VERSION >= '2.1.0.1'){
@@ -81,7 +81,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $json['successes'] = array();
 
         $json['account'] = $this->session->data['account'];
-        
+
         $json = $this->prepare($json);
 
         $json['coupon'] = (isset($this->session->data['coupon'])) ? $this->session->data['coupon'] : '';
@@ -100,7 +100,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         $json['totals'] = $this->session->data['totals'] = $this->model_extension_d_quickcheckout_order->getTotals($total_data);
         $json['error'] = $json['cart_error'];
- 
+
         $data['json'] = json_encode($json);
 
 		if(VERSION >= '2.2.0.0'){
@@ -132,18 +132,18 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         if ($this->cart->getTotal() < $this->session->data['d_quickcheckout']['general']['min_order']['value']) {
             $data['error_warning'] = sprintf($this->session->data['d_quickcheckout']['general']['min_order']['text'], $this->session->data['d_quickcheckout']['general']['min_order']['value']);
-        } 
+        }
 
         if ($this->cart->countProducts() < $this->session->data['d_quickcheckout']['general']['min_quantity']['value']) {
             $data['error_warning'] = sprintf($this->session->data['d_quickcheckout']['general']['min_quantity']['text'], $this->session->data['d_quickcheckout']['general']['min_quantity']['value']);
         }
- 
+
         if(VERSION < '2.1.0.1'){
             foreach($this->session->data['cart'] as $key => $value){
                 $this->cart->update($key, $value);
             }
         }
-        
+
 
         $products = $this->cart->getProducts();
         $this->load->model('tool/image');
@@ -173,7 +173,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
                 if ($option['type'] != 'file') {
                     $value = $option['value'];
                 } else {
-                    
+
                     $upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
 
                     if ($upload_info) {
@@ -242,7 +242,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             );
             // fix for 2.1.0.0
             $json['cart'][(isset($product['cart_id'])) ? $product['cart_id'] : $product['key']] = $product['quantity'];
-        
+
         }
 
                 //reward
@@ -256,7 +256,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         if ($points && $points_total && $this->config->get('reward_status')) {
             $json['reward_points'] = true;
-           
+
             if(VERSION >= '2.3.0.0'){
                 $this->load->language('extension/total/reward');
             }elseif(VERSION >= '2.1.0.1'){
@@ -271,7 +271,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         }
 
         // Gift Voucher
-        
+
         if (!empty($this->session->data['vouchers'])) {
             foreach ($this->session->data['vouchers'] as $key => $voucher) {
                 $json['vouchers'][] = array(
@@ -317,10 +317,10 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
              //shipping address
             $json = $this->load->controller('extension/d_quickcheckout/shipping_address/prepare', $json);
-            
+
             //cart
             $json = $this->prepare($json);
-            
+
             //shipping method
             $json = $this->load->controller('extension/d_quickcheckout/shipping_method/prepare', $json);
 
@@ -355,7 +355,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             );
             $this->model_extension_module_d_quickcheckout->updateStatistic($statistic);
         }
-       
+
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
     }
@@ -461,7 +461,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         }else{
             $this->load->model('checkout/coupon');
         }
-      
+
 
         if (isset($this->request->post['coupon'])) {
             $coupon = $this->request->post['coupon'];
@@ -532,7 +532,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
     public function updateVoucher(){
         $this->load->model('extension/module/d_quickcheckout');
         $this->load->model('extension/d_quickcheckout/order');
-        
+
         if(VERSION >= '2.3.0.0'){
             $this->load->language('extension/total/voucher');
              $this->load->model('extension/total/voucher');
@@ -559,7 +559,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         }else{
              $voucher_info = $this->model_checkout_voucher->getVoucher($voucher);
         }
-    
+
         $statistic = array();
         if (empty($this->request->post['voucher'])) {
             $totals = array();
@@ -576,7 +576,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $json['order_id'] = $this->session->data['order_id'] = $this->load->controller('extension/d_quickcheckout/confirm/updateOrder');
             //payment
             $json = $this->load->controller('extension/d_quickcheckout/payment/prepare', $json);
-            
+
             $statistic += array(
                 'error' => array(
                     'voucher' => 1

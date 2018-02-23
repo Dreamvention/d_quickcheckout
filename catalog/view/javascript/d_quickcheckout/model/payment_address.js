@@ -5,7 +5,7 @@ qc.PaymentAddress = qc.Model.extend({
         'account': '',
         'addresses': '',
     },
-    
+
     initialize: function(){
         this.set('config', config.account[this.get('account')].payment_address);
     },
@@ -40,14 +40,13 @@ qc.PaymentAddress = qc.Model.extend({
                 that.updateForm(data);
             }, 'json').error();
         }, 500);
-        
-    
+
     },
     validate: function(attrs,options){
         var errors = [];
         if(typeof(this.get('payment_address.'+options.key)) !== 'undefined' && this.get('payment_address.'+options.key).length > 0 && typeof(attrs.payment_address[options.key]) !== 'undefined' && attrs.payment_address[options.key].length == 0){
-            console.log('trying to set an empty value key:'+ options.key +"value "+ this.get('payment_address.'+options.key));
-            errors.push({filed:'payment_address',key:options.key,value:this.get('payment_address.'+options.key)});
+            console.log('trying to set an empty value key:'+ options.key +" value "+ this.get('payment_address.'+options.key));
+            errors.push({field:'payment_address',key:options.key,value:this.get('payment_address.'+options.key)});
             return errors.length > 0 ? errors : false;
         }
 
@@ -60,5 +59,5 @@ qc.PaymentAddress = qc.Model.extend({
             that.model.set(element.field + "." + element.key,element.value);
         });
     }
-    
+
 });

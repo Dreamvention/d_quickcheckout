@@ -101,6 +101,29 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         $this->load->model('extension/d_quickcheckout/address');
         $this->load->model('account/address');
         $this->load->model('extension/d_quickcheckout/custom_field');
+        $json['show_shipping_address'] = $this->model_extension_d_quickcheckout_address->showShippingAddress();
+
+        if($json['show_shipping_address']){
+
+            if($this->customer->isLogged()){
+                if($this->model_account_address->getAddresses()){
+                    if(empty($this->session->data['shipping_address']['address_id'])){
+                        $this->session->data['shipping_address'] = current($this->model_extension_d_quickcheckout_address->getAddresses());
+                    }
+                }else{
+                    $this->session->data['shipping_address']['country_id'] =  $this->config->get('config_country_id');
+                    $this->session->data['payment_address']['zone_id'] = $this->config->get('config_zone_id');
+                }
+
+
+                if(empty($this->session->data['shipping_address']['address_id'])){
+                    $this->session->data['shipping_address']['address_id'] = 'new';
+                }
+            }
+
+        }else{
+            $this->session->data['shipping_address'] = $this->session->data['payment_address'];
+        }
 
         //post
         if(isset($this->request->post['shipping_address'])){
@@ -156,30 +179,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
 
         //session
-        $json['show_shipping_address'] = $this->model_extension_d_quickcheckout_address->showShippingAddress();
-
-        if($json['show_shipping_address']){
-
-            if($this->customer->isLogged()){
-                if($this->model_account_address->getAddresses()){
-                    if(empty($this->session->data['shipping_address']['address_id'])){
-                        $this->session->data['shipping_address'] = current($this->model_extension_d_quickcheckout_address->getAddresses());
-                    }
-                }else{
-                    $this->session->data['shipping_address']['country_id'] =  $this->config->get('config_country_id');
-                    $this->session->data['payment_address']['zone_id'] = $this->config->get('config_zone_id');
-                }
-
-
-                if(empty($this->session->data['shipping_address']['address_id'])){
-                    $this->session->data['shipping_address']['address_id'] = 'new';
-                }
-            }
-
-        }else{
-            $this->session->data['shipping_address'] = $this->session->data['payment_address'];
-        }
-
+       
         $json['shipping_address'] = $this->session->data['shipping_address'];
 
         return $json;

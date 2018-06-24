@@ -582,7 +582,7 @@ $_['d_quickcheckout_payment_address'] = array(
                 ),
                 'telephone' => array(
                     'display' => 1,
-                    'require' => 0,
+                    'require' => 1,
                     'value' => ''
                 ),
                 'fax' => array(
@@ -692,7 +692,7 @@ $_['d_quickcheckout_payment_address'] = array(
                 ),
                 'telephone' => array(
                     'display' => 1,
-                    'require' => 0,
+                    'require' => 1,
                     'value' => ''
                 ),
                 'fax' => array(

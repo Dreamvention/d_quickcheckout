@@ -49,7 +49,8 @@
         "d_bootstrap_extra": ">=1.0.1",
         "d_social_login": ">=6.1.0",
         "d_alertify": ">=1.11.1",
-        "d_admin_style": ">=1.0.3"
+        "d_admin_style": ">=1.0.3",
+        "libphonenumber": ">=8.9.8"
     },
     "files": [
         "system/library/d_shopunity/extension/d_quickcheckout.json",

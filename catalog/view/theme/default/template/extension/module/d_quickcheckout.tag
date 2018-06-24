@@ -149,10 +149,9 @@
             alertify.defaults.theme.ok = "btn btn-primary";
             alertify.defaults.theme.cancel = "btn btn-danger";
             alertify.defaults.theme.input = "form-control";
-            alertify.alert('Get AQC PRO right now','You can unlock PRO features like field settings, page settings and more. You need to upgrade to the AQC PRO version. <br/><br/><a target="_blank" href="https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=9132">Learn more</a>');
+            alertify.alert('Ajax Quick Checkout PRO','Need more flexibility? Unlock PRO features like field settings, step settings, page settings, layouts and themes. <br/><br/><a target="_blank" href="http://dreamvention.ee/1a3b3300">-10% Coupon AQC7FREE</a> <br/><br/> Upgrade to the Aajx Quick Checkout PRO version today.')
         }
-
-
+        
         setStyles(){
 
             $.when($.get('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+this.store.getSession().skin+'/'+this.store.getSession().skin+'.css?'+this.store.rand()))

@@ -1,0 +1,53 @@
+@import 'scss/component/editor';
+@import 'scss/component/setting';
+@import 'scss/component/layout';
+@import 'scss/component/page';
+@import 'scss/component/field';
+@import 'scss/component/alertify';
+@import 'scss/step/account';
+@import 'scss/step/cart';
+@import 'scss/step/payment_method';
+@import 'scss/step/payment';
+
+.container{
+    max-width: 100%;
+}
+.show{
+    display: block;
+}
+
+.loader{
+    position: fixed;
+    top:12px;
+    padding: 8px 15px;
+    border-radius: 3px;
+    background: orange;
+    left: 50%;
+    margin-left: -50px;
+    width: 100px;
+    z-index: 10000;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+}
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+.spinner{
+}
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  border-radius: 50%;
+  border-top: 3px solid #07d;
+  border-right: 3px solid transparent;
+  animation: spinner .6s linear infinite;
+}

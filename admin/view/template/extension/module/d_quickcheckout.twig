@@ -1,0 +1,184 @@
+{# location: admin/view #}
+
+{{ header }} {{ column_left }} 
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline pull-right">
+
+                <button id="save_and_stay" data-toggle="tooltip" title="{{button_save_and_stay}}" class="btn btn-success"><i class="fa fa-save"></i></button>
+                <button type="submit" form="form" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{heading_title}} {{version}}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %} 
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %} 
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error.warning %} 
+            <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error.warning }} 
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %} 
+        {% if success %} 
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }} 
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %} 
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{text_edit}}</h3>
+            </div>
+            <div class="panel-body">
+                
+                    {# <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab_setting" data-toggle="tab">
+                                <span class="fa fa-cog"></span> 
+                                {{tab_setting}}
+                            </a>
+                        </li>
+                    </ul> #}
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_setting" >
+                            <div class="tab-body">
+                                <form action="{{action}}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input_status">{{entry_status}}</label>
+                                        <div class="col-sm-10">                                     
+                                            <input type="hidden" name="{{codename}}_status" value="0" />
+                                            <input type="checkbox" name="{{codename}}_status" class="switcher" data-label-text="{{text_enabled}}"id="input_status"  {{attribute(_context, codename~'_status') ? 'checked="checked"' }} value="1" />
+                                        </div>
+                                    </div><!-- //status -->
+
+                                    {% if settings is empty %}
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input_status">Add setting</label>
+                                            <div class="col-sm-10">                                     
+                                                <a class="btn btn-success addSetting" ><i class="fa fa-plus"></i> Add Setting</a>
+                                            </div>
+                                        </div><!-- //editor -->
+                                    {% endif %}
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 col-md-offset-2">   
+                                            <div class="row">
+                                                {% for setting in settings %}
+                                                <div id="setting_id_{{setting.setting_id}}" class="col-lg-3 col-md-4 col-sm-6 ">
+                                                    <div class="tile">
+                                                        <a href="{{editor}}" class="view-setting editor" data-setting_id="{{setting.setting_id}}" >
+                                                            <div class="tile-heading clearfix">
+                                                                Go to visual editor
+                                                            </div>
+                                                            <div class="tile-body">
+                                                                
+                                                                {# <a href="" target="_blank" ><i class="fa fa-eye"></i></a> #}
+                                                                <a href="{{editor}}" class="view-setting pull-right editor" data-setting_id="{{setting.setting_id}}"><i class="fa fa-pencil"></i></a>
+                                                                <h3>{{setting.name}}</h3>
+                                                                <br/>
+                                                            </div>
+                                                        </a>
+                                                        <div class="tile-footer form-inline clearfix">
+                                                            <a href="#" class="deleteSetting" data-setting_id="{{setting.setting_id}}">delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script type="text/javascript"><!--
+$(function () {
+    //checkbox
+    $(".switcher[type='checkbox']").bootstrapSwitch({
+        'onColor': 'success',
+        'onText': '{{text_yes}}',
+        'offText': '{{text_no}}',
+    });
+
+    $(document).on('click', '#save_and_stay', function(){
+        $.ajax( {
+            type: 'post',
+            url: $('#form').attr('action') + '&save',
+            data: $('#form').serialize(),
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                console.log( response );
+            }
+        });
+    });
+
+    $(document).on('click', '.addSetting', function(){
+
+        $.ajax( {
+            type: 'post',
+            url: '{{add_setting}}',
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                location.reload();
+                console.log( response );
+            }
+        });
+
+    })
+
+    $(document).on('click', '.deleteSetting', function(){
+        var setting_id = $(this).data('setting_id');
+        $.ajax( {
+            type: 'post',
+            url: '{{delete_setting}}',
+            data: 'setting_id='+setting_id,
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                location.reload();
+                console.log( response );
+            }
+        });
+
+    })
+
+    $(document).on('click', '.editor', function(){
+
+        var setting_id = $(this).data('setting_id');
+        var editor = $(this).attr('href');
+
+        window.open(editor+'&setting_id='+setting_id, '_blank');
+        return false;
+
+    })
+});
+//--></script>
+{{footer}}

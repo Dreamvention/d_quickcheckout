@@ -1,0 +1,24 @@
+.qc-checkout-product{
+    overflow: hidden;
+    .qc-quantity{
+        .input-group{
+            max-width: 170px;
+        }
+    }
+    .qc-image{
+        a{
+            display: inline-block;
+        }
+    }
+    .qc-totals{
+        > .row:last-child {
+            border-top: 1px solid #efefef;
+            margin-top: 5px;
+            padding-top: 15px;
+            > * {
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+    }
+}

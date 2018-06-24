@@ -1,0 +1,314 @@
+
+
+.setting{
+    position: fixed;
+    display: none;
+    
+    z-index: 1000;
+    background: #fff;
+	&-header{
+        padding: 15px 15px 15px 20px;
+        background: #3cb1d4;
+        width: 100%;
+        box-sizing: box-content;
+        color: #fff;
+
+		> h2{
+			font-size: 18px;
+			font-weight: normal;
+			padding: 0px;
+			margin: 0px;
+			color:#fff;
+		}
+		> a{
+			position: absolute;
+			right: 0;
+			top: 0;
+			padding: 15px;
+			opacity: 1;
+            font-size: 21px;
+            cursor: pointer;
+		    .fa{
+		    	font-size: 18px;
+			    color: #fff;
+		    }
+            &.close{
+
+            }
+            &.layout{
+                margin-right: 32px;
+            }
+		}
+	}
+
+    &-tabs{
+        margin: -20px -20px 20px -20px;
+        padding: 0px;
+        padding: 0px;
+        background: #3cb1d4;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        li{
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            display: inline-block;
+            a{
+                padding: 14px 20px;
+                display: block;
+                text-decoration: none;
+                color: #fff;
+            }
+            &.active{
+                a{
+                    background: rgba(0,0,0,0.1);
+                }
+            }
+        }
+    }
+	&-content{
+		padding: 20px;
+        overflow-y: scroll;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: #f6faff;
+        padding-bottom: 150px;
+		.form-group{
+			margin: 0px 0px 20px 0px !important;
+			label{
+				display: inline-block;
+				margin: 0 0 4px;
+				text-align: left;
+				color: #32373c;
+				font-size: 14px;
+				font-weight: 600;
+			}
+		}
+		
+	}
+    &-panels{
+        .setting-panel{
+            width: 50%;
+            display: inline-block;
+            padding: 5px;
+            
+            &-content{
+                border: 1px solid #efefef;
+                padding: 5px;
+                border-radius: 3px;
+                text-align: center;
+                height: 100px;
+                background: #fff;
+            }
+            &-heading{
+                .fa{
+                    font-size: 36px;
+                }
+                padding: 10px 0px;
+            }
+
+            &-body{
+
+            }
+        }
+    }
+	&-footer{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+        height: 100px;
+		a{
+			padding: 10px 21px;
+			background: #3cb1d4;
+			color: #fff;
+			font-size: 14px;
+			width: 100%;
+			display: block;
+			text-align: center;
+			z-index: 10;
+            cursor: pointer;
+            position: relative;
+			&:hover{
+				opacity: 0.8;
+			}
+		}
+	}
+}
+
+body.show-setting{
+    padding-left: 340px;
+    max-width: 100%;
+    box-sizing:box-content;
+    .setting{
+        position: fixed;
+        left: 0;
+        top: 60px;
+        height: 100%;
+        width: 340px;
+        border-right: 1px solid #3cb1d4;
+    }
+}
+
+body.show-setting.popup{
+    overflow: hidden;
+    padding-left: 0px;
+    .setting{
+        position: fixed;
+        left: 50%;
+        top: 100px;
+        min-height: 300px;
+        height: calc(100% - 200px);
+        width: 600px;
+        margin-left: -300px;
+        border-right: 1px solid #3cb1d4;
+        border-left: 1px solid #3cb1d4;
+        border-radius: 3px;
+        box-shadow: 0px 20px 40px rgba(0,0,0,0.4);
+        overflow: hidden;
+        &-content{
+            width: 100%;
+        }
+        &-footer{
+            height: auto;
+        }
+        &-panels{
+            .setting-panel{
+                width: 25%;
+            }
+        }
+    }
+}
+
+
+.page-nav{
+    &-setting{
+        position: absolute;
+        top:0px;
+        right: 0px;
+        margin: 0px;
+        z-index: 10;
+        display: none;
+        .btn-group{
+            background: #6cc677;
+            border-radius: 0px 3px 0px 3px;
+            > *{
+                padding: 4px 8px;
+                background: #6cc677;
+                border: none;
+                color: #fff;
+                text-shadow: none;
+                &:hover,
+                &.active{
+                    background: rgba(0,0,0,0.2);
+                    color:#fff;
+                }
+            }
+        }
+    }
+    &-item{
+        .pro-label{
+            font-size: 10px;
+            position: absolute;
+            right: 15px;
+            z-index: 10;
+            top: 10px;
+            display: none;
+        }
+    }
+}
+.step{
+    &-setting{
+        position: absolute;
+        z-index: 10;
+        display: none;
+        right: 0px;
+        .btn-group{
+            background: #3cb1d4;
+            border-radius: 0px 3px 0px 3px;
+            > *{
+                padding: 4px 8px;
+                background: #3cb1d4;
+                border: none;
+                color: #fff;
+                text-shadow: none;
+                &:hover,
+                &.active{
+                    background: rgba(0,0,0,0.2);
+                    color:#fff;
+                }
+            }
+        }
+    }
+    .pro-label{
+        font-size: 12px;
+        padding: 5px;
+        position: absolute;
+        right: 0px;
+        z-index: 10;
+        display: none;
+    }
+}
+
+.field{
+    &-setting{
+        position: absolute;
+        z-index: 10;
+        display: none;
+        right: 16px;
+        .btn-group{
+            background: #56c0b9;
+            border-radius: 0px 3px 0px 3px;
+             > *{
+                padding: 4px 8px;
+                background: #56c0b9;
+                border: none;
+                color: #fff;
+                text-shadow: none;
+                &:hover,
+                &.active{
+                    background: rgba(0,0,0,0.2);
+                    color:#fff;
+                }
+            }
+        }
+    }
+    .no-display{
+        opacity: 0.5;
+        height: 34px;
+    }
+    .pro-label{
+        font-size: 10px;
+        padding: .2em .6em .3em;
+        position: absolute;
+        right: 15px;
+        z-index: 10;
+        display: none;
+    }
+}
+
+.edit{
+    .field{
+        &:hover{
+            .field-setting,
+            .pro-label{
+                display: block;
+            }
+        }
+    }
+    .step{
+        &:hover{
+            step_setting > .step-setting,
+            > pro_label > .pro-label{
+                display: block;
+            }
+        }
+    }
+    .page-nav-item{
+        &:hover{
+            .pro-label{
+                display: block;
+            }
+        }
+    }
+}

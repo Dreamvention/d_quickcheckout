@@ -1,0 +1,58 @@
+<?php
+/**
+ *  location: catalog/view
+ */
+?>
+
+<div class="spinner"></div>
+<d_quickcheckout id="d_quickcheckout" {% if edit %} class="edit" {% endif %}></d_quickcheckout>
+
+
+{% if edit %}
+    <style>
+        body{
+            margin-top: 60px;
+        }
+        body > #d_quickcheckout{
+            display: block;
+        } 
+    </style>
+{% else %}
+    <style>
+        {% if state.layout.header_footer != 1 %}
+            body > *{
+                display: none;
+            } 
+            body > .spinner{
+                display: block;
+            }
+            body > #d_quickcheckout{
+                padding: 40px;
+                display: block;
+            }
+        {% endif %}
+    </style>
+    <script>
+        var header_footer = {{state.layout.header_footer}}
+        if(header_footer != 1){
+            $('body').prepend($('.spinner'));
+            $('body').prepend($('#d_quickcheckout'));
+
+        }else{
+            $('.spinner').after($('#d_quickcheckout'));
+        }
+    </script>
+{% endif %}
+
+<script>
+    {% for riot_tag in riot_tags %} 
+        riot.compile('{{riot_tag}}');
+    {% endfor %}
+    setTimeout(function(){
+        riot.compile('catalog/view/theme/default/template/extension/module/d_quickcheckout.tag', function() {
+            var state = {{ state|json_encode() }};
+            riot.mixin({ store : d_quickcheckout.createStore(state) })
+            riot.mount('*');
+        })
+    },100)
+</script>

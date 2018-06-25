@@ -28,7 +28,7 @@
                 each={error, error_id in opts.field.errors}
                 type="hidden"
                 class="{ opts.step }-{ opts.field.id }-iso2"
-                if={ error.telephone }
+                if={ error.telephone && opts.field.validation == 1 }
                 type="tel"
                 ref="input"
                 name="{ opts.step }[telephone_iso2][{ opts.field.id }]"
@@ -99,18 +99,18 @@
             var $iso2 = $('.'+ this.opts.ste + '-' + this.opts.field.id + '-iso2');
             $iso2.val($(e.currentTarget).intlTelInput("getSelectedCountryData").iso2); 
 
-            var error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
             var data = $(e.currentTarget).serializeJSON();
 
             data = $.extend(true, data, $iso2.serializeJSON());
             
             if ($.trim($(e.currentTarget).val())) {
                 if ($(e.currentTarget).intlTelInput("isValidNumber")) {
-                    error = '' ;
+                    error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
                 } else {
                     error = 'error_telephone_telephone';
                 }
             }
+
             
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error });
             this.store.dispatch(this.opts.step+'/update', data);
@@ -125,6 +125,7 @@
                 }
                 $('#' + this.opts.step + '_' + this.opts.field_id).intlTelInput({
                   initialCountry: "auto",
+                  nationalMode: false,
                   onlyCountries: onlyCountries,
                   geoIpLookup: function(callback) {
                     $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
@@ -158,7 +159,7 @@
         })
 
         this.on('updated', function(){
-            this.initIntlTelInput();
+            //this.initIntlTelInput();
             this.initMask();
             this.initTooltip();
             

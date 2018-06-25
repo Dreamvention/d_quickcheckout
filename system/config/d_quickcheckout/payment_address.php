@@ -223,7 +223,7 @@ $_['d_quickcheckout_payment_address'] = array(
                     'text' => 'error_telephone_telephone'
                 )
             ),
-            'validaation' => 1,
+            'validation' => 0,
             'countries' => '',
             'type' => 'tel',
             'refresh' => '0',

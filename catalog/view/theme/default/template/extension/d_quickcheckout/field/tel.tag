@@ -117,7 +117,9 @@
         }
 
         initIntlTelInput(){
-            $('#' + this.opts.step + '_' + this.opts.field_id).intlTelInput("destroy");
+            if(this.store.getState().edit){
+                $('#' + this.opts.step + '_' + this.opts.field_id).intlTelInput("destroy");
+            }
             if(this.opts.field.validation == '1'){
                 var onlyCountries = [];
                 if(this.opts.field.countries){
@@ -159,7 +161,7 @@
         })
 
         this.on('updated', function(){
-            //this.initIntlTelInput();
+            this.initIntlTelInput();
             this.initMask();
             this.initTooltip();
             

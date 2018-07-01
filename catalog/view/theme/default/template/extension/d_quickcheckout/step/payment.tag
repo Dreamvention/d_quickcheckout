@@ -41,12 +41,23 @@
 
         var tag = this;
 
+        var payment = getSession().payment.payment;
+
+        shouldUpdate() { 
+            if(payment != getSession().payment.payment){
+                return true 
+            }
+            return false; 
+        }
+
         this.on('mount', function(){
             $(tag.root).find('#payment').html(getSession().payment.payment);
+            payment = getSession().payment.payment;
         })
 
         this.on("updated", function(){
             $(tag.root).find('#payment').html(getSession().payment.payment);
+            payment = getSession().payment.payment;
         });
 
     </script>

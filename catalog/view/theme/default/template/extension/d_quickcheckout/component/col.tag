@@ -82,7 +82,7 @@
         }
 
         removeCol(){
-            var sort_order = tag.store.countItems(tag.parent.row.children);
+            var sort_order = tag.store.countItems(tag.parent.opts.row.children);
             tag.store.dispatch('col/remove', {col_id: tag.opts.col_id, sort_order: sort_order});
         }
 
@@ -140,44 +140,6 @@
                 }
             }
         });
-
-        this.on('updated', function() { 
-
-            if(getState().edit){
-                var options = {
-                    gridRows: 12,
-                    cellMin: 2,
-                    handles: 'e'
-                }
-                var $parent = $(tag.root).parent();
-                var cellWidth = ($parent.width()/options.gridRows);
-                var cellMin = cellWidth * options.cellMin;
-
-                $(tag.root).resizable({
-                    grid: cellWidth,
-                    minWidth: cellMin,
-                    resize : function(ev, ui) {
-                        var width = Math.round(ui.size.width/cellWidth);
-                        $(ui.element).removeClass (function (index, className) {
-                            return (className.match (/(^|\s)col-md-\S+/g) || []).join(' ');
-                        });
-                        $(ui.element).addClass('col-md-'+width);
-                        $(ui.element).width('')
-
-                        tag.store.dispatch('col/resize', {item_id : $(ui.element).prop('id'), width: width, col_id: tag.opts.col_id, row_id: tag.opts.parent});
-                    } 
-                })
-
-                $(tag.root).attr('style', function(i, style)
-                {
-                    return style && style.replace(/width[^;]+;?/g, '').replace(/height[^;]+;?/g, '');
-                });
-
-                var items = $(tag.root).children('.gr-col-content');
-                tag.store.hideLoader();
-                items.sortable('cancel');
-            }
-        })
         
     </script>
 </col>

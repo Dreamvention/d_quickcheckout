@@ -1,4 +1,6 @@
 <layout>
+    <layout_setting if={getState().edit} ></layout_setting>
+
     <div if={getState().layout.pages}>
         
         <div class="process page-nav clearfix">

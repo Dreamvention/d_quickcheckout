@@ -828,7 +828,8 @@ body.show-setting.popup {
 .payment-method .input-radio .payment-method-image {
   float: right; }
 
-#payment .buttons {
+#payment .buttons,
+#payment button {
   display: none; }
 
 .container {

@@ -45,14 +45,22 @@
 {% endif %}
 
 <script>
+    var count = 0;
+    var total = {{riot_tags|length}};
     {% for riot_tag in riot_tags %} 
-        riot.compile('{{riot_tag}}');
+        riot.compile('{{riot_tag}}', function(){
+            count++;
+            if(total == count){
+                start();
+            }
+        });
     {% endfor %}
-    setTimeout(function(){
+    function start(){
+
         riot.compile('catalog/view/theme/default/template/extension/module/d_quickcheckout.tag', function() {
             var state = {{ state|json_encode() }};
             riot.mixin({ store : d_quickcheckout.createStore(state) })
             riot.mount('*');
         })
-    },100)
+    }
 </script>

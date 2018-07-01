@@ -27,8 +27,9 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         $state['session']['payment_methods'] = $this->getPaymentMethods();
         $this->model_extension_d_quickcheckout_store->setState($state);
 
-        $state['session']['payment_method'] = $this->getDefault();
         $state['config'] = $this->getConfig();
+        $this->model_extension_d_quickcheckout_store->setState($state);
+        $state['session']['payment_method'] = $this->getDefault();
 
         $state['language']['payment_method'] = $this->getLanguages();
         $state['action']['payment_method'] = $this->action;
@@ -148,7 +149,8 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
     }
 
     private function getDefault(){
-        return $this->model_extension_d_quickcheckout_method->getDefaultPaymentMethod('cod');
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        return $this->model_extension_d_quickcheckout_method->getDefaultPaymentMethod($state['config']['guest']['payment_method']['default_option']);
     }
 
     private function getPaymentMethod($payment_method = false){

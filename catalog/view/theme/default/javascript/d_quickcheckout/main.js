@@ -292,9 +292,12 @@ var qc = (function() {
     }
 
     this.showLoader = function(){
+        this.updateState(['session','loading'], true);
+        var that = this;
         setTimeout(function(){
             $('.loader').show();
             setTimeout(function(){
+                that.updateState(['session','loading'], false);
                 $('.loader').hide();
             },10000);
         },10);
@@ -302,6 +305,7 @@ var qc = (function() {
     }
 
     this.hideLoader = function(){
+        this.updateState(['session','loading'], false);
         $('.loader').hide();
     }
 

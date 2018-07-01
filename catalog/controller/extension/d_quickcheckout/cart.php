@@ -245,9 +245,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         if($data['action'] == 'total/update'
             || $data['action'] == 'shipping_method/update/after'
-            || $data['action'] == 'payment_method/update/after'
-            || $data['action'] == 'payment_address/update/after'
-            || $data['action'] == 'shipping_address/update/after'){
+            || $data['action'] == 'payment_method/update/after'){
 
             $state = $this->model_extension_d_quickcheckout_store->getState();
             if($state['session']['account'] == 'logged'){

@@ -249,8 +249,6 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
           }
       }
 
-
-
       $sort_order = array();
 
       foreach ($total_data['totals'] as $key => $value) {

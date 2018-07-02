@@ -15,7 +15,7 @@
             </div>
             <div class="panel-body">
                 <a if={prev == 1} class="btn btn-default btn-lg pull-left page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</a>
-                <a if={next == 1} class="btn btn-primary btn-lg pull-right page-link" onclick={nextPage}>{getLanguage().continue.text_next}</a>
+                <button if={next == 1} disabled={getSession().confirm.loading} class="btn btn-primary btn-lg pull-right page-link" onclick={nextPage}>{getLanguage().continue.text_next}</button>
             </div>
             
         </div>

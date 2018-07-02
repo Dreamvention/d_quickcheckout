@@ -1,9 +1,9 @@
 <page_nav>
     <div if={riot.util.tags.selectTags().search('"page_nav_setting"') > 0 && getState().edit}>
         <page_nav_setting  setting_id="page_nav_setting_{opts.page_id}" page_id="{opts.page_id}" page="{opts.page}">
-            <label class="btn btn-default { (opts.page.display == 1) ? 'active' : ''}" for="payment_address_display" onclick="{editCheckbox}">
-                <input name="layout[pages][{opts.page_id}][display]" type="hidden"  value="0">
-                <input name="layout[pages][{opts.page_id}][display]" id="layout_pages_display_{opts.page_id}" type="checkbox" value="1" checked={ (getState().layout.pages[opts.page_id] && getState().layout.pages[opts.page_id].display == 1) }>
+            <label class="btn btn-default { (opts.page.display == 1) ? 'active' : ''}" for="payment_address_display" onclick="{parent.editCheckbox}">
+                <input name="layout[pages][{opts.page_id}][display]" type="hidden" value="0">
+                <input name="layout[pages][{opts.page_id}][display]" id="layout_pages_display_{opts.page_id}" type="checkbox" value="1" checked={ opts.page.display == 1 }>
                 <i class="fa fa-eye"></i>
             </label>
         </page_nav_setting>
@@ -62,5 +62,13 @@
         edit(e){
             this.store.dispatch('setting/edit', $('#'+ tag.setting_id).find('form').serializeJSON());
         }
+
+        editCheckbox(e){
+            var checkbox = $(e.currentTarget).find('input[type=checkbox]');
+            checkbox.prop("checked", !checkbox.prop("checked"));
+            tag.store.dispatch('setting/edit', $(tag.root).find('.page-nav-setting').serializeJSON());
+
+        }
+
     </script>
 </page_nav>

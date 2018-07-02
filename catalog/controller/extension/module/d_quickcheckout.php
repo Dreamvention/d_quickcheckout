@@ -23,6 +23,33 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
     }
 
+    public function controller_checkout_checkout_before($route, &$data) {
+        if($this->config->get('d_quickcheckout_status')){
+            $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
+        }
+    }
+
+    public function view_checkout_checkout_after($route, $data, &$output) {
+
+        if($this->config->get('d_quickcheckout_status')){
+            $supports = $this->model_extension_d_quickcheckout_view->browserSupported();
+            if($supports){
+                $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
+                if(true){
+                    $this->load->model('extension/d_quickcheckout/view');
+                    $template = 'd_quickcheckout';
+                    $output = $this->load->view($this->model_extension_d_quickcheckout_view->template('checkout/'.$template), $data);
+                }else{
+                    $html_dom = new d_simple_html_dom();
+                    $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+                    $html_dom->find('body > #content', 0)->innertext = $data['d_quickcheckout'];
+                    $output = (string)$html_dom;
+                }
+            }
+            
+        }
+    }
+
     public function index() {
 
         $data = array();
@@ -58,9 +85,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/intltelinput/css/intlTelInput.min.css');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/intlTelInput.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
-
-
-        
 
         $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css?'.rand());
 

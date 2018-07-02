@@ -44,37 +44,6 @@
 
     this.subscribe('setting/changeSkin', function(data) {
         this.updateState(['session', 'skin'], data.skin_codename);
-        $.when($.get('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+data.skin_codename+'/'+data.skin_codename+'.css?'+this.rand()))
-        .done(function(response) {
-            $('html > head').find('[title="d_quickcheckout"]').remove();
-
-            var style = '<style title="d_quickcheckout">';
-            style += response;
-
-            style += this.buildStyleBySelector('body > *', {
-                'display': (this.getLayout().header_footer == 1) ? 'block' :'none'
-            })
-
-            style += this.buildStyleBySelector('body > d_quickcheckout', {
-                'padding': (this.getLayout().header_footer == 1) ? '0px' :'40px',
-                'display': (this.getLayout().header_footer == 1) ? 'block' :'block'
-            })
-
-            style += this.buildStyleBySelector('.qc-breadcrumb', {
-                'display': (this.getLayout().breadcrumb == 1) ? 'block' :'none'
-            })
-
-            style += '</style>'; 
-
-            $('html > head').append($(style));
-
-            if(this.getLayout().header_footer != 1){
-                $('body').prepend($('#d_quickcheckout'));
-            }else{
-                $('.spinner').after($('#d_quickcheckout'));
-            }
-
-        }.bind(this));
     });
 
     this.subscribe('setting/changeLanguage', function(data) {
@@ -120,6 +89,40 @@
         }
         styleContainer += ' } ';
         return styleContainer;
+    }
+
+    this.updateLayoutStyle = function(){
+        $.when($.get('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+this.getSession().skin+'/'+this.getSession().skin+'.css?'+this.rand()))
+        .done(function(response) {
+            $('html > head').find('[title="d_quickcheckout"]').remove();
+
+            var style = '<style title="d_quickcheckout">';
+            style += response;
+
+            style += this.buildStyleBySelector('body > *', {
+                'display': (this.getLayout().header_footer == 1) ? 'block' :'none'
+            })
+
+            style += this.buildStyleBySelector('body > d_quickcheckout', {
+                'padding': (this.getLayout().header_footer == 1) ? '0px' :'40px',
+                'display': (this.getLayout().header_footer == 1) ? 'block' :'block'
+            })
+
+            style += this.buildStyleBySelector('.qc-breadcrumb', {
+                'display': (this.getLayout().breadcrumb == 1) ? 'block' :'none'
+            })
+
+            style += '</style>'; 
+
+            $('html > head').append($(style));
+
+            if(this.getLayout().header_footer != 1){
+                $('body').prepend($('#d_quickcheckout'));
+            }else{
+                $('.spinner').after($('#d_quickcheckout'));
+            }
+
+        }.bind(this));
     }
 
 })(qc);

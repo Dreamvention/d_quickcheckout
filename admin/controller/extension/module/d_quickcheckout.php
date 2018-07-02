@@ -20,6 +20,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
         $this->d_twig_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_twig_manager.json'));
+        $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
         $this->store_id = (isset($this->request->get['store_id'])) ? $this->request->get['store_id'] : 0;
 
@@ -235,9 +236,16 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_shopunity_mbooth->installDependencies($this->codename);
         }
 
+        if($this->d_event_manager){
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/controller/checkout/checkout/before', 'extension/module/d_quickcheckout/controller_checkout_checkout_before');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/checkout/checkout/after', 'extension/module/d_quickcheckout/view_checkout_checkout_after');
+        }
+
         if($this->d_opencart_patch){
             $this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1);
+            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1); 
             $this->model_extension_d_opencart_patch_modification->refreshCache();
         }
 
@@ -249,10 +257,17 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if($this->d_opencart_patch){
             $this->load->model('extension/d_opencart_patch/modification');
             $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 0); 
-
-            $this->load->model('extension/module/d_quickcheckout');
-            $this->model_extension_module_d_quickcheckout->uninstallDatabase(); 
         }
+        
+        if($this->d_event_manager){
+            $this->load->model('extension/module/d_event_manager');
+
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+        }
+
+        $this->load->model('extension/module/d_quickcheckout');
+        $this->model_extension_module_d_quickcheckout->uninstallDatabase(); 
+
     }
 
 }

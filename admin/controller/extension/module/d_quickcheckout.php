@@ -58,6 +58,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_module_d_twig_manager->installCompatibility();
         }
 
+        if($this->d_event_manager){
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->installCompatibility();
+        }
+
         $this->load->language($this->route);
 
         $this->load->model('setting/setting');
@@ -239,8 +244,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if($this->d_event_manager){
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/controller/checkout/checkout/before', 'extension/module/d_quickcheckout/controller_checkout_checkout_before');
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/checkout/checkout/after', 'extension/module/d_quickcheckout/view_checkout_checkout_after');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 
+                'catalog/controller/checkout/checkout/before', 
+                'extension/module/d_quickcheckout/controller_checkout_checkout_before');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 
+                'catalog/view/checkout/checkout/after', 
+                'extension/module/d_quickcheckout/view_checkout_checkout_after');
         }
 
         if($this->d_opencart_patch){

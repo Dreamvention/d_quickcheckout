@@ -144,6 +144,7 @@
         "catalog/view/theme/default/template/extension/d_quickcheckout/component/errors.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/component/field_setting.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/component/layout.tag",
+        "catalog/view/theme/default/template/extension/d_quickcheckout/component/layout_setting.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/component/page.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/component/page_nav.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/component/popup_setting.tag",

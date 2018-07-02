@@ -35,6 +35,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $supports = $this->model_extension_d_quickcheckout_view->browserSupported();
             if($supports){
                 $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
+
                 if(true){
                     $this->load->model('extension/d_quickcheckout/view');
                     $template = 'd_quickcheckout';

@@ -200,6 +200,7 @@
         "catalog/view/javascript/d_quickcheckout",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/scss",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/skin/default",
+        "catalog/view/theme/default/image/d_quickcheckout",
         "image/catalog/d_quickcheckout/payment"
     ],
     "changelog": [

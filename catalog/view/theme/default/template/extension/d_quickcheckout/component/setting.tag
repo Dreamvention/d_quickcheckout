@@ -1,6 +1,6 @@
 <setting>
 
-    <div class="setting" id="{opts.setting_id}">
+    <div class="setting animated fadeInLeft" id="{opts.setting_id}">
         <div class="setting-header">
             <h2>{opts.title} {getLanguage().general.text_settings}</h2>
             <a class="layout" onclick={toggle}>

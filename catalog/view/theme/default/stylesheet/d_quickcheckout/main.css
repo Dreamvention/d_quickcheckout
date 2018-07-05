@@ -339,6 +339,26 @@
   border-radius: 2px;
   background: rgba(0, 0, 0, 0.1); }
 
+.get-pro {
+  display: none;
+  text-align: center;
+  padding: 30px; }
+  .get-pro-image {
+    padding-bottom: 15px; }
+  .get-pro-heading {
+    font-size: 24px;
+    font-weight: bold;
+    padding-bottom: 15px; }
+  .get-pro-text {
+    padding-bottom: 15px; }
+  .get-pro-btn {
+    padding-bottom: 15px; }
+  .get-pro small {
+    color: #ccc; }
+
+.ajs-content .get-pro {
+  display: block; }
+
 .setting {
   position: fixed;
   display: none;
@@ -565,6 +585,15 @@ body.show-setting.popup {
 
 .row {
   display: block; }
+
+.container {
+  max-width: 100%; }
+
+.show {
+  display: block; }
+
+.page .qc-step {
+  display: none; }
 
 .process {
   display: flex; }
@@ -801,43 +830,6 @@ body.show-setting.popup {
   background: rgba(252, 248, 215, 0.95);
   border-color: #999; }
 
-.qc-social-login {
-  margin-bottom: 15px; }
-  .qc-social-login .dsl-label {
-    display: none; }
-  .qc-social-login .icons .l-side {
-    padding: 7px 4px;
-    width: 34px; }
-
-.qc-checkout-product {
-  overflow: hidden; }
-  .qc-checkout-product .qc-quantity .input-group {
-    max-width: 170px; }
-  .qc-checkout-product .qc-image a {
-    display: inline-block; }
-  .qc-checkout-product .qc-totals > .row:last-child {
-    border-top: 1px solid #efefef;
-    margin-top: 5px;
-    padding-top: 15px; }
-    .qc-checkout-product .qc-totals > .row:last-child > * {
-      font-size: 16px;
-      font-weight: bold; }
-
-.payment-method .input-radio label {
-  width: 100%; }
-.payment-method .input-radio .payment-method-image {
-  float: right; }
-
-#payment .buttons,
-#payment button {
-  display: none; }
-
-.container {
-  max-width: 100%; }
-
-.show {
-  display: block; }
-
 .loader {
   position: fixed;
   top: 12px;
@@ -869,5 +861,36 @@ body.show-setting.popup {
   border-top: 3px solid #07d;
   border-right: 3px solid transparent;
   animation: spinner .6s linear infinite; }
+
+.qc-social-login {
+  margin-bottom: 15px; }
+  .qc-social-login .dsl-label {
+    display: none; }
+  .qc-social-login .icons .l-side {
+    padding: 7px 4px;
+    width: 34px; }
+
+.qc-checkout-product {
+  overflow: hidden; }
+  .qc-checkout-product .qc-quantity .input-group {
+    max-width: 170px; }
+  .qc-checkout-product .qc-image a {
+    display: inline-block; }
+  .qc-checkout-product .qc-totals > .row:last-child {
+    border-top: 1px solid #efefef;
+    margin-top: 5px;
+    padding-top: 15px; }
+    .qc-checkout-product .qc-totals > .row:last-child > * {
+      font-size: 16px;
+      font-weight: bold; }
+
+.payment-method .input-radio label {
+  width: 100%; }
+.payment-method .input-radio .payment-method-image {
+  float: right; }
+
+#payment .buttons,
+#payment button {
+  display: none; }
 
 /*# sourceMappingURL=main.css.map */

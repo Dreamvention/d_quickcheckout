@@ -2,6 +2,7 @@
     display: none;
 }
 .edit{
+    
     .editor{
         position: fixed;
         z-index: 1000;
@@ -501,3 +502,31 @@
     }
 }
 
+.get-pro{
+    display: none;
+    text-align: center;
+    padding: 30px;
+    
+    &-image{
+        padding-bottom: 15px;
+    }
+    &-heading{
+        font-size: 24px;
+        font-weight: bold;
+        padding-bottom: 15px;
+    }
+    &-text{
+        padding-bottom: 15px;
+    }
+    &-btn{
+        padding-bottom: 15px;
+    }
+    small{
+        color: #ccc;
+    }
+}
+.ajs-content{
+    .get-pro{
+        display: block;
+    }
+}

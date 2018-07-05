@@ -241,6 +241,9 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_shopunity_mbooth->installDependencies($this->codename);
         }
 
+        $this->load->model('extension/module/d_quickcheckout');
+        $this->model_extension_module_d_quickcheckout->installDatabase();
+
         if($this->d_event_manager){
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
@@ -258,8 +261,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_opencart_patch_modification->refreshCache();
         }
 
-        $this->load->model('extension/module/d_quickcheckout');
-        $this->model_extension_module_d_quickcheckout->installDatabase();
+        
     }
 
     public function uninstall() {

@@ -61,7 +61,7 @@
         </div>
     </setting>
 
-    <div class="editor" if={getState().edit}>
+    <div class="editor animated fadeIn" if={getState().edit}>
         <div class="editor-heading">
             <span>{getLanguage().general.text_editor_title} {getSession().setting_name}</span>
         </div>
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class="editor-pro" if={ !getState().pro }>
-            <a onclick="{getPro}" class="label label-warning">get PRO</a>
+            <pro_label></pro_label>
         </div>
     </div>
 
@@ -132,13 +132,6 @@
 
         changeSkin(e){
             this.store.dispatch('setting/changeSkin', { skin_codename: $(e.currentTarget).val()});
-        }
-
-        getPro(){
-            alertify.defaults.theme.ok = "btn btn-primary";
-            alertify.defaults.theme.cancel = "btn btn-danger";
-            alertify.defaults.theme.input = "form-control";
-            alertify.alert('Ajax Quick Checkout PRO','<strong>Need more flexibility?</strong> Unlock PRO features like field settings, step settings, page settings, layouts and themes. <br/><br/><a target="_blank" href="http://dreamvention.ee/1a3b3300">-10% Coupon AQC7FREE</a> <br/><br/> <strong>Upgrade</strong> to the Aajx Quick Checkout PRO version today.')
         }
 
         this.on('updated', function(){

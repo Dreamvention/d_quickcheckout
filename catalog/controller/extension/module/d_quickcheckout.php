@@ -62,6 +62,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/serializejson/jquery.serializejson.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/sortable/jquery.sortable.min.js');
+        $this->document->addStyle('catalog/view/javascript/d_quickcheckout/animate/animate.min.css');
         $this->document->addScript('catalog/view/javascript/d_riot/riotcompiler.js');
         $this->document->addScript('catalog/view/javascript/d_alertify/alertify.min.js');
         $this->document->addStyle('catalog/view/javascript/d_alertify/css/alertify.min.css');

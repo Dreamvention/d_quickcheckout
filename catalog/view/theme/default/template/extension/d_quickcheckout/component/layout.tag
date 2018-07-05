@@ -1,5 +1,5 @@
 <layout>
-    <layout_setting if={getState().edit} ></layout_setting>
+    <layout_setting if={getState().edit}></layout_setting>
 
     <div if={getState().layout.pages}>
         

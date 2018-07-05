@@ -52,7 +52,7 @@
         if={opts.col.children[item_id]}
         id={item_id}
         data-name="{parent.opts.col.children[item_id].name}">
-            <div if={(parent.opts.col.children[item_id].type == 'item')} data-is={parent.opts.col.children[item_id].name}></div>
+            <div class="qc-step animate fadeIn" if={(parent.opts.col.children[item_id].type == 'item')} data-is={parent.opts.col.children[item_id].name}></div>
             <row if={(parent.opts.col.children[item_id].type != 'item')} 
                 id={item_id}
                 row={parent.opts.col.children[item_id]}

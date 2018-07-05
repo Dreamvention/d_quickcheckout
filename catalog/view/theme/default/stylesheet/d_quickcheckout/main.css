@@ -592,9 +592,6 @@ body.show-setting.popup {
 .show {
   display: block; }
 
-.page .qc-step {
-  display: none; }
-
 .process {
   display: flex; }
   .process-page {

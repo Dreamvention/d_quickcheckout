@@ -61,7 +61,7 @@
         </div>
     </setting>
 
-    <div class="editor animated fadeIn" if={getState().edit}>
+    <div class="editor" if={getState().edit}>
         <div class="editor-heading">
             <span>{getLanguage().general.text_editor_title} {getSession().setting_name}</span>
         </div>

@@ -194,7 +194,7 @@
         "image/catalog/d_quickcheckout/step/payment_method.svg",
         "image/catalog/d_quickcheckout/step/shipping_address.svg",
         "image/catalog/d_quickcheckout/step/shipping_method.svg"
-
+        
     ],
     "dirs": [
         "catalog/view/javascript/d_quickcheckout",

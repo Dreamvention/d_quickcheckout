@@ -23,27 +23,22 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
     }
 
-    public function controller_checkout_checkout_before($route, &$data) {
-        if($this->config->get('d_quickcheckout_status')){
-            $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
-        }
-    }
-
     public function view_checkout_checkout_after($route, $data, &$output) {
 
         if($this->config->get('d_quickcheckout_status')){
+            $this->load->model('extension/d_quickcheckout/view');
             $supports = $this->model_extension_d_quickcheckout_view->browserSupported();
             if($supports){
-                $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
-
                 if(true){
-                    $this->load->model('extension/d_quickcheckout/view');
                     $template = 'd_quickcheckout';
                     $output = $this->load->view($this->model_extension_d_quickcheckout_view->template('checkout/'.$template), $data);
                 }else{
                     $html_dom = new d_simple_html_dom();
                     $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
                     $html_dom->find('body > #content', 0)->innertext = $data['d_quickcheckout'];
+                    $html_dom->find('script', -1)->innertext .= $scripts;
+                    $html_dom->find('link', -1)->innertext .= $styles;
+                    
                     $output = (string)$html_dom;
                 }
             }
@@ -59,7 +54,10 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             return false;
         }
 
-        //$this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
+        if($this->config->get('d_quickcheckout_bootstrap')){
+            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
+        }
+        
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/serializejson/jquery.serializejson.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/sortable/jquery.sortable.min.js');
@@ -152,6 +150,10 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
         
         return $this->load->view($this->model_extension_d_quickcheckout_view->template($this->route), $data);
+    }
+
+    public function header(){
+
     }
 
     public function update(){

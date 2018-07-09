@@ -44,6 +44,7 @@ $_['column_action']         = 'Action';
 
 //entry
 $_['entry_status']                  = 'Status';
+$_['entry_bootstrap']                  = 'Force bootstrap <br/><small>If the frontend is disorganized, activate Boostrap. Required for Journal and other bootstrapless themes</small>';
 $_['entry_config_files']        = 'Config files';
 $_['entry_select']          = 'Select';
 $_['entry_text']            = 'Text';

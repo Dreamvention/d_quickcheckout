@@ -57,6 +57,14 @@
                                         </div>
                                     </div><!-- //status -->
 
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input_status">{{entry_bootstrap}}</label>
+                                        <div class="col-sm-10">                                     
+                                            <input type="hidden" name="{{codename}}_bootstrap" value="0" />
+                                            <input type="checkbox" name="{{codename}}_bootstrap" class="switcher" data-label-text="{{text_enabled}}"id="input_bootstrap"  {{attribute(_context, codename~'_bootstrap') ? 'checked="checked"' }} value="1" />
+                                        </div>
+                                    </div><!-- //status -->
+
                                     {% if settings is empty %}
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="input_status">Add setting</label>
@@ -66,6 +74,7 @@
                                         </div><!-- //editor -->
                                     {% endif %}
 
+                                    {% if settings  %}
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="input_status">Editor</label>
                                         <div class="col-md-10">   
@@ -98,6 +107,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% endif %}
 
                                 </form>
                             </div>

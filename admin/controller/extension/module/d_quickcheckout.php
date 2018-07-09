@@ -104,6 +104,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
         //entry
         $data['entry_status'] = $this->language->get('entry_status');
+        $data['entry_bootstrap'] = $this->language->get('entry_bootstrap');
         
         // Tab
         $data['tab_setting'] = $this->language->get('tab_setting');
@@ -127,6 +128,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $data[$this->codename.'_status'] = $this->request->post[$this->codename.'_status'];
         } else {
             $data[$this->codename.'_status'] = $this->config->get($this->codename.'_status');
+        }
+
+        if (isset($this->request->post[$this->codename.'_bootstrap'])) {
+            $data[$this->codename.'_bootstrap'] = $this->request->post[$this->codename.'_bootstrap'];
+        } else {
+            $data[$this->codename.'_bootstrap'] = $this->config->get($this->codename.'_bootstrap');
         }
 
         $data['settings'] = $this->getSettings();
@@ -247,9 +254,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if($this->d_event_manager){
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 
-                'catalog/controller/checkout/checkout/before', 
-                'extension/module/d_quickcheckout/controller_checkout_checkout_before');
             $this->model_extension_module_d_event_manager->addEvent($this->codename, 
                 'catalog/view/checkout/checkout/after', 
                 'extension/module/d_quickcheckout/view_checkout_checkout_after');

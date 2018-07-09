@@ -17,7 +17,7 @@
                 <h5 if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </h5>
             </div>
             <div class="panel-body">
-                <a onclick={ confirm } disabled={getSession().confirm.loading} class="btn btn-primary btn-lg">{getLanguage().confirm.heading_title}</a>
+                <a onclick={ confirm } disabled={getSession().confirm.loading == 1} class="btn btn-primary btn-lg">{getLanguage().confirm.heading_title}</a>
             </div>
         </div>
 

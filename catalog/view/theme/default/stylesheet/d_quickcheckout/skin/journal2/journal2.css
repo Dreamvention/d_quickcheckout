@@ -1,0 +1,20 @@
+.oc2 .qc .input-group-btn button i {
+  top: 0px; }
+.oc2 .qc .text-danger {
+  color: #fff; }
+.oc2 .qc .clearfix.process {
+  display: flex; }
+.oc2 .qc.edit .clearfix.process {
+  display: block; }
+.oc2 .qc .process-page-dot {
+  background: #fbe8aa; }
+.oc2 .qc .process-page.disabled .process-page-dot {
+  background-color: #f5f5f5; }
+.oc2 .qc .panel-heading, .oc2 .qc .panel-heading:hover {
+  background-color: #fff; }
+.oc2 .qc .panel-title {
+  color: #333; }
+.oc2 .qc .tab-content {
+  background-color: #fff; }
+
+/*# sourceMappingURL=journal.css.map */

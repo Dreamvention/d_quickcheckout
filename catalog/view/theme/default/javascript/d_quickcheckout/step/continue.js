@@ -15,6 +15,9 @@
 
                 this.setState(json);
                 this.setChange(this.getState());
+                setTimeout(function(){
+                    $('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
+                },10);
 
             }.bind(this));
         }, 11);

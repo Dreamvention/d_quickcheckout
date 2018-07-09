@@ -1,11 +1,11 @@
 <col>
     <virtual if={getState().edit}>
         <setting if={getState().edit} setting_id="{opts.col_id}_setting">
-            <div class="setting-panels">
-                <a each={ step, step_id in getState().steps } onclick={parent.parent.addStep} data-name={step}  class="setting-panel add-step">
-                    <div class="setting-panel-content">
-                        <div class="setting-panel-heading"><img src="{getLanguage()[step]['image']}" /></div>
-                        <div class="setting-panel-body"> {getLanguage()[step]['heading_title']}</div>
+            <div class="qc-setting-panels">
+                <a each={ step, step_id in getState().steps } onclick={parent.parent.addStep} data-name={step}  class="qc-setting-panel add-step">
+                    <div class="qc-setting-panel-content">
+                        <div class="qc-setting-panel-heading"><img src="{getLanguage()[step]['image']}" /></div>
+                        <div class="qc-setting-panel-body"> {getLanguage()[step]['heading_title']}</div>
                     </div>
                 </a>
             </div>

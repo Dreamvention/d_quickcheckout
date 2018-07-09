@@ -1,0 +1,35 @@
+.oc2 {
+    .qc {
+        .input-group-btn button i {
+            top: 0px; 
+        }
+
+        .text-danger {
+            color: #fff; 
+        }
+        .clearfix.process {
+            display: flex;
+        }
+        &.edit {
+            .clearfix.process {
+                display: block;
+            }
+        }
+        .process-page-dot {
+            background: #fbe8aa;
+        }
+        .process-page.disabled .process-page-dot {
+            background-color: #f5f5f5;
+        }
+        .panel-heading, .panel-heading:hover {
+            background-color: #fff;
+        }
+        .panel-title{
+            color: #333;
+        }
+        .tab-content{
+            background-color: #fff;
+        }
+        
+    }
+}

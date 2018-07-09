@@ -422,20 +422,20 @@
         color: #32373c;
         font-size: 14px;
         font-weight: 600; }
-  .qc-setting-panels .setting-panel {
+  .qc-setting-panels .qc-setting-panel {
     width: 50%;
     display: inline-block;
     padding: 5px; }
-    .qc-setting-panels .setting-panel-content {
+    .qc-setting-panels .qc-setting-panel-content {
       border: 1px solid #efefef;
       padding: 5px;
       border-radius: 3px;
       text-align: center;
       height: 100px;
       background: #fff; }
-    .qc-setting-panels .setting-panel-heading {
+    .qc-setting-panels .qc-setting-panel-heading {
       padding: 10px 0px; }
-      .qc-setting-panels .setting-panel-heading .fa {
+      .qc-setting-panels .qc-setting-panel-heading .fa {
         font-size: 36px; }
   .qc-setting-footer {
     position: absolute;

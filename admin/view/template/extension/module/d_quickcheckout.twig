@@ -67,8 +67,13 @@
                                     {% endif %}
 
                                     <div class="form-group">
-                                        <div class="col-md-10 col-md-offset-2">   
-                                            <div class="row">
+                                        <label class="col-sm-2 control-label" for="input_status">Editor</label>
+                                        <div class="col-md-10">   
+                                        {% for setting in settings %}
+                                            <a class="btn btn-info editor" href="{{editor}}" data-setting_id="{{setting.setting_id}}" ><i class="fa fa-pencil"></i> Go to Visual Editor</a>
+                                         {% endfor %}
+                                                   <!-- //editor -->
+{# 
                                                 {% for setting in settings %}
                                                 <div id="setting_id_{{setting.setting_id}}" class="col-lg-3 col-md-4 col-sm-6 ">
                                                     <div class="tile">
@@ -78,7 +83,7 @@
                                                             </div>
                                                             <div class="tile-body">
                                                                 
-                                                                {# <a href="" target="_blank" ><i class="fa fa-eye"></i></a> #}
+                                                                <a href="" target="_blank" ><i class="fa fa-eye"></i></a>
                                                                 <a href="{{editor}}" class="view-setting pull-right editor" data-setting_id="{{setting.setting_id}}"><i class="fa fa-pencil"></i></a>
                                                                 <h3>{{setting.name}}</h3>
                                                                 <br/>
@@ -89,7 +94,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {% endfor %}
+                                                {% endfor %} #}
                                             </div>
                                         </div>
                                     </div>

@@ -1,5 +1,5 @@
 <field_heading>
-    <heading_setting if={riot.util.tags.selectTags().search('"heading_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></heading_setting>
+    <heading_setting if={riot.util.tags.selectTags().search('"heading_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></heading_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"heading_setting"') < 0 && getState().edit}></pro_label>
 

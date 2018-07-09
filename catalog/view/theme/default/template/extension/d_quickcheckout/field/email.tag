@@ -1,6 +1,6 @@
 <field_email>
     
-    <email_setting if={riot.util.tags.selectTags().search('"email_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></email_setting>
+    <email_setting if={riot.util.tags.selectTags().search('"email_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></email_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"email_setting"') < 0 && getState().edit}></pro_label>
     

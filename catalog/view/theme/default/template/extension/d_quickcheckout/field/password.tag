@@ -1,5 +1,5 @@
 <field_password>
-    <password_setting if={riot.util.tags.selectTags().search('"password_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></password_setting>
+    <password_setting if={riot.util.tags.selectTags().search('"password_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></password_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"password_setting"') < 0 && getState().edit}></pro_label>
 

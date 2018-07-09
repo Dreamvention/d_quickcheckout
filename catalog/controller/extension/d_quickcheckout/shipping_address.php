@@ -81,7 +81,9 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                 if($this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
                 
                     $this->load->model('extension/d_quickcheckout/address');
-                    $address_id = $this->model_extension_d_quickcheckout_address->addAddress($this->session->data['shipping_address']);
+                    $addresses = $state['session']['addresses'];
+                    reset($addresses);
+                    $address_id = key($addresses);
                     $update['session']['shipping_address']['address_id'] = $address_id; 
                     $update['session']['addresses'] = $this->model_extension_d_quickcheckout_address->getAddresses();
                     $this->model_extension_d_quickcheckout_store->setState($update);

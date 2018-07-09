@@ -1,6 +1,4 @@
-
-
-.setting{
+.qc-setting{
     position: fixed;
     display: none;
     
@@ -140,7 +138,7 @@ body.show-setting{
     padding-left: 340px;
     max-width: 100%;
     box-sizing:box-content;
-    .setting{
+    .qc-setting{
         position: fixed;
         left: 0;
         top: 60px;
@@ -153,7 +151,7 @@ body.show-setting{
 body.show-setting.popup{
     overflow: hidden;
     padding-left: 0px;
-    .setting{
+    .qc-setting{
         position: fixed;
         left: 50%;
         top: 100px;

@@ -1,6 +1,6 @@
 <field_datetime>
 
-    <datetime_setting if={riot.util.tags.selectTags().search('"datetime_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></datetime_setting>
+    <datetime_setting if={riot.util.tags.selectTags().search('"datetime_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></datetime_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"datetime_setting"') < 0 && getState().edit}></pro_label>
 

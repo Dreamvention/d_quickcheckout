@@ -1,5 +1,5 @@
 <field_label>
-    <label_setting if={riot.util.tags.selectTags().search('"label_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></label_setting>
+    <label_setting if={riot.util.tags.selectTags().search('"label_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></label_setting>
     
     <pro_label if={ riot.util.tags.selectTags().search('"label_setting"') < 0 && getState().edit}></pro_label>
 

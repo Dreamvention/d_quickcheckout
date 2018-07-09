@@ -1,7 +1,7 @@
 <setting>
 
-    <div class="setting animated fadeInLeft" id="{opts.setting_id}">
-        <div class="setting-header">
+    <div class="qc qc-setting" id="{opts.setting_id}">
+        <div class="qc-setting-header">
             <h2>{opts.title} {getLanguage().general.text_settings}</h2>
             <a class="layout" onclick={toggle}>
                 <i class="fa fa-minus-square" ></i>
@@ -10,14 +10,14 @@
                 <i class="fa fa-times" ></i>
             </a>
         </div>
-        <div class="setting-content">
+        <div class="qc-setting-content">
             
             <form class="form-setting" ref="form">
                 <yield/>
             </form>
             
         </div>
-        <div class="setting-footer" >
+        <div class="qc-setting-footer" >
             <a onclick={save}>{getLanguage().general.text_update}</a>
         </div>
     </div>
@@ -41,9 +41,8 @@
             this.store.dispatch('account/update', { account: $(e.currentTarget).find('input').val()});
         }
 
-        //NEEDS REFACTOR
         this.on('mount', function(){
-            $('.setting').appendTo('body');
+            $(this.root).find('.qc-setting').appendTo('body');
         })
     </script>
 </setting>

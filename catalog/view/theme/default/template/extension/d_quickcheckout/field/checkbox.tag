@@ -1,6 +1,6 @@
 <field_checkbox>
 
-    <checkbox_setting if={riot.util.tags.selectTags().search('"checkbox_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></checkbox_setting>
+    <checkbox_setting if={riot.util.tags.selectTags().search('"checkbox_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></checkbox_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"checkbox_setting"') < 0 && getState().edit}></pro_label>
 

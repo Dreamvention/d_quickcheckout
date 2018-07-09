@@ -44,16 +44,20 @@ class ModelExtensionDQuickcheckoutAccount extends Model {
 
     public function updateGuest(){
       if(!empty($this->session->data['payment_address'])){
-        $this->session->data['guest'] = array(
-            'customer_group_id' => $this->session->data['payment_address']['customer_group_id'],
-            'firstname' => $this->session->data['payment_address']['firstname'],
-            'lastname' => $this->session->data['payment_address']['lastname'],
-            'email' => $this->session->data['payment_address']['email'],
-            'telephone' => $this->session->data['payment_address']['telephone'],
-            'fax' => $this->session->data['payment_address']['fax'],
-            'custom_field' => $this->session->data['payment_address']['custom_field'],
-            'shipping_address' => $this->session->data['payment_address']['shipping_address']
-        );
+        $keys = array('customer_group_id',
+            'firstname',
+            'lastname',
+            'email',
+            'telephone',
+            'fax',
+            'custom_field',
+            'shipping_address');
+
+        foreach($keys as $key){
+            if(array_key_exists($key, $this->session->data['payment_address'])){
+                 $this->session->data['guest'][$key] = $this->session->data['payment_address'][$key];
+            }
+        }
       }
     }
 

@@ -1,9 +1,6 @@
-.editor {
-  display: none; }
-
-.edit .editor {
+.qc-editor {
   position: fixed;
-  z-index: 1000;
+  z-index: 10000;
   top: 0px;
   left: 0px;
   height: 60px;
@@ -12,29 +9,30 @@
   display: block;
   border-bottom: 1px solid #fff;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2); }
-  .edit .editor-heading {
+  .qc-editor-heading {
     padding: 20px 20px;
     float: left;
     font-size: 20px;
     font-weight: bold;
     color: #fff; }
-  .edit .editor-control {
+  .qc-editor-control {
     padding: 10px;
     float: right;
     text-align: right; }
-  .edit .editor-account {
+  .qc-editor-account {
     padding: 10px;
     float: right; }
-  .edit .editor-language {
+  .qc-editor-language {
     padding: 10px;
     float: right; }
-  .edit .editor-reset {
+  .qc-editor-reset {
     padding: 10px;
     float: left; }
-  .edit .editor-pro {
+  .qc-editor-pro {
     float: right;
     padding: 18px 10px;
     font-size: 20px; }
+
 .edit .page-nav {
   margin-bottom: 20px; }
 .edit .gr-active .gr-label {
@@ -359,24 +357,24 @@
 .ajs-content .get-pro {
   display: block; }
 
-.setting {
+.qc-setting {
   position: fixed;
   display: none;
   z-index: 1000;
   background: #fff; }
-  .setting-header {
+  .qc-setting-header {
     padding: 15px 15px 15px 20px;
     background: #3cb1d4;
     width: 100%;
     box-sizing: box-content;
     color: #fff; }
-    .setting-header > h2 {
+    .qc-setting-header > h2 {
       font-size: 18px;
       font-weight: normal;
       padding: 0px;
       margin: 0px;
       color: #fff; }
-    .setting-header > a {
+    .qc-setting-header > a {
       position: absolute;
       right: 0;
       top: 0;
@@ -384,30 +382,30 @@
       opacity: 1;
       font-size: 21px;
       cursor: pointer; }
-      .setting-header > a .fa {
+      .qc-setting-header > a .fa {
         font-size: 18px;
         color: #fff; }
-      .setting-header > a.layout {
+      .qc-setting-header > a.layout {
         margin-right: 32px; }
-  .setting-tabs {
+  .qc-setting-tabs {
     margin: -20px -20px 20px -20px;
     padding: 0px;
     padding: 0px;
     background: #3cb1d4;
     border-top: 1px solid rgba(0, 0, 0, 0.1); }
-    .setting-tabs li {
+    .qc-setting-tabs li {
       list-style: none;
       margin: 0px;
       padding: 0px;
       display: inline-block; }
-      .setting-tabs li a {
+      .qc-setting-tabs li a {
         padding: 14px 20px;
         display: block;
         text-decoration: none;
         color: #fff; }
-      .setting-tabs li.active a {
+      .qc-setting-tabs li.active a {
         background: rgba(0, 0, 0, 0.1); }
-  .setting-content {
+  .qc-setting-content {
     padding: 20px;
     overflow-y: scroll;
     height: 100%;
@@ -415,37 +413,37 @@
     position: absolute;
     background: #f6faff;
     padding-bottom: 150px; }
-    .setting-content .form-group {
+    .qc-setting-content .form-group {
       margin: 0px 0px 20px 0px !important; }
-      .setting-content .form-group label {
+      .qc-setting-content .form-group label {
         display: inline-block;
         margin: 0 0 4px;
         text-align: left;
         color: #32373c;
         font-size: 14px;
         font-weight: 600; }
-  .setting-panels .setting-panel {
+  .qc-setting-panels .setting-panel {
     width: 50%;
     display: inline-block;
     padding: 5px; }
-    .setting-panels .setting-panel-content {
+    .qc-setting-panels .setting-panel-content {
       border: 1px solid #efefef;
       padding: 5px;
       border-radius: 3px;
       text-align: center;
       height: 100px;
       background: #fff; }
-    .setting-panels .setting-panel-heading {
+    .qc-setting-panels .setting-panel-heading {
       padding: 10px 0px; }
-      .setting-panels .setting-panel-heading .fa {
+      .qc-setting-panels .setting-panel-heading .fa {
         font-size: 36px; }
-  .setting-footer {
+  .qc-setting-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100px; }
-    .setting-footer a {
+    .qc-setting-footer a {
       padding: 10px 21px;
       background: #3cb1d4;
       color: #fff;
@@ -456,14 +454,14 @@
       z-index: 10;
       cursor: pointer;
       position: relative; }
-      .setting-footer a:hover {
+      .qc-setting-footer a:hover {
         opacity: 0.8; }
 
 body.show-setting {
   padding-left: 340px;
   max-width: 100%;
   box-sizing: box-content; }
-  body.show-setting .setting {
+  body.show-setting .qc-setting {
     position: fixed;
     left: 0;
     top: 60px;
@@ -474,7 +472,7 @@ body.show-setting {
 body.show-setting.popup {
   overflow: hidden;
   padding-left: 0px; }
-  body.show-setting.popup .setting {
+  body.show-setting.popup .qc-setting {
     position: fixed;
     left: 50%;
     top: 100px;
@@ -487,11 +485,11 @@ body.show-setting.popup {
     border-radius: 3px;
     box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.4);
     overflow: hidden; }
-    body.show-setting.popup .setting-content {
+    body.show-setting.popup .qc-setting-content {
       width: 100%; }
-    body.show-setting.popup .setting-footer {
+    body.show-setting.popup .qc-setting-footer {
       height: auto; }
-    body.show-setting.popup .setting-panels .setting-panel {
+    body.show-setting.popup .qc-setting-panels .setting-panel {
       width: 25%; }
 
 .page-nav-setting {
@@ -836,7 +834,7 @@ body.show-setting.popup {
   left: 50%;
   margin-left: -50px;
   width: 100px;
-  z-index: 10000;
+  z-index: 100000;
   text-align: center;
   color: #fff;
   font-weight: bold; }

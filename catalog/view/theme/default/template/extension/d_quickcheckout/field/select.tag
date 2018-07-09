@@ -1,6 +1,6 @@
 <field_select>
 
-    <select_setting if={riot.util.tags.selectTags().search('"select_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></select_setting>
+    <select_setting if={riot.util.tags.selectTags().search('"select_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></select_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"select_setting"') < 0 && getState().edit}></pro_label>
 

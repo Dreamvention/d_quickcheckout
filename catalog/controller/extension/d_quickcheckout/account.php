@@ -95,8 +95,14 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 //REFACTOR
         $customer_info = $this->model_account_customer->getCustomerByEmail($email);
 
-        if ($customer_info && !$customer_info['approved']) {
-        $data['errors']['account']['login'] = $this->language->get('error_approved');
+        if(VERSION < '3.0.0.0'){
+            if ($customer_info && !$customer_info['approved']) {
+                $data['errors']['account']['login'] = $this->language->get('error_approved');
+            }
+        }else{
+            if ($customer_info && !$customer_info['status']) {
+                $data['errors']['account']['login'] = $this->language->get('error_approved');
+            }
         }
 
 

@@ -1,12 +1,12 @@
 <custom_field>
-    <div class="setting" id="{opts.setting_id}" >
-        <div class="setting-header">
+    <div class="qc-setting" id="{opts.setting_id}" >
+        <div class="qc-setting-header">
             <h2>{opts.title} {getLanguage().general.text_settings}</h2>
             <a class="close" onclick={close}>
                 <i class="fa fa-times" ></i>
             </a>
         </div>
-        <div class="setting-content">
+        <div class="qc-setting-content">
             <form class="form-setting" ref="form">
                     <h3 >select custom field</h3>
                     <div 
@@ -21,7 +21,7 @@
                 <yield/>
             </form>
         </div>
-        <div class="setting-footer" >
+        <div class="qc-setting-footer" >
             <a onclick={save}>{getLanguage().general.button_update}</a>
         </div>
     </div>
@@ -29,47 +29,51 @@
     <button class="btn btn-primary btn-block custom-field-create" onclick={toggleSetting}>Add custom field</button>
 
     <script>
-    var tag = this;
+        var tag = this;
 
-    var custom_fields = [];
+        var custom_fields = [];
 
-    validateLocation(location){
-        if(tag.opts.location_account && location == 'account'){
-            return true;
-        }
-        if(tag.opts.location_address && location == 'address'){
-            return true;
-        }
-        return false
-    }
-
-    toggleSetting(e){
-        if($('#'+ this.opts.setting_id).hasClass('show')){
-            tag.store.hideSetting()
-        }else{
-            tag.store.showSetting(tag.opts.setting_id);
+        validateLocation(location){
+            if(tag.opts.location_account && location == 'account'){
+                return true;
+            }
+            if(tag.opts.location_address && location == 'address'){
+                return true;
+            }
+            return false
         }
 
-        tag.store.getCustomField();
-    }
+        toggleSetting(e){
+            if($('#'+ this.opts.setting_id).hasClass('show')){
+                tag.store.hideSetting()
+            }else{
+                tag.store.showSetting(tag.opts.setting_id);
+            }
 
-    close(){
-        tag.store.hideSetting();
-    }
+            tag.store.getCustomField();
+        }
 
-    addCustomField(e){
-        var custom_field_id = $(e.currentTarget).attr('custom_field_id');
-        var step = tag.opts.step;
+        close(){
+            tag.store.hideSetting();
+        }
 
-        tag.store.addCustomField(step, custom_field_id);
+        addCustomField(e){
+            var custom_field_id = $(e.currentTarget).attr('custom_field_id');
+            var step = tag.opts.step;
 
-        tag.opts.onchange();
-    }
+            tag.store.addCustomField(step, custom_field_id);
 
-    editCheckbox(e){
-        var checkbox = $(e.currentTarget).find('input[type=checkbox]');
-        checkbox.prop("checked", !checkbox.prop("checked"));
-        tag.store.dispatch(tag.opts.step+'/edit', $(tag.root).find('.field-setting').serializeJSON());
-    }
+            tag.opts.onchange();
+        }
+
+        editCheckbox(e){
+            var checkbox = $(e.currentTarget).find('input[type=checkbox]');
+            checkbox.prop("checked", !checkbox.prop("checked"));
+            tag.store.dispatch(tag.opts.step+'/edit', $(tag.root).find('.field-setting').serializeJSON());
+        }
+
+        this.on('mount', function(){
+            $(this.root).find('.qc-setting').appendTo('body');
+        })
     </script>
 </custom_field>

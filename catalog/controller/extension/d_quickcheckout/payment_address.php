@@ -115,6 +115,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
                 $update['session']['payment_address'] = $this->getAddress($address_id);
                 $update['session']['payment_address']['address_id'] = $address_id;
+                $update['session']['payment_address']['shipping_address'] = 0;
 
                 $this->model_extension_d_quickcheckout_store->setState($update);
 

@@ -61,16 +61,16 @@
         </div>
     </setting>
 
-    <div class="editor" if={getState().edit}>
-        <div class="editor-heading">
+    <div class="qc qc-editor" if={getState().edit}>
+        <div class="qc-editor-heading">
             <span>{getLanguage().general.text_editor_title} {getSession().setting_name}</span>
         </div>
-        <div class="editor-control">
+        <div class="qc-editor-control">
             <a class="btn btn-lg btn-primary" onclick={toggleSetting}><i class="fa fa-cog"></i></a>
             <a class="btn btn-lg btn-success" onclick={saveState}>{getLanguage().general.text_update}</a>
             <a class="btn btn-lg btn-danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-close"></i></a>
         </div>
-        <div class="editor-account">
+        <div class="qc-editor-account">
             <div class="btn-group btn-group" data-toggle="buttons">
                 <label class="btn btn-lg btn-primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
                     <input type="radio" name="account" value="guest" id="guest" autocomplete="off" checked={ getAccount() == 'guest' }> {getLanguage().account.entry_guest}
@@ -80,14 +80,14 @@
                 </label>
             </div>
         </div>
-        <div class="editor-language" if={Object.keys(getState().languages).length  > 1}>
+        <div class="qc-editor-language" if={Object.keys(getState().languages).length  > 1}>
             <div class="btn-group btn-group" data-toggle="buttons">
                 <label each={language, language_id in getState().languages} class="btn btn-lg btn-primary { getSession().language == language_id ?  'active' : '' }" onclick={changeLanguage}>
                     <input type="radio" name="language" value="{language_id}" id="{language_id}" autocomplete="off" checked={ getSession().language == language_id }> {language.name}
                 </label>
             </div>
         </div>
-        <div class="editor-pro" if={ !getState().pro }>
+        <div class="qc-editor-pro" if={ !getState().pro }>
             <pro_label></pro_label>
         </div>
     </div>
@@ -133,6 +133,11 @@
         changeSkin(e){
             this.store.dispatch('setting/changeSkin', { skin_codename: $(e.currentTarget).val()});
         }
+
+        //NEEDS REFACTOR
+        this.on('mount', function(){
+            $(this.root).find('.qc-editor').appendTo('body');
+        })
 
         this.on('updated', function(){
             if(this.store.getState().edit){

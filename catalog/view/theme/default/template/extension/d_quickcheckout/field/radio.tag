@@ -1,6 +1,6 @@
 <field_radio>
 
-    <radio_setting if={riot.util.tags.selectTags().search('"radio_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}"></radio_setting>
+    <radio_setting if={riot.util.tags.selectTags().search('"radio_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></radio_setting>
 
     <pro_label if={ riot.util.tags.selectTags().search('"radio_setting"') < 0 && getState().edit}></pro_label>
     

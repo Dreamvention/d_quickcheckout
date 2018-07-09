@@ -17,7 +17,7 @@
             <page_nav_add if={riot.util.tags.selectTags().search('"page_nav_add"') && getState().edit}></page_nav_add>
         </div>
 
-        <div class="tab-content pages clearfix">
+        <div class="tab-content active pages clearfix">
             <page 
             each={ page_id, i in page_ids }
             no-reorder

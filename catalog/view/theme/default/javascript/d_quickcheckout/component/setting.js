@@ -71,7 +71,7 @@
     this.hideSetting = function(){
 
         $('body').removeClass('show-setting');
-        $('.setting').removeClass('show');
+        $('.qc-setting').removeClass('show');
     }
 
     this.toggleSetting = function(){

@@ -248,8 +248,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_shopunity_mbooth->installDependencies($this->codename);
         }
 
-        $this->load->model('extension/module/d_quickcheckout');
-        $this->model_extension_module_d_quickcheckout->installDatabase();
+        if($this->d_opencart_patch){
+            $this->load->model('extension/d_opencart_patch/modification');
+            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1); 
+            $this->model_extension_d_opencart_patch_modification->refreshCache();
+        }
 
         if($this->d_event_manager){
             $this->load->model('extension/module/d_event_manager');
@@ -259,12 +262,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 'extension/module/d_quickcheckout/view_checkout_checkout_after');
         }
 
-        if($this->d_opencart_patch){
-            $this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1); 
-            $this->model_extension_d_opencart_patch_modification->refreshCache();
-        }
-
+        $this->load->model('extension/module/d_quickcheckout');
+        $this->model_extension_module_d_quickcheckout->installDatabase();
         
     }
 

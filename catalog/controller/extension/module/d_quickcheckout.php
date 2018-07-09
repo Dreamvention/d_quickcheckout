@@ -59,7 +59,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             return false;
         }
 
-        $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
+        //$this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/serializejson/jquery.serializejson.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/sortable/jquery.sortable.min.js');

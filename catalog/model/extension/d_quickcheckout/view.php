@@ -45,46 +45,14 @@ class ModelExtensionDQuickcheckoutView extends Model {
 
 
     public function browserSupported(){
-        $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']); 
-        if (strpos($userAgent,'Edge') != false ){ 
-            $name = 'edge';
-        } 
-        elseif ((substr($_SERVER['HTTP_USER_AGENT'],0,6)=="Opera/") || (strpos($userAgent,'opera')) != false ){ 
-            $name = 'opera';
-        } 
-        elseif ((strpos($userAgent,'chrome')) != false) { 
-            $name = 'chrome'; 
-        } 
-        elseif ((strpos($userAgent,'safari')) != false && (strpos($userAgent,'chrome')) == false && (strpos($userAgent,'chrome')) == false){ 
-            $name = 'safari'; 
-        } 
-        elseif (preg_match('/msie/', $userAgent)) { 
-            $name = 'msie'; 
-        } 
-        elseif ((strpos($userAgent,'firefox')) != false) { 
-            $name = 'firefox'; 
-        } 
-        else { 
-            $name = 'unrecognized'; 
-        } 
 
-        if (preg_match('/.+(?:me|ox|ge|it|on|ra|ie)[\/: ]([\d.]+)/', $userAgent, $matches) && $name=='safari' ) { 
-            $version = $matches[1]; 
-        }
-        elseif (preg_match('/.+(?:me|ox|ge|it|on|ra|ie)[\/: ]([\d.]+)/', $userAgent, $matches) && $name!='safari' ) { 
-            $version = $matches[1]; 
-        }
-        else { 
-            $version = 'unknown'; 
-        } 
-
+        $browser = new d_browser();
         $supports = array(
-            'edge' => 14,
-            'chrome' => 67,
-            'safari' => 7,
-            'msie' => 9
+            'Internet Explorer' => 8
         );
 
+        $name = $browser->getBrowser();
+        $version = $browser->getVersion();
         if(array_key_exists($name,$supports)){
             if($supports[$name] > $version){
                 return false;

@@ -547,10 +547,16 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
 
         $subtotal = $this->cart->getSubTotal();
 
-        // Affiliate
-        $this->load->model('affiliate/affiliate');
+        if(VERSION < '3.0.0.0'){
+            // Affiliate
+            $this->load->model('affiliate/affiliate');
+            $affiliate_info = $this->model_affiliate_affiliate->getAffiliateByCode($this->request->cookie['tracking']);
 
-        $affiliate_info = $this->model_affiliate_affiliate->getAffiliateByCode($this->request->cookie['tracking']);
+        }else{
+            // Affiliate
+            $this->load->model('account/customer');
+            $affiliate_info = $this->model_account_customer->getAffiliateByTracking($this->request->cookie['tracking']);
+        }
 
         if ($affiliate_info) {
           $data['affiliate_id'] = $affiliate_info['affiliate_id'];

@@ -87,6 +87,9 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
     $data = $this->prepareCartData($data);
     $data = $this->prepareMarketingData($data);
 
+    if(!isset($this->session->data['order_id'])){
+        return false;
+    }
     $order_id = $this->session->data['order_id'];
 
     //fix
@@ -324,7 +327,9 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
         $data['custom_field'] = serialize($data['custom_field']);
       }
 
-      $data['comment'] = $this->session->data['comment'];
+      if(isset($this->session->data['comment'])){
+            $data['comment'] = $this->session->data['comment'];
+      }
 
       if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {
           $data['forwarded_ip'] = $this->request->server['HTTP_X_FORWARDED_FOR'];

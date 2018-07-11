@@ -68,7 +68,7 @@
         <div class="qc-editor-control">
             <a class="btn btn-lg btn-primary" onclick={toggleSetting}><i class="fa fa-cog"></i></a>
             <a class="btn btn-lg btn-success" onclick={saveState}>{getLanguage().general.text_update}</a>
-            <a class="btn btn-lg btn-danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-close"></i></a>
+            <a class="btn btn-lg btn-danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-times fa-close"></i></a>
         </div>
         <div class="qc-editor-account">
             <div class="btn-group btn-group" data-toggle="buttons">

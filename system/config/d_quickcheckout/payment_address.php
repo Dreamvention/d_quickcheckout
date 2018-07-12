@@ -196,6 +196,7 @@ $_['d_quickcheckout_payment_address'] = array(
                 )
             ),
             'type' => 'text',
+            'autocomplete' => 'email',
             'refresh' => '0',
             'custom' => 0,
             'sort_order' => 3,
@@ -225,6 +226,7 @@ $_['d_quickcheckout_payment_address'] = array(
             ),
             'validation' => 0,
             'countries' => '',
+            'autocomplete' => 'tel',
             'type' => 'tel',
             'refresh' => '0',
             'custom' => 0,
@@ -453,6 +455,7 @@ $_['d_quickcheckout_payment_address'] = array(
                 )
             ),
             'type' => 'select',
+            'autocomplete' => 'country-name',
             'refresh' => '3',
             'custom' => 0,
             'sort_order' => 15,
@@ -471,6 +474,7 @@ $_['d_quickcheckout_payment_address'] = array(
                     'text' => 'error_zone_id_not_empty'
                 )
             ),
+            'autocomplete' => 'address-level1',
             'type' => 'select',
             'refresh' => '3',
             'custom' => 0,

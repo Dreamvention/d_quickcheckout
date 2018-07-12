@@ -244,6 +244,7 @@ $_['d_quickcheckout_shipping_address'] = array(
                     'text' => 'error_country_id_not_empty'
                 )
             ),
+            'autocomplete' => 'country-name',
             'type' => 'select',
             'refresh' => '4',
             'custom' => 0,
@@ -262,6 +263,7 @@ $_['d_quickcheckout_shipping_address'] = array(
                     'text' => 'error_zone_id_not_empty'
                 )
             ),
+            'autocomplete' => 'address-level1',
             'type' => 'select',
             'refresh' => '4',
             'custom' => 0,

@@ -93,6 +93,9 @@
     padding-left: 15px;
     padding-bottom: 15px;
     background: #cfc7ee4d; }
+    .edit .gr-active .gr-row-content.row {
+      margin-left: 0px;
+      margin-right: 0px; }
     .edit .gr-active .gr-row-content .gr-row {
       margin: 0px 0px 15px 0px; }
 .edit .gr-active .gr-col {

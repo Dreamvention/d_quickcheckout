@@ -34,6 +34,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         $state['language']['payment_method'] = $this->getLanguages();
         $state['action']['payment_method'] = $this->action;
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->validate();
     }
 
     /**
@@ -95,6 +96,8 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
 
             $update['session']['payment_method'] = $this->getPaymentMethod();
             $this->model_extension_d_quickcheckout_store->setState($update);
+
+            $this->validate();
         }
 
         if($update){
@@ -107,7 +110,24 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
      * Validate checks if the step is valid to continue the checkout
      */
     public function validate(){
-            return true;
+        $this->load->language('checkout/checkout');
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        $result = true;
+        $state['errors']['payment_method']['error_payment'] = false;
+        if(!$this->model_extension_d_quickcheckout_method->getFirstPaymentMethod()){
+            $state['errors']['payment_method']['error_no_payment'] = $this->language->get('error_no_payment');
+            $result = false;
+        }else{
+            $state['errors']['payment_method']['error_no_payment'] = false;
+            if(empty($state['session']['payment_method'] )){
+                $state['errors']['payment_method']['error_payment'] = $this->language->get('error_payment');
+                $result = false;
+            }
+        }
+
+        $this->model_extension_d_quickcheckout_store->setState($state);
+
+        return $result;
     }
 
     private function getConfig(){
@@ -156,7 +176,9 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
     private function getPaymentMethod($payment_method = false){
         if(!$payment_method){
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            $payment_method = $state['session']['payment_method']['code'];
+            if(!empty($state['session']['payment_method'])){
+                $payment_method = $state['session']['payment_method']['code'];
+            }
         }
         return $this->model_extension_d_quickcheckout_method->getDefaultPaymentMethod((string)$payment_method);
     }

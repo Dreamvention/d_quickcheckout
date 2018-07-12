@@ -17,7 +17,8 @@
                 <h5 if={getLanguage().payment_method.text_description}>{  getLanguage().payment_method.text_description } </h5>
             </div>
             <div class="panel-body">
-                <form id="payment_method_list" if={getConfig().payment_method.display_options == 1}>
+                <div each={error, error_id in getError().payment_method} if={error} class="alert alert-danger has-error"><raw content="{error}"></raw></div>
+                <form id="payment_method_list" if={getConfig().payment_method.display_options == 1 && getSession().payment_methods}>
                     <div if={getConfig().payment_method.input_style == 'radio'}  each={ payment_method, name in getSession().payment_methods } class="input-radio radio-input radio" >
                         <label for="{ payment_method.code }" if={ payment_method}>
                             <img if={ getConfig().payment_method.display_images == 1} class="payment-method-image" src="{payment_method.image}" />

@@ -284,7 +284,20 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $state['errors']['cart']['error_min_quantity'] = false;
         }
 
+        if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
+            $this->load->language('checkout/cart');
+            $state['errors']['cart']['error_stock'] = $this->language->get('error_stock');
+            $result = false;
+        }else{
+            $state['errors']['cart']['error_stock'] = false;
+        }
+
         $this->model_extension_d_quickcheckout_store->updateState(array( 'errors' , 'cart'), $state['errors']['cart']);
+
+        $cart = $this->getCart();
+        $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
+
+
 
         return $result;
     }

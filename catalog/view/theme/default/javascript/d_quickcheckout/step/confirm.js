@@ -10,10 +10,7 @@
             this.send('extension/d_quickcheckout/confirm/update', data, function(state){
                 this.setState(state);
                 if(!state.session.confirm.checkout){
-                    console.log('AQC:Sorry, you have errors');
-                    setTimeout(function(){
-                        $('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
-                    },10);
+                    this.goToError();
                     
                 }else{
                     this.updateState(['session','confirm', 'checkout'], false);

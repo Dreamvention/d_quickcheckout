@@ -517,7 +517,6 @@ class ModelExtensionDQuickcheckoutStore extends Model {
                 $result['config'][str_replace('config_', '', $key)] = $value;
             }
         }
-
         return $result;
         
     }

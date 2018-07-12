@@ -33,7 +33,9 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
 
         $state['language']['shipping_method'] = $this->getLanguages();
         $state['action']['shipping_method'] = $this->action;
+
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->validate();
 
     }
 
@@ -89,11 +91,16 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         }
 
         if($update_method){
-            $update['session']['shipping_methods'] = $this->getShippingMethods();
-            $this->model_extension_d_quickcheckout_store->setState($update);
+            $state = $this->model_extension_d_quickcheckout_store->getState();
+            if($this->cart->hasShipping()){
+                $update['session']['shipping_methods'] = $this->getShippingMethods();
+                $this->model_extension_d_quickcheckout_store->setState($update);
 
-            $update['session']['shipping_method'] = $this->getShippingMethod();
-            $this->model_extension_d_quickcheckout_store->setState($update);
+                $update['session']['shipping_method'] = $this->getShippingMethod();
+                $this->model_extension_d_quickcheckout_store->setState($update);
+            }
+
+            $this->validate();
         }
 
         if($update){
@@ -103,7 +110,49 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     }
 
     public function validate(){
-        return true;
+        $this->load->language('checkout/checkout');
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        $state['errors']['shipping_method']['error_shipping'] = false;
+
+        if(!$this->cart->hasShipping()){
+            $state['errors']['shipping_method']['error_no_shipping'] = false;
+            foreach($state['config'] as $account => $value){
+                $state['config'][$account]['shipping_method']['display'] = 0;
+            }
+            $this->model_extension_d_quickcheckout_store->setState($state);
+            return true;
+        }else{
+            if(!$state['config'][$state['session']['account']]['shipping_method']['display']){
+                $this->load->config('d_quickcheckout/shipping_method');
+                $config = $this->config->get('d_quickcheckout_shipping_method');
+                $settings = $this->model_extension_d_quickcheckout_store->getSetting();
+                foreach($config['account'] as $account => $value){
+                    if(!empty($settings['config'][$account]['shipping_method']['display'])){
+                        $state['config'][$account]['shipping_method']['display'] = $settings['config'][$account]['shipping_method']['display'];
+                    }else{
+                        $state['config'][$account]['shipping_method']['display'] = $value['display'];
+                    }
+                }
+            }
+        }
+
+        $result = true;
+        if(empty($state['session']['shipping_methods'] )){
+            $state['errors']['shipping_method']['error_no_shipping'] = $this->language->get('error_no_shipping');
+            $result = false;
+        }else{
+            $state['errors']['shipping_method']['error_no_shipping'] = false;
+            if(empty($state['session']['shipping_method'] )){
+                $state['errors']['shipping_method']['error_shipping'] = $this->language->get('error_shipping');
+                $result = false;
+            }
+        }
+
+
+
+        $this->model_extension_d_quickcheckout_store->setState($state);
+
+        return $result;
     }
 
     private function getConfig(){
@@ -117,6 +166,10 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
                 $result[$account]['shipping_method'] = $settings['config'][$account]['shipping_method'];
             }else{
                 $result[$account]['shipping_method'] = array_replace_recursive($config, $value);
+            }
+
+            if(!$this->cart->hasShipping()){
+                $result[$account]['shipping_method']['display'] = 0;
             }
         }
 
@@ -150,8 +203,10 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
 
     private function getShippingMethod($shipping_method = false){
         if(!$shipping_method){
-            $state = $this->model_extension_d_quickcheckout_store->getState();
-            $shipping_method = $state['session']['shipping_method']['code'];
+            if(!empty($state['session']['shipping_method'])){
+                $state = $this->model_extension_d_quickcheckout_store->getState();
+                $shipping_method = $state['session']['shipping_method']['code'];
+            }
         }
         return $this->model_extension_d_quickcheckout_method->getDefaultShippingMethod($shipping_method);
     }

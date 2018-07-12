@@ -17,7 +17,8 @@
                 <h5 if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </h5>
             </div>
             <div class="panel-body">
-                <form id="shipping_method_list" if={getConfig().shipping_method.display_options == 1}>
+                <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger has-error"><raw content="{error}"></raw></div>
+                <form id="shipping_method_list" if={getConfig().shipping_method.display_options == 1 && getSession().shipping_methods}>
                     <div if={ getConfig().shipping_method.input_style == 'radio'} 
                     each={ shipping_method, name in getSession().shipping_methods } 
                     class="radio-input radio" >
@@ -40,29 +41,27 @@
 
                     <div if={getConfig().shipping_method.input_style == 'select'}>
 
-                            <select if={getConfig().shipping_method.display_group_title == 1} class="form-control" onchange={change}>
-                                <optgroup label="{ shipping_method.title }" 
-                                each={ shipping_method, name in getSession().shipping_methods } >
-                                    <option 
-                                        each={ quote, index in shipping_method.quote } 
-                                        selected={ getSession().shipping_method.code == quote.code }
-                                        value="{ quote.code }">
-                                        <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
-                                    </option>
-                                </optgroup>
-                            </select>
-
-                            <select if={getConfig().shipping_method.display_group_title == 0} class="form-control" onchange={change}>
+                        <select if={getConfig().shipping_method.display_group_title == 1} class="form-control" onchange={change}>
+                            <optgroup label="{ shipping_method.title }" 
+                            each={ shipping_method, name in getSession().shipping_methods } >
                                 <option 
-                                    each={ quote, index in flattenShippingMethods() } 
+                                    each={ quote, index in shipping_method.quote } 
                                     selected={ getSession().shipping_method.code == quote.code }
                                     value="{ quote.code }">
                                     <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
                                 </option>
-                                </div>
-                            </select>
+                            </optgroup>
+                        </select>
 
-                        </div>
+                        <select if={getConfig().shipping_method.display_group_title == 0} class="form-control" onchange={change}>
+                            <option 
+                                each={ quote, index in flattenShippingMethods() } 
+                                selected={ getSession().shipping_method.code == quote.code }
+                                value="{ quote.code }">
+                                <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                            </option>
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>

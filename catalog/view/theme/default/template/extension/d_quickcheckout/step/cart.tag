@@ -18,18 +18,7 @@
             </div>
 
             <div class="qc-checkout-product panel-body" >
-                <div if={getError().cart && getError().cart.error_min_total}>
-                    <div class="alert alert-danger">
-                        {getError().cart.error_min_total}
-                    </div>
-                </div>
-
-                <div if={getError().cart && getError().cart.error_min_quantity}>
-                    <div class="alert alert-danger">
-                        {getError().cart.error_min_quantity}
-                    </div>
-                </div>
-
+                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }><raw  content="{error}"></raw></div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

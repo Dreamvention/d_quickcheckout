@@ -136,15 +136,15 @@ class ModelExtensionDQuickcheckoutAccount extends Model {
 
             $result[] = array(
                 'custom_field_id'    => $custom_field['custom_field_id'],
-                'custom_field_value' => $custom_field['custom_field_value'],
+                'custom_field_value' => isset($custom_field['custom_field_value']) ? $custom_field['custom_field_value'] : '',
                 'options'            => $options,
-                'name'               => $custom_field['name'],
-                'type'               => $custom_field['type'],
-                'value'              => $custom_field['value'],
-                'validation'         => $custom_field['validation'],
-                'location'           => $custom_field['location'],
-                'required'           => $custom_field['required'],
-                'sort_order'         => $custom_field['sort_order']
+                'name'               => isset($custom_field['name']) ? $custom_field['name'] : '',
+                'type'               => isset($custom_field['type']) ? $custom_field['type'] : '',
+                'value'              => isset($custom_field['value']) ? $custom_field['value'] : '',
+                'validation'         => isset($custom_field['validation']) ? $custom_field['validation'] : '',
+                'location'           => isset($custom_field['location']) ? $custom_field['location'] : '',
+                'required'           => isset($custom_field['required']) ? $custom_field['required'] : '',
+                'sort_order'         => isset($custom_field['sort_order']) ? $custom_field['sort_order'] : '',
             );
         }
         return $result;

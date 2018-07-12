@@ -73,6 +73,7 @@
         </div>
     </div>
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var tag = this;
         removeError(e){
             var error_id = tag.opts.error_id

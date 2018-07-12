@@ -73,8 +73,7 @@
         </div>
     </div>
     <script>
-
-        this.setting_id = 'shipping_method_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
         

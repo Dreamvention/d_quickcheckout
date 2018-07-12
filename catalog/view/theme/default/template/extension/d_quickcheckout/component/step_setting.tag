@@ -17,20 +17,20 @@
     </form>
 
     <script>
-
-    var tag = this;
-    toggleSetting(e){
-        if($('#'+ this.opts.setting_id).hasClass('show')){
-            this.store.hideSetting()
-        }else{
-            this.store.showSetting(this.opts.setting_id);
+        this.mixin({store:d_quickcheckout_store});
+        var tag = this;
+        toggleSetting(e){
+            if($('#'+ this.opts.setting_id).hasClass('show')){
+                this.store.hideSetting()
+            }else{
+                this.store.showSetting(this.opts.setting_id);
+            }
         }
-    }
-    
-    removeStep(e){
-        var step_id = $(e.currentTarget).parents('[data-name="'+this.opts.step+'"]').attr('id');
-        this.store.dispatch('step/remove', {step_id : step_id} );
-        tag.store.hideSetting();
-    }
+        
+        removeStep(e){
+            var step_id = $(e.currentTarget).parents('[data-name="'+this.opts.step+'"]').attr('id');
+            this.store.dispatch('step/remove', {step_id : step_id} );
+            tag.store.hideSetting();
+        }
     </script>
 </step_setting>

@@ -29,7 +29,7 @@
         </div>
     </div>
     <script>
-        this.setting_id = 'confirm_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
 

@@ -9,8 +9,8 @@
         
         this.cart_timer = setTimeout(function(){
             this.send('extension/d_quickcheckout/cart/update', data, function(json) {
-                this.setState(json);                
-                this.updateCartTotalText(json['cart_total_text']);
+                this.setState(json);  
+                this.dispatch('cart/updateCartTotalText', json['cart_total_text']);              
             }.bind(this));
         }, 500);
     });
@@ -19,8 +19,9 @@
         this.setState(data);
     });
 
-    this.updateCartTotalText = function(text){
-        $('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + text + '</span>');
-    }
-
+    this.subscribe('cart/updateCartTotalText', function(text) {
+        if(text){
+            $('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + text + '</span>');
+        }
+    });
 })(qc);

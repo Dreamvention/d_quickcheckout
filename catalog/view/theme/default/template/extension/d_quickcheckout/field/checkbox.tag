@@ -39,6 +39,7 @@
         <label class="col-md-12" ><raw content="{ getLanguage()[opts.step][opts.field.text] }"/><div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
     <script>
+        this.mixin({store:d_quickcheckout_store});
         this.setting_id = opts.step +'_'+ opts.field_id +'_setting';
 
         var tag = this;

@@ -69,10 +69,8 @@
         <div class="btn btn-default btn-block btn-sm" onclick={addDependValue} data-depend_id={opts.depend_id}>{getLanguage().general.text_add}</div>
         
     </div>
-    
-
-
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var tag = this;
 
         getField(){

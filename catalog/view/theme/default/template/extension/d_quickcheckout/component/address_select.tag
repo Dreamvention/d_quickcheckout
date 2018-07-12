@@ -40,7 +40,7 @@
 </ul>
 
 <script>
-
+    this.mixin({store:d_quickcheckout_store});
     var tag = this;
 
     change(e){

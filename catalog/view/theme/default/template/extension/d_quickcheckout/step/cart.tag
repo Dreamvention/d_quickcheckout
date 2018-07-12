@@ -173,7 +173,7 @@
     }
     </style>
     <script>
-        this.setting_id = 'cart_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
 

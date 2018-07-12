@@ -70,7 +70,7 @@
             <a class="btn btn-lg btn-success" onclick={saveState}>{getLanguage().general.text_update}</a>
             <a class="btn btn-lg btn-danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-times fa-close"></i></a>
         </div>
-        <div class="qc-editor-account">
+        <div class="qc-editor-account" if={(getState().session.account != 'logged')}>
             <div class="btn-group btn-group" data-toggle="buttons">
                 <label class="btn btn-lg btn-primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
                     <input type="radio" name="account" value="guest" id="guest" autocomplete="off" checked={ getAccount() == 'guest' }> {getLanguage().account.entry_guest}
@@ -93,6 +93,7 @@
     </div>
 
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var state = this.store.getState();
 
         this.setting_id = 'layout_setting';

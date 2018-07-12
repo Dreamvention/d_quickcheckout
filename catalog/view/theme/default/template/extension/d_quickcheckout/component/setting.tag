@@ -23,6 +23,7 @@
     </div>
 
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var tag = this;
 
         save(){
@@ -43,6 +44,10 @@
 
         this.on('mount', function(){
             $(this.root).find('.qc-setting').appendTo('body');
+        })
+
+        this.on('unmount', function(){
+            $('body').find('#'+this.opts.setting_id).remove();
         })
     </script>
 </setting>

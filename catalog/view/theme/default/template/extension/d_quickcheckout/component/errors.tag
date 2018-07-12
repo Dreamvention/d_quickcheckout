@@ -22,6 +22,7 @@
     </div>
 
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var tag = this;
         addError(e){
             var error_type = $(tag.root).find('.error-type').val();

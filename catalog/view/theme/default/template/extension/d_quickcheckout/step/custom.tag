@@ -16,9 +16,9 @@
                 </h4>
                 <h5 if={getLanguage().custom.text_description}>{  getLanguage().custom.text_description } </h5>
             </div>
-            <div id="custom_fields" class="panel-body">
+            <div class="panel-body">
                 <div class="row">
-                    <div id="custom_fields" class="custom-fields">
+                    <form  id="custom_fields" class="custom-fields" >
                         <div 
                             each={ field_id in fields }
                             if={ (getConfig().custom.fields[field_id])}
@@ -32,9 +32,9 @@
                             error={ getError().custom && getError().custom[field_id]}
                             data-is={ getConfig().custom.fields[field_id].type ? 'field_' + getConfig().custom.fields[field_id].type : ''}
                         ></div>
-                    </div>
+                    </form>
                 </div>
-                <custom_field if={getState().edit} setting_id="custom_custom_field" step="custom" location_account="true"></custom_field>
+                <custom_field if={getState().edit} setting_id="custom_custom_field_{rand()}" step="custom" location_account="true"></custom_field>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
     </div>
 
     <script>
-        this.setting_id = 'custom_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
 

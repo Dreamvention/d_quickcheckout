@@ -42,7 +42,7 @@
     </div>
 
     <script>
-
+        this.mixin({store:d_quickcheckout_store});
         var tag = this; 
 
         this.page_ids = this.store.getPageIds();

@@ -27,9 +27,10 @@
       </li>
     </ul>
     
-  <script>
-    change(e){
-        this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
-    }
-  </script>
+    <script>
+        this.mixin({store:d_quickcheckout_store});
+        change(e){
+            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+        }
+    </script>
 </address_radio>

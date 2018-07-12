@@ -5,6 +5,7 @@
     </div>
     
     <script>
+        this.mixin({store:d_quickcheckout_store});
         this.on('mount', function(){
             $(this.refs.switcher).bootstrapSwitch('state', this.opts.riotValue == 1);
             $(this.refs.switcher).on('switchChange.bootstrapSwitch', function(event, state) {
@@ -22,7 +23,7 @@
         });
 
         this.on('updated', function(){
-            $(this.refs.switcher).bootstrapSwitch('state', this.opts.riotValue == 1);
+            //$(this.refs.switcher).bootstrapSwitch('state', this.opts.riotValue == 1);
         });
     </script>
 </switcher>

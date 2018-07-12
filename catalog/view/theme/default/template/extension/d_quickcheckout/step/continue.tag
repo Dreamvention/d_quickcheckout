@@ -31,8 +31,7 @@
         </div>
     </div>
     <script>
-
-        this.setting_id = 'continue_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
 

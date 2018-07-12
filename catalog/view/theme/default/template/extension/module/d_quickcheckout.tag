@@ -9,4 +9,8 @@
         <div class="loader" style="display:none">{getLanguage().general.text_loading}</div>
         <layout></layout>
     </div>
+
+    <script>
+        this.mixin({store:d_quickcheckout_store});
+    </script>
 </d_quickcheckout>

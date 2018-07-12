@@ -29,18 +29,18 @@
         </virtual>
     </div>
     <script>
+        this.mixin({store:d_quickcheckout_store});
+        var tag = this;
+        var state = this.store.getState();
 
-    var tag = this;
-    var state = this.store.getState();
+        addRow(){
+            var sort_order = tag.store.countItems(opts.page.children);
+            tag.store.dispatch('row/add', {parent : tag.opts.page_id, sort_order: sort_order});
+        }
 
-    addRow(){
-        var sort_order = tag.store.countItems(opts.page.children);
-        tag.store.dispatch('row/add', {parent : tag.opts.page_id, sort_order: sort_order});
-    }
-
-    this.on('mount', function(){
-        this.store.hideSpinner();
-    })
-    
+        this.on('mount', function(){
+            this.store.hideSpinner();
+        })
+        
     </script>
 </page>

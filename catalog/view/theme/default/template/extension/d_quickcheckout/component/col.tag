@@ -62,6 +62,7 @@
         </div>
     </virtual>
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var tag = this;
         var state = this.store.getState();
 

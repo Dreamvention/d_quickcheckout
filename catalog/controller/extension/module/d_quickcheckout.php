@@ -36,8 +36,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                     $html_dom = new d_simple_html_dom();
                     $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
                     $html_dom->find('body > #content', 0)->innertext = $data['d_quickcheckout'];
-                    $html_dom->find('script', -1)->innertext .= $scripts;
-                    $html_dom->find('link', -1)->innertext .= $styles;
                     
                     $output = (string)$html_dom;
                 }

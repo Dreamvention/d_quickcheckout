@@ -52,7 +52,7 @@
                         ></div>
                     </form>
                     <div class="col-md-12">
-                        <custom_field if={getState().edit} setting_id="payment_address_custom_field" step="payment_address" location_account="true" location_address="true" onchange={updateFields}></custom_field>
+                        <custom_field if={getState().edit} setting_id="payment_address_custom_field_{rand()}" step="payment_address" location_account="true" location_address="true" onchange={updateFields}></custom_field>
                     </div>
                 </div>
                 
@@ -70,7 +70,7 @@
 
     </div>
     <script>
-        this.setting_id = 'payment_address_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
 

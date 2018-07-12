@@ -29,6 +29,7 @@
     <button class="btn btn-primary btn-block custom-field-create" onclick={toggleSetting}>Add custom field</button>
 
     <script>
+        this.mixin({store:d_quickcheckout_store});
         var tag = this;
 
         var custom_fields = [];

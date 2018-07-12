@@ -19,6 +19,7 @@
     </div>
 
     <script>
+        this.mixin({store:d_quickcheckout_store});
         this.setting_id = opts.step +'_'+ opts.field_id +'_setting';
 
         var tag = this;

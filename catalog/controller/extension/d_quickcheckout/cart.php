@@ -250,6 +250,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $state = $this->model_extension_d_quickcheckout_store->getState();
             if($state['session']['account'] == 'logged'){
                 $this->initCart();
+                $this->model_extension_d_quickcheckout_store->updateState(array('cart_total_text'), $this->getCartTotalText());
             }
 
             $this->model_extension_d_quickcheckout_store->dispatch('total/update/before', array());

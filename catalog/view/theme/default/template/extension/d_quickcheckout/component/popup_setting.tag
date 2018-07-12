@@ -10,5 +10,7 @@
             <a onclick={save}>{getLanguage().general.button_update}</a>
         </div>
     </div>
-
+    <script>
+        this.mixin({store:d_quickcheckout_store});
+    </script>
 </popup_setting>

@@ -55,8 +55,7 @@
         </div>
     </div>
     <script>
-
-        this.setting_id = 'payment_method_setting';
+        this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
 

@@ -116,7 +116,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 $update['session']['payment_address'] = $this->getAddress($address_id);
                 $update['session']['payment_address']['address_id'] = $address_id;
                 if($state['session']['payment_address']['shipping_address'] == 1){
-                    FB::log('NOOOOO');
                     $update['session']['payment_address']['shipping_address'] = 0;
                 }
 
@@ -184,7 +183,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         $update['session']['payment_address'] = $this->model_extension_d_quickcheckout_address->getAddress($address_id);
                         
                         if($state['session']['payment_address']['shipping_address'] == 1){
-                            FB::log('YAHHOOO');
                             $update['session']['payment_address']['shipping_address'] = 0;
                         }
 
@@ -464,7 +462,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 }
 
                 $payment_address = $state['session']['payment_address'];
-                FB::log($payment_address);
+
             }
         }
 

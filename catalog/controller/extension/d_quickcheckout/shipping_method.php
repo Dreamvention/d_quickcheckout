@@ -2,6 +2,7 @@
 
 class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     private $route = 'd_quickcheckout/shipping_method';
+    private $hasShipping = null;
 
     public $action = array(
         'shipping_method/update',
@@ -90,13 +91,15 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
             $update_method = true;
         }
 
+
+
         if($update_method){
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            if($this->cart->hasShipping()){
+            if($this->hasShipping()){
                 $update['session']['shipping_methods'] = $this->getShippingMethods();
                 $this->model_extension_d_quickcheckout_store->setState($update);
 
-                $update['session']['shipping_method'] = $this->getShippingMethod();
+                $update['session']['shipping_method'] = $this->getShippingMethod($state['session']['shipping_method']['code']);
                 $this->model_extension_d_quickcheckout_store->setState($update);
             }
 
@@ -108,13 +111,13 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
             $this->model_extension_d_quickcheckout_store->dispatch('shipping_method/update/after', $data);
         }
     }
-
+ 
     public function validate(){
         $this->load->language('checkout/checkout');
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $state['errors']['shipping_method']['error_shipping'] = false;
 
-        if(!$this->cart->hasShipping()){
+        if(!$this->hasShipping()){
             $state['errors']['shipping_method']['error_no_shipping'] = false;
             foreach($state['config'] as $account => $value){
                 $state['config'][$account]['shipping_method']['display'] = 0;
@@ -168,7 +171,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
                 $result[$account]['shipping_method'] = array_replace_recursive($config, $value);
             }
 
-            if(!$this->cart->hasShipping()){
+            if(!$this->hasShipping()){
                 $result[$account]['shipping_method']['display'] = 0;
             }
         }
@@ -225,6 +228,13 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         
 
         return $new_shipping_methods;
+    }
+
+    private function hasShipping(){
+        if($this->hasShipping == null){
+            $this->hasShipping = $this->cart->hasShipping();
+        }
+        return $this->hasShipping;
     }
 
 

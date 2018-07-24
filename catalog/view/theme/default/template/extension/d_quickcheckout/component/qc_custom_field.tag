@@ -1,4 +1,4 @@
-<custom_field>
+<qc_custom_field>
     <div class="qc-setting" id="{opts.setting_id}" >
         <div class="qc-setting-header">
             <h2>{opts.title} {getLanguage().general.text_settings}</h2>
@@ -8,16 +8,16 @@
         </div>
         <div class="qc-setting-content">
             <form class="form-setting" ref="form">
-                    <h3 >select custom field</h3>
-                    <div 
-                        each={option in getState().custom_fields }
-                        class="panel panel-default add-custom-field"
-                        if={option && validateLocation(option.location) }
-                        onclick={addCustomField}
-                        custom_field_id={option.custom_field_id}>
-                        <div class="panel-heading"><i class="fa fa-plus"></i> { option.name } </div>
-                        
-                    </div>
+                <h3 >select custom field</h3>
+                <div 
+                    each={option in getState().custom_fields }
+                    class="panel panel-default add-custom-field"
+                    if={option && validateLocation(option.location) }
+                    onclick={addCustomField}
+                    custom_field_id={option.custom_field_id}>
+                    <div class="panel-heading"><i class="fa fa-plus"></i> { option.name } </div>
+                    
+                </div>
                 <yield/>
             </form>
         </div>
@@ -77,4 +77,4 @@
             $(this.root).find('.qc-setting').appendTo('body');
         })
     </script>
-</custom_field>
+</qc_custom_field>

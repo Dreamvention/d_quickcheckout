@@ -299,8 +299,8 @@ body.show-setting.popup{
     }
     .step{
         &:hover{
-            step_setting > .step-setting,
-            > pro_label > .pro-label{
+            qc_step_setting > .step-setting,
+            > qc_pro_label > .pro-label{
                 display: block;
             }
         }

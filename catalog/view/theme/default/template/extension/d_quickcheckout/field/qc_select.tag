@@ -15,7 +15,7 @@
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
                 ref="input"
-                class="form-control { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
+                class="form-control selectpicker { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
                 required="{ opts.field.require }"
                 autocomplete="{ opts.field.autocomplete }"
                 no-reorder
@@ -93,10 +93,11 @@
 
 
         change(e){
-            // error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
-            // this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
+            error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+            this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
 
             this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            e.preventUpdate = true;
         }
 
         initTooltip(){
@@ -109,11 +110,20 @@
         this.on('mount', function(){
             this.initTooltip();
 
+            $(tag.root).find('.selectpicker').selectpicker({
+                style: 'btn-white',
+                size: 12,
+                liveSearch: true
+            });
+
         })
 
         this.on('updated', function(){
             this.initTooltip();
+            tag.preventUpdate = true;
             
+            $(tag.root).find('.selectpicker').selectpicker('refresh');
+
         })
 
     </script>

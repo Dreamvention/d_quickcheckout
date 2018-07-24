@@ -17,15 +17,15 @@
                 <h5 if={getLanguage().shipping_address.text_description}>{  getLanguage().shipping_address.text_description } </h5>
             </div>
             <div class="panel-body">
-                <address_radio 
+                <qc_address_radio 
                 if={getSession().addresses && getConfig().shipping_address.address_style == 'radio'} 
                 step="shipping_address" 
-                address_id={ getSession().shipping_address.address_id }></address_radio>
+                address_id={ getSession().shipping_address.address_id }></qc_address_radio>
 
-                <address_select 
+                <qc_address_select 
                 if={getSession().addresses && getConfig().shipping_address.address_style == 'select'} 
                 step="shipping_address" 
-                address_id={ getSession().shipping_address.address_id }></address_select>
+                address_id={ getSession().shipping_address.address_id }></qc_address_select>
 
                 <div class="row" 
                     if={getAccount() != 'logged' 

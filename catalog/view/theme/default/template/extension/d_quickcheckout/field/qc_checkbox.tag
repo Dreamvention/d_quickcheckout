@@ -6,30 +6,30 @@
 
     <div if={ (opts.field.display == 1) } class="field-sortable form-group clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <form class="col-xs-12">
-            <label for="{ opts.step }_{ opts.field.id }" class="control-label" >
-                <input
-                    type="hidden"
-                    name="{ opts.step }[{ opts.field.id }]"
-                    value="0" />
-                <input
-                    type="checkbox"
-                    id="{ opts.step }_{ opts.field.id }"
-                    ref="input"
-                    name="{ opts.step }[{ opts.field.id }]"
-                    class="validate { (opts.field.require) ? 'required' : 'not-required'}"
-                    value="1"
-                    no-reorder
-                    checked={ opts.riotValue == 1 }
-                    { (opts.field.require) ? 'required' : ''}
-                    onchange={change} />
-                <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{ opts.field.tooltip }">
-                    <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
-                    <span if={ (opts.field.require == 1) } class="require">*</span>
-                    <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
-                </span>
-
-            </label>
-            
+            <div class="qc-checkbox {opts.riotValue == 1 ? 'qc-checkbox-selected' : '' }">
+                <label for="{ opts.step }_{ opts.field.id }" class="control-label" >
+                    <input
+                        type="hidden"
+                        name="{ opts.step }[{ opts.field.id }]"
+                        value="0" />
+                    <input
+                        type="checkbox"
+                        id="{ opts.step }_{ opts.field.id }"
+                        ref="input"
+                        name="{ opts.step }[{ opts.field.id }]"
+                        class="validate { (opts.field.require) ? 'required' : 'not-required'}"
+                        value="1"
+                        no-reorder
+                        checked={ opts.riotValue == 1 }
+                        { (opts.field.require) ? 'required' : ''}
+                        onchange={change} />
+                    <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{ opts.field.tooltip }">
+                        <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
+                        <span if={ (opts.field.require == 1) } class="require">*</span>
+                        <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+                    </span>
+                </label>
+            </div>
         </form>
         <div class="col-md-12 error" if={opts.error && opts.field.require == 1}>
             <div class="text-danger">{ getLanguage()[opts.step][opts.error] }</div>

@@ -167,6 +167,7 @@
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_label.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_password.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_radio.tag",
+        "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_checkbox.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_select.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_tel.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_text.tag",
@@ -207,7 +208,8 @@
         "catalog/view/theme/default/stylesheet/d_quickcheckout/skin/default",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/skin/journal2",
         "catalog/view/theme/default/image/d_quickcheckout",
-        "image/catalog/d_quickcheckout/payment"
+        "image/catalog/d_quickcheckout/payment",
+        "admin/view/image/d_quickcheckout"
     ],
     "changelog": [
         {

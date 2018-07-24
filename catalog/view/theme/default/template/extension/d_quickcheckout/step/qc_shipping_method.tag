@@ -24,8 +24,9 @@
                     class="radio-input radio" >
                         <div if={shipping_method}>
                             <strong if={getConfig().shipping_method.display_group_title == 1} class="title">{ shipping_method.title }</strong>
-                            <div each={ quote, index in shipping_method.quote }>
-                                <label  for="{ quote.code }">
+                            <div each={ quote, index in shipping_method.quote } >
+
+                                <label  for="{ quote.code }" class="qc-radio {getSession().shipping_method.code == quote.code ? 'qc-radio-selected' : ''}">
                                     <input
                                     type="radio"
                                     name="shipping_method"
@@ -92,5 +93,10 @@
             }
             return result;
         }
+
+        $(tag.root).on('click', '.qc-radio', function(){
+            $(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
+            $(this).addClass('qc-radio-selected');
+        })
     </script>
 </qc_shipping_method>

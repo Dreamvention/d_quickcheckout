@@ -23,27 +23,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
     }
 
-    public function view_checkout_checkout_after($route, $data, &$output) {
-
-        if($this->config->get('d_quickcheckout_status')){
-            $this->load->model('extension/d_quickcheckout/view');
-            $supports = $this->model_extension_d_quickcheckout_view->browserSupported();
-            if($supports){
-                if(true){
-                    $template = 'd_quickcheckout';
-                    $output = $this->load->view($this->model_extension_d_quickcheckout_view->template('checkout/'.$template), $data);
-                }else{
-                    $html_dom = new d_simple_html_dom();
-                    $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-                    $html_dom->find('body > #content', 0)->innertext = $data['d_quickcheckout'];
-                    
-                    $output = (string)$html_dom;
-                }
-            }
-            
-        }
-    }
-
     public function index() {
 
         $data = array();
@@ -57,7 +36,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
         
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/serializejson/jquery.serializejson.min.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.min.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/sortable/jquery.sortable.min.js');
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/animate/animate.min.css');
         $this->document->addScript('catalog/view/javascript/d_riot/riotcompiler.js');
@@ -66,6 +45,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_bootstrap_switch/js/bootstrap-switch.js');
         $this->document->addStyle('catalog/view/javascript/d_bootstrap_switch/css/bootstrap-switch.min.css');
 
+        $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/bootstrap-select.min.js');
+        $this->document->addStyle('catalog/view/javascript/d_bootstrap_select/css/bootstrap-select.min.css');
+        $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/i18n/defaults-en_US.min.js');
+
+        $this->document->addStyle('catalog/view/javascript/d_pretty_checkbox/pretty-checkbox.min.css');
+        
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js?'.rand());
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js?'.rand());
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/page.js?'.rand());
@@ -316,6 +301,27 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->model('extension/d_quickcheckout/store');
         return $this->model_extension_d_quickcheckout_store->initState();
 
+    }
+
+    public function view_checkout_checkout_after($route, $data, &$output) {
+
+        if($this->config->get('d_quickcheckout_status')){
+            $this->load->model('extension/d_quickcheckout/view');
+            $supports = $this->model_extension_d_quickcheckout_view->browserSupported();
+            if($supports){
+                if(true){
+                    $template = 'd_quickcheckout';
+                    $output = $this->load->view($this->model_extension_d_quickcheckout_view->template('checkout/'.$template), $data);
+                }else{
+                    $html_dom = new d_simple_html_dom();
+                    $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+                    $html_dom->find('body > #content', 0)->innertext = $data['d_quickcheckout'];
+                    
+                    $output = (string)$html_dom;
+                }
+            }
+            
+        }
     }
 
     public function getLanguage(){

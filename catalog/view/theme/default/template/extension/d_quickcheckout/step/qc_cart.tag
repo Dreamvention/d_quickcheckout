@@ -18,7 +18,7 @@
             </div>
 
             <div class="qc-checkout-product panel-body" >
-                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }><raw  content="{error}"></raw></div>
+                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }>{error}<raw  content="{error}"></raw></div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

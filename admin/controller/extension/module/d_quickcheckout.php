@@ -177,6 +177,10 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 `date_added` = NOW(),
                 `date_modified` = NOW()");
 
+        $data['d_quickcheckout_status'] = 1;
+        $this->load->model('setting/setting');
+        $this->model_setting_setting->editSetting($this->codename, $data, $this->store_id);
+
         $json = $this->getSettings();
 
         $this->response->addHeader('Content-Type: application/json');

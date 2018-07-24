@@ -331,7 +331,7 @@ $_['d_quickcheckout_payment_address'] = array(
             'refresh' => '0',
             'custom' => 0,
             'sort_order' => 9,
-            'style' => 'list',
+            'style' => 'row',
             'class' => '',
             'mask' => '',
         ),
@@ -820,7 +820,7 @@ $_['d_quickcheckout_payment_address'] = array(
                 ),
                 'shipping_address' => array(
                     'display' => 1,
-                    'value' => 1
+                    'value' => 0
                 ),
                 'address_id' => array()
             )

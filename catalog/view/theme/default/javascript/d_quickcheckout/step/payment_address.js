@@ -7,6 +7,7 @@
 
     this.subscribe('payment_address/update', function(data) {
         clearTimeout(this.payment_address_timer);
+
         this.setState({'session': data});
         var difference = this.getChange();
 

@@ -21,12 +21,15 @@
 
     //show/hide shipping address immediately
     this.subscribe('payment_address/update', function(data) {
-        if(data.payment_address.shipping_address){
+        var state = this.getState();
+        if(data.payment_address.shipping_address && state.session.has_shipping){
             if(data.payment_address.shipping_address == 1){
                 this.updateState(['config', this.getAccount(), 'shipping_address', 'display'], 0);
             }else{
                 this.updateState(['config', this.getAccount(), 'shipping_address', 'display'], 1);
             }
+        }else if(!state.session.has_shipping){
+            this.updateState(['config', this.getAccount(), 'shipping_address', 'display'], 0);
         }
     });
 

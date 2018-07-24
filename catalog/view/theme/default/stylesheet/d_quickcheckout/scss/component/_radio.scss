@@ -1,0 +1,41 @@
+.qc{
+    .qc-radio{
+        position: relative;
+        border: 1px solid rgba(0,0,0,0);
+        [type=radio]{
+            display: none;
+        }
+        &-selected{
+       
+            font-weight: bold;
+            color: #337ab7;
+        }
+        &:after, &:before{
+            content: '';
+            width: calc(1em + 4px);
+            height: calc(1em + 4px);
+            display: block;
+            box-sizing: border-box;
+            border-radius: 0;
+            border: 1px solid transparent;
+            z-index: 0;
+            position: absolute;
+            left: 0;
+            top: calc((0% - (100% - 2em)) - 8%);
+            background-color: #fff;
+            border-radius: 100%;
+            border: 1px solid #bdc3c7;
+        }
+
+        &-selected:after{
+            background-color: #337ab7;
+            -webkit-transform: scale(0.6);
+            -ms-transform: scale(0.6);
+            transform: scale(0.6);
+        }
+        &-selected:before{
+            background-color: #fff;
+            
+        }
+    }
+}

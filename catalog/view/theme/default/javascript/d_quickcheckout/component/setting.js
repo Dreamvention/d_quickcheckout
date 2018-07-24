@@ -152,4 +152,13 @@
         };
     });
 
+    this.subscribe('setting/updateCommon', function(json) {
+        if(json['text_account_login']){
+            $('#top-links > ul > li:nth-child(2)').html(json['text_account_login']);
+        }
+        if(json['cart_total_text']){
+            $('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['cart_total_text'] + '</span>');
+        }
+    });
+
 })(qc);

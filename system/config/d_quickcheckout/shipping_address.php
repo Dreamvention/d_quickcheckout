@@ -249,7 +249,7 @@ $_['d_quickcheckout_shipping_address'] = array(
             'refresh' => '4',
             'custom' => 0,
             'sort_order' => 8,
-            'style' => 'row',
+            'style' => 'list',
             'class' => '',
         ),
         'zone_id' => array(
@@ -268,7 +268,7 @@ $_['d_quickcheckout_shipping_address'] = array(
             'refresh' => '4',
             'custom' => 0,
             'sort_order' => 9,
-            'style' => 'row',
+            'style' => 'list',
             'class' => ''
         )
     ),

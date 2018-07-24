@@ -62,6 +62,7 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 
             if(isset($data['data']['email'])
             && isset($data['data']['password'])){
+                FB::log('logined');
                 $this->login($data['data']['email'], $data['data']['password']);
                 $this->model_extension_d_quickcheckout_store->updateState(array('text_account_login'), $this->getAccountLoginText());
             }
@@ -76,13 +77,7 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         }
     }
 
-    private function getAccountLoginText(){
-        $output = $this->load->controller('common/header');
-        $html_dom = new d_simple_html_dom();
-        $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-        $text = (string)$html_dom->find('#top-links > ul > li', 1)->innertext;
-        return $text;
-    }
+    
 
     public function validate(){
 
@@ -189,6 +184,14 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
             }
         }
         return false;
+    }
+
+    private function getAccountLoginText(){
+        $output = $this->load->controller('common/header');
+        $html_dom = new d_simple_html_dom();
+        $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+        $text = (string)$html_dom->find('#top-links > ul > li', 1)->innertext;
+        return $text;
     }
 
 }

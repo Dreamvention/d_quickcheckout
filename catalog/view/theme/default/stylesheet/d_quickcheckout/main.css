@@ -581,8 +581,8 @@ body.show-setting.popup {
 .edit .field:hover .field-setting,
 .edit .field:hover .pro-label {
   display: block; }
-.edit .step:hover step_setting > .step-setting,
-.edit .step:hover > pro_label > .pro-label {
+.edit .step:hover qc_step_setting > .step-setting,
+.edit .step:hover > qc_pro_label > .pro-label {
   display: block; }
 .edit .page-nav-item:hover .pro-label {
   display: block; }
@@ -865,6 +865,76 @@ body.show-setting.popup {
   border-top: 3px solid #07d;
   border-right: 3px solid transparent;
   animation: spinner .6s linear infinite; }
+
+.qc .qc-radio {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0); }
+  .qc .qc-radio [type=radio] {
+    display: none; }
+  .qc .qc-radio-selected {
+    font-weight: bold;
+    color: #337ab7; }
+  .qc .qc-radio:after, .qc .qc-radio:before {
+    content: '';
+    width: calc(1em + 4px);
+    height: calc(1em + 4px);
+    display: block;
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 1px solid transparent;
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: calc((0% - (100% - 2em)) - 8%);
+    background-color: #fff;
+    border-radius: 100%;
+    border: 1px solid #bdc3c7; }
+  .qc .qc-radio-selected:after {
+    background-color: #337ab7;
+    -webkit-transform: scale(0.6);
+    -ms-transform: scale(0.6);
+    transform: scale(0.6); }
+  .qc .qc-radio-selected:before {
+    background-color: #fff; }
+
+.qc .qc-checkbox {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0); }
+  .qc .qc-checkbox [type=checkbox] {
+    position: absolute;
+    left: 0;
+    margin: 1px 0 0;
+    z-index: 100;
+    opacity: 0; }
+  .qc .qc-checkbox label {
+    padding-left: 20px;
+    cursor: pointer; }
+  .qc .qc-checkbox:after, .qc .qc-checkbox:before {
+    content: '';
+    width: calc(1em + 3px);
+    height: calc(1em + 3px);
+    display: block;
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 1px solid transparent;
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: calc((0% - (100% - 2em)));
+    background-color: #fff;
+    border: 1px solid #bdc3c7; }
+  .qc .qc-checkbox-selected:after {
+    left: 4px;
+    top: -1px;
+    display: block;
+    width: calc(1em - 4px);
+    height: calc(1em + 0px);
+    border: solid #337ab7;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    background-color: transparent; }
+  .qc .qc-checkbox-selected:before {
+    background-color: #fff; }
 
 .qc-social-login {
   margin-bottom: 15px; }

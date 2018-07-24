@@ -129,7 +129,10 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     }
 
     public function setState($data, $save = false){
-        $this->setUpdated($data);
+        $current_state = $this->getState();
+
+        $this->setUpdated($this->array_diff_assoc_recursive( $data, $current_state));
+
         $state_update = $this->config->get('d_quickcheckout_state_update');
         if(empty($state_update)){
             $state_update = array();
@@ -169,7 +172,37 @@ class ModelExtensionDQuickcheckoutStore extends Model {
                 }
             }
         }
-        
+    }
+
+    public function array_diff_assoc_recursive($array1, $array2)
+    {
+        foreach($array1 as $key => $value)
+        {
+            if(is_array($value))
+            {
+                if(!isset($array2[$key]))
+                {
+                    $difference[$key] = $value;
+                }
+                elseif(!is_array($array2[$key]))
+                {
+                    $difference[$key] = $value;
+                }
+                else
+                {
+                    $new_diff = $this->array_diff_assoc_recursive($value, $array2[$key]);
+                    if($new_diff != FALSE)
+                    {
+                        $difference[$key] = $new_diff;
+                    }
+                }
+            }
+            elseif(!isset($array2[$key]) || $array2[$key] != $value)
+            {
+                $difference[$key] = $value;
+            }
+        }
+        return !isset($difference) ? 0 : $difference;
     }
 
     public function makeArray($keys, $value) {
@@ -197,8 +230,10 @@ class ModelExtensionDQuickcheckoutStore extends Model {
             }
             $current = &$current[$key];
         }
-        
-        $this->setUpdated($this->makeArray($keys, $value));
+
+        $update_state = $this->makeArray($keys, $value);
+        $update = $this->array_diff_assoc_recursive( $update_state, $state);
+        $this->setUpdated($update);
 
         if(is_array($current) && count($current) > count($value)){
             foreach($current as $key => $val){

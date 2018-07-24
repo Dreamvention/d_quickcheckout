@@ -12,7 +12,7 @@
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'}" >
             <div each={option in opts.field.options} class="radio">
-                <label for="{ parent.opts.step }_{ parent.opts.field.id }_{ parent.opts.field.type }_{ option.value }">
+                <label for="{ parent.opts.step }_{ parent.opts.field.id }_{ parent.opts.field.type }_{ option.value }" class="qc-radio { (parent.opts.riotValue == option.value) ? 'qc-radio-selected': '' }">
                     <input
                         type="radio"
                         ref="input"
@@ -99,6 +99,11 @@
                 $(this.refs.tooltip).tooltip();
             }.bind(this), 300)
         }
+
+        $(tag.root).on('click', '.qc-radio', function(){
+            $(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
+            $(this).addClass('qc-radio-selected');
+        })
 
         this.on('mount', function(){
             this.initTooltip();

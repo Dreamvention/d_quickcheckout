@@ -110,7 +110,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                     }
 
                     //logged in change
-                    if(!$this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged')
+                    if(!$this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
 
                         if($state['config'][$state['session']['account']]['shipping_address']['display'] == 0){
 

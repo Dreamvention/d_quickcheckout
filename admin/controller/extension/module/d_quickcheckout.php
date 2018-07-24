@@ -157,7 +157,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             'text' => $this->language->get('heading_title_main'),
             'href' => $this->model_extension_d_opencart_patch_url->link($this->route)
             );
-echo $this->isBoostrapNeeded();
+        
         // Notification
         foreach($this->error as $key => $error){
             $data['error'][$key] = $error;

@@ -214,7 +214,7 @@
     "changelog": [
         {
             "varsion":"7.0.0",
-            "change": "Implemented riot. Full refactor code. Now Extensible."
+            "change": "Add Visual Editor, Multiple pages. Extensibily and stability."
         }
     ]
 }

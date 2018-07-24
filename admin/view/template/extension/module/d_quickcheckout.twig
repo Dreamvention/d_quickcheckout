@@ -7,7 +7,9 @@
             <div class="form-inline pull-right">
 
                 <button id="save_and_stay" data-toggle="tooltip" title="{{button_save_and_stay}}" class="btn btn-success"><i class="fa fa-save"></i></button>
+                
                 <button type="submit" form="form" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+
                 <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
             </div>
             <h1>{{heading_title}} {{version}}</h1>
@@ -29,6 +31,24 @@
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
             </div>
         {% endif %} 
+
+        {% if d_shopunity %}
+            <div class="d_shopunity_update"></div>
+            <script src="view/javascript/d_shopunity/d_shopunity_widget.js" type="text/javascript"></script>
+            <script type="text/javascript">
+            var d_shopunity_update = jQuery.extend(true, {}, d_shopunity_widget);
+            d_shopunity_update.init({
+            class: '.d_shopunity_update',
+            token: '{{token}}',
+            extension_id: 'd_quickcheckout',
+            action: 'loadUpdate'
+            })
+            </script>
+        {% endif %}
+        {% if not pro and settings and d_shopunity %}
+            <div class="row">
+                <div class="col-md-9">
+        {% endif %}
         
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -50,8 +70,19 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_setting" >
                                 <div class="tab-body">
+                                    {% if not pro %}
+                                        <div class="notify alert alert-warning">{{text_get_pro}}</div>
+                                    {% endif %}
                                     <form action="{{action}}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
                                         
+                                        {% if settings is empty %}
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input_status">Add setting</label>
+                                                <div class="col-sm-10">                                     
+                                                    <a class="btn btn-success addSetting" ><i class="fa fa-plus"></i> Add Setting</a>
+                                                </div>
+                                            </div><!-- //editor -->
+                                        {% endif %}
 
                                         {% if settings  %}
                                         <div class="form-group">
@@ -83,14 +114,7 @@
                                             </div>
                                         </div><!-- //status -->
 
-                                        {% if settings is empty %}
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input_status">Add setting</label>
-                                                <div class="col-sm-10">                                     
-                                                    <a class="btn btn-success addSetting" ><i class="fa fa-plus"></i> Add Setting</a>
-                                                </div>
-                                            </div><!-- //editor -->
-                                        {% endif %}
+                                        
 
                                         
 
@@ -125,7 +149,7 @@
 }
 .welcome-into-text{
     font-size: 18px;
-    padding-bottom: 15px;
+    padding-bottom: 30px;
 }
 .welcome-into-start{
     padding-bottom: 30px;
@@ -151,10 +175,10 @@
                             <div class="welcome-into">
                                 <div class="welcome-into-logo"><img src="view/image/d_quickcheckout/logo.svg" /></div>
                                 <div class="welcome-into-heading">Ajax Quick Checkout</div>
-                                <div class="welcome-into-text">You are loosing sales when you use the default checkout. We have developed the best one page checkout for you so that your customers could enjoy buying and you could start growing your business.</div>
+                                <div class="welcome-into-text">You are losing 67% of sales when you use the default checkout. We have developed the best checkout editor for you to customize so that your customers could enjoy buying and you could start selling more.</div>
 
                                 <div class="welcome-into-start">
-                                    <a class="btn btn-success addSetting" >Setup</a>
+                                    <a class="btn btn-primary addSetting">Setup</a>
                                 </div>
                             </div>
                             <div class="welcome-features">
@@ -165,15 +189,15 @@
                                     </div> #}
                                     <div class="col-md-3">
                                         <div class="welcome-features-icon"><img src="view/image/d_quickcheckout/icons/visual-editor.svg" /></div>
-                                        <div class="welcome-features-text">Visual editor</div>
+                                        <div class="welcome-features-text">Customize with <br/>Visual editor</div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="welcome-features-icon"><img src="view/image/d_quickcheckout/icons/extensible.svg" /></div>
-                                        <div class="welcome-features-text">Add plugins</div>
+                                        <div class="welcome-features-text">Extend with <br/>plugins</div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="welcome-features-icon"><img src="view/image/d_quickcheckout/icons/mulipage.svg" /></div>
-                                        <div class="welcome-features-text">Add Pages</div>
+                                        <div class="welcome-features-text">Add One Page or <br/>Multiple pages</div>
                                     </div>
                                     {# <div class="col-md-3">
                                         <div class="welcome-features-icon"><img src="view/image/d_quickcheckout/icons/github.svg" /></div>
@@ -186,7 +210,7 @@
                                     
                                     <div class="col-md-3">
                                         <div class="welcome-features-icon"><img src="view/image/d_quickcheckout/icons/themes.svg" /></div>
-                                        <div class="welcome-features-text">Add Themes</div>
+                                        <div class="welcome-features-text">Add Themes & Layouts</div>
                                     </div>
                                     {# <div class="col-md-3">
                                         <div class="welcome-features-icon"><img src="view/image/d_quickcheckout/icons/updates.svg" /></div>
@@ -194,13 +218,30 @@
                                     </div> #}
                                     
                                 </div>
-                                <div class="clearfix"></div>
                             </div>
                         </div>
 
                     {% endif %}
                 </div>
             </div>
+
+            {% if not pro and settings and d_shopunity %}
+                </div>
+
+                <div class="col-md-3">
+                    <div class="d_shopunity_widget"></div>
+                    <script src="view/javascript/d_shopunity/d_shopunity_widget.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                    var d_shopunity_widget = jQuery.extend(true, {}, d_shopunity_widget);
+                    d_shopunity_widget.init({
+                    class: '.d_shopunity_widget',
+                    token: '{{token}}',
+                    extension_id: 'd_quickcheckout_pack'
+                    })
+                    </script>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
 <script type="text/javascript"><!--
@@ -280,3 +321,5 @@ $(function () {
 });
 //--></script>
 {{footer}}
+
+

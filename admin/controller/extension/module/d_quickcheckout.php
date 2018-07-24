@@ -18,6 +18,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
         $this->d_shopunity = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_shopunity.json'));
         $this->d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
+        $this->d_quickcheckout_pack = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_quickcheckout_pack.json'));
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
         $this->d_twig_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_twig_manager.json'));
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
@@ -91,6 +92,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['route'] = $this->route;
         $data['version'] = $this->extension['version'];
         $data['token'] =  $this->model_extension_d_opencart_patch_user->getToken();
+        $data['pro'] = $this->d_quickcheckout_pack;
         $data['d_shopunity'] = $this->d_shopunity;
 
         // text
@@ -100,6 +102,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['text_no'] = $this->language->get('text_no');
         $data['text_editor'] = $this->language->get('text_editor');
         $data['text_open_editor'] = $this->language->get('text_open_editor');
+        $data['text_get_pro'] = $this->language->get('text_get_pro');
         $data['help_editor'] = $this->language->get('help_editor');
 
         //entry
@@ -154,7 +157,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             'text' => $this->language->get('heading_title_main'),
             'href' => $this->model_extension_d_opencart_patch_url->link($this->route)
             );
-
+echo $this->isBoostrapNeeded();
         // Notification
         foreach($this->error as $key => $error){
             $data['error'][$key] = $error;
@@ -168,7 +171,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
     }
 
     public function addSetting(){
-        $name = 'New setting';
+        $name = 'Setting';
         $store_id = 0;
 
         $this->db->query("INSERT INTO `" . DB_PREFIX . "dqc_setting`
@@ -178,6 +181,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 `date_modified` = NOW()");
 
         $data['d_quickcheckout_status'] = 1;
+        $data['d_quickcheckout_bootstrap'] = $this->isBoostrapNeeded();
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting($this->codename, $data, $this->store_id);
 
@@ -186,6 +190,24 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
 
+    }
+
+    public function isBoostrapNeeded(){
+        $themes = array('journal');
+        $config_theme = $this->config->get('config_theme');
+        $config_default_directory = $this->config->get('theme_default_directory');
+
+        foreach($themes as $theme){
+            if(strpos($config_theme, $theme) !== false){
+                return true;
+            }
+
+            if(strpos($config_default_directory, $theme) !== false){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function deleteSetting(){

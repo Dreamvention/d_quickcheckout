@@ -21,7 +21,7 @@
                 <form id="shipping_method_list" if={getConfig().shipping_method.display_options == 1 && getSession().shipping_methods}>
                     <div if={ getConfig().shipping_method.input_style == 'radio'} 
                     each={ shipping_method, name in getSession().shipping_methods } 
-                    class="radio-input radio" >
+                    class="radio-input" >
                         <div if={shipping_method}>
                             <strong if={getConfig().shipping_method.display_group_title == 1} class="title">{ shipping_method.title }</strong>
                             <div each={ quote, index in shipping_method.quote } >

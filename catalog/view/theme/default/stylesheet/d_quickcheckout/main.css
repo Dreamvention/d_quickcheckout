@@ -868,7 +868,8 @@ body.show-setting.popup {
 
 .qc .qc-radio {
   position: relative;
-  border: 1px solid rgba(0, 0, 0, 0); }
+  border: 1px solid rgba(0, 0, 0, 0);
+  padding-left: 20px; }
   .qc .qc-radio [type=radio] {
     display: none; }
   .qc .qc-radio-selected {
@@ -966,9 +967,9 @@ body.show-setting.popup {
       font-size: 16px;
       font-weight: bold; }
 
-.payment-method .input-radio label {
+.payment-method .radio-input label {
   width: 100%; }
-.payment-method .input-radio .payment-method-image {
+.payment-method .radio-input .payment-method-image {
   float: right; }
 
 #payment .buttons,

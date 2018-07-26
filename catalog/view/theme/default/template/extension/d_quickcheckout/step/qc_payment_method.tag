@@ -19,7 +19,7 @@
             <div class="panel-body">
                 <div each={error, error_id in getError().payment_method} if={error} class="alert alert-danger has-error"><raw content="{error}"></raw></div>
                 <form id="payment_method_list" if={getConfig().payment_method.display_options == 1 && getSession().payment_methods}>
-                    <div if={getConfig().payment_method.input_style == 'radio'}  each={ payment_method, name in getSession().payment_methods } class="input-radio radio-input radio" >
+                    <div if={getConfig().payment_method.input_style == 'radio'}  each={ payment_method, name in getSession().payment_methods } class="radio-input" >
                         <label for="{ payment_method.code }" if={ payment_method} class="qc-radio { getSession().payment_method.code == payment_method.code ? 'qc-radio-selected' : '' }">
                             <img if={ getConfig().payment_method.display_images == 1} class="payment-method-image" src="{payment_method.image}" />
                             <input

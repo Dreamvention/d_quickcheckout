@@ -1,13 +1,14 @@
 {# location: admin/view #}
 
 {{ header }} {{ column_left }} 
+
 <div id="content">
     <div class="page-header">
         <div class="container-fluid">
             <div class="form-inline pull-right">
 
                 <button id="save_and_stay" data-toggle="tooltip" title="{{button_save_and_stay}}" class="btn btn-success"><i class="fa fa-save"></i></button>
-                
+
                 <button type="submit" form="form" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
 
                 <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
@@ -114,13 +115,20 @@
                                             </div>
                                         </div><!-- //status -->
 
-                                        
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input_status">{{entry_support}}</label>
+                                            <div class="col-sm-10">                                     
+                                                <a class="btn btn-success" href="https://dreamvention.ee/support">{{text_support}}</a>
+                                            </div>
+                                        </div><!-- //status -->
 
-                                        
-
+                                        <div style="text-align: center; padding: 30px;">{{text_powered_by}}</div>
                                     </form>
+
                                 </div>
+                                
                             </div>
+                            
                         </div>
 
                     {% else %}

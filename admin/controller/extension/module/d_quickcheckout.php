@@ -108,6 +108,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         //entry
         $data['entry_status'] = $this->language->get('entry_status');
         $data['entry_bootstrap'] = $this->language->get('entry_bootstrap');
+
+        $data['entry_support'] = $this->language->get('entry_support');
+        $data['text_support'] = $this->language->get('text_support');
+
+        $data['text_powered_by'] = $this->language->get('text_powered_by');
         
         // Tab
         $data['tab_setting'] = $this->language->get('tab_setting');

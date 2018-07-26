@@ -24,5 +24,11 @@ $_['help_editor']                   = '<h4>Visual Editor</h4><p>Now Ajax Quick C
 $_['entry_status']                  = 'Status';
 $_['entry_bootstrap']               = 'Force bootstrap <br/><small>If the frontend is disorganized, activate Boostrap. Required for Journal and other bootstrapless themes</small>';
 
-$_['text_get_pro']                  = 'Go ahead and improve your shop with <a href="https://aqc.page.link/getpro" target="_blank">Ajax Quick Checkout PRO</a>. Stop losing sales today.';
+$_['entry_support']                 = 'Support<br/><small>Create a ticket. If you find a bug, even in a free version, please let us know.</small>';
+$_['text_support']                  = 'Open Ticket';
+
+$_['text_powered_by']               = 'Tested with <a href="https://shopunity.net/">Shopunity.net</a> <br> Find more extensions at <a href="https://dreamvention.ee/">Dreamvention.com</a>';
+
+
+$_['text_get_pro']                  = 'Stop losing sales today! Improve your checkout with <strong>Ajax Quick Checkout PRO</strong> and watch your sales grow. <a href="https://aqc.page.link/getpro" target="_blank">Get -10% OFF</a> ';
 ?>

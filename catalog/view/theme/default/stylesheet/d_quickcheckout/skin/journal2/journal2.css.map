@@ -1,7 +1,7 @@
 {
 "version": 3,
 "mappings": "AAEQ,kCAA0B;EACtB,GAAG,EAAE,GAAG;AAGZ,qBAAa;EACT,KAAK,EAAE,IAAI;AAEf,0BAAkB;EACd,OAAO,EAAE,IAAI;AAGb,+BAAkB;EACd,OAAO,EAAE,KAAK;AAGtB,0BAAkB;EACd,UAAU,EAAE,OAAO;AAEvB,iDAAyC;EACrC,gBAAgB,EAAE,OAAO;AAE7B,sDAAqC;EACjC,gBAAgB,EAAE,IAAI;AAE1B,qBAAY;EACR,KAAK,EAAE,IAAI;AAEf,qBAAY;EACR,gBAAgB,EAAE,IAAI",
-"sources": ["journal.scss"],
+"sources": ["journal2.scss"],
 "names": [],
-"file": "journal.css"
+"file": "journal2.css"
 }

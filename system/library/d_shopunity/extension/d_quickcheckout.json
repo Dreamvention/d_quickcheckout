@@ -42,7 +42,7 @@
         "url": "https://dreamvention.com/support"
     },
     "required": {
-        "d_opencart_patch": ">=1.0.0",
+        "d_opencart_patch": "^1.1.0 || ^2.1.0 || ^3.1.0 || >=4.0.0",
         "d_riot": ">=3.0.2",
         "d_twig_manager": ">=1.5.0",
         "d_simple_html_dom": ">= 2.0.0",

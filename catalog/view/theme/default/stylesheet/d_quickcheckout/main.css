@@ -920,12 +920,12 @@ body.show-setting.popup {
     z-index: 0;
     position: absolute;
     left: 0;
-    top: calc((0% - (100% - 2em)));
+    top: calc((0% - (100% - 2em)) + 3px);
     background-color: #fff;
     border: 1px solid #bdc3c7; }
   .qc .qc-checkbox-selected:after {
     left: 4px;
-    top: -1px;
+    top: 2px;
     display: block;
     width: calc(1em - 4px);
     height: calc(1em + 0px);

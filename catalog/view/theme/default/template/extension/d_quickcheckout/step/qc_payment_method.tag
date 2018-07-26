@@ -33,7 +33,7 @@
                         </label>
                     </div>
 
-                    <select if={getConfig().payment_method.input_style == 'select'} class="form-control selectpicker" name="payment_method" onchange={change}>
+                    <select if={getConfig().payment_method.input_style == 'select'} class="form-control" name="payment_method" onchange={change}>
                         <option 
                             if={ payment_method}
                             each={ payment_method, name in getSession().payment_methods }
@@ -63,20 +63,10 @@
             this.store.dispatch('payment_method/update', $(e.currentTarget).parents('form').serializeJSON());
         }
 
-        $(tag.root).find('.selectpicker').selectpicker({
-            style: 'btn-white',
-            size: 12,
-            liveSearch: true
-        });
-
         $(tag.root).on('click', '.qc-radio', function(){
             $(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
             $(this).addClass('qc-radio-selected');
         })
 
-        this.on('update', function(){
-            $(tag.root).find('.selectpicker').selectpicker('refresh');
-            
-        })
     </script>
 </qc_payment_method>

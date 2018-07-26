@@ -42,7 +42,7 @@
 
                     <div if={getConfig().shipping_method.input_style == 'select'}>
 
-                        <select if={getConfig().shipping_method.display_group_title == 1} class="form-control" onchange={change}>
+                        <select if={getConfig().shipping_method.display_group_title == 1} class="form-control selectpicker" onchange={change}>
                             <optgroup label="{ shipping_method.title }" 
                             each={ shipping_method, name in getSession().shipping_methods } >
                                 <option 
@@ -54,7 +54,7 @@
                             </optgroup>
                         </select>
 
-                        <select if={getConfig().shipping_method.display_group_title == 0} class="form-control" onchange={change}>
+                        <select if={getConfig().shipping_method.display_group_title == 0} class="form-control selectpicker" onchange={change}>
                             <option 
                                 each={ quote, index in flattenShippingMethods() } 
                                 selected={ getSession().shipping_method.code == quote.code }
@@ -94,9 +94,20 @@
             return result;
         }
 
+        $(tag.root).find('.selectpicker').selectpicker({
+            style: 'btn-white',
+            size: 12,
+            liveSearch: true
+        });
+
         $(tag.root).on('click', '.qc-radio', function(){
             $(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
             $(this).addClass('qc-radio-selected');
+        })
+
+        this.on('update', function(){
+            $(tag.root).find('.selectpicker').selectpicker('refresh');
+            
         })
     </script>
 </qc_shipping_method>

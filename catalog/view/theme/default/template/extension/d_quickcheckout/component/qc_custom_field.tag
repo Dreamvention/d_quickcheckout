@@ -22,7 +22,7 @@
             </form>
         </div>
         <div class="qc-setting-footer" >
-            <a onclick={save}>{getLanguage().general.button_update}</a>
+            <a onclick={save}>{getLanguage().general.text_update}</a>
         </div>
     </div>
 

@@ -48,8 +48,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/bootstrap-select.min.js');
         $this->document->addStyle('catalog/view/javascript/d_bootstrap_select/css/bootstrap-select.min.css');
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/i18n/defaults-en_US.min.js');
-
-        $this->document->addStyle('catalog/view/javascript/d_pretty_checkbox/pretty-checkbox.min.css');
         
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js?'.rand());
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js?'.rand());

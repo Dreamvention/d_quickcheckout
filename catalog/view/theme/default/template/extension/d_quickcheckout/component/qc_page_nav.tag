@@ -2,7 +2,7 @@
 
     <qc_page_nav_setting if={riot.util.tags.selectTags().search('"qc_page_nav_setting"') > 0 && getState().edit} setting_id="page_nav_setting_{opts.page_id}" page_id="{opts.page_id}" page="{opts.page}"></qc_page_nav_setting>
 
-    <qc_pro_label if={ riot.util.tags.selectTags().search('"page_nav_setting"') < 0 && getState().edit}></qc_pro_label>
+    <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_page_nav_setting"') < 0 && getState().edit}></qc_pro_label>
 
 
     <a class="process-page-edit {(opts.page.display == '1') ? '' : 'process-page-hidden'}" onclick={pageOpen} if={getState().edit} >

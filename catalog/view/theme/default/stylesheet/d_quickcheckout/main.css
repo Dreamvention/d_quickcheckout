@@ -885,7 +885,7 @@ body.show-setting.popup {
     z-index: 0;
     position: absolute;
     left: 0;
-    top: calc((0% - (100% - 2em)) - 8%);
+    top: 2px;
     background-color: #fff;
     border-radius: 100%;
     border: 1px solid #bdc3c7; }
@@ -905,7 +905,15 @@ body.show-setting.popup {
     left: 0;
     margin: 1px 0 0;
     z-index: 100;
-    opacity: 0; }
+    opacity: 0;
+    -ms-transform: scale(2);
+    /* IE */
+    -moz-transform: scale(2);
+    /* FF */
+    -webkit-transform: scale(2);
+    /* Safari and Chrome */
+    -o-transform: scale(2);
+    /* Opera */ }
   .qc .qc-checkbox label {
     padding-left: 20px;
     cursor: pointer; }
@@ -920,7 +928,7 @@ body.show-setting.popup {
     z-index: 0;
     position: absolute;
     left: 0;
-    top: calc((0% - (100% - 2em)) + 3px);
+    top: 2px;
     background-color: #fff;
     border: 1px solid #bdc3c7; }
   .qc .qc-checkbox-selected:after {

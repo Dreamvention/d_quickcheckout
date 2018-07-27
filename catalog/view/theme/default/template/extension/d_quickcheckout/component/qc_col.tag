@@ -1,6 +1,6 @@
 <qc_col>
     <virtual if={getState().edit}>
-        <qc_setting if={getState().edit} setting_id="{opts.col_id}_setting">
+        <qc_setting if={getState().edit} setting_id="{opts.col_id}_setting" title="Blocks">
             <div class="qc-setting-panels">
                 <a each={ step, step_id in getState().steps } onclick={parent.parent.addStep} data-name={step}  class="qc-setting-panel add-step">
                     <div class="qc-setting-panel-content">
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="gr-control gr-col-control">
-            <a class="gr-btn gr-add-item gr-btn-block" onclick={showColSettings}><i class="fa fa-plus"></i> Add item</a> 
+            <a class="gr-btn gr-add-item gr-btn-block" onclick={showColSettings}><i class="fa fa-plus"></i> Add block</a> 
         </div>
     </virtual>
     <virtual if={!getState().edit}>

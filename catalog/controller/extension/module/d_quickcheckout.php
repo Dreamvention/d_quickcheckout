@@ -88,7 +88,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->controller('extension/d_quickcheckout/confirm'); 
         $this->load->controller('extension/d_quickcheckout/payment'); 
 
-        $default_steps = array('account', 'payment_address', 'shipping_address', 'custom', 'shipping_method', 'payment_method', 'cart', 'continue', 'confirm', 'payment');
+        $default_steps = array('account', 'payment_address', 'shipping_address', 'custom', 'shipping_method', 'payment_method', 'cart', 'continue', 'confirm', 'payment', 'field', 'login');
 
         $all_steps = $this->model_extension_d_quickcheckout_store->getReceivers();
 

@@ -10,3 +10,4 @@ $_['error_shipping_address_checked'] = 'Shipping address is required';
 $_['error_email_confirm_compare'] = 'Email confirmation does not match email';
 
 $_['text_address_style'] = 'Address style';
+$_['entry_fax'] = 'Fax';

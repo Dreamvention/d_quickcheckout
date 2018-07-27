@@ -20,7 +20,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
      * Initialization
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/confirm.js?'.rand());
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/confirm.js');
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
 

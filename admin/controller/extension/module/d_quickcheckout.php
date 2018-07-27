@@ -72,7 +72,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->model('extension/d_opencart_patch/url');
         $this->load->model('extension/d_opencart_patch/cache');
 
-        $this->model_extension_d_opencart_patch_cache->clearAll();
+        $this->model_extension_d_opencart_patch_cache->clearTwig();
 
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {

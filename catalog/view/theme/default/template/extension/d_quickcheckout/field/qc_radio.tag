@@ -11,7 +11,7 @@
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'}" >
-            <div each={option in opts.field.options} class="radio">
+            <div each={option in opts.field.options} class="radio-input">
                 <label for="{ parent.opts.step }_{ parent.opts.field.id }_{ parent.opts.field.type }_{ option.value }" class="qc-radio { (parent.opts.riotValue == option.value) ? 'qc-radio-selected': '' }">
                     <input
                         type="radio"

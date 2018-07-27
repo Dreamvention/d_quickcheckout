@@ -39,7 +39,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/sortable/jquery.sortable.min.js');
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/animate/animate.min.css');
-        $this->document->addScript('catalog/view/javascript/d_riot/riotcompiler.js');
+        $this->document->addScript('catalog/view/javascript/d_riot/riotcompiler.min.js');
         $this->document->addScript('catalog/view/javascript/d_alertify/alertify.min.js');
         $this->document->addStyle('catalog/view/javascript/d_alertify/css/alertify.min.css');
         $this->document->addScript('catalog/view/javascript/d_bootstrap_switch/js/bootstrap-switch.js');
@@ -49,14 +49,14 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addStyle('catalog/view/javascript/d_bootstrap_select/css/bootstrap-select.min.css');
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/i18n/defaults-en_US.min.js');
         
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/page.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/row.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/col.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/step.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/field.js?'.rand());
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/error.js?'.rand());
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/page.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/row.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/col.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/step.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/field.js');
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/error.js');
 
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/jqueryui/jquery-ui.css');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/jqueryui/jquery-ui.js');
@@ -68,24 +68,37 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/intlTelInput.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
 
-        $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css?'.rand());
+        $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
 
         $state = $this->initState();
         $this->load->model('extension/d_quickcheckout/view');
+
         $this->load->controller('extension/d_quickcheckout/account');
-        $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
-        $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
-        $this->load->controller('extension/d_quickcheckout/custom'); //0.12
+        $this->load->controller('extension/d_quickcheckout/payment_address');
+        $this->load->controller('extension/d_quickcheckout/shipping_address');
+        $this->load->controller('extension/d_quickcheckout/custom'); 
 
         $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
 
-        $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
-        $this->load->controller('extension/d_quickcheckout/payment_method'); //10
-        $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-        $this->load->controller('extension/d_quickcheckout/continue'); //0.12
-        $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
-        $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+        $this->load->controller('extension/d_quickcheckout/shipping_method'); 
+        $this->load->controller('extension/d_quickcheckout/payment_method'); 
+        $this->load->controller('extension/d_quickcheckout/cart'); 
+        $this->load->controller('extension/d_quickcheckout/continue'); 
+        $this->load->controller('extension/d_quickcheckout/confirm'); 
+        $this->load->controller('extension/d_quickcheckout/payment'); 
+
+        $default_steps = array('account', 'payment_address', 'shipping_address', 'custom', 'shipping_method', 'payment_method', 'cart', 'continue', 'confirm', 'payment');
+
+        $all_steps = $this->model_extension_d_quickcheckout_store->getReceivers();
+
+        $extra_steps = array_diff($all_steps, $default_steps);
+
+        if($extra_steps){
+            foreach($extra_steps as $extra_step){
+                $this->load->controller('extension/d_quickcheckout/'.$extra_step);
+            }
+        }
 
         $data['riot_tags'] = $this->model_extension_d_quickcheckout_view->getRiotTags();
 

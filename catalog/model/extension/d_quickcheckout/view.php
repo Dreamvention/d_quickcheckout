@@ -19,9 +19,9 @@ class ModelExtensionDQuickcheckoutView extends Model {
         foreach($files as $file){
 
             if(file_exists('catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file))){
-                $result[] = 'catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file).'?'.rand();
+                $result[] = 'catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file);
             }else{
-                $result[] = 'catalog/view/theme/default/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file).'?'.rand();
+                $result[] = 'catalog/view/theme/default/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file);
             }
             
         }

@@ -29,7 +29,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      *
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/payment_address.js?'.rand());
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/payment_address.js');
 
         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), array());
 

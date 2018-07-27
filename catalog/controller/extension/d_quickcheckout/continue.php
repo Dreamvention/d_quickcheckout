@@ -1,7 +1,7 @@
 <?php
 
 class ControllerExtensionDQuickcheckoutContinue extends Controller {
-    private $route = 'd_quickcheckout/continueг';
+    private $route = 'd_quickcheckout/continue';
 
     public $action = array(
         'continue/update'
@@ -20,7 +20,7 @@ class ControllerExtensionDQuickcheckoutContinue extends Controller {
      * Initialization
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/continue.js?'.rand());
+        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/continue.js');
 
         
         $pages = $this->model_extension_d_quickcheckout_page->getActivePages();

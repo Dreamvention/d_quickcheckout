@@ -7,14 +7,17 @@
     this.pageCount = 0;
 
     this.subscribe('setting/save', function(data) {
-        var self = this;
+
+        this.updateLayout();
         var state = this.getState();
-        this.showLoader();
+        
         var difference = this.getChange();
         difference.layout = state.layout;
-
         this.send('extension/module/d_quickcheckout/update', difference, function(json) {
-            //no need to update state.
+            this.setState(json);
+            this.render();
+            this.hideLoader();
+            this.stateCached.edited = false;
         }.bind(this));
     });
 

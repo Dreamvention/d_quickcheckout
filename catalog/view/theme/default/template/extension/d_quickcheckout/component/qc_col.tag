@@ -10,7 +10,6 @@
                 </a>
             </div>
         </qc_setting>
-
         <div class="gr-control gr-col-control">
             <a class="gr-btn gr-add-row" onclick={addSubRow}><i class="fa fa-clone"></i> Add subrow</a> 
             <a class="gr-btn gr-remove-col" onclick={removeCol}><i class="fa fa-times"></i></a>
@@ -21,8 +20,7 @@
         <div class="gr-col-border-left"></div>
         <div class="gr-col-content ui-sortable">
             <div 
-            each={item_id in store.sortItems(opts.col.children)}
-            no-reorder
+            each={item_id in sortItems(opts.col.children)}
             if={opts.col.children[item_id]}
             id={item_id}
             sort_order={parent.opts.col.children[item_id].sort_order}
@@ -48,7 +46,7 @@
     </virtual>
     <virtual if={!getState().edit}>
         <div 
-        each={item_id in store.sortItems(opts.col.children)}
+        each={item_id in sortItems(opts.col.children)}
         if={opts.col.children[item_id]}
         id={item_id}
         data-name="{parent.opts.col.children[item_id].name}">
@@ -91,6 +89,8 @@
             var sort_order = tag.store.countItems(tag.opts.col.children);
             tag.store.dispatch('row/add', {parent : tag.opts.col.id, sort_order: sort_order});
         }
+
+        this.step_move_timer = null;
         
         this.on('mount', function(){
 
@@ -105,8 +105,8 @@
                     revert: false,
 
                     update: function(event, ui) {
-                        tag.store.showLoader();
                         tag.store.dispatch('step/move', {item_id : $(ui.item).attr('id'), col_id: tag.opts.col.id, row_id: tag.opts.col.parent});
+                            
                     }
                 })
 

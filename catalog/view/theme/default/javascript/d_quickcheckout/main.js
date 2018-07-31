@@ -18,6 +18,10 @@ var qc = (function() {
     //allows for the qc object to trigger and listen to custom events.
     riot.observable(this);
 
+    this.action_pending = [];
+
+    this.layout = [];
+
     /**
     *   createStore. Initialize your app. This will add the default value to the
     * state. Refer to Redux http://redux.js.org/docs/api/Store.html
@@ -49,6 +53,16 @@ var qc = (function() {
         //update state cache.
         this.stateCached = this.state.toJS();
         this.stateCached.edited = true;
+        setTimeout(function(){
+            riot.update(); //will start a full update of all tags
+        },10);
+    }
+
+    this.loading = function(state){
+        var edited = this.stateCached.edited;
+        this.state = this.state.setIn(['session','confirm','loading'], state);
+        this.stateCached = this.state.toJS();
+        this.stateCached.edited = edited;
         setTimeout(function(){
             riot.update(); //will start a full update of all tags
         },10);
@@ -177,7 +191,6 @@ var qc = (function() {
         items_sorted = items_sorted.map(function(item){
           return item.id;
         });
-
         return items_sorted;
     }
 
@@ -185,11 +198,47 @@ var qc = (function() {
         return Object.keys(items).length;
     }
 
+    this.setLayoutAction = function(action, data){
+        var state = this.getState();
+        data.page_id = state.session['page_id'];
+        this.action_pending.push({action: action, data: data } );
+    }
+
+    this.updateLayout = function(){
+        var state = this.getState();
+        if(this.action_pending.length > 0){
+            var layout = {};
+
+            for (page_id in state.layout.pages){
+                this.flattenLayout(state.layout.pages[page_id] , 'children', layout);
+            }
+            
+
+            for ( i in this.action_pending){
+                var action = this.action_pending[i];
+                layout = this[action.action](action.data, layout);
+            }
+
+            for (page_id in state.layout.pages){
+                state.layout.pages[page_id].children = this.unflattenLayout(layout, page_id);
+            }
+            
+
+            this.action_pending=[];
+
+            this.updateState(['layout', 'pages'], {});
+            this.render();
+            this.updateState(['layout', 'pages'], state.layout.pages);
+        }
+    }
+
     // recursive collection function
     this.flattenLayout = function(tree, key, collection) {
         if (!tree[key] || tree[key].length === 0) return;
         var i = 0;
-        $.each(tree[key], function(child_id, child) {
+        for (child_id in tree[key]){
+            var child = tree[key][child_id];
+
             collection[child.id] = child;
             this.flattenLayout(child, key, collection);
             if(tree.id){
@@ -202,20 +251,23 @@ var qc = (function() {
             i++;
 
             delete collection[child.id].children;
-        }.bind(this))
+        }
         return;
     }
 
+
     this.unflattenLayout = function(arr, parent_id) {
-        var nodes = $.map(arr, function(value, index) {
+        var nodes = [];
+        nodes = $.map(arr, function(value, index) {
             if(value.type != 'item'){
                 value.children = [];
             }
             return value;
         });
-        var map = {}, 
-            node, 
-            roots = [];
+
+        var map = {};
+        var node;
+        var roots = [];
         for (var i = 0; i < nodes.length; i += 1) {
             node = nodes[i];
             map[node.id] = i;
@@ -223,10 +275,10 @@ var qc = (function() {
 
         for (var i = 0; i < nodes.length; i += 1) {
             node = nodes[i];
-            if (node.parent !== 0) {
+            if (node.parent !== "0") {
                 if(typeof map[node.parent] !== 'undefined'){
-                    nodes[map[node.parent]]['children'].push(node);
-                    nodes[map[node.parent]]['children'].sort(function(a,b) {
+                    nodes[map[node.parent]].children.push(node);
+                    nodes[map[node.parent]].children.sort(function(a,b) {
                         return a.sort_order == b.sort_order ? 0 : +(a.sort_order > b.sort_order) || -1;
                     })
                 }
@@ -249,14 +301,13 @@ var qc = (function() {
         var new_array = {};
         if(Array.isArray(array)){
             for (var i = 0, len = array.length; i < len; i++) {
-                new_array[array[i].id] = array[i];
+                new_array[array[i].id] = $.extend(true, {}, array[i]);
                 if(new_array[array[i].id].children != 'undefined'){
                     new_array[array[i].id].children = this.toObject(new_array[array[i].id].children)
                 }
             }
-            return new_array;
         }
-        
+        return new_array;
     }
 
     this.raw = function(text){
@@ -273,6 +324,7 @@ var qc = (function() {
     this.beforeLeave = function(){
         if(this.stateCached.edit){
             $(window).bind('beforeunload', function(){
+                console.log(this.stateCached.edited);
                 if(this.stateCached.edited){
                     return true;
                 }
@@ -286,26 +338,25 @@ var qc = (function() {
         this.updateState(['notifications'], {});
         $.post('index.php?route='+route, data, function(json){
             callback(json);
-            this.stateCached.edited = false;
             this.hideLoader();
         }.bind(this));
     }
 
     this.showLoader = function(){
-        this.updateState(['session','confirm','loading'], true);
+        this.loading(true);
         var that = this;
         setTimeout(function(){
             $('.loader').show();
             setTimeout(function(){
-                that.updateState(['session','confirm','loading'], false);
+                that.loading(false);
                 $('.loader').hide();
-            },10000);
+            },5000);
         },10);
         
     }
 
     this.hideLoader = function(){
-        this.updateState(['session','confirm','loading'], false);
+        this.loading(false);
         $('.loader').hide();
     }
 
@@ -313,7 +364,6 @@ var qc = (function() {
         setTimeout(function(){
             $('.spinner').show();
         },10);
-        
     }
 
     this.hideSpinner = function(){

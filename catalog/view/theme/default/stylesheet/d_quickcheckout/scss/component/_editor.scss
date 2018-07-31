@@ -7,7 +7,7 @@
     width: 100%;
     background: #3cb1d4;
     display: block;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #329cbb;
     box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.2);
     &-heading{
         padding: 20px 20px;
@@ -501,7 +501,10 @@
         }
     }
 }
-
+qc_pro_label{
+    position: relative;
+    display: block;
+}
 .get-pro{
     display: none;
     text-align: center;

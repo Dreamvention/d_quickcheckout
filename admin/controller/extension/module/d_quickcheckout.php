@@ -98,6 +98,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['pro'] = $this->d_quickcheckout_pack;
         $data['d_shopunity'] = $this->d_shopunity;
 
+        $data['store_id'] = $this->store_id;
+
         // text
         $data['text_enabled'] = $this->language->get('text_enabled');
         $data['text_disabled'] = $this->language->get('text_disabled');
@@ -132,7 +134,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['editor'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/editor');
         $data['add_setting'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/addSetting');
         $data['delete_setting'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/deleteSetting');
+        $data['change_store'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/changeStore');
         $data['cancel'] = $this->model_extension_d_opencart_patch_url->getExtensionLink('module');
+
+        $this->load->model('extension/d_opencart_patch/store');
+        $data['stores'] = $this->model_extension_d_opencart_patch_store->getAllStores();
         
 
         if (isset($this->request->post[$this->codename.'_status'])) {
@@ -180,7 +186,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     public function addSetting(){
         $name = 'Setting';
-        $store_id = 0;
+        $store_id = $this->store_id;
 
         $this->db->query("INSERT INTO `" . DB_PREFIX . "dqc_setting`
             SET `store_id` = '" . (int)$store_id . "',
@@ -233,10 +239,34 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     }
 
+    public function changeStore(){
+        $json = array();
+        if(isset($this->request->post['store_id'])){
+            $store_id = $this->request->post['store_id'];
+
+            $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "dqc_setting`
+                WHERE store_id = '" . (int)$store_id . "'" );
+
+            if($query->row){
+                $json['setting_id'] = $query->row['setting_id'];
+            }else{
+                $name = 'Store '.$store_id;
+                $this->db->query("INSERT INTO `" . DB_PREFIX . "dqc_setting`
+                    SET `store_id` = '" . (int)$store_id . "',
+                        `name` = '" . $this->db->escape($name) . "',
+                        `date_added` = NOW(),
+                        `date_modified` = NOW()");
+                $json['setting_id'] = $this->db->getLastId();
+            }
+        }
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
     
 
     public function getSettings(){
-        $store_id = $this->config->get('config_store_id');
+        $store_id = $this->store_id;
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "dqc_setting WHERE store_id = '" . (int)$store_id . "'");
         return $query->rows;
         
@@ -259,7 +289,29 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if(isset($this->request->get['setting_id'])){
             $setting_id = $this->request->get['setting_id'];
         }
-        $data['editor'] = HTTP_CATALOG.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id;
+
+        $this->load->model('extension/module/d_quickcheckout');
+        $setting = $this->model_extension_module_d_quickcheckout->getSetting($setting_id);
+        $url = HTTP_CATALOG;
+        if(isset($setting['store_id'])){
+            $this->load->model('setting/setting');
+            $setting = $this->model_setting_setting->getSetting('config', $setting['store_id']);
+            
+            if(isset($setting['config_url'])){
+                if(!empty($setting['config_secure'])){
+                    $url = $setting['config_ssl'];
+                }else{
+                    $url = $setting['config_url'];
+                }
+            }else{
+                if($this->config->get('config_secure')){
+                    $url = HTTPS_CATALOG;
+                }else{
+                    $url = HTTP_CATALOG;
+                }
+            }
+        }
+        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id;
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_quickcheckout/editor', $data));
     }
 

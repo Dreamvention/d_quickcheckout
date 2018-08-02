@@ -86,18 +86,36 @@
                                         {% endif %}
 
                                         {% if settings  %}
+
+                                        
+
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="input_status">Visual Editor</label>
                                             <div class="col-md-10">   
-                                            {% for setting in settings %}
-                                                <a class="btn btn-primary editor" href="{{editor}}" data-setting_id="{{setting.setting_id}}" ><i class="fa fa-pencil"></i> Go to Visual Editor</a>
-                                             {% endfor %}
+
+                                                <div class="form-inline">
+                                                    {% if stores|length > 1  %} 
+                                                        <select class="form-control changeStore">  
+                                                            {% for store in stores %}
+                                                                <option value="{{store.store_id}}">{{store.name}}</option>
+                                                            {% endfor %}
+                                                         </select>
+                                                    {% endif %}
+
+                                                    <input type="hidden" id="setting_id" value="{{settings[0].setting_id}}" />
+                                                    <a class="btn btn-primary editor" href="{{editor}}" ><i class="fa fa-pencil"></i> Go to Visual Editor</a>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        
+
                                         <br/>
                                         <br/>
                                         <hr/>
                                         {% endif %}
+
+                                        
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="input_status">{{entry_status}}</label>
@@ -310,7 +328,27 @@ $(function () {
                 $('#form').fadeTo('slow', 1);
             },
             success: function( response ) {
-                location.reload();
+                window.location.replace(response.url);
+                console.log( response );
+            }
+        });
+
+    })
+
+    $(document).on('change', '.changeStore', function(){
+        var store_id = $(this).val();
+        $.ajax( {
+            type: 'post',
+            url: '{{change_store}}',
+            data: 'store_id='+store_id,
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                $('#setting_id').val(response.setting_id);
                 console.log( response );
             }
         });
@@ -319,7 +357,7 @@ $(function () {
 
     $(document).on('click', '.editor', function(){
 
-        var setting_id = $(this).data('setting_id');
+        var setting_id = $('#setting_id').val();
         var editor = $(this).attr('href');
 
         window.open(editor+'&setting_id='+setting_id, '_blank');

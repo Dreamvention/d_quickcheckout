@@ -281,14 +281,14 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $store_id = 0;
         if(isset($setting['store_id'])){
             $this->load->model('setting/setting');
-            $setting = $this->model_setting_setting->getSetting('config', $setting['store_id']);
+            $store_setting = $this->model_setting_setting->getSetting('config', $setting['store_id']);
             
-            if(isset($setting['config_url'])){
-                $store_id = $setting['store_id'];
-                if(!empty($setting['config_secure'])){
-                    $url = $setting['config_ssl'];
+            if(isset($store_setting['config_url'])){
+                $store_id = $store_setting['store_id'];
+                if(!empty($store_setting['config_secure'])){
+                    $url = $store_setting['config_ssl'];
                 }else{
-                    $url = $setting['config_url'];
+                    $url = $store_setting['config_url'];
                 }
             }else{
                 if($this->config->get('config_secure')){

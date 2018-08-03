@@ -1,5 +1,5 @@
 <qc_field_setting>
-    <form class="field-setting">
+    <form class="qc-field-setting">
         <div class="btn-group btn-group-xs" data-toggle="buttons">
             <label class="btn btn-default handle-sortable" id="{ opts.field_id }">
                 <i class="fa fa-arrows"></i>
@@ -52,7 +52,7 @@
         editCheckbox(e){
             var checkbox = $(e.currentTarget).find('input[type=checkbox]');
             checkbox.prop("checked", !checkbox.prop("checked"));
-            this.store.dispatch(this.opts.step+'/edit', $(tag.root).find('.field-setting').serializeJSON());
+            this.store.dispatch(this.opts.step+'/edit', $(tag.root).find('.qc-field-setting').serializeJSON());
         }
 
         deleteField(e){

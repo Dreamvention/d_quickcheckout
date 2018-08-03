@@ -22,7 +22,7 @@
                         <div 
                             each={ field_id in fields }
                             if={ (getConfig().custom.fields[field_id])}
-                            class="field { (getConfig().custom.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
+                            class="qc-field { (getConfig().custom.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().custom.fields[field_id].sort_order }
                             field_id={field_id}
                             step="custom"

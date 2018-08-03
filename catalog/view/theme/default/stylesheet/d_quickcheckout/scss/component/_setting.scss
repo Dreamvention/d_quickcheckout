@@ -251,7 +251,7 @@ body.show-setting.popup{
     }
 }
 
-.field{
+.qc-field{
     &-setting{
         position: absolute;
         z-index: 10;
@@ -290,9 +290,9 @@ body.show-setting.popup{
 }
 
 .edit{
-    .field{
+    .qc-field{
         &:hover{
-            .field-setting,
+            .qc-field-setting,
             .pro-label{
                 display: block;
             }

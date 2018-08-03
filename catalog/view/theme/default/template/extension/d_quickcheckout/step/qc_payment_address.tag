@@ -39,7 +39,7 @@
                             
                             each={ field_id in fields}
                             if={ (getConfig().payment_address.fields[field_id])}
-                            class="field { (getConfig().payment_address.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
+                            class="qc-field { (getConfig().payment_address.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().payment_address.fields[field_id].sort_order }
                             field_id={field_id}
                             step="payment_address"

@@ -555,27 +555,27 @@ body.show-setting.popup {
     display: none;
     color: #fff; }
 
-.field-setting {
+.qc-field-setting {
   position: absolute;
   z-index: 10;
   display: none;
   right: 16px; }
-  .field-setting .btn-group {
+  .qc-field-setting .btn-group {
     background: #56c0b9;
     border-radius: 0px 3px 0px 3px; }
-    .field-setting .btn-group > * {
+    .qc-field-setting .btn-group > * {
       padding: 4px 8px;
       background: #56c0b9;
       border: none;
       color: #fff;
       text-shadow: none; }
-      .field-setting .btn-group > *:hover, .field-setting .btn-group > *.active {
+      .qc-field-setting .btn-group > *:hover, .qc-field-setting .btn-group > *.active {
         background: rgba(0, 0, 0, 0.2);
         color: #fff; }
-.field .no-display {
+.qc-field .no-display {
   opacity: 0.5;
   height: 34px; }
-.field .pro-label {
+.qc-field .pro-label {
   font-size: 10px;
   padding: .2em .6em .3em;
   position: absolute;
@@ -584,8 +584,8 @@ body.show-setting.popup {
   display: none;
   color: #fff; }
 
-.edit .field:hover .field-setting,
-.edit .field:hover .pro-label {
+.edit .qc-field:hover .qc-field-setting,
+.edit .qc-field:hover .pro-label {
   display: block; }
 .edit .step:hover qc_step_setting > .step-setting,
 .edit .step:hover > qc_pro_label > .pro-label {

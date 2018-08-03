@@ -70,16 +70,6 @@
             <a class="btn btn-lg btn-success" onclick={saveState}>{getLanguage().general.text_update}</a>
             <a class="btn btn-lg btn-danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-times fa-close"></i></a>
         </div>
-        <div class="qc-editor-account" if={(getState().session.account != 'logged')}>
-            <div class="btn-group btn-group" data-toggle="buttons">
-                <label class="btn btn-lg btn-primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
-                    <input type="radio" name="account" value="guest" id="guest" autocomplete="off" checked={ getAccount() == 'guest' }> {getLanguage().account.entry_guest}
-                </label>
-                <label class="btn btn-lg btn-primary { getAccount() == 'register' ?  'active' : '' }" onclick={changeAccount}>
-                    <input type="radio" name="account" value="register" id="register" autocomplete="off" checked={ getAccount() == 'register' }> {getLanguage().account.entry_register}
-                </label>
-            </div>
-        </div>
         <div class="qc-editor-language" if={Object.keys(getState().languages).length  > 1}>
             <div class="btn-group btn-group" data-toggle="buttons">
                 <label each={language, language_id in getState().languages} class="btn btn-lg btn-primary { getSession().language == language_id ?  'active' : '' }" onclick={changeLanguage}>

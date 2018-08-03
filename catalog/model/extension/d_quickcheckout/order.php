@@ -581,7 +581,7 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
 
         $marketing_info = $this->model_checkout_marketing->getMarketingByCode($this->request->cookie['tracking']);
 
-        if ($markseting_info) {
+        if ($marketing_info) {
           $data['marketing_id'] = $marketing_info['marketing_id'];
         } else {
           $data['marketing_id'] = 0;

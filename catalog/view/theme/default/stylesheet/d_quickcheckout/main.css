@@ -527,31 +527,33 @@ body.show-setting.popup {
   display: none;
   color: #fff; }
 
-.step-setting {
-  position: absolute;
-  z-index: 10;
-  display: none;
-  right: 0px; }
-  .step-setting .btn-group {
-    background: #3cb1d4;
-    border-radius: 0px 3px 0px 3px; }
-    .step-setting .btn-group > * {
-      padding: 4px 8px;
+.step {
+  position: relative; }
+  .step-setting {
+    position: absolute;
+    z-index: 10;
+    display: none;
+    right: 0px; }
+    .step-setting .btn-group {
       background: #3cb1d4;
-      border: none;
-      color: #fff;
-      text-shadow: none; }
-      .step-setting .btn-group > *:hover, .step-setting .btn-group > *.active {
-        background: rgba(0, 0, 0, 0.2);
-        color: #fff; }
-.step .pro-label {
-  font-size: 12px;
-  padding: 5px;
-  position: absolute;
-  right: 0px;
-  z-index: 10;
-  display: none;
-  color: #fff; }
+      border-radius: 0px 3px 0px 3px; }
+      .step-setting .btn-group > * {
+        padding: 4px 8px;
+        background: #3cb1d4;
+        border: none;
+        color: #fff;
+        text-shadow: none; }
+        .step-setting .btn-group > *:hover, .step-setting .btn-group > *.active {
+          background: rgba(0, 0, 0, 0.2);
+          color: #fff; }
+  .step .pro-label {
+    font-size: 12px;
+    padding: 5px;
+    position: absolute;
+    right: 0px;
+    z-index: 10;
+    display: none;
+    color: #fff; }
 
 .field-setting {
   position: absolute;

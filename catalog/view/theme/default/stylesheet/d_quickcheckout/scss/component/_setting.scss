@@ -217,6 +217,7 @@ body.show-setting.popup{
     }
 }
 .step{
+    position: relative;
     &-setting{
         position: absolute;
         z-index: 10;

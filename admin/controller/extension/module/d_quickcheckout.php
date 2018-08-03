@@ -275,11 +275,16 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $setting_id = $this->request->get['setting_id'];
         }
 
+        $store_id = 0;
+        if($this->config->get('config_secure')){
+            $url = HTTPS_CATALOG;
+        }else{
+            $url = HTTP_CATALOG;
+        }
+        
         $this->load->model('extension/module/d_quickcheckout');
         $setting = $this->model_extension_module_d_quickcheckout->getSetting($setting_id);
-        $url = HTTP_CATALOG;
-        $store_id = 0;
-        if(isset($setting['store_id'])){
+        if(!empty($setting['store_id'])){
             $this->load->model('setting/setting');
             $store_setting = $this->model_setting_setting->getSetting('config', $setting['store_id']);
             
@@ -289,12 +294,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                     $url = $store_setting['config_ssl'];
                 }else{
                     $url = $store_setting['config_url'];
-                }
-            }else{
-                if($this->config->get('config_secure')){
-                    $url = HTTPS_CATALOG;
-                }else{
-                    $url = HTTP_CATALOG;
                 }
             }
         }

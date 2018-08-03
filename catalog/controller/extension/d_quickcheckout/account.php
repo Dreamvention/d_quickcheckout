@@ -62,7 +62,6 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 
             if(isset($data['data']['email'])
             && isset($data['data']['password'])){
-                FB::log('logined');
                 $this->login($data['data']['email'], $data['data']['password']);
                 $this->model_extension_d_quickcheckout_store->updateState(array('text_account_login'), $this->getAccountLoginText());
             }

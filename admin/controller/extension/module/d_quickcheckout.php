@@ -2,7 +2,9 @@
 /*
  *  location: admin/controller
  */
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     private $codename = 'd_quickcheckout';
@@ -35,14 +37,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 $this->customer = new Customer($registry);
             }else{
                 $this->customer = new Cart\Customer($registry);
-            }
-        }
-
-        if(!isset($this->cart)){
-            if(VERSION < '2.2.0.0'){
-                $this->cart = new Cart($registry);
-            }else{
-                $this->cart = new Cart\Cart($registry);
             }
         }
     }
@@ -276,15 +270,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data = array();
         $this->load->model('extension/d_opencart_patch/load');
 
-        $cart = $this->cart->getProducts();
-
-        if(!$cart){
-            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p WHERE status = '1' LIMIT 1");
-
-            $product = $query->row;
-
-            $this->cart->add($product['product_id']);
-        }
         $setting_id = 0;
         if(isset($this->request->get['setting_id'])){
             $setting_id = $this->request->get['setting_id'];
@@ -293,11 +278,13 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->model('extension/module/d_quickcheckout');
         $setting = $this->model_extension_module_d_quickcheckout->getSetting($setting_id);
         $url = HTTP_CATALOG;
+        $store_id = 0;
         if(isset($setting['store_id'])){
             $this->load->model('setting/setting');
             $setting = $this->model_setting_setting->getSetting('config', $setting['store_id']);
             
             if(isset($setting['config_url'])){
+                $store_id = $setting['store_id'];
                 if(!empty($setting['config_secure'])){
                     $url = $setting['config_ssl'];
                 }else{
@@ -311,6 +298,26 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 }
             }
         }
+
+        if(!isset($this->cart)){
+            $this->config->set('config_store_id', $store_id);
+            if(VERSION < '2.2.0.0'){
+                $this->cart = new Cart($this->registry);
+            }else{
+                $this->cart = new Cart\Cart($this->registry);
+            }
+        }
+
+        $cart = $this->cart->getProducts();
+
+        if(!$cart){
+            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p2s.store_id = '".(int)$store_id."' LIMIT 1");
+
+            $product = $query->row;
+
+            $this->cart->add($product['product_id']);
+        }
+
         $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id;
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_quickcheckout/editor', $data));
     }

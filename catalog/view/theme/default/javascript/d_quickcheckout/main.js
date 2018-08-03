@@ -380,3 +380,4 @@ var qc = (function() {
 var d_quickcheckout = qc;
 
 $.fn.btnBootstrap = $.fn.button.noConflict();
+

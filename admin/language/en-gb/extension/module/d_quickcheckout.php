@@ -27,8 +27,8 @@ $_['entry_bootstrap']               = 'Force bootstrap <br/><small>If the fronte
 $_['entry_support']                 = 'Support<br/><small>Create a ticket. If you find a bug, even in a free version, please let us know.</small>';
 $_['text_support']                  = 'Open Ticket';
 
-$_['text_powered_by']               = 'Tested with <a href="https://shopunity.net/extension/ajax-quick-checkout-pro" target="_blank">Shopunity.net</a> <br> Find more extensions at <a href="https://dreamvention.ee/" target="_blank">Dreamvention.ee</a>';
+$_['text_powered_by']               = 'Tested with <a href="https://shopunity.net/extension/ajax-quick-checkout-pro" target="_blank">Shopunity.net</a> <br> Find more amazing extensions at <a href="https://dreamvention.ee/" target="_blank">Dreamvention.ee</a>';
 
 
-$_['text_get_pro']                  = 'Stop losing sales today! Improve your checkout with <strong>Ajax Quick Checkout PRO</strong> and watch your sales grow. <a href="https://aqc.page.link/getpro" target="_blank">Get -10% OFF</a> ';
+$_['text_get_pro']                  = '<a href="https://aqc.page.link/getpro" target="_blank">Stop losing sales today! Improve your checkout with <strong>Ajax Quick Checkout PRO</strong> and watch your sales grow. Get -10% OFF</a>';
 ?>

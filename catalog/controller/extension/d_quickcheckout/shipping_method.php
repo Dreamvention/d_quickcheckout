@@ -115,6 +115,9 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     public function validate(){
         $this->load->language('checkout/checkout');
         $state = $this->model_extension_d_quickcheckout_store->getState();
+        if(empty($state['errors']['shipping_method'])){
+            $state['errors']['shipping_method'] = array();
+        }
         $state['errors']['shipping_method']['error_shipping'] = false;
 
         if(!$this->hasShipping()){

@@ -22,6 +22,9 @@
         </div>
     </div>
     <div class="container-fluid">
+        {% if not pro %}
+            <div class="notify alert alert-info">{{text_get_pro}}</div>
+        {% endif %}
         {% if error.warning %} 
             <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error.warning }} 
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -71,9 +74,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_setting" >
                                 <div class="tab-body">
-                                    {% if not pro %}
-                                        <div class="notify alert alert-warning">{{text_get_pro}}</div>
-                                    {% endif %}
+                                    
                                     <form action="{{action}}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
                                         
                                         {% if settings is empty %}

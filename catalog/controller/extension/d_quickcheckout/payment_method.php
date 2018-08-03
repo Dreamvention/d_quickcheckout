@@ -113,6 +113,9 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         $this->load->language('checkout/checkout');
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $result = true;
+        if(empty($state['errors']['payment_method'])){
+            $state['errors']['payment_method'] = array();
+        }
         $state['errors']['payment_method']['error_payment'] = false;
         if(!$this->model_extension_d_quickcheckout_method->getFirstPaymentMethod()){
             $state['errors']['payment_method']['error_no_payment'] = $this->language->get('error_no_payment');

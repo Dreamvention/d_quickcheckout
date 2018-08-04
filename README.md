@@ -6,10 +6,10 @@ By [Dreamvention.ee](https://dreamvention.ee)
 
 [DEMO](http://demo.shopunity.net/index.php?route=extension/demo&extension_download_id=79)
 
-The default Opencart Checkout could lose up to 67% of sales just becuase its so damn long. Too many fields and steps to fullfil. With Ajax Quick Checkout you get change that. 
+The default Opencart Checkout could lose up to 67% of sales just becuase its so damn long. Too many fields and steps to fullfil. With Ajax Quick Checkout you get to change that. 
 
-AQC7 allows:
-1. Editing with Visual Editor
+AQC7 allows you to:
+1. Edit everyything with Visual Editor
 2. Hide and sort steps and fields
 3. Add one or more pages to the checkout process
 4. Extend the functionality with plugins

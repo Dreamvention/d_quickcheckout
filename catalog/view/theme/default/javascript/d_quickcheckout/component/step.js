@@ -26,6 +26,7 @@
     })
 
     this.subscribe('step/remove', function(data) {
+        $('#'+data.step_id).remove();
         this.setLayoutAction('stepRemove', data);
     });
 

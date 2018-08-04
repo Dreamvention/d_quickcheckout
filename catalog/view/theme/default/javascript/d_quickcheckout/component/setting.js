@@ -7,7 +7,7 @@
     this.pageCount = 0;
 
     this.subscribe('setting/save', function(data) {
-
+        this.hideSetting();
         this.updateLayout();
         var state = this.getState();
         

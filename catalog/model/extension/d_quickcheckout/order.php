@@ -230,7 +230,11 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
       
 
       foreach ($results as $key => $value) {
-          $sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+          if(VERSION < '3.0.0.0'){
+              $sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+          }else{
+              $sort_order[$key] = $this->config->get('total_' . $value['code'] . '_sort_order');
+          }
       }
 
       array_multisort($sort_order, SORT_ASC, $results);

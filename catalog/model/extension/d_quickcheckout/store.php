@@ -73,7 +73,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $state['steps'] = $this->getReceivers();
         $state['layouts'] = $this->getLayouts();
         $state['skins'] = $this->getSkins();
-        $state['errors'] = '';
+        $state['errors'] = array();
         $state['config'] = array();
         $state['action'] = array();
         $state['language'] = array();
@@ -313,7 +313,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
             $state['notifications'] = ($this->config->get('d_quickcheckout_notifications')) ? $this->config->get('d_quickcheckout_notifications') : "";
             $state['config'] = ($this->config->get('d_quickcheckout_config')) ? $this->config->get('d_quickcheckout_config') : array();
             $state['layout'] =($this->config->get('d_quickcheckout_layout')) ? $this->config->get('d_quickcheckout_layout') : array();
-            $state['errors'] = ($this->config->get('d_quickcheckout_errors')) ? $this->config->get('d_quickcheckout_errors') : '';
+            $state['errors'] = ($this->config->get('d_quickcheckout_errors')) ? $this->config->get('d_quickcheckout_errors') : array();
             $state['steps'] = ($this->config->get('d_quickcheckout_steps')) ? $this->config->get('d_quickcheckout_steps') : array();
             $state['action'] = ($this->config->get('d_quickcheckout_action')) ? $this->config->get('d_quickcheckout_action') : array();
             $state['language'] = ($this->config->get('d_quickcheckout_language')) ? $this->config->get('d_quickcheckout_language') : array();

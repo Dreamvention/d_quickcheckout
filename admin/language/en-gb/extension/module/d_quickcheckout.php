@@ -31,4 +31,5 @@ $_['text_powered_by']               = 'Tested with <a href="https://shopunity.ne
 
 
 $_['text_get_pro']                  = '<a href="https://aqc.page.link/getpro" target="_blank">Stop losing sales today! Improve your checkout with <strong>Ajax Quick Checkout PRO</strong> and watch your sales grow. Get -10% OFF</a>';
+$_['error_permission']              = 'Warning: You do not have permission to modify this module!';
 ?>

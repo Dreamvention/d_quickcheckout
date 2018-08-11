@@ -1,5 +1,5 @@
 <qc_custom_field>
-    <div class="qc-setting" id="{opts.setting_id}" >
+    <div class="qc qc-setting" id="{opts.setting_id}" >
         <div class="qc-setting-header">
             <h2>{opts.title} {getLanguage().general.text_settings}</h2>
             <a class="close" onclick={close}>

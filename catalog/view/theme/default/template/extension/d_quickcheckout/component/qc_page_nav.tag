@@ -22,7 +22,7 @@
 
     <script>
         this.mixin({store:d_quickcheckout_store});
-        this.setting_id = 'page_nav_setting_'+ opts.page_id;
+        this.setting_id = 'qc_page_nav_setting_'+ opts.page_id;
 
         var tag = this;
 

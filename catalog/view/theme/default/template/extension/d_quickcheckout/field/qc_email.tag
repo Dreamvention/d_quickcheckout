@@ -2,7 +2,7 @@
     
     <qc_email_setting if={riot.util.tags.selectTags().search('"qc_email_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></qc_email_setting>
 
-    <qc_pro_label if={ riot.util.tags.selectTags().search('"email_setting"') < 0 && getState().edit}></qc_pro_label>
+    <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_email_setting"') < 0 && getState().edit}></qc_pro_label>
     
     <div if={ (opts.field.display == 1) } class="field-sortable form-group clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'} control-label">

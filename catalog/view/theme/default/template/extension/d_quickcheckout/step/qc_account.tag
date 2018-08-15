@@ -39,21 +39,21 @@
                             <qc_raw content="{getState().config.guest.account.social_login.value}"></qc_raw>
                         </div>
                     </div>
-                    <form class="row">
-                        <div class="form-group clearfix">
+                    <form class="row no-gutters">
+                        <div class="col-sm-12 form-group clearfix">
                             <label class="col-md-5">{getLanguage().account.entry_email}</label>
                             <div class="col-md-7">
                                 <input ref="email" type="text" autocomplete="email" class="form-control" name="email" value="">
                             </div>
                         </div>
-                        <div class="form-group clearfix">
+                        <div class="col-sm-12 form-group clearfix">
                             <label class="col-md-5">{getLanguage().account.entry_password}</label>
                             <div class="col-md-7">
                                 <input ref="password" type="password" autocomplete="current-password" class="form-control" name="password" value="">
                             </div>
                         </div>
                         
-                        <div class="form-group clearfix">
+                        <div class="col-sm-12 form-group clearfix">
                             <div class="col-md-7 col-md-offset-5">
                                 <button class="btn btn-primary" onclick={login}>{getLanguage().account.button_login}</button>
                             </div>

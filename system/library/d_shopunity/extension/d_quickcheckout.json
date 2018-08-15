@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -213,6 +213,10 @@
         "admin/view/image/d_quickcheckout"
     ],
     "changelog": [
+        {
+            "varsion":"7.0.1",
+            "change": "Fix initial bugs"
+        },
         {
             "varsion":"7.0.0",
             "change": "Add Visual Editor, Multiple pages. Extensibily and stability."

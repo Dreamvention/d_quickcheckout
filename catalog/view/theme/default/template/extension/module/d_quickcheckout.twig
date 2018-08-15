@@ -15,14 +15,14 @@
         }
         body > #d_quickcheckout{
             display: block;
-        } 
+        }
     </style>
 {% else %}
     <style>
         {% if state.layout.header_footer != 1 %}
             body > *{
                 display: none;
-            } 
+            }
             body > .spinner{
                 display: block;
             }
@@ -48,7 +48,7 @@
     var count = 0;
     var total = {{riot_tags|length}};
     var d_quickcheckout_store =  d_quickcheckout.createStore({{ state|json_encode() }});
-    {% for riot_tag in riot_tags %} 
+    {% for riot_tag in riot_tags %}
         riot.compile('{{riot_tag}}', function(){
             count++;
             if(total == count){
@@ -59,7 +59,7 @@
     function start(){
 
         riot.compile('catalog/view/theme/default/template/extension/module/d_quickcheckout.tag', function() {
-            
+
           riot.mount(document.getElementById('d_quickcheckout'));
         })
     }

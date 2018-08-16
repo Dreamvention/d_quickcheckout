@@ -33,6 +33,15 @@ gulp.task('sass', function () {
 		.pipe(gulp.dest('stylesheet/d_quickcheckout/skin/journal2'))
 		.pipe(browserSync.stream({match: '**/*.css'}));
 });
+gulp.task('sass-default', function () {
+	return gulp.src('stylesheet/d_quickcheckout/skin/default/default.s*ss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(autoprefixer({
+			browsers: ["last 15 versions"]
+		}))
+		.pipe(gulp.dest('stylesheet/d_quickcheckout/skin/default'))
+		.pipe(browserSync.stream({match: '**/*.css'}));
+});
 gulp.task("core-scripts", function () {
 	return gulp.src([
 		"javascript/core/checkout/checkout.js",
@@ -57,7 +66,7 @@ gulp.task("core-scripts", function () {
 
 gulp.task('watch', ['browser-sync', 'sass', 'core-scripts'], function () {
 	gulp.watch('stylesheet/d_quickcheckout/scss/**/*.s*ss', ['sass-core']);
-	gulp.watch('stylesheet/d_quickcheckout/skin/**/**/*.s*ss', ['sass']);
+	gulp.watch('stylesheet/d_quickcheckout/skin/**/**/*.s*ss', ['sass-default']);
 	gulp.watch('template/**/*.**', browserSync.reload);
 	gulp.watch('../../controller/**/*.**', browserSync.reload);
 	gulp.watch('../../../controller/**/**/*.**', browserSync.reload);

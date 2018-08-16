@@ -3,7 +3,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_heading_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="form-group clearboth field-sortable">
+    <div if={ (opts.field.display == 1) } class="form-group d-vis  clearboth field-sortable">
         <div class="col-md-12">
             <h4><i class="fa fa-book"></i>
             { getLanguage()[opts.step][opts.field.text] }</h4>

@@ -4,7 +4,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_radio_setting"') < 0 && getState().edit}></qc_pro_label>
     
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'} control-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>

@@ -9,13 +9,13 @@
         <div if={ (getState().session.account != 'logged') && (getConfig().account.display == 1) } >
             <div class="panel panel-default" if={ getState().config.guest.account.option.guest.display == 1 || getState().config.guest.account.option.register.display == 1 || (getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 )}>
                 <div class="btn-group btn-group-justified" data-toggle="buttons">
-                  <label if={getState().config.guest.account.option.guest.display == 1} class="btn btn-primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
+                  <label if={getState().config.guest.account.option.guest.display == 1} class="btn d-vis  btn-primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
                     <input type="radio" name="account" value="guest" id="guest" autocomplete="off" checked={ getAccount() == 'guest' }> {getLanguage().account.entry_guest}
                   </label>
-                  <label if={getState().config.guest.account.option.register.display == 1} class="btn btn-primary { getAccount() == 'register' ?  'active' : '' }" onclick={changeAccount}>
+                  <label if={getState().config.guest.account.option.register.display == 1} class="btn d-vis  btn-primary { getAccount() == 'register' ?  'active' : '' }" onclick={changeAccount}>
                     <input type="radio" name="account" value="register" id="register" autocomplete="off" checked={ getAccount() == 'register' }> {getLanguage().account.entry_register}
                   </label>
-                  <a class="btn btn-primary" onclick={openLoginPopup} if={getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 }> {getLanguage().account.entry_login}
+                  <a class="btn d-vis btn-primary" onclick={openLoginPopup} if={getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 }> {getLanguage().account.entry_login}
                   </a>
                 </div>
             </div>
@@ -34,28 +34,28 @@
                     <div if={getError() && getError().account && getError().account.login } class="alert alert-danger">
                         {getError().account.login}
                     </div>
-                    <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="row form-group clearfix qc-social-login">
+                    <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="row form-group d-vis clearfix qc-social-login">
                         <div class="col-md-12">
                             <qc_raw content="{getState().config.guest.account.social_login.value}"></qc_raw>
                         </div>
                     </div>
                     <form class="row no-gutters">
-                        <div class="col-sm-12 form-group clearfix">
+                        <div class="col-sm-12 form-group d-vis clearfix">
                             <label class="col-md-5">{getLanguage().account.entry_email}</label>
                             <div class="col-md-7">
                                 <input ref="email" type="text" autocomplete="email" class="form-control" name="email" value="">
                             </div>
                         </div>
-                        <div class="col-sm-12 form-group clearfix">
+                        <div class="col-sm-12 form-group d-vis clearfix">
                             <label class="col-md-5">{getLanguage().account.entry_password}</label>
                             <div class="col-md-7">
                                 <input ref="password" type="password" autocomplete="current-password" class="form-control" name="password" value="">
                             </div>
                         </div>
-                        
-                        <div class="col-sm-12 form-group clearfix">
+
+                        <div class="col-sm-12 form-group d-vis clearfix">
                             <div class="col-md-7 col-md-offset-5">
-                                <button class="btn btn-primary" onclick={login}>{getLanguage().account.button_login}</button>
+                                <button class="btn d-vis btn-primary" onclick={login}>{getLanguage().account.button_login}</button>
                             </div>
                         </div>
                     </form>
@@ -82,19 +82,19 @@
                                         {getError().account.login}
                                     </div>
 
-                                    <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="form-group clearfix qc-social-login">
+                                    <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="form-group d-vis clearfix qc-social-login">
                                         <div class="col-md-12">
                                             <qc_raw content="{getState().config.guest.account.social_login.value}"></qc_raw>
                                         </div>
                                     </div>
 
-                                    <div class="form-group clearfix">
+                                    <div class="form-group d-vis clearfix">
                                         <label class="col-md-5">{getLanguage().account.entry_email}</label>
                                         <div class="col-md-7">
                                             <input ref="email" type="text" autocomplete="email" class="form-control" name="email" value="">
                                         </div>
                                     </div>
-                                    <div class="form-group clearfix">
+                                    <div class="form-group d-vis clearfix">
                                         <label class="col-md-5">{getLanguage().account.entry_password}</label>
                                         <div class="col-md-7">
                                             <input ref="password" type="password" autocomplete="current-password" class="form-control" name="password" value="">
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-primary btn-block" onclick={login}>{getLanguage().account.button_login}</button>
+                                <button class="btn d-vis btn-primary btn-block" onclick={login}>{getLanguage().account.button_login}</button>
                             </div>
                         </form>
                     </div><!-- /.modal-content -->

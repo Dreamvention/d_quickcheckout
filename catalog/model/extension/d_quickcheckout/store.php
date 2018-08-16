@@ -235,7 +235,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $update = $this->array_diff_assoc_recursive( $update_state, $state);
         $this->setUpdated($update);
 
-        if(is_array($current) && count($current) > count($value)){
+        if(is_array($current)&& is_array($value) && count($current) > count($value)){
             foreach($current as $key => $val){
                 if(isset($value[$key])){
                     $current[$key] = $value[$key];

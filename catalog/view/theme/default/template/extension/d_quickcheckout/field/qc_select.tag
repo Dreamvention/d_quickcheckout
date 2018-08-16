@@ -4,7 +4,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_select_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ isVisible() }  class="field-sortable form-group clearfix { (opts.error && isRequired()) ? 'has-error' : ''}">
+    <div if={ isVisible() }  class="field-sortable form-group d-vis  clearfix { (opts.error && isRequired()) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'} control-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ isRequired() } class="require">*</span>
@@ -15,7 +15,7 @@
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
                 ref="input"
-                class="form-control selectpicker { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
+                class="form-control d-vis selectpicker { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
                 required="{ opts.field.require }"
                 autocomplete="{ opts.field.autocomplete }"
                 no-reorder

@@ -4,7 +4,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_datetime_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'} control-label" for="{ opts.step }_{ opts.field_id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>
@@ -17,7 +17,7 @@
                     type="text"
                     id="{ opts.step }_{ opts.field.id }"
                     name="{ opts.step }[{ opts.field.id }]"
-                    class="form-control { (opts.field.mask) ?  'qc-mask': '' } { opts.field.type } validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
+                    class="form-control d-vis { (opts.field.mask) ?  'qc-mask': '' } { opts.field.type } validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
                     value="{ opts.riotValue }"
                     no-reorder
                     autocomplete="{ opts.field.autocomplete }"
@@ -25,7 +25,7 @@
                     data-date-format="YYYY-MM-DD HH:mm"
                     onchange={change} >
 
-                <span class="input-group-btn" >
+                <span class="input-group-btn d-vis " >
                     <label type="button" class="btn btn-default" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
                 </span>
             </div>

@@ -57,13 +57,13 @@
                             <td class="qc-quantity" show={ getConfig().cart.columns.quantity.display == 1 }>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary decrease hidden-xs" data-product="{ product.key }" onclick={decrease}><i class="fa fa-chevron-down"></i></button>
+                                        <button class="btn d-vis btn-primary decrease hidden-xs" data-product="{ product.key }" onclick={decrease}><i class="fa fa-chevron-down"></i></button>
                                     </span>
                                     <input type="text" data-mask="9?999999999999999" value="{ product.quantity }" class="qc-product-quantity form-control text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary increase hidden-xs" data-product="{ product.key }" onclick={increase}><i class="fa fa-chevron-up"></i></button>
+                                        <button class="btn d-vis btn-primary increase hidden-xs" data-product="{ product.key }" onclick={increase}><i class="fa fa-chevron-up"></i></button>
 
-                                        <button class="btn btn-danger delete hidden-xs" data-product="{ product.key }"  onclick={delete}><i class="fa fa-times"></i></button>
+                                        <button class="btn d-vis btn-danger delete hidden-xs" data-product="{ product.key }"  onclick={delete}><i class="fa fa-times"></i></button>
                                     </span>
                                 </div>
                             </td>
@@ -74,7 +74,7 @@
                 </table>
 
                 <div class="form-horizontal">
-                    <div class="form-group qc-coupon" show={getConfig().cart.option.coupon.display == '1'}>
+                    <div class="form-group d-vis qc-coupon" show={getConfig().cart.option.coupon.display == '1'}>
                         <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_coupon}>
                             <div class="alert alert-danger">
                                 {getState().notifications.cart.error_coupon}
@@ -92,13 +92,13 @@
                             <div class="input-group">
                                 <input type="text" value="{getSession().coupon}" name="coupon" placeholder="{ getLanguage().cart.entry_coupon }" class="form-control"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" onclick={useCoupon} type="button"><i class="fa fa-check"></i></button>
+                                    <button class="btn d-vis btn-primary" onclick={useCoupon} type="button"><i class="fa fa-check"></i></button>
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group qc-voucher" show={getConfig().cart.option.voucher.display == '1'}>
+                    <div class="form-group d-vis qc-voucher" show={getConfig().cart.option.voucher.display == '1'}>
                         <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_voucher}>
                             <div class="alert alert-danger">
                                 {getState().notifications.cart.error_voucher}
@@ -116,14 +116,14 @@
                             <div class="input-group">
                                 <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="form-control"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" onclick={useVoucher} type="button"><i class="fa fa-check"></i></button>
+                                    <button class="btn d-vis btn-primary" onclick={useVoucher} type="button"><i class="fa fa-check"></i></button>
                                 </span>
                             </div>
                         </div>
                     </div>
 
 
-                    <div class="form-group qc-reward" show={getConfig().cart.option.reward.display == '1'}>
+                    <div class="form-group d-vis qc-reward" show={getConfig().cart.option.reward.display == '1'}>
                         <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_reward}>
                             <div class="alert alert-danger">
                                 {getState().notifications.cart.error_reward}
@@ -141,7 +141,7 @@
                             <div class="input-group">
                                 <input type="text" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" class="form-control"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" onclick={useReward} type="button"><i class="fa fa-check"></i></button>
+                                    <button class="btn d-vis btn-primary" onclick={useReward} type="button"><i class="fa fa-check"></i></button>
                                 </span>
                             </div>
                         </div>

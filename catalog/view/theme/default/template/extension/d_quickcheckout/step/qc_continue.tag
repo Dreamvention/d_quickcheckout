@@ -14,8 +14,8 @@
                 <h5 if={getLanguage().continue.text_description}>{  getLanguage().continue.text_description } </h5>
             </div>
             <div class="panel-body">
-                <a if={prev == 1} class="btn btn-default btn-lg pull-left page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</a>
-                <button if={next == 1} disabled={getSession().confirm.loading == 1} class="btn btn-primary btn-lg pull-right page-link" onclick={nextPage}>{getLanguage().continue.text_next}</button>
+                <a if={prev == 1} class="btn d-vis btn-default btn-lg pull-left page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</a>
+                <button if={next == 1} disabled={getSession().confirm.loading == 1} class="btn d-vis btn-primary btn-lg pull-right page-link" onclick={nextPage}>{getLanguage().continue.text_next}</button>
             </div>
             
         </div>

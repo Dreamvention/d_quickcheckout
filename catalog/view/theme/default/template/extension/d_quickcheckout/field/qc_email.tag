@@ -4,7 +4,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_email_setting"') < 0 && getState().edit}></qc_pro_label>
     
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'} control-label">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>
@@ -15,7 +15,7 @@
                 type="email"
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
-                class="form-control validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.type } { opts.field.id }"
+                class="form-control d-vis validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.type } { opts.field.id }"
                 value="{ opts.riotValue }"
                 autocomplete="{ opts.field.autocomplete }"
                 no-reorder

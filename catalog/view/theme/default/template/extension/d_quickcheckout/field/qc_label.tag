@@ -3,7 +3,7 @@
     
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_label_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="form-group clearfix field-sortable">
+    <div if={ (opts.field.display == 1) } class="form-group d-vis  clearfix field-sortable">
         <div class="col-xs-12">
             <label class="control-label" for="{ opts.step }_{ opts.field.id }">
                 { getLanguage()[opts.step][opts.field.text] }

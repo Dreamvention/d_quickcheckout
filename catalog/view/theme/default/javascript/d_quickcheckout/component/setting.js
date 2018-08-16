@@ -100,7 +100,7 @@
             $('html > head').find('[title="d_quickcheckout"]').remove();
 
             var style = '<style title="d_quickcheckout">';
-            style += response;
+            // style += response;
 
             style += this.buildStyleBySelector('body > div, body > nav, body > header, body > footer, body > section, body > article, body > table, body > span, body > pre, body > template', {
                 'display': (this.getLayout().header_footer == 1) ? 'block' :'none'

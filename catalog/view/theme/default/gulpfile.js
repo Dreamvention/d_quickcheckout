@@ -7,6 +7,8 @@ var gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	autoprefixer = require('gulp-autoprefixer');
 var default_theme_path = '../default/';
+var fs = require('fs');
+var path = require('path');
 gulp.task('browser-sync', function () {
 	browserSync({
 		proxy: 'http://localhost/302/d_quickcheckout/',
@@ -24,22 +26,48 @@ gulp.task('sass-core', function () {
 		.pipe(browserSync.stream({match: '**/*.css'}));
 
 });
+var list_tasks;
+
+var style_folders = 'stylesheet/d_quickcheckout/skin';
+
+function getFolders(dir) {
+	return fs.readdirSync(dir)
+		.filter(function(file) {
+			return fs.statSync(path.join(dir, file)).isDirectory();
+		});
+}
+gulp.task('sass_multi', function() {
+	var folders = getFolders(style_folders);
+	var tasks = folders.map(function(folder) {
+		return gulp.src(path.join(style_folders, folder, folder+'.s*ss'))
+			.pipe(sourcemaps.init())
+			.pipe(sass().on('error', sass.logError))
+			.pipe(autoprefixer(['last 15 versions']))
+			.pipe(sourcemaps.write('../../../../'+path.join(style_folders, folder)))
+			.pipe(gulp.dest(path.join(style_folders, folder)))
+			.pipe(browserSync.stream({match: '**/*.css'}));
+
+	});
+	return tasks ;
+});
 gulp.task('sass', function () {
-	return gulp.src('stylesheet/d_quickcheckout/skin/journal2/journal2.s*ss')
+	folder ='default'
+	console.log(path.join(style_folders, folder))
+	return gulp.src(path.join(style_folders, folder, folder+'.s*ss'))
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
 			browsers: ["last 15 versions"]
 		}))
-		.pipe(gulp.dest('stylesheet/d_quickcheckout/skin/journal2'))
+		.pipe(gulp.dest(path.join(style_folders, folder)))
 		.pipe(browserSync.stream({match: '**/*.css'}));
 });
 gulp.task('sass-default', function () {
-	return gulp.src('stylesheet/d_quickcheckout/skin/default/default.s*ss')
+	return gulp.src('stylesheet\\d_quickcheckout\\skin\\default\\default.s*ss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
 			browsers: ["last 15 versions"]
 		}))
-		.pipe(gulp.dest('stylesheet/d_quickcheckout/skin/default'))
+		.pipe(gulp.dest('stylesheet\\d_quickcheckout\\skin\\default'))
 		.pipe(browserSync.stream({match: '**/*.css'}));
 });
 gulp.task("core-scripts", function () {
@@ -64,9 +92,9 @@ gulp.task("core-scripts", function () {
 		.pipe(gulp.dest('javascript/core'));
 });
 
-gulp.task('watch', ['browser-sync', 'sass', 'core-scripts'], function () {
+gulp.task('watch', ['browser-sync', 'sass_multi', 'core-scripts'], function () {
 	gulp.watch('stylesheet/d_quickcheckout/scss/**/*.s*ss', ['sass-core']);
-	gulp.watch('stylesheet/d_quickcheckout/skin/**/**/*.s*ss', ['sass-default']);
+	gulp.watch('stylesheet/d_quickcheckout/skin/**/**/*.s*ss', ['sass_multi']);
 	gulp.watch('template/**/*.**', browserSync.reload);
 	gulp.watch('../../controller/**/*.**', browserSync.reload);
 	gulp.watch('../../../controller/**/**/*.**', browserSync.reload);

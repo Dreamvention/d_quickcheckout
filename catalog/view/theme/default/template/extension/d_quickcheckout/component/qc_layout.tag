@@ -1,4 +1,5 @@
 <qc_layout>
+    <link rel="stylesheet" href="{'catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+getSession().skin+'/'+getSession().skin+'.css?'+rand()}">
     <qc_layout_setting if={getState().edit}></qc_layout_setting>
 
     <div if={getState().layout.pages}>

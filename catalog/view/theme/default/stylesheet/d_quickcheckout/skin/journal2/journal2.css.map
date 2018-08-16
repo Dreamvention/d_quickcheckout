@@ -1,7 +1,1 @@
-{
-"version": 3,
-"mappings": "AAEQ,kCAA0B;EACtB,GAAG,EAAE,GAAG;AAGZ,qBAAa;EACT,KAAK,EAAE,IAAI;AAEf,0BAAkB;EACd,OAAO,EAAE,IAAI;AAGb,+BAAkB;EACd,OAAO,EAAE,KAAK;AAGtB,0BAAkB;EACd,UAAU,EAAE,OAAO;AAEvB,iDAAyC;EACrC,gBAAgB,EAAE,OAAO;AAE7B,sDAAqC;EACjC,gBAAgB,EAAE,IAAI;AAE1B,qBAAY;EACR,KAAK,EAAE,IAAI;AAEf,qBAAY;EACR,gBAAgB,EAAE,IAAI",
-"sources": ["journal2.scss"],
-"names": [],
-"file": "journal2.css"
-}
+{"version":3,"sources":["journal2.scss"],"names":[],"mappings":"AAAA;EAGY,SAAQ,EACX;;AAJT;EAOY,YAAW,EACd;;AART;EAUY,qBAAa;EAAb,sBAAa;EAAb,qBAAa;EAAb,cAAa,EAChB;;AAXT;EAcgB,eAAc,EACjB;;AAfb;EAkBY,oBAAmB,EACtB;;AAnBT;EAqBY,0BAAyB,EAC5B;;AAtBT;EAwBY,uBAAsB,EACzB;;AAzBT;EA2BY,YAAW,EACd;;AA5BT;EA8BY,uBAAsB,EACzB","file":"journal2.css","sourcesContent":[".oc2 {\r\n    .qc {\r\n        .input-group-btn button i {\r\n            top: 0px; \r\n        }\r\n\r\n        .text-danger {\r\n            color: #fff; \r\n        }\r\n        .clearfix.process {\r\n            display: flex;\r\n        }\r\n        &.edit {\r\n            .clearfix.process {\r\n                display: block;\r\n            }\r\n        }\r\n        .process-page-dot {\r\n            background: #fbe8aa;\r\n        }\r\n        .process-page.disabled .process-page-dot {\r\n            background-color: #f5f5f5;\r\n        }\r\n        .panel-heading, .panel-heading:hover {\r\n            background-color: #fff;\r\n        }\r\n        .panel-title{\r\n            color: #333;\r\n        }\r\n        .tab-content{\r\n            background-color: #fff;\r\n        }\r\n        \r\n    }\r\n}"]}

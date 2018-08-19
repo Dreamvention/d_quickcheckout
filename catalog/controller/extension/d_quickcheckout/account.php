@@ -21,9 +21,11 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
+        $state['config'] = $this->getConfig();
+        $this->model_extension_d_quickcheckout_store->setState($state);
         $state['session']['account'] = $this->getDefault();
         $this->model_extension_d_quickcheckout_account->updateGuest();
-        $state['config'] = $this->getConfig();
+        
 
         if($state['session']['account'] == 'logged'){
             $this->load->model('extension/d_quickcheckout/address');
@@ -168,7 +170,8 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 
 
     private function getDefault(){
-        return $this->model_extension_d_quickcheckout_account->getDefaultAccount('guest');
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        return $this->model_extension_d_quickcheckout_account->getDefaultAccount($state['config']['guest']['account']['default_option']);
 
     }
 

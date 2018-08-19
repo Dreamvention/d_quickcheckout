@@ -496,15 +496,15 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'zone_code' => '',
             'agree' => '',
             'shipping_address' => 0,
-            'newsletter' => '',
+            'newsletter' => 0,
             'address_id' => 0
         );
 
         foreach($address as $key => $value){
             if(isset($payment_address[$key])){
                 $address[$key] = $payment_address[$key];
-            }elseif(isset($default['firstname']) && isset($default['firstname']['value'])){
-                $address[$key] = $default['firstname']['value'];
+            }elseif(isset($default[$key]) && isset($default[$key]['value'])){
+                $address[$key] = $default[$key]['value'];
             }
         }
         $address['customer_group_id'] = $this->model_extension_d_quickcheckout_account->getDefaultCustomerGroup();

@@ -166,3 +166,10 @@
     });
 
 })(qc);
+
+$(document).on('click', '.qc-tab', function(){
+    var tab_id = $(this).find('a').attr('href');
+    $(tab_id).parents('.qc-tab-content').find('.qc-tab-pane').removeClass('in').removeClass('active').hide();
+    $(tab_id).addClass('in').addClass('active').show();
+    return false;
+})

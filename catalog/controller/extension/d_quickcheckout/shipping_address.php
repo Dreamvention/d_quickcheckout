@@ -82,6 +82,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
             //is shipping show
             if($display_shipping_address){
+                $this->load->model('extension/d_quickcheckout/error');
                 if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
                     $state = $this->model_extension_d_quickcheckout_store->getState();
 
@@ -147,6 +148,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             
             $display_shipping_address = $this->getDisplayShippingAddress();
             if($display_shipping_address){
+                $this->load->model('extension/d_quickcheckout/error');
                 if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
                     $state = $this->model_extension_d_quickcheckout_store->getState();
 

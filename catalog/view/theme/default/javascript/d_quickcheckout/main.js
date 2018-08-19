@@ -324,7 +324,6 @@ var qc = (function() {
     this.beforeLeave = function(){
         if(this.stateCached.edit){
             $(window).bind('beforeunload', function(){
-                console.log(this.stateCached.edited);
                 if(this.stateCached.edited){
                     return true;
                 }

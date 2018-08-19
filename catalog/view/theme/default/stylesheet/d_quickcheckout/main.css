@@ -457,17 +457,17 @@ qc_pro_label {
     padding: 0px;
     background: #3cb1d4;
     border-top: 1px solid rgba(0, 0, 0, 0.1); }
-    .qc-setting-tabs li {
+    .qc-setting-tabs .qc-tab {
       list-style: none;
       margin: 0px;
       padding: 0px;
       display: inline-block; }
-      .qc-setting-tabs li a {
+      .qc-setting-tabs .qc-tab a {
         padding: 14px 20px;
         display: block;
         text-decoration: none;
         color: #fff; }
-      .qc-setting-tabs li.active a {
+      .qc-setting-tabs .qc-tab.active a {
         background: rgba(0, 0, 0, 0.1); }
   .qc-setting-content {
     padding: 20px;
@@ -560,6 +560,11 @@ body.show-setting.popup {
       height: auto; }
     body.show-setting.popup .qc-setting-panels .setting-panel {
       width: 25%; }
+
+.qc-tab-pane {
+  display: none; }
+  .qc-tab-pane.active {
+    display: block; }
 
 .page-nav-setting {
   position: absolute;

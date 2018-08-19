@@ -61,7 +61,7 @@
     }
 
     this.goToError = function(){
-        console.log('AQC:Sorry, you have errors');
+        console.log('AQC: Sorry, you have errors');
         setTimeout(function(){
             $('html,body').animate({ scrollTop: $(".has-error").offset().top-60}, 'slow');
         },10);

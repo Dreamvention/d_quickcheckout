@@ -45,7 +45,7 @@
         padding: 0px;
         background: #3cb1d4;
         border-top: 1px solid rgba(0,0,0,0.1);
-        li{
+        .qc-tab{
             list-style: none;
             margin: 0px;
             padding: 0px;
@@ -63,6 +63,7 @@
             }
         }
     }
+    
 	&-content{
 		padding: 20px;
         overflow-y: scroll;
@@ -178,6 +179,16 @@ body.show-setting.popup{
     }
 }
 
+.qc-tab{
+    &-content{
+    }
+    &-pane{
+        display: none;
+        &.active{
+            display: block;
+        }
+    }
+}
 
 .page-nav{
     &-setting{

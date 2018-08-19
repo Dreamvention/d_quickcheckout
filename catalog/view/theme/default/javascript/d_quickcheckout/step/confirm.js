@@ -3,7 +3,6 @@
 */
 
 (function(){
-
     this.subscribe('confirm/confirm', function(data) {
         this.updateState(['session','confirm', 'loading'], true);
         setTimeout(function(){

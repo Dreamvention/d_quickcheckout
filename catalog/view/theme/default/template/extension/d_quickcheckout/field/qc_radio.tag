@@ -5,12 +5,12 @@
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_radio_setting"') < 0 && getState().edit}></qc_pro_label>
     
     <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
-        <label class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'} control-label" for="{ opts.step }_{ opts.field.id }">
+        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
-        <div class="{ (getStyle() == 'list') ? 'col-md-6' : 'col-md-12'}" >
+        <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}" >
             <div each={option in opts.field.options} class="radio-input">
                 <label for="{ parent.opts.step }_{ parent.opts.field.id }_{ parent.opts.field.type }_{ option.value }" class="qc-radio { (parent.opts.riotValue == option.value) ? 'qc-radio-selected': '' }">
                     <input

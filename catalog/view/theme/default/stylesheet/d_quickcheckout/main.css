@@ -860,6 +860,15 @@ body.show-setting.popup {
 .intl-tel-input {
   display: block; }
 
+.col-half {
+  width: 50%;
+  padding: 0px 15px;
+  float: left; }
+
+.col-full {
+  width: 100%;
+  padding: 0px 15px; }
+
 /**
  * alertifyjs 1.11.1 http://alertifyjs.com
  * AlertifyJS is a javascript framework for developing pretty browser dialogs and notifications.

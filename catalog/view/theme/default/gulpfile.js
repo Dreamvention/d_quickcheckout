@@ -11,7 +11,7 @@ var fs = require('fs');
 var path = require('path');
 gulp.task('browser-sync', function () {
 	browserSync({
-		proxy: 'http://localhost/302/d_quickcheckout/',
+		proxy: 'http://localhost/opencart/302/d_quickcheckout/',
 		files: [
 			'stylesheet/d_quickcheckout/*.css',
 		]

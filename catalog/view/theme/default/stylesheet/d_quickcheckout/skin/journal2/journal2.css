@@ -28,4 +28,7 @@
 .oc2 .qc .tab-content {
   background-color: #fff; }
 
+.oc2 .qc .qc-product-quantity {
+  min-width: 40px; }
+
 /*# sourceMappingURL=journal2.css.map */

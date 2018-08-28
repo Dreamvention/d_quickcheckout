@@ -40,12 +40,9 @@
 */
 class ModelExtensionDQuickcheckoutStore extends Model {
     private $receivers = array();
-    //private $timer = 0;
 
     public function dispatch($action, $data) { 
-        // if(!$this->timer){
-        //     $this->timer = microtime();
-        // }
+
         $state = $this->getState();
 
         foreach($state['action'] as $receiver => $actions){
@@ -66,6 +63,11 @@ class ModelExtensionDQuickcheckoutStore extends Model {
 
         if(isset($this->request->get['setting_id'])){
             $this->session->data['setting_id'] =  $this->request->get['setting_id'];
+        }else{
+            $settings = $this->getSettings();
+            if(!empty($settings)){
+                $this->session->data['setting_id'] = $settings[0]['setting_id']; 
+            }
         }
 
         $state = array();
@@ -358,9 +360,6 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         return $state;
     }
 
-
-//Updated state -------
-
     public function isUpdated($key){
         $updated = $this->config->get('d_quickcheckout_updated');
 
@@ -397,9 +396,6 @@ class ModelExtensionDQuickcheckoutStore extends Model {
 
     }
 
-
-
-//SETTINGS--------
     public function getReceivers(){
 
         $dir = DIR_APPLICATION.'controller/extension/d_quickcheckout';

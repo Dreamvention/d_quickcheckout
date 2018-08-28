@@ -111,7 +111,7 @@
             this.initTooltip();
 
             $(tag.root).find('.selectpicker').selectpicker({
-                style: 'btn-white',
+                style: 'btn-default',
                 size: 12,
                 liveSearch: true
             });

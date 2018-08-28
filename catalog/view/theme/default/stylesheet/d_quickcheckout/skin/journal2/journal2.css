@@ -1,3 +1,6 @@
+.oc2 .qc > div {
+  min-height: 300px; }
+
 .oc2 .qc .input-group-btn button i {
   top: 0px; }
 
@@ -30,5 +33,8 @@
 
 .oc2 .qc .qc-product-quantity {
   min-width: 40px; }
+
+.oc2 .qc .bootstrap-select ul.dropdown-menu li {
+  margin-left: 0px; }
 
 /*# sourceMappingURL=journal2.css.map */

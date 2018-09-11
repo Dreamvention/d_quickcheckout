@@ -1,12 +1,11 @@
 <qc_raw>
-    <span></span>
+    <div></div>
     <script>
-        this.mixin({store:d_quickcheckout_store});
-        this.root.innerHTML = this.store.raw(opts.content);
-
-        this.on('updated', function(){
-        this.root.innerHTML = this.store.raw(opts.content);
-        })
-
+        this.mixin({store:d_quickcheckout_store})
+        this.set = function(){
+            $(this.root).html(opts.content)
+        }
+        this.on('update', this.set)
+        this.on('mount', this.set)
     </script>
 </qc_raw>

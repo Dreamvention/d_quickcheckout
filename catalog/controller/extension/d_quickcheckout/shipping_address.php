@@ -219,7 +219,8 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         }
 
         foreach($state['session']['shipping_address'] as $field_id => $value){
-            if(!empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['require'])
+            if(!empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['display'])
+            && !empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['require'])
             && !empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'])
             ){
                 $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];

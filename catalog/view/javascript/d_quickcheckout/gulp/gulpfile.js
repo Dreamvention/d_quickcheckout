@@ -9,6 +9,8 @@ var gulp = require('gulp'),
 var default_theme_path = '../default/';
 var fs = require('fs');
 var path = require('path');
+var baseDir = path.resolve(__dirname, '../../../');
+var themeDir = path.join(baseDir, 'theme/default');
 gulp.task('browser-sync', function () {
 	browserSync({
 		proxy: 'http://localhost/opencart/302/d_quickcheckout/',
@@ -17,43 +19,43 @@ gulp.task('browser-sync', function () {
 		]
 	});
 });
-// will compille styles in dark and light folders
 gulp.task('sass-core', function () {
-	return gulp.src('stylesheet/d_quickcheckout/main.s*ss')
+	return gulp.src(path.join(themeDir, 'stylesheet/d_quickcheckout/main.s*ss'))
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer(['last 15 versions']))
-		.pipe(gulp.dest('stylesheet/d_quickcheckout/'))
+		.pipe(gulp.dest(path.join(themeDir, 'stylesheet/d_quickcheckout/')))
 		.pipe(browserSync.stream({match: '**/*.css'}));
 
 });
 var list_tasks;
 
-var style_folders = 'stylesheet/d_quickcheckout/skin';
+var style_folders = path.join(themeDir, 'stylesheet/d_quickcheckout/skin');
 
 function getFolders(dir) {
 	return fs.readdirSync(dir)
-		.filter(function(file) {
+		.filter(function (file) {
 			return fs.statSync(path.join(dir, file)).isDirectory();
 		});
 }
-gulp.task('sass_multi', function() {
+
+gulp.task('sass_multi', function () {
 	var folders = getFolders(style_folders);
-	var tasks = folders.map(function(folder) {
-		return gulp.src(path.join(style_folders, folder, folder+'.s*ss'))
+	var tasks = folders.map(function (folder) {
+		return gulp.src(path.join(style_folders, folder, folder + '.s*ss'))
 			.pipe(sourcemaps.init())
 			.pipe(sass().on('error', sass.logError))
 			.pipe(autoprefixer(['last 15 versions']))
-			.pipe(sourcemaps.write('../../../../'+path.join(style_folders, folder)))
+			.pipe(sourcemaps.write('../../../../' + path.join(style_folders, folder)))
 			.pipe(gulp.dest(path.join(style_folders, folder)))
 			.pipe(browserSync.stream({match: '**/*.css'}));
 
 	});
-	return tasks ;
+	return tasks;
 });
 gulp.task('sass', function () {
-	folder ='default'
-	console.log(path.join(style_folders, folder))
-	return gulp.src(path.join(style_folders, folder, folder+'.s*ss'))
+	folder = 'default';
+	console.log(path.join(style_folders, folder));
+	return gulp.src(path.join(style_folders, folder, folder + '.s*ss'))
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
 			browsers: ["last 15 versions"]
@@ -92,10 +94,10 @@ gulp.task("core-scripts", function () {
 		.pipe(gulp.dest('javascript/core'));
 });
 
-gulp.task('watch', ['browser-sync', 'sass_multi', 'core-scripts'], function () {
-	gulp.watch('stylesheet/d_quickcheckout/scss/**/*.s*ss', ['sass-core']);
-	gulp.watch('stylesheet/d_quickcheckout/skin/**/**/*.s*ss', ['sass_multi']);
-	gulp.watch('template/**/*.**', browserSync.reload);
+gulp.task('watch', ['browser-sync', 'sass-core' ,'sass_multi', 'core-scripts'], function () {
+	gulp.watch(path.join(themeDir,'stylesheet/d_quickcheckout/scss/**/*.s*ss'), ['sass-core']);
+	gulp.watch(path.join(themeDir,'stylesheet/d_quickcheckout/skin/**/**/*.s*ss'), ['sass_multi']);
+	gulp.watch(path.join(themeDir,'template/**/*.**'), browserSync.reload);
 	gulp.watch('../../controller/**/*.**', browserSync.reload);
 	gulp.watch('../../../controller/**/**/*.**', browserSync.reload);
 });

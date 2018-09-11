@@ -967,6 +967,9 @@ body.show-setting.popup {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
 
+.spinner {
+  min-height: 500px; }
+
 .spinner:before {
   content: '';
   -webkit-box-sizing: border-box;

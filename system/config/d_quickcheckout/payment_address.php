@@ -218,10 +218,6 @@ $_['d_quickcheckout_payment_address'] = array(
                 'error1' => array(
                     'max_length' => 32,
                     'text' => 'error_telephone_max_length'
-                ),
-                'error2' => array(
-                    'telephone' => true,
-                    'text' => 'error_telephone_telephone'
                 )
             ),
             'validation' => 0,

@@ -10,17 +10,15 @@
             placeholderClass: 'field-sortable',
             handle: '.handle-sortable'
         }).bind('sortupdate', function(e, ui) {
+
             var IDs = [];
-            $('#'+step_id+'_fields').find(".field").each(function(){ IDs.push($(this).attr('field_id')); });
+            $('#'+step_id+'_fields').find(".qc-field").each(function(){ IDs.push($(this).attr('field_id')); });
 
             var state = that.getState();
-
             for (var key in IDs) {
-                state.config[that.getAccount()][step_id].fields[IDs[key]].sort_order = parseInt(key);
-
+                //state.config[that.getAccount()][step_id].fields[IDs[key]].sort_order = parseInt(key);
+                that.updateState(['config', that.getAccount(), step_id, 'fields', IDs[key], 'sort_order' ], parseInt(key));
             }
-            
-            that.setState(state);
 
         });
     }

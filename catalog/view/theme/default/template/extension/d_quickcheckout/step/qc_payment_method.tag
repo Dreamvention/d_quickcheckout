@@ -29,7 +29,7 @@
                                 id="{ payment_method.code }"
                                 checked={ getSession().payment_method.code == payment_method.code }
                                 onclick={change} />
-                            <span class="text">{ payment_method.title }</span> <span class="price">{ payment_method.text }</span>
+                            <span class="text"><qc_raw content="{payment_method.title }"></qc_raw></span> <span class="price"><qc_raw content="{payment_method.text}"></qc_raw></span>
                         </label>
                     </div>
 

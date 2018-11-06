@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.0.2",
+    "version": "7.0.1",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -215,12 +215,8 @@
         "admin/view/image/d_quickcheckout"
     ],
     "changelog": [{
-            "varsion": "7.0.2",
-            "change": "Fix bugs, fix free checkout bug, fix custom fields bug, new fields"
-        },
-        {
             "varsion": "7.0.1",
-            "change": "Fix initial bugs"
+            "change": "Fix initial bugs, fix free checkout bug, fix custom fields bug, new fields"
         },
         {
             "varsion": "7.0.0",

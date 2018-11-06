@@ -1,14 +1,17 @@
 /**
-*   Account Model
-*/
+ *   Account Model
+ */
 
-(function(){
+(function() {
 
     this.subscribe('account/update', function(data) {
-        this.send('extension/d_quickcheckout/account/update', data, function(json) {
+        this.setState({ 'session': data });
+        var difference = this.getChange();
+
+        this.send('extension/d_quickcheckout/account/update', difference, function(json) {
             this.setState(json);
             this.dispatch('account/updated', json);
-            
+            this.setChange(this.getState());
         }.bind(this));
     });
 

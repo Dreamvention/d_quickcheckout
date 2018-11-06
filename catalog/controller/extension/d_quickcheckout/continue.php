@@ -66,7 +66,7 @@ class ControllerExtensionDQuickcheckoutContinue extends Controller {
             $page_id = $data['data']['page_id'];
             if($this->validatePage($page_id)){
                 $state['session']['page_id'] = $this->getNextPage($page_id);
-                $this->model_extension_d_quickcheckout_store->setState($state);
+                $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $state['session']['page_id']);
             }
 
             $this->model_extension_d_quickcheckout_store->dispatch('continue/update/after', $this->request->get);

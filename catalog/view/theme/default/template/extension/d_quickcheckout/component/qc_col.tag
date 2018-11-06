@@ -55,7 +55,7 @@
                 id={item_id}
                 row={parent.opts.col.children[item_id]}
                 row_id={item_id}
-                class="row gr">
+                class="qc-row gr">
             </qc_row>
         </div>
     </virtual>
@@ -129,9 +129,9 @@
                         resize : function(ev, ui) {
                             var width = Math.round(ui.size.width/cellWidth);
                             $(ui.element).removeClass (function (index, className) {
-                                return (className.match (/(^|\s)col-md-\S+/g) || []).join(' ');
+                                return (className.match (/(^|\s)qc-col-md-\S+/g) || []).join(' ');
                             });
-                            $(ui.element).addClass('col-md-'+width);
+                            $(ui.element).addClass('qc-col-md-'+width);
                             $(ui.element).width('')
 
                             

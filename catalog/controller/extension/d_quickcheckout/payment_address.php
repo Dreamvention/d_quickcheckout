@@ -96,13 +96,15 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 }
             }
         }
-
         //updating customer group when changing account
         if($data['action'] == 'account/update/after' 
         && $this->model_extension_d_quickcheckout_store->isUpdated('account')
         ){  
 
             $state = $this->model_extension_d_quickcheckout_store->getState();
+            $this->load->model('extension/d_quickcheckout/address');
+            $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($state['session']['payment_address']['country_id']);
+            $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), $zones);
 
             //If just logged in
             if($state['session']['account'] == 'logged'){
@@ -119,8 +121,8 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     $update['session']['payment_address']['shipping_address'] = 0;
                 }
 
-                $this->model_extension_d_quickcheckout_store->setState($update);
-
+                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
+                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
             }else{
                 $this->load->model('extension/d_quickcheckout/account');
                 $customer_groups = $this->model_extension_d_quickcheckout_account->getCustomerGroups();
@@ -185,8 +187,9 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         if($state['session']['payment_address']['shipping_address'] == 1){
                             $update['session']['payment_address']['shipping_address'] = 0;
                         }
-
-                        $this->model_extension_d_quickcheckout_store->setState($update);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
+            
                     }
                 }
                 
@@ -195,7 +198,10 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     $address_id = $this->model_extension_d_quickcheckout_address->addAddress($state['session']['payment_address']);
                     $update['session']['payment_address']['address_id'] = $address_id; 
                     $update['session']['addresses'] = $this->model_extension_d_quickcheckout_address->getAddresses();
-                    $this->model_extension_d_quickcheckout_store->setState($update);
+
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
+            
                 }
             }
         }
@@ -251,7 +257,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             
         }
 
-        $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_store->updateState(array('errors','payment_address'), $state['errors']['payment_address']);
 
         return $result;
     }
@@ -266,11 +272,11 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      * logic for updating fields
      */
     private function updateField($field, $value){
-        
+        $state = $this->model_extension_d_quickcheckout_store->getState();
         $state['session']['payment_address'][$field] = $value;
 
         if($this->validateField($field, $value)){
-            //$state = $this->model_extension_d_quickcheckout_store->getState('session');
+            
             
             $this->model_extension_d_quickcheckout_store->setState($state);
 
@@ -332,21 +338,22 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     break;
 
                 default: 
-
+                    
                     if(isset($state['config']['guest']['payment_address']['fields'][$field])){
                         if($state['config']['guest']['payment_address']['fields'][$field]['custom']){
                             $location = $state['config']['guest']['payment_address']['fields'][$field]['location'];
                             $custom_field_id = $state['config']['guest']['payment_address']['fields'][$field]['custom_field_id'];
                         }
                     }else{
-                        $part = explode('_', $field);
+                        $part = explode('-', $field);
                         if(isset($part[1]) && is_numeric($part[1])){
-                            $location = $part[0];
-                            $custom_field_id = $part[1];
+                            if($part[0] == 'custom'){
+                                $location = $part[1];
+                                $custom_field_id = $part[2];
+                            }
                         }
                         
                     }
-
                     if(isset($location)){
                         $state['session']['payment_address']['custom_field'][$location][$custom_field_id] = $value;
                         $this->model_extension_d_quickcheckout_store->setState($state);
@@ -480,7 +487,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'fax' => '',
             'password' => '',
             'confirm' => '',
-            
             'company' => '',
             'address_1' => '',
             'address_2' => '',
@@ -509,6 +515,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             }
         }
         $address['customer_group_id'] = $this->model_extension_d_quickcheckout_account->getDefaultCustomerGroup();
+        
         return $address;
 
     }

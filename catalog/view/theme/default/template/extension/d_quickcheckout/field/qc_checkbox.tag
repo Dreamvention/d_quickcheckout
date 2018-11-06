@@ -1,5 +1,4 @@
 <qc_field_checkbox>
-
     <qc_checkbox_setting if={riot.util.tags.selectTags().search('"qc_checkbox_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></qc_checkbox_setting>
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_checkbox_setting"') < 0 && getState().edit}></qc_pro_label>

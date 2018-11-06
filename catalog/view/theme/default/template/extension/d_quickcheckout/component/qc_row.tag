@@ -1,4 +1,4 @@
-<qc_row class=" gr gr-row gr-has-controls">
+<qc_row class="gr gr-row gr-has-controls">
     <virtual if={getState().edit}>
         <div class="gr-control gr-row-control">
             <a class="gr-btn gr-add-col" onclick={addCol}><i class="fa fa-clone"></i> Add column</a> 
@@ -9,25 +9,25 @@
         <div class="gr-row-border-right"></div>
         <div class="gr-row-border-bottom"></div>
         <div class="gr-row-border-left"></div>
-        <div class="gr-row-content row">
+        <div class="gr-row-content qc-row">
             <div 
                 each={ col, col_id in opts.row.children }
                 id={col_id}
                 col={col}
                 col_id={col_id}
-                class="col-sm-{ col.size } gr gr-col"
+                class="qc-col-sm-{ col.size } gr gr-col"
                 no-reorder
                 data-is="qc_col">
             </div>
         </div>
     </virtual>
-    <div if={!getState().edit} class="row">
+    <div if={!getState().edit} class="qc-row">
         <div 
         each={ col, col_id in opts.row.children }
         id={col_id}
         col={col}
         col_id={col_id}
-        class="col-sm-{ col.size }"
+        class="qc-col-sm-{ col.size }"
         data-is="qc_col">
         </div>
     </div>

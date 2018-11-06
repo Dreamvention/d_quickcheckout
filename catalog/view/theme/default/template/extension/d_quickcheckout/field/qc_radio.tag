@@ -4,7 +4,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_radio_setting"') < 0 && getState().edit}></qc_pro_label>
     
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ (opts.field.display == 1 && ( opts.field.options.length > 1 || getState().edit)) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>
@@ -44,8 +44,7 @@
         var tag = this;
 
         getStyle(){
-            var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];
-
+            var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
             return field.style;
         }
 

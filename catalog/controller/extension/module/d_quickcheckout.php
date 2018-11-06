@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 /*
  *	location: catalog/controller
  */
@@ -48,6 +51,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/bootstrap-select.min.js');
         $this->document->addStyle('catalog/view/javascript/d_bootstrap_select/css/bootstrap-select.min.css');
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/i18n/defaults-en_US.min.js');
+        $this->document->addStyle('http://localhost/ripecss/docs/css/ripe.css?'.rand());
         
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js');
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js');
@@ -67,6 +71,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/intltelinput/css/intlTelInput.min.css');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/intlTelInput.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/underscore/underscore.min.js');
 
         $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
 
@@ -142,7 +147,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }else{
             $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'.$data['state']['session']['skin'] .'/'.$data['state']['session']['skin'] .'.css?'.rand());
         }
-        
         return $this->load->view($this->model_extension_d_quickcheckout_view->template($this->route), $data);
     }
 
@@ -345,6 +349,9 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->language('extension/module/d_quickcheckout');
         $data['text_editor_title'] = $this->language->get('text_editor_title');
         $data['text_loading'] = $this->language->get('text_loading');
+        $data['text_register'] = $this->language->get('text_register');
+        $data['text_guest'] = $this->language->get('text_guest');
+        $data['text_logged'] = $this->language->get('text_logged');
         $data['text_display'] = $this->language->get('text_display');
         $data['text_require'] = $this->language->get('text_require');
         $data['text_title'] = $this->language->get('text_title');
@@ -370,6 +377,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['text_mask'] = $this->language->get('text_mask');
         $data['text_header_footer'] = $this->language->get('text_header_footer');
         $data['text_breadcrumb'] = $this->language->get('text_breadcrumb');
+        $data['text_has_dependencies'] = $this->language->get('text_has_dependencies');
+        $data['text_no_payment_step'] = $this->language->get('text_no_payment_step');
 
         $data['text_telephone_validation'] = $this->language->get('text_telephone_validation');
         $data['text_telephone_countries'] = $this->language->get('text_telephone_countries');

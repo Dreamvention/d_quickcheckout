@@ -1,6 +1,9 @@
 <?php
 $_['text_editor_title'] = 'AQC7 Visual Editor';
 $_['text_loading'] = 'Loading...';
+$_['text_register'] = 'Register';
+$_['text_guest'] = 'Guest';
+$_['text_logged'] = 'Logged';
 $_['text_display'] = 'Display';
 $_['text_require'] = 'Require';
 $_['text_title'] = 'Title';
@@ -14,6 +17,8 @@ $_['text_value'] = 'Value';
 $_['text_default'] = 'Default';
 $_['text_not_checked'] = 'Not checked';
 $_['text_checked'] = 'Checked';
+$_['text_has_dependencies'] = 'This field has dependencies setup';
+$_['text_no_payment_step'] = 'Your checkout does not have a Payment step. Customers will not be able to checkout without a payment step. Please add this step and hide it if required.';
 
 $_['text_telephone_validation'] = 'Telephone validation';
 $_['text_telephone_countries'] = 'Allowed telephone countries';

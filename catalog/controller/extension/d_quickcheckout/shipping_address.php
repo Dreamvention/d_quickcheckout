@@ -100,6 +100,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                         if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_shipping_address')){
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getDefault($populate = false));
                             $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'display'), 1);
+                            $update = true;
                         }
                     }
 
@@ -112,7 +113,6 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                     //logged in change
                     if(!$this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
-
                         if($state['config'][$state['session']['account']]['shipping_address']['display'] == 0){
 
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getShippingAddressFromPaymentAddress());
@@ -174,7 +174,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                     //logged in change
                     if(!$this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
-                        if($state['config'][$state['session']['account']]['shipping_address']['display'] == 1){
+                        if($state['config'][$state['session']['account']]['shipping_address']['display'] == 1 && $state['session']['shipping_address']['address_id'] == 0){
 
                             $this->load->model('extension/d_quickcheckout/address');
                             $address_id = $this->model_extension_d_quickcheckout_address->addAddress($this->session->data['shipping_address']);
@@ -245,7 +245,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             }
         }
 
-        $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_store->updateState(array('errors','shipping_address'), $state['errors']['shipping_address']);
 
         return $result;
     }

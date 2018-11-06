@@ -77,6 +77,9 @@
                 </label>
             </div>
         </div>
+        <div class="qc-editor-heading">
+            <span>You are viewing as {getAccount()}</span>
+        </div>
         <div class="qc-editor-pro" if={ !getState().pro }>
             <qc_pro_label></qc_pro_label>
         </div>

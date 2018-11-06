@@ -46,8 +46,7 @@
         var tag = this;
 
         getStyle(){
-            var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];
-
+            var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
             return field.style;
         }
 
@@ -111,7 +110,7 @@
             this.initTooltip();
 
             $(tag.root).find('.selectpicker').selectpicker({
-                style: 'btn-default',
+                style: 'btn',
                 size: 12,
                 liveSearch: true
             });

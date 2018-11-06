@@ -5,6 +5,32 @@
 
 class ModelExtensionModuleDQuickcheckout extends Model {
     
+    public function update(){
+        $extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/d_quickcheckout.json'), true);
+        $currentVer = $extension['version'];
+        $prevVer = $this->config->get('d_quickcheckout_version');
+        if($currentVer > $prevVer){
+            $this->updateVersion($prevVer);
+
+            $this->load->model('setting/setting');
+            $this->model_setting_setting->editSettingValue('d_quickcheckout', 'd_quickcheckout_version', $currentVer);
+        }
+    }
+
+    public function updateVersion($version){
+
+        switch (true){
+            // case ($version < '7.0.1'):
+            // {
+            //     echo '7.0.1';
+            // } 
+
+            // case ($version < '7.0.2'):
+            // {
+            //     echo '7.0.2';
+            // }
+        }
+    }
 
     public function installDatabase(){
         //install oc_dqc_setting

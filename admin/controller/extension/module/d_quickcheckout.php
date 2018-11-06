@@ -2,9 +2,6 @@
 /*
  *  location: admin/controller
  */
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     private $codename = 'd_quickcheckout';
@@ -57,6 +54,9 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->installCompatibility();
         }
+
+        $this->load->model('extension/module/d_quickcheckout');
+        $this->model_extension_module_d_quickcheckout->update();
 
         $this->load->language($this->route);
 
@@ -278,8 +278,10 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $store_id = 0;
         if($this->config->get('config_secure')){
             $url = HTTPS_CATALOG;
+            $admin = HTTPS_SERVER;
         }else{
             $url = HTTP_CATALOG;
+            $admin = HTTP_SERVER;
         }
         
         $this->load->model('extension/module/d_quickcheckout');
@@ -316,8 +318,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
             $this->cart->add($product['product_id']);
         }
-
-        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id;
+        $this->load->model('extension/d_opencart_patch/user');
+        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id.'&admin='.urlencode($admin.'?'.$this->model_extension_d_opencart_patch_user->getUrlToken());
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_quickcheckout/editor', $data));
     }
 

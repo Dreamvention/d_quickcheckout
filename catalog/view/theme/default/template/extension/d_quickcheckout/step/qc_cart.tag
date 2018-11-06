@@ -75,20 +75,20 @@
 
                 <div class="form-horizontal">
                     <div class="form-group d-vis qc-coupon" show={getConfig().cart.option.coupon.display == '1'}>
-                        <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_coupon}>
+                        <div class="qc-col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_coupon}>
                             <div class="alert alert-danger">
                                 {getState().notifications.cart.error_coupon}
                             </div>
                         </div>
-                        <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.success_coupon}>
+                        <div class="qc-col-sm-12" if={getState().notifications.cart && getState().notifications.cart.success_coupon}>
                             <div class="alert alert-success">
                                 {getState().notifications.cart.success_coupon}
                             </div>
                         </div>
-                        <label class="col-sm-4 control-label" >
+                        <label class="qc-col-sm-4 control-label" >
                             { getLanguage().cart.entry_coupon }
                         </label>
-                        <div class="col-sm-8">
+                        <div class="qc-col-sm-8">
                             <div class="input-group">
                                 <input type="text" value="{getSession().coupon}" name="coupon" placeholder="{ getLanguage().cart.entry_coupon }" class="form-control"/>
                                 <span class="input-group-btn">
@@ -99,20 +99,20 @@
                     </div>
 
                     <div class="form-group d-vis qc-voucher" show={getConfig().cart.option.voucher.display == '1'}>
-                        <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_voucher}>
+                        <div class="qc-col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_voucher}>
                             <div class="alert alert-danger">
                                 {getState().notifications.cart.error_voucher}
                             </div>
                         </div>
-                        <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.success_voucher}>
+                        <div class="qc-col-sm-12" if={getState().notifications.cart && getState().notifications.cart.success_voucher}>
                             <div class="alert alert-success">
                                 {getState().notifications.cart.success_voucher}
                             </div>
                         </div>
-                        <label class="col-sm-4 control-label" >
+                        <label class="qc-col-sm-4 control-label" >
                             { getLanguage().cart.entry_voucher }
                         </label>
-                        <div class="col-sm-8">
+                        <div class="qc-col-sm-8">
                             <div class="input-group">
                                 <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="form-control"/>
                                 <span class="input-group-btn">
@@ -124,20 +124,20 @@
 
 
                     <div class="form-group d-vis qc-reward" show={getConfig().cart.option.reward.display == '1'}>
-                        <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_reward}>
+                        <div class="qc-col-sm-12" if={getState().notifications.cart && getState().notifications.cart.error_reward}>
                             <div class="alert alert-danger">
                                 {getState().notifications.cart.error_reward}
                             </div>
                         </div>
-                        <div class="col-sm-12" if={getState().notifications.cart && getState().notifications.cart.success_reward}>
+                        <div class="qc-col-sm-12" if={getState().notifications.cart && getState().notifications.cart.success_reward}>
                             <div class="alert alert-success">
                                 {getState().notifications.cart.success_reward}
                             </div>
                         </div>
-                        <label class="col-sm-4 control-label" >
+                        <label class="qc-col-sm-4 control-label" >
                             { getLanguage().cart.entry_reward }
                         </label>
-                        <div class="col-sm-8">
+                        <div class="qc-col-sm-8">
                             <div class="input-group">
                                 <input type="text" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" class="form-control"/>
                                 <span class="input-group-btn">
@@ -150,9 +150,9 @@
 
 
                 <div class="form-horizontal qc-totals">
-                    <div class="row" each={total in getSession().totals} if={total}>
-                        <label class="col-sm-9 col-xs-6 control-label" >{ total.title }</label>
-                        <div class="col-sm-3 col-xs-6 form-control-static text-right">{ total.text }</div>
+                    <div class="qc-row" each={total in getSession().totals} if={total}>
+                        <label class="qc-col-sm-9 qc-col-xs-6 control-label" >{ total.title }</label>
+                        <div class="qc-col-sm-3 qc-col-xs-6 form-control-static text-right">{ total.text }</div>
                     </div>
                 </div>
 

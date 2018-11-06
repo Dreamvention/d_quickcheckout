@@ -27,7 +27,7 @@
                 step="shipping_address" 
                 address_id={ getSession().shipping_address.address_id }></qc_address_select>
 
-                <div class="row" 
+                <div class="qc-row" 
                     if={getAccount() != 'logged' 
                     || (getAccount() == 'logged' 
                         && (getSession().shipping_address.address_id == '0' 
@@ -36,7 +36,7 @@
                         <div
                             each={ field_id in fields}
                             if={getConfig().shipping_address.fields[field_id]}
-                            class="qc-field { (getConfig().shipping_address.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
+                            class="qc-field { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().shipping_address.fields[field_id].sort_order }
                             field_id={field_id}
                             step="shipping_address"
@@ -48,7 +48,7 @@
                             data-is={ getConfig().shipping_address.fields[field_id].type ? 'qc_field_' + getConfig().shipping_address.fields[field_id].type : '' }
                         ></div>
                     </form>
-                    <div class="col-md-12">
+                    <div class="qc-col-md-12">
                         <qc_custom_field if={getState().edit} setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_account="true" location_address="true" onchange={updateFields}></qc_custom_field>
                     </div>
                 </div>

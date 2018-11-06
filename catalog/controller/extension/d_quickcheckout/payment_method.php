@@ -29,7 +29,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
 
         $state['config'] = $this->getConfig();
         $this->model_extension_d_quickcheckout_store->setState($state);
-        $state['session']['payment_method'] = $this->getDefault();
+        $state['session']['payment_method'] = $this->getPaymentMethod();
 
         $state['language']['payment_method'] = $this->getLanguages();
         $state['action']['payment_method'] = $this->action;
@@ -92,10 +92,10 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
 
         if($update_method){
             $update['session']['payment_methods'] = $this->getPaymentMethods();
-            $this->model_extension_d_quickcheckout_store->setState($update);
+            $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_methods'), $update['session']['payment_methods']);
 
             $update['session']['payment_method'] = $this->getPaymentMethod();
-            $this->model_extension_d_quickcheckout_store->setState($update);
+            $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_method'), $update['session']['payment_method']);
 
             $this->validate();
         }
@@ -128,7 +128,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
             }
         }
 
-        $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_store->updateState(array('errors','payment_method'), $state['errors']['payment_method']);
 
         return $result;
     }

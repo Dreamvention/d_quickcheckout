@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.0.1",
+    "version": "7.0.2",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -163,6 +163,8 @@
 
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_checkbox.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_datetime.tag",
+        "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_date.tag",
+        "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_time.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_email.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_heading.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_label.tag",
@@ -201,7 +203,7 @@
         "image/catalog/d_quickcheckout/step/payment_method.svg",
         "image/catalog/d_quickcheckout/step/shipping_address.svg",
         "image/catalog/d_quickcheckout/step/shipping_method.svg"
-        
+
     ],
     "dirs": [
         "catalog/view/javascript/d_quickcheckout",
@@ -212,13 +214,16 @@
         "image/catalog/d_quickcheckout/payment",
         "admin/view/image/d_quickcheckout"
     ],
-    "changelog": [
+    "changelog": [{
+            "varsion": "7.0.2",
+            "change": "Fix bugs, fix free checkout bug, fix custom fields bug, new fields"
+        },
         {
-            "varsion":"7.0.1",
+            "varsion": "7.0.1",
             "change": "Fix initial bugs"
         },
         {
-            "varsion":"7.0.0",
+            "varsion": "7.0.0",
             "change": "Add Visual Editor, Multiple pages. Extensibily and stability."
         }
     ]

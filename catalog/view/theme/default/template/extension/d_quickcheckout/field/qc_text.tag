@@ -84,7 +84,7 @@
         }
 
         getStyle(){
-            var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];
+            var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
             return field.style;
         }
 

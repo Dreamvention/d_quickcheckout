@@ -273,14 +273,14 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $result = true;
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $this->load->language('extension/d_quickcheckout/cart');
-        if($state['config']['guest']['cart']['min_total'] >= $state['session']['total']){
+        if($state['config']['guest']['cart']['min_total'] > $state['session']['total']){
             $state['errors']['cart']['error_min_total'] = sprintf($this->language->get('error_min_total'), $this->currency->format( $state['config']['guest']['cart']['min_total'], $this->session->data['currency']));
             $result = false;
         }else{
             $state['errors']['cart']['error_min_total'] = false;
         }
 
-        if($state['config']['guest']['cart']['min_quantity'] >= $state['session']['quantity']){
+        if($state['config']['guest']['cart']['min_quantity'] > $state['session']['quantity']){
             $state['errors']['cart']['error_min_quantity'] = sprintf($this->language->get('error_min_quantity'), $state['config']['guest']['cart']['min_quantity']);
             $result = false;
         }else{

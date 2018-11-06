@@ -10,7 +10,7 @@
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <span wclass="icon">
-                        <i class="{ getConfig().shipping_method.icon }"></i>
+                        <i class="{ getState().config.guest.shipping_method.icon }"></i>
                     </span>
                     <span class="text">{ getLanguage().shipping_method.heading_title }</span>
                 </h4>
@@ -18,12 +18,12 @@
             </div>
             <div class="panel-body">
                 <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger has-error"><raw content="{error}"></raw></div>
-                <form id="shipping_method_list" if={getConfig().shipping_method.display_options == 1 && getSession().shipping_methods}>
-                    <div if={ getConfig().shipping_method.input_style == 'radio'} 
+                <form id="shipping_method_list" if={getState().config.guest.shipping_method.display_options == 1 && getSession().shipping_methods}>
+                    <div if={ getState().config.guest.shipping_method.input_style == 'radio'} 
                     each={ shipping_method, name in getSession().shipping_methods } 
                     class="radio-input" >
                         <div if={shipping_method}>
-                            <strong if={getConfig().shipping_method.display_group_title == 1} class="title">{ shipping_method.title }</strong>
+                            <strong if={getState().config.guest.shipping_method.display_group_title == 1} class="title">{ shipping_method.title }</strong>
                             <div each={ quote, index in shipping_method.quote } >
 
                                 <label  for="{ quote.code }" class="qc-radio {getSession().shipping_method.code == quote.code ? 'qc-radio-selected' : ''}">
@@ -40,9 +40,9 @@
                         </div>
                     </div>
 
-                    <div if={getConfig().shipping_method.input_style == 'select'}>
+                    <div if={getState().config.guest.shipping_method.input_style == 'select'}>
 
-                        <select if={getConfig().shipping_method.display_group_title == 1} class="form-control" onchange={change}>
+                        <select if={getState().config.guest.shipping_method.display_group_title == 1} class="form-control" onchange={change}>
                             <optgroup label="{ shipping_method.title }" 
                             each={ shipping_method, name in getSession().shipping_methods } >
                                 <option 
@@ -54,7 +54,7 @@
                             </optgroup>
                         </select>
 
-                        <select if={getConfig().shipping_method.display_group_title == 0} class="form-control" onchange={change}>
+                        <select if={getState().config.guest.shipping_method.display_group_title == 0} class="form-control" onchange={change}>
                             <option 
                                 each={ quote, index in flattenShippingMethods() } 
                                 selected={ getSession().shipping_method.code == quote.code }

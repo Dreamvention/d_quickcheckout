@@ -384,7 +384,6 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
         $data['payment_iso_code_3'] =  $this->session->data['payment_address']['iso_code_3'];
         $data['payment_zone_code'] =  $this->session->data['payment_address']['zone_code'];
       }
-
   //refactor - move this check to database insert. because we need a valid array for the events
       if (VERSION >= '2.1.0.1') {
           $data['payment_custom_field'] = json_encode($data['payment_custom_field']);

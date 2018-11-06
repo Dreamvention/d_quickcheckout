@@ -29,7 +29,7 @@
                 address_id={ getSession().payment_address.address_id }></qc_address_select>
 
 
-                <div class="row { (getAccount() != 'logged' 
+                <div class="qc-row { (getAccount() != 'logged' 
                     || (getAccount() == 'logged' 
                         && (getSession().payment_address.address_id == '0' 
                         || !getSession().payment_address.address_id))) ? '' : 'hidden'  }">
@@ -39,7 +39,7 @@
                             
                             each={ field_id in fields}
                             if={ (getConfig().payment_address.fields[field_id])}
-                            class="qc-field { (getConfig().payment_address.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
+                            class="qc-field { (getState().config.guest.payment_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().payment_address.fields[field_id].sort_order }
                             field_id={field_id}
                             step="payment_address"
@@ -51,7 +51,7 @@
                             data-is={ getConfig().payment_address.fields[field_id].type ? 'qc_field_' + getConfig().payment_address.fields[field_id].type : '' }
                         ></div>
                     </form>
-                    <div class="col-md-12">
+                    <div class="qc-col-md-12">
                         <qc_custom_field if={getState().edit} setting_id="payment_address_custom_field_{rand()}" step="payment_address" location_account="true" location_address="true" onchange={updateFields}></qc_custom_field>
                     </div>
                 </div>

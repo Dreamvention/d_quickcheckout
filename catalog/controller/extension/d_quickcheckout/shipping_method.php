@@ -97,10 +97,11 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
             $state = $this->model_extension_d_quickcheckout_store->getState();
             if($this->hasShipping()){
                 $update['session']['shipping_methods'] = $this->getShippingMethods();
-                $this->model_extension_d_quickcheckout_store->setState($update);
+                $this->model_extension_d_quickcheckout_store->updateState(array('session','shipping_methods'), $update['session']['shipping_methods']);
 
                 $update['session']['shipping_method'] = $this->getShippingMethod($state['session']['shipping_method']['code']);
-                $this->model_extension_d_quickcheckout_store->setState($update);
+                $this->model_extension_d_quickcheckout_store->updateState(array('session','shipping_method'), $update['session']['shipping_method']);
+
             }
 
             $this->validate();
@@ -156,7 +157,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
 
 
 
-        $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_store->updateState(array('errors','shipping_method'), $state['errors']['shipping_method']);
 
         return $result;
     }

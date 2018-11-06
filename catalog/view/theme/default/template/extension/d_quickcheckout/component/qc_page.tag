@@ -1,6 +1,7 @@
 <qc_page>
     <div id="page_{opts.page_id}" class="tab-pane page">
         <virtual if={getState().edit}>
+            <div if={hasPayment()} class="alert alert-warning">{getLanguage().general.text_no_payment_step}</div>
             <div class="grid gr gr-active" data-grid-id={opts.page_id}>
                 <div class="gr-grid-content" if={opts.page}>
                     <div 

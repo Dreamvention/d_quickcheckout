@@ -8,6 +8,7 @@
         </div>
         <div class="qc-setting-content">
             <form class="form-setting" ref="form">
+                <a class="btn btn-primary" href="{getCustomFieldAdmin()}">Add Custom Field</a>
                 <h3 >select custom field</h3>
                 <div 
                     each={option in getState().custom_fields }
@@ -76,5 +77,13 @@
         this.on('mount', function(){
             $(this.root).find('.qc-setting').appendTo('body');
         })
+
+        getCustomFieldAdmin(){
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return decodeURIComponent(vars['admin']+'&route=customer/custom_field');
+        }
     </script>
 </qc_custom_field>

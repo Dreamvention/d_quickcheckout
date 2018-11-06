@@ -156,6 +156,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 
 	public function getDefaultPaymentMethod($payment_method_code = ''){
 		if(isset($this->session->data['payment_methods']) && is_array($this->session->data['payment_methods'])){
+			
 			if(array_key_exists($payment_method_code, $this->session->data['payment_methods'])
                 && $this->session->data['payment_methods'][$payment_method_code]){
 				return $this->session->data['payment_methods'][$payment_method_code];

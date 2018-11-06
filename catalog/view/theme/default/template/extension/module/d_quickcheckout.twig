@@ -48,6 +48,7 @@
     var count = 0;
     var total = {{riot_tags|length}};
     var d_quickcheckout_store =  d_quickcheckout.createStore({{ state|json_encode() }});
+    
     {% for riot_tag in riot_tags %}
         riot.compile('{{riot_tag}}', function(){
             count++;
@@ -56,6 +57,8 @@
             }
         });
     {% endfor %}
+
+    
     function start(){
 
         riot.compile('catalog/view/theme/default/template/extension/module/d_quickcheckout.tag', function() {
@@ -63,4 +66,5 @@
           riot.mount(document.getElementById('d_quickcheckout'));
         })
     }
+    
 </script>

@@ -46,8 +46,7 @@
         var tag = this;
 
         getStyle(){
-            var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];
-
+            var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
             return field.style;
         }
 
@@ -97,6 +96,14 @@
             this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
         }
 
+        initDateTime(){
+            $('#' + this.opts.step + '_' + this.opts.field_id).datetimepicker({
+                language: this.store.getSession().language,
+                pickDate: true,
+                pickTime: true
+            });
+        }
+
         initMask(){
             if(this.opts.field.mask){
                 $('#' + this.opts.step + '_' + this.opts.field_id).mask(this.opts.field.mask);
@@ -113,12 +120,14 @@
         }
 
         this.on('mount', function(){
+            this.initDateTime();
             this.initMask();
             this.initTooltip();
 
         })
 
         this.on('updated', function(){
+            this.initDateTime();
             this.initMask();
             this.initTooltip();
             

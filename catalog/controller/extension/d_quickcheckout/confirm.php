@@ -65,7 +65,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                 $state['session']['confirm']['checkout'] = true;
             }
 
-            $this->model_extension_d_quickcheckout_store->setState($state);
+            $this->model_extension_d_quickcheckout_store->updateState(array('session','confirm','checkout'), $state['session']['confirm']['checkout']);
             $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $this->request->get);
         }
     }

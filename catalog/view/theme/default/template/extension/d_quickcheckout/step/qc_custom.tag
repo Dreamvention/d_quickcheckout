@@ -17,12 +17,12 @@
                 <h5 if={getLanguage().custom.text_description}>{  getLanguage().custom.text_description } </h5>
             </div>
             <div class="panel-body">
-                <div class="row">
+                <div class="qc-row">
                     <form  id="custom_fields" class="custom-fields" >
                         <div 
                             each={ field_id in fields }
                             if={ (getConfig().custom.fields[field_id])}
-                            class="qc-field { (getConfig().custom.fields[field_id].style == 'col') ? 'qc-col' : 'qc-clearboth' }"
+                            class="qc-field { (getState().config.guest.custom.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().custom.fields[field_id].sort_order }
                             field_id={field_id}
                             step="custom"

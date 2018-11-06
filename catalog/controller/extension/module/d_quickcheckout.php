@@ -51,7 +51,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/bootstrap-select.min.js');
         $this->document->addStyle('catalog/view/javascript/d_bootstrap_select/css/bootstrap-select.min.css');
         $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/i18n/defaults-en_US.min.js');
-        $this->document->addStyle('http://localhost/ripecss/docs/css/ripe.css?'.rand());
         
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js');
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js');
@@ -71,7 +70,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/intltelinput/css/intlTelInput.min.css');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/intlTelInput.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/underscore/underscore.min.js');
 
         $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
 

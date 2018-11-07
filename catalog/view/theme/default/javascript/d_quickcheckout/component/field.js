@@ -62,7 +62,7 @@
                 'text': 'entry_' + field_id,
                 'placeholder': 'placeholder_' + field_id,
                 'display': 1,
-                'require': 0,
+                'require': custom_field.required,
                 'tooltip': 'tooltip_' + field_id,
                 'errors': {
                     'error0': {

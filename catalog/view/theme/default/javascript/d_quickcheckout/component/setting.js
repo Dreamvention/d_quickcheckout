@@ -11,9 +11,9 @@
         this.updateLayout();
         var state = this.getState();
 
-        var difference = this.getChange();
-        difference.layout = state.layout;
-        this.send('extension/module/d_quickcheckout/update', JSON.stringify(difference), function(json) {
+        // var difference = this.getChange();
+        // difference.layout = state.layout;
+        this.send('extension/module/d_quickcheckout/update', JSON.stringify(state), function(json) {
             this.setState(json);
             this.render();
             this.hideLoader();

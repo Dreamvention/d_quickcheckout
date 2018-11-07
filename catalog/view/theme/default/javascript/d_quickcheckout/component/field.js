@@ -3,7 +3,6 @@
  */
 
 (function() {
-
     this.initFieldSortable = function(step_id) {
         var that = this;
         $('#' + step_id + '_fields').sortable({
@@ -55,7 +54,6 @@
         var sort_order = Object.keys(state.config.guest[step].fields).length;
 
         var accounts = ['guest', 'register', 'logged'];
-        console.log(custom_field.type);
         for (i = 0; i < accounts.length; i++) {
             state.config[accounts[i]][step].fields[field_id] = {
                 'id': field_id,

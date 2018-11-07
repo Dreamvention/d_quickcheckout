@@ -163,7 +163,9 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_quickcheckout_store->loadState();
 
             //REFACTOR - need a cleaner way to update pages.
-            $post = $this->request->post;
+            //$post = $this->request->post;
+            $rawData = file_get_contents('php://input');
+            $post = json_decode($rawData, true);
 
             if(isset($post['layout'])){
                 $this->model_extension_d_quickcheckout_store->updateState(array('layout'), $post['layout']);

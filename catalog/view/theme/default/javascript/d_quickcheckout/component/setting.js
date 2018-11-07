@@ -13,7 +13,7 @@
 
         var difference = this.getChange();
         difference.layout = state.layout;
-        this.send('extension/module/d_quickcheckout/update', difference, function(json) {
+        this.send('extension/module/d_quickcheckout/update', JSON.stringify(difference), function(json) {
             this.setState(json);
             this.render();
             this.hideLoader();

@@ -45,6 +45,39 @@
 
         var tag = this;
 
+        getValue(){
+            return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagError(){
+            if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
+                return '' ;
+            }
+            return this.store.getError()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagConfig(){
+            return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]['options']);
+        }
+
+        tag.tag_value = this.getValue();
+        tag.tag_error = this.getTagError();
+        tag.tag_config = this.getTagConfig();
+
+        shouldUpdate(){
+            if(this.store.getState().edit){
+                return true;
+            }
+            if(tag.tag_value == this.getValue() && tag.tag_error == this.getTagError() && tag.tag_config == this.getTagConfig()) {
+                return false;
+            }else{
+                tag.tag_value = this.getValue();
+                tag.tag_error = this.getTagError();
+                tag.tag_config = this.getTagConfig();
+                return true;
+            }
+        }
+
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
             return field.style;
@@ -96,7 +129,6 @@
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
 
             this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
-            e.preventUpdate = true;
         }
 
         initTooltip(){
@@ -108,21 +140,20 @@
 
         this.on('mount', function(){
             this.initTooltip();
-
-            $(tag.root).find('.selectpicker').selectpicker({
-                style: 'btn',
-                size: 12,
-                liveSearch: true
-            });
-
+            setTimeout(function(){
+                $(tag.root).find('.selectpicker').selectpicker({
+                    style: 'btn',
+                    size: 12,
+                    liveSearch: true
+                });
+            }.bind(this), 300)
         })
 
-        this.on('updated', function(){
+        this.on('update', function(){
             this.initTooltip();
-            tag.preventUpdate = true;
-            
-            $(tag.root).find('.selectpicker').selectpicker('refresh');
-
+            setTimeout(function(){
+                $(tag.root).find('.selectpicker').val(tag.tag_value).selectpicker('refresh');
+            })
         })
 
     </script>

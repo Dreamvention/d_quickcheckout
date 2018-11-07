@@ -37,6 +37,34 @@
         this.mixin({store:d_quickcheckout_store});
         var tag = this;
 
+        getValue(){
+            return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagError(){
+            if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
+                return '' ;
+            }
+            return this.store.getError()[tag.opts.step][tag.opts.field_id];
+        }
+
+        tag.tag_value = this.getValue();
+        tag.tag_error = this.getTagError();
+
+        shouldUpdate(){
+            if(this.store.getState().edit){
+                return true;
+            }
+            if(tag.tag_value == this.getValue() && tag.tag_error == this.getTagError()) {
+                return false;
+            }else{
+                tag.tag_value = this.getValue();
+                tag.tag_error = this.getTagError()
+                return true;
+            }
+            
+        }
+
         isVisible(){
             var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];
 

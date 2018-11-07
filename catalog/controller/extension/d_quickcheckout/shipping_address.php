@@ -255,9 +255,9 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
     */
     private function updateField($field, $value){
 
-        $state['session']['shipping_address'][$field] = $value;
+        
         if($this->validateField($field, $value)){
-            $this->model_extension_d_quickcheckout_store->setState($state);
+            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', $field),  $value);
 
             switch ($field){
 
@@ -293,7 +293,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                 break;
             }
         }else{
-            $this->model_extension_d_quickcheckout_store->setState($state);
+            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', $field),  $value);
         }
     }
 

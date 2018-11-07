@@ -3,7 +3,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_checkbox_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ isVisible() } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <form class="col-full">
             <div class="qc-checkbox {opts.riotValue == 1 ? 'qc-checkbox-selected' : '' }">
                 <label for="{ opts.step }_{ opts.field.id }" class="control-label" >
@@ -34,7 +34,7 @@
             <div class="text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </div>
     </div>
-    <div class="no-display" if={ (opts.field.display != 1 && getState().edit && typeof opts.field.display !== 'undefined') }>
+    <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
         <label class="col-md-12" ><raw content="{ getLanguage()[opts.step][opts.field.text] }"/><div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
     <script>
@@ -48,6 +48,13 @@
         }
 
         isVisible(){
+            if(tag.opts.step == 'payment_address' 
+            && tag.opts.field_id == 'shipping_address'
+            && this.store.getConfig().shipping_address.display == '0'
+            && this.store.getConfig().shipping_method.display == '0'){
+                return false;
+            }
+
             var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];
 
             for (var depend_field_id in field.depends) {
@@ -66,6 +73,8 @@
 
             return tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id].display == 1;
         }
+
+
 
         isRequired(){
             var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];

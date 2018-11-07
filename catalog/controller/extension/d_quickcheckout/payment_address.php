@@ -272,11 +272,11 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      * logic for updating fields
      */
     private function updateField($field, $value){
-        $state = $this->model_extension_d_quickcheckout_store->getState();
-        $state['session']['payment_address'][$field] = $value;
+        
 
         if($this->validateField($field, $value)){
-            
+            $state = $this->model_extension_d_quickcheckout_store->getState();
+            $state['session']['payment_address'][$field] = $value;
             
             $this->model_extension_d_quickcheckout_store->setState($state);
 
@@ -355,15 +355,14 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         
                     }
                     if(isset($location)){
-                        $state['session']['payment_address']['custom_field'][$location][$custom_field_id] = $value;
-                        $this->model_extension_d_quickcheckout_store->setState($state);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', 'custom_field', $location, $custom_field_id),  $value);
                     }
                     //nothing at the moment;
                     break;
             }
             
         }else{
-            $this->model_extension_d_quickcheckout_store->setState($state);
+            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', $field),  $value);
         }
 
     }
@@ -523,7 +522,8 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
     private function validateField($field, $value){
         $this->load->language('checkout/checkout');
         $this->load->model('extension/d_quickcheckout/error');
-        return $this->model_extension_d_quickcheckout_error->validateField('payment_address', $field, $value);
+        $valid = $this->model_extension_d_quickcheckout_error->validateField('payment_address', $field, $value);
+        return $valid;
     }
 
     private function getAccountLoginText(){

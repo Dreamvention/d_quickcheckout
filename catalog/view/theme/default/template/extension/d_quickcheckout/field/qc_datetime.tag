@@ -45,6 +45,34 @@
 
         var tag = this;
 
+        getValue(){
+            return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagError(){
+            if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
+                return '' ;
+            }
+            return this.store.getError()[tag.opts.step][tag.opts.field_id];
+        }
+
+        tag.tag_value = this.getValue();
+        tag.tag_error = this.getTagError();
+
+        shouldUpdate(){
+            if(this.store.getState().edit){
+                return true;
+            }
+            if(tag.tag_value == this.getValue() && tag.tag_error == this.getTagError()) {
+                return false;
+            }else{
+                tag.tag_value = this.getValue();
+                tag.tag_error = this.getTagError()
+                return true;
+            }
+            
+        }
+
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
             return field.style;
@@ -101,7 +129,11 @@
                 language: this.store.getSession().language,
                 pickDate: true,
                 pickTime: true
-            });
+            }).on('dp.change', function(e){
+                error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
+                this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            }.bind(this));
         }
 
         initMask(){

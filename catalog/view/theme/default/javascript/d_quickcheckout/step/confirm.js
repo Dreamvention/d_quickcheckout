@@ -20,6 +20,7 @@
                     this.setChange(this.getState());
 
                     $(document).ajaxComplete(function() {
+                        this.loading(true);
                         setTimeout(function() {
                             var href = $(json.session.confirm.trigger, $('#payment')).attr('href');
                             if (href != '' && href != undefined) {
@@ -29,7 +30,7 @@
                             }
                             $(document).unbind('ajaxComplete');
                         }, 100);
-                    })
+                    }.bind(this))
                 }
             }.bind(this));
         }, 500);

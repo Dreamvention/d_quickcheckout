@@ -22,5 +22,6 @@
         this.setting_id = opts.step +'_'+ opts.field_id +'_setting';
 
         var tag = this;
+        
     </script>
 </qc_field_heading>

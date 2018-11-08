@@ -124,8 +124,14 @@ class ModelExtensionDQuickcheckoutAccount extends Model {
 
     public function getCustomFields(){
 
-        $this->load->model('account/custom_field');
-        $custom_fields = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
+        if(VERSION >= '2.1.0.0'){
+            $this->load->model('account/custom_field');
+            $custom_fields = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
+        }else{
+            $this->load->model('sale/custom_field');
+            $custom_fields = $this->model_sale_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
+        }
+        
         $result = array();
 
         foreach($custom_fields as $custom_field){

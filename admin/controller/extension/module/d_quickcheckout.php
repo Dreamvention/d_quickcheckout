@@ -284,7 +284,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $admin = HTTP_SERVER;
         }
 
-        if(VERSION > '2.1.0.0'){
+        if(VERSION >= '2.1.0.0'){
             $custom_field = $admin.'&route=customer/custom_field';
         }else{
             $custom_field = $admin.'&route=sale/custom_field'

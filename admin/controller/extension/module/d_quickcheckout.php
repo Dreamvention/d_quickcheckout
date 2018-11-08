@@ -287,7 +287,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if(VERSION >= '2.1.0.0'){
             $custom_field = $admin.'&route=customer/custom_field';
         }else{
-            $custom_field = $admin.'&route=sale/custom_field'
+            $custom_field = $admin.'&route=sale/custom_field';
         }
         
         $this->load->model('extension/module/d_quickcheckout');

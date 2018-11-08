@@ -71,10 +71,6 @@ class ControllerExtensionDQuickcheckoutContinue extends Controller {
 
                 $this->model_extension_d_quickcheckout_store->dispatch('continue/update/after', $this->request->get);
             }
-            //REFACTOR - added other data like config and layout
-            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
-                $this->model_extension_d_quickcheckout_store->setState($data['data']);
-            }
         }
 
     }

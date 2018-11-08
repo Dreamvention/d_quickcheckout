@@ -60,8 +60,8 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
         //updating payment_address field values
         if($data['action'] == 'custom/update'){
 
-            if(!empty($data['data']['custom'])){
-                foreach($data['data']['custom'] as $field => $value){
+            if(!empty($data['data']['session']['custom'])){
+                foreach($data['data']['session']['custom'] as $field => $value){
                     $this->updateField($field, $value);
                     $update = true;
                 }

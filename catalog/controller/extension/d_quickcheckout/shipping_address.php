@@ -65,8 +65,8 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         $update = false;
 
         if($data['action'] == 'shipping_address/update'){
-            if(!empty($data['data']['shipping_address'])){
-                foreach($data['data']['shipping_address'] as $field => $value){
+            if(!empty($data['data']['session']['shipping_address'])){
+                foreach($data['data']['session']['shipping_address'] as $field => $value){
                     $this->updateField($field, $value);
                     $update = true;
                 }

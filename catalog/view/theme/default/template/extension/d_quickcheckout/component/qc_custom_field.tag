@@ -83,7 +83,7 @@
             var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
                 vars[key] = value;
             });
-            return decodeURIComponent(vars['admin']+'&route=customer/custom_field');
+            return decodeURIComponent(vars['custom_field']);
         }
     </script>
 </qc_custom_field>

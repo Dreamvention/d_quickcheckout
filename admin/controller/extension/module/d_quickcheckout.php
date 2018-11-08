@@ -283,6 +283,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $url = HTTP_CATALOG;
             $admin = HTTP_SERVER;
         }
+
+        if(VERSION > '2.1.0.0'){
+            $custom_field = $admin.'&route=customer/custom_field';
+        }else{
+            $custom_field = $admin.'&route=sale/custom_field'
+        }
         
         $this->load->model('extension/module/d_quickcheckout');
         $setting = $this->model_extension_module_d_quickcheckout->getSetting($setting_id);
@@ -319,7 +325,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->cart->add($product['product_id']);
         }
         $this->load->model('extension/d_opencart_patch/user');
-        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id.'&admin='.urlencode($admin.'?'.$this->model_extension_d_opencart_patch_user->getUrlToken());
+        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id.'&admin='.urlencode($admin.'?'.$this->model_extension_d_opencart_patch_user->getUrlToken().'&custom_field='. urlencode($custom_field.'?'.$this->model_extension_d_opencart_patch_user->getUrlToken());
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_quickcheckout/editor', $data));
     }
 

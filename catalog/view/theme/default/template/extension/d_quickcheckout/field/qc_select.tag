@@ -57,7 +57,7 @@
         }
 
         getTagConfig(){
-            return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]['options']);
+            return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]);
         }
 
         tag.tag_value = this.getValue();

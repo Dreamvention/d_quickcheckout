@@ -43,6 +43,39 @@
 
         var tag = this;
 
+        getValue(){
+            return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagError(){
+            if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
+                return '' ;
+            }
+            return this.store.getError()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagConfig(){
+            return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]);
+        }
+
+        tag.tag_value = this.getValue();
+        tag.tag_error = this.getTagError();
+        tag.tag_config = this.getTagConfig();
+
+        shouldUpdate(){
+            if(this.store.getState().edit){
+                return true;
+            }
+            if(tag.tag_value == this.getValue() && tag.tag_error == this.getTagError() && tag.tag_config == this.getTagConfig()) {
+                return false;
+            }else{
+                tag.tag_value = this.getValue();
+                tag.tag_error = this.getTagError();
+                tag.tag_config = this.getTagConfig();
+                return true;
+            }
+        }
+
         edit(e){
             this.store.dispatch(this.opts.step+'/edit', $('#'+ tag.setting_id).find('form').serializeJSON());
         }

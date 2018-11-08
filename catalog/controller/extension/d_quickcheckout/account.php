@@ -56,14 +56,19 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         $this->load->model('extension/d_quickcheckout/store');
 
         if($data['action'] == 'account/update'){
-            if(isset($data['data']['session']['account'])){
-                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+            if(!empty($data['data']['session']['account'])){
+                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'account'), $data['data']['session']['account']);
             }
-
+            
             if(isset($data['data']['email'])
             && isset($data['data']['password'])){
                 $this->login($data['data']['email'], $data['data']['password']);
                 $this->model_extension_d_quickcheckout_store->updateState(array('text_account_login'), $this->getAccountLoginText());
+            }
+            
+            //REFACTOR - added other data like config and layout
+            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
+                $this->model_extension_d_quickcheckout_store->setState($data['data']);
             }
 
             //dispatch new state

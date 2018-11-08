@@ -12,7 +12,7 @@
         var difference = this.getChange();
 
         this.payment_address_timer = setTimeout(function() {
-            this.send('extension/d_quickcheckout/payment_address/update', difference.session, function(json) {
+            this.send('extension/d_quickcheckout/payment_address/update', difference, function(json) {
                 this.setState(json);
                 this.setChange(this.getState());
             }.bind(this));

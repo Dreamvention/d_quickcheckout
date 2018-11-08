@@ -70,6 +70,10 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
                     $update = true;
                 }
             }
+            //REFACTOR - added other data like config and layout
+            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
+                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+            }
         }
 
         //updating payment_methods after payment_address change

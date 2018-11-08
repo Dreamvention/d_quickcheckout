@@ -61,15 +61,20 @@ class ControllerExtensionDQuickcheckoutContinue extends Controller {
     public function receiver($data){
         $update = false;
         //updating payment_method value
-        if($data['action'] == 'continue/update' && isset($data['data']['page_id'])){
+        if($data['action'] == 'continue/update'){
+            if(isset($data['data']['page_id'])){
+                $page_id = $data['data']['page_id'];
+                if($this->validatePage($page_id)){
+                    $state['session']['page_id'] = $this->getNextPage($page_id);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $state['session']['page_id']);
+                }
 
-            $page_id = $data['data']['page_id'];
-            if($this->validatePage($page_id)){
-                $state['session']['page_id'] = $this->getNextPage($page_id);
-                $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $state['session']['page_id']);
+                $this->model_extension_d_quickcheckout_store->dispatch('continue/update/after', $this->request->get);
             }
-
-            $this->model_extension_d_quickcheckout_store->dispatch('continue/update/after', $this->request->get);
+            //REFACTOR - added other data like config and layout
+            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
+                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+            }
         }
 
     }

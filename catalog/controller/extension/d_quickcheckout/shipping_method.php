@@ -72,6 +72,10 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
                     $this->model_extension_d_quickcheckout_store->setState($update);
                 }
             }
+            //REFACTOR - added other data like config and layout
+            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
+                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+            }
         }
 
         //updating shipping_methods after shipping_address change

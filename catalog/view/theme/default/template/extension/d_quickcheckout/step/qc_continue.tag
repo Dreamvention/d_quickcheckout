@@ -47,7 +47,7 @@
         }
 
         this.on("update", function(){
-            tag.prev = this.store.getSession().pages[0] != this.store.getSession().page_id && getConfig().continue.buttons.prev.display == 1;
+            tag.prev = this.store.getSession().pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.continue.buttons.prev.display == 1;
             tag.next = this.store.getSession().pages[this.store.getSession().pages.length-1] != this.store.getSession().page_id;
         });
 

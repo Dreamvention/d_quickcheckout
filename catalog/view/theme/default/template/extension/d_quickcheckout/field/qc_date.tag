@@ -1,10 +1,10 @@
-<qc_field_datetime>
+<qc_field_date>
 
-    <qc_datetime_setting if={riot.util.tags.selectTags().search('"qc_datetime_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></qc_datetime_setting>
+    <qc_date_setting if={riot.util.tags.selectTags().search('"qc_date_setting"') && getState().edit} field_id="{opts.field_id}" field="{opts.field}" step="{opts.step}" ondelete="{opts.ondelete}"></qc_date_setting>
 
-    <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_datetime_setting"') < 0 && getState().edit}></qc_pro_label>
+    <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_date_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ isVisible() } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field_id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>
@@ -22,7 +22,7 @@
                     no-reorder
                     autocomplete="{ opts.field.autocomplete }"
                     qc-mask="{ opts.field.mask }"
-                    data-date-format="YYYY-MM-DD HH:mm"
+                    data-date-format="YYYY-MM-DD"
                     onchange={change} >
 
                 <span class="input-group-btn d-vis " >
@@ -35,7 +35,7 @@
         </div>
     </div>
     
-    <div class="no-display" if={ (opts.field.display != 1 && getState().edit && typeof opts.field.display !== 'undefined') }>
+    <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
         <label class="col-md-12" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
@@ -44,6 +44,39 @@
         this.setting_id = opts.step +'_'+ opts.field_id +'_setting';
 
         var tag = this;
+
+        getValue(){
+            return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagError(){
+            if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
+                return '' ;
+            }
+            return this.store.getError()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagConfig(){
+            return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]);
+        }
+
+        tag.tag_value = this.getValue();
+        tag.tag_error = this.getTagError();
+        tag.tag_config = this.getTagConfig();
+
+        shouldUpdate(){
+            if(this.store.getState().edit){
+                return true;
+            }
+            if(tag.tag_value == this.getValue() && tag.tag_error == this.getTagError() && tag.tag_config == this.getTagConfig()) {
+                return false;
+            }else{
+                tag.tag_value = this.getValue();
+                tag.tag_error = this.getTagError();
+                tag.tag_config = this.getTagConfig();
+                return true;
+            }
+        }
 
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
@@ -100,7 +133,11 @@
             $('#' + this.opts.step + '_' + this.opts.field_id).datetimepicker({
                 language: this.store.getSession().language,
                 pickTime: false
-            });
+            }).on('dp.change', function(e){
+                error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
+                this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            }.bind(this));
         }
 
         initMask(){
@@ -132,4 +169,4 @@
             
         })
     </script>
-</qc_field_datetime>
+</qc_field_date>

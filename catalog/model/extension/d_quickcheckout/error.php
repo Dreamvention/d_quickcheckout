@@ -119,19 +119,18 @@ class ModelExtensionDQuickcheckoutError extends Model {
         return $this->array_flatten($state['layout']['pages'][$page_id]['children']);
     }
 
-    private function array_flatten($array) {
+    private function array_flatten($array){
 
-       $return = array();
+        $return = array();
 
-       foreach ($array as $key => $value) {
-            if(isset($value['children'])){
-                $return = array_merge($return, $this->array_flatten($value['children'])); 
-            }
-            elseif(isset($value['type']) && $value['type'] == 'item'){
+        foreach ($array as $key => $value) {
+            if (isset($value['type']) && $value['type'] == 'item') {
                 $return[] = $value['name'];
+            } elseif (!empty($value['children'])) {
+                $return = array_merge($return, $this->array_flatten($value['children']));
             }
-       }
-       return $return;
+        }
+        return $return;
 
     }
 

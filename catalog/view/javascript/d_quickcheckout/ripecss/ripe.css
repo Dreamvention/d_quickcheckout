@@ -738,6 +738,7 @@ a[class^=ve-] {
   .ve-input[type=text], .ve-input[type=email], .ve-input[type=password], .ve-input[type=tel] {
     width: 100%;
     box-shadow: 0 1px 3px 0 #e6ebf1;
+    height: 32px;
     min-height: auto;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px; }
@@ -757,19 +758,19 @@ a[class^=ve-] {
   .ve-input[type=radio], .ve-input[type=checkbox] {
     display: inline-block;
     margin-right: 4px; }
-  .ve-input--sm {
+  .ve-input--sm[type=text], .ve-input--sm[type=email], .ve-input--sm[type=password], .ve-input--sm[type=tel], .ve-input--sm {
     padding: 1px 6px;
     font-size: 12px;
     height: 24px; }
-  .ve-input--md {
+  .ve-input--md[type=text], .ve-input--md[type=email], .ve-input--md[type=password], .ve-input--md[type=tel], .ve-input--md {
     padding: 5px 8px;
     font-size: 14px;
     height: 32px; }
-  .ve-input--lg {
+  .ve-input--lg[type=text], .ve-input--lg[type=email], .ve-input--lg[type=password], .ve-input--lg[type=tel], .ve-input--lg {
     padding: 9px 10px;
     font-size: 18px;
     height: 40px; }
-  .ve-input--hg {
+  .ve-input--hg[type=text], .ve-input--hg[type=email], .ve-input--hg[type=password], .ve-input--hg[type=tel], .ve-input--hg {
     padding: 13px 13px;
     font-size: 19px;
     height: 48px; }
@@ -1502,7 +1503,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-btn-group {
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  display: flex;
+  display: inline-block;
   transition: all .15s ease;
   border-radius: .3rem;
   overflow: hidden;

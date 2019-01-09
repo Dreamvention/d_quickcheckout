@@ -30,10 +30,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if(!$this->config->get('d_quickcheckout_status')){
             return false;
         }
-
-        if($this->config->get('d_quickcheckout_bootstrap')){
-            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css');
-        }
         
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/serializejson/jquery.serializejson.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.js');

@@ -1327,6 +1327,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn.active {
     box-shadow: inset 0 2px 3px rgba(50, 50, 93, 0.11), 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
     text-decoration: none; }
+  .ve-btn > *,
+  a.ve-btn > *,
+  a:not([href]):not([tabindex]).ve-btn > * {
+    color: rgba(0, 0, 0, 0.7); }
   .ve-btn:active, .ve-btn.active, .ve-btn:focus,
   a.ve-btn:active,
   a.ve-btn.active,
@@ -1391,6 +1395,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn--primary {
     background: #648bfd;
     color: #fff; }
+    .ve-btn--primary > *,
+    a.ve-btn--primary > *,
+    a:not([href]):not([tabindex]).ve-btn--primary > * {
+      color: #fff; }
     .ve-btn--primary:after,
     a.ve-btn--primary:after,
     a:not([href]):not([tabindex]).ve-btn--primary:after {
@@ -1410,6 +1418,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn--danger {
     background: #f96f66;
     color: #fff; }
+    .ve-btn--danger > *,
+    a.ve-btn--danger > *,
+    a:not([href]):not([tabindex]).ve-btn--danger > * {
+      color: #fff; }
     .ve-btn--danger:after,
     a.ve-btn--danger:after,
     a:not([href]):not([tabindex]).ve-btn--danger:after {
@@ -1429,6 +1441,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn--warning {
     background: #ffb24d;
     color: #fff; }
+    .ve-btn--warning > *,
+    a.ve-btn--warning > *,
+    a:not([href]):not([tabindex]).ve-btn--warning > * {
+      color: #fff; }
     .ve-btn--warning:after,
     a.ve-btn--warning:after,
     a:not([href]):not([tabindex]).ve-btn--warning:after {
@@ -1448,6 +1464,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn--success {
     background: #3ecf8e;
     color: #fff; }
+    .ve-btn--success > *,
+    a.ve-btn--success > *,
+    a:not([href]):not([tabindex]).ve-btn--success > * {
+      color: #fff; }
     .ve-btn--success:after,
     a.ve-btn--success:after,
     a:not([href]):not([tabindex]).ve-btn--success:after {
@@ -1467,6 +1487,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn--info {
     background: #6ed8da;
     color: #fff; }
+    .ve-btn--info > *,
+    a.ve-btn--info > *,
+    a:not([href]):not([tabindex]).ve-btn--info > * {
+      color: #fff; }
     .ve-btn--info:after,
     a.ve-btn--info:after,
     a:not([href]):not([tabindex]).ve-btn--info:after {
@@ -1486,6 +1510,10 @@ a:not([href]):not([tabindex]).ve-btn {
   a:not([href]):not([tabindex]).ve-btn--default {
     background: #e6ebf1;
     color: rgba(0, 0, 0, 0.7); }
+    .ve-btn--default > *,
+    a.ve-btn--default > *,
+    a:not([href]):not([tabindex]).ve-btn--default > * {
+      color: rgba(0, 0, 0, 0.7); }
     .ve-btn--default:after,
     a.ve-btn--default:after,
     a:not([href]):not([tabindex]).ve-btn--default:after {

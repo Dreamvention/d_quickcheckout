@@ -1,33 +1,30 @@
 <qc_custom_field>
-    <div class="qc qc-setting" id="{opts.setting_id}" >
-        <div class="qc-setting-header">
-            <h2>{opts.title} {getLanguage().general.text_settings}</h2>
-            <a class="close" onclick={close}>
-                <i class="fa fa-times" ></i>
-            </a>
-        </div>
-        <div class="qc-setting-content">
-            <form class="form-setting" ref="form">
-                <a class="btn btn-primary" href="{getCustomFieldAdmin()}">Add Custom Field</a>
-                <h3 >select custom field</h3>
+    <qc_setting 
+        if={getState().edit}
+        setting_id={ opts.setting_id }
+        title={ opts.title }>
+        <div class="ve-editor__setting__content__section">
+            
+            <div class="ve-field">
+                <h3 class="ve-h3">Select custom field</h3>
                 <div 
                     each={option in getState().custom_fields }
                     class="panel panel-default add-custom-field"
-                    if={option && validateLocation(option.location) }
+                    if={option && parent.validateLocation(option.location) }
                     onclick={addCustomField}
                     custom_field_id={option.custom_field_id}>
                     <div class="panel-heading"><i class="fa fa-plus"></i> { option.name } </div>
                     
                 </div>
-                <yield/>
-            </form>
+            </div>
+            <div class="ve-field">
+                <a class="ve-btn ve-btn--primary ve-btn--block" href="{parent.getCustomFieldAdmin()}">Create Custom Field</a>
+            </div>
+            <yield/>
         </div>
-        <div class="qc-setting-footer" >
-            <a onclick={save}>{getLanguage().general.text_update}</a>
-        </div>
-    </div>
+    </qc_setting>
 
-    <button class="btn btn-primary btn-block custom-field-create" onclick={toggleSetting}>Add custom field</button>
+    <button class="ve-btn ve-btn--primary ve-btn--block custom-field-create" onclick={toggleSetting}>Add custom field</button>
 
     <script>
         this.mixin({store:d_quickcheckout_store});

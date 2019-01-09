@@ -1,9 +1,7 @@
-.payment-method{
-    .radio-input{
-        label{
-            width: 100%;
-        }
-        .payment-method-image{
+.payment-method {
+    label.ve-radio {
+        width: 100%;
+        .payment-method-image {
             float: right;
         }
     }

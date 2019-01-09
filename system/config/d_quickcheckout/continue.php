@@ -10,6 +10,7 @@ $_['d_quickcheckout_continue'] = array(
     'icon' => '',
     'text' => 'heading_title',
     'description' => 'description_continue',
+    'type' => 2,
     'account' => array(
         'guest' => array(
             'display' => 1,

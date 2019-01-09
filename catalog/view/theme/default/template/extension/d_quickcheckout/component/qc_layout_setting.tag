@@ -2,86 +2,87 @@
     <qc_setting 
     if={getState().edit} 
     setting_id={setting_id}
-    title={getLanguage().general.text_general} >
-        <div class="form-group">
-            <label class="control-label">{getLanguage().general.text_display} {getLanguage().general.text_header_footer}</label>
-            <div>
-                <qc_switcher 
-                onclick="{parent.edit}" 
-                name="layout[header_footer]" 
-                data-label-text="Enabled" 
-                value={ getLayout().header_footer } />
+    title={getLanguage().general.text_general}>
+        <div class="ve-editor__setting__content__section">
+            <div class="ve-field">
+                <label class="ve-label">{getLanguage().general.text_display} {getLanguage().general.text_header_footer}</label>
+                <div>
+                    <qc_switcher 
+                    onclick="{parent.edit}" 
+                    name="layout[header_footer]" 
+                    data-label-text="Enabled" 
+                    value={ getLayout().header_footer } />
+                </div>
+            </div>
+            <div class="ve-field">
+                <label class="ve-label">{getLanguage().general.text_display} {getLanguage().general.text_breadcrumb}</label>
+                <div>
+                    <qc_switcher 
+                    onclick="{parent.edit}" 
+                    name="layout[breadcrumb]" 
+                    data-label-text="Enabled" 
+                    value={ getLayout().breadcrumb } />
+                </div>
+            </div>
+
+            <div class="ve-field">
+                <label class="ve-label"> {getLanguage().general.text_layout}</label><br/>
+                <select
+                    class="ve-input"
+                    onchange="{parent.changeLayout}" >
+                    <option
+                        each={layout in getState().layouts }
+                        if={layout}
+                        value={ layout }
+                        selected={ layout == getLayout().codename} >
+                        { layout } 
+                    </option>
+                </select>
+            </div>
+
+            <div class="ve-field">
+                <label class="ve-label"> {getLanguage().general.text_skin}</label><br/>
+                <select
+                    class="ve-input"
+                    onchange="{parent.changeSkin}" >
+                    <option
+                        each={skin in getState().skins }
+                        if={skin}
+                        value={ skin }
+                        selected={ skin == getSession().skin} >
+                        { skin } 
+                    </option>
+                </select>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label">{getLanguage().general.text_display} {getLanguage().general.text_breadcrumb}</label>
-            <div>
-                <qc_switcher 
-                onclick="{parent.edit}" 
-                name="layout[breadcrumb]" 
-                data-label-text="Enabled" 
-                value={ getLayout().breadcrumb } />
+        <hr class="ve-hr">
+        <div class="ve-editor__setting__content__section">
+            <div class="ve-field">
+                <label class="ve-label"> {getLanguage().general.text_reset}</label><br/>
+                <a class="ve-btn ve-btn--danger" onclick={parent.resetState}>{getLanguage().general.text_reset}</a>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label"> {getLanguage().general.text_layout}</label><br/>
-            <select
-                class="form-control"
-                onchange="{parent.changeLayout}" >
-                <option
-                    each={layout in getState().layouts }
-                    if={layout}
-                    value={ layout }
-                    selected={ layout == getLayout().codename} >
-                    { layout } 
-                </option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label"> {getLanguage().general.text_skin}</label><br/>
-            <select
-                class="form-control"
-                onchange="{parent.changeSkin}" >
-                <option
-                    each={skin in getState().skins }
-                    if={skin}
-                    value={ skin }
-                    selected={ skin == getSession().skin} >
-                    { skin } 
-                </option>
-            </select>
-        </div>
-
-
-        <div class="form-group">
-            <label class="control-label"> {getLanguage().general.text_reset}</label><br/>
-            <a class="btn btn-danger" onclick={parent.resetState}>{getLanguage().general.text_reset}</a>
         </div>
     </qc_setting>
 
-    <div class="qc qc-editor" if={getState().edit}>
-        <div class="qc-editor-heading">
-            <span>{getLanguage().general.text_editor_title} {getSession().setting_name}</span>
+    
+    <div class="qc-editor ve-editor__menu" if={getState().edit}>
+        <div class="ve-editor__menu__title">
+            <h1 class="ve-h1">{getLanguage().general.text_editor_title} {getSession().setting_name}</h1>
         </div>
-        <div class="qc-editor-control">
-            <a class="btn btn-lg btn-primary" onclick={toggleSetting}><i class="fa fa-cog"></i></a>
-            <a class="btn btn-lg btn-success" onclick={saveState}>{getLanguage().general.text_update}</a>
-            <a class="btn btn-lg btn-danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-times fa-close"></i></a>
+        <div class="ve-editor__menu__control qc-editor-pro" if={ !getState().pro }>
+            <qc_pro_label></qc_pro_label>
         </div>
-        <div class="qc-editor-language" if={Object.keys(getState().languages).length  > 1}>
-            <div class="btn-group btn-group" data-toggle="buttons">
-                <label each={language, language_id in getState().languages} class="btn btn-lg btn-primary { getSession().language == language_id ?  'active' : '' }" onclick={changeLanguage}>
-                    <input type="radio" name="language" value="{language_id}" id="{language_id}" autocomplete="off" checked={ getSession().language == language_id }> {language.name}
+        <div class="ve-editor__menu__control" if={Object.keys(getState().languages).length  > 1}>
+            <div class="ve-btn-group" data-toggle="buttons">
+                <label each={language, language_id in getState().languages} class="ve-btn ve-btn--lg ve-btn--primary { getSession().language == language_id ?  'active' : '' }" onclick={changeLanguage}>
+                    <input class="ve-input" type="radio" name="language" value="{language_id}" id="{language_id}" autocomplete="off" checked={ getSession().language == language_id }> {language.name}
                 </label>
             </div>
         </div>
-        <div class="qc-editor-heading">
-            <span>You are viewing as {getAccount()}</span>
-        </div>
-        <div class="qc-editor-pro" if={ !getState().pro }>
-            <qc_pro_label></qc_pro_label>
+        <div class="ve-editor__menu__control">
+            <a class="ve-btn ve-btn--lg ve-btn--primary" onclick={toggleSetting}><i class="fa fa-cog"></i></a>
+            <a class="ve-btn ve-btn--lg ve-btn--success" onclick={saveState}>{getLanguage().general.text_update}</a>
+            <a class="ve-btn ve-btn--lg ve-btn--danger" href="{this.store.getState().close}" target="_parent"><i class="fa fa-times fa-close"></i></a>
         </div>
     </div>
 
@@ -138,6 +139,7 @@
                 this.store.updateLayoutStyle();
             }
         })
+        
     </script>
 
 </qc_layout_setting>

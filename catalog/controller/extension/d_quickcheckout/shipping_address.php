@@ -88,6 +88,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             if($display_shipping_address){
                 $this->load->model('extension/d_quickcheckout/error');
                 if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
+                    
                     $state = $this->model_extension_d_quickcheckout_store->getState();
 
                     //guest
@@ -117,8 +118,10 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                     //logged in change
                     if(!$this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
-                        if($state['config'][$state['session']['account']]['shipping_address']['display'] == 0){
-
+                        if(!$this->model_extension_d_quickcheckout_store->isUpdated('payment_address_address_id') 
+                        && $state['config'][$state['session']['account']]['shipping_address']['display'] == 0 
+                        && $state['session']['payment_address']['shipping_address'] == 1){
+                            FB::log('here');
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getShippingAddressFromPaymentAddress());
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', 'address_id'), $state['session']['payment_address']['address_id']);
                         }else{
@@ -287,7 +290,8 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
                         $update['session']['shipping_address'] = $this->getAddress($value);
                         $this->model_extension_d_quickcheckout_store->setState($update);
-
+                        
+                        $state = $this->model_extension_d_quickcheckout_store->getState();
                         if($state['session']['shipping_address']['address_id'] == 0){
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getDefault($populate = false));
                         }

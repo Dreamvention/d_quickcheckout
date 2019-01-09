@@ -1,24 +1,24 @@
 <qc_setting>
 
-    <div class="qc qc-setting" id="{opts.setting_id}">
-        <div class="qc-setting-header">
-            <h2>{opts.title} {getLanguage().general.text_settings}</h2>
-            <a class="layout" onclick={toggle}>
-                <i class="fa fa-minus-square" ></i>
+    <div class="qc-setting ve-editor__setting" id="{opts.setting_id}">
+        <div class="ve-editor__setting__header">
+            <a class="ve-editor__setting__header__title">
+                <span>{opts.title} {getLanguage().general.text_settings}</span>
             </a>
-            <a class="close" onclick={close}>
-                <i class="fa fa-times" ></i>
-            </a>
-        </div>
-        <div class="qc-setting-content">
+            <a class="ve-editor__setting__header__action"  onclick={toggle}><i class="fa fa-minus-square" ></i></a>
+            <a class="ve-editor__setting__header__action"  onclick={close}><i class="fa fa-times" ></i></a>
             
+        </div>
+
+        <div class="ve-editor__setting__content">
+
             <form class="form-setting" ref="form">
                 <yield/>
             </form>
             
-        </div>
-        <div class="qc-setting-footer" >
-            <a onclick={save}>{getLanguage().general.text_update}</a>
+            <div class="ve-editor__setting__footer" >
+                <a class="ve-btn ve-btn--primary ve-btn--block" onclick={save}>{getLanguage().general.text_update}</a>
+            </div>
         </div>
     </div>
 

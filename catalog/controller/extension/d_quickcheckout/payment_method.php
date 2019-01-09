@@ -6,7 +6,8 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
     public $action = array(
         'payment_method/update',
         'payment_address/update/after',
-        'cart/update/after'
+        'cart/update/after',
+        'total/update/after'
     );
 
     public function __construct($registry){
@@ -65,8 +66,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
 
             if($data['data']['payment_method']){
                 if(is_string($data['data']['payment_method'])){
-                    $update['session']['payment_method'] = $this->getPaymentMethod($data['data']['payment_method']);
-                    $this->model_extension_d_quickcheckout_store->setState($update);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_method'), $this->getPaymentMethod($data['data']['payment_method']));
                     $update = true;
                 }
             }
@@ -82,24 +82,27 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
             )
         ){
             $update_method = true;
-
+            $update = true;
         }
 
         //updating payment_methods after cart change
         if($data['action'] == 'cart/update/after'){
             $update_method = true;
+            $update = true;
+        }
+
+        //updating payment_methods after total has been changed - may trigger a duplicate update.
+        if($data['action'] == 'total/update/after' && $this->model_extension_d_quickcheckout_store->isUpdated('totals')){
+            $update_method = true;
         }
 
         if($update_method){
-            $update['session']['payment_methods'] = $this->getPaymentMethods();
-            $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_methods'), $update['session']['payment_methods']);
-
-            $update['session']['payment_method'] = $this->getPaymentMethod();
-            $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_method'), $update['session']['payment_method']);
-
+            $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_methods'), $this->getPaymentMethods());
+            $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_method'), $this->getPaymentMethod());
             $this->validate();
         }
 
+        //should bot be triggered after payment method has been updated the second time from total changes.
         if($update){
             $this->model_extension_d_quickcheckout_store->dispatch('payment_method/update/after', $data);
         }

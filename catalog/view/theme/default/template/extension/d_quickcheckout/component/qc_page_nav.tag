@@ -8,15 +8,15 @@
     <a class="process-page-edit {(opts.page.display == '1') ? '' : 'process-page-hidden'}" onclick={pageOpen} if={getState().edit} >
         <div class="text">{opts.page.text}</div>
         <div class="description">{opts.page.description}</div>
-        <span class="label label-warning {(opts.page.display == '1') ? 'hidden' : ''}">{getLanguage().general.text_hidden}<span></div>
+        <span class="qc-badge ve-badge ve-badge--warning {(opts.page.display == '1') ? 've-hidden' : ''}">{getLanguage().general.text_hidden}<span></div>
     </a>
 
     <div if={ !getState().edit }>
         <div class="process-page-label">{opts.page.text}</div>
-        <div class="process-page-progress">
+        <div class="process-page-progress ve-hidden--sm">
             <div class="process-page-progress-bar"></div>
         </div>
-        <a onclick={(opts.status == '2') ? pageOpen : ''} class="process-page-dot"></a>
+        <a onclick={(opts.status == '2') ? pageOpen : ''} class="process-page-dot ve-hidden--sm"></a>
         <div class="process-page-description">{opts.page.description}</div>
     </div>
 

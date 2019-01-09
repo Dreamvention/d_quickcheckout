@@ -9,7 +9,7 @@ $_['d_quickcheckout_shipping_method_language'] = array(
 );
 $_['d_quickcheckout_shipping_method'] = array(
     'id' => 'shipping_method',
-    'icon' => 'fa fa-truck',
+    'icon' => '', //'fa fa-truck',
     'text' => 'heading_title',
     'description' => 'description_shipping_method',
     'input_style' => 'radio',

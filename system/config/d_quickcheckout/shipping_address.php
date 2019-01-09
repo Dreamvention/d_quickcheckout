@@ -60,7 +60,7 @@ $_['d_quickcheckout_shipping_address_language'] = array(
 );
 $_['d_quickcheckout_shipping_address'] = array(
     'id' => 'shipping_address',
-    'icon' => 'fa fa-book',
+    'icon' => '', //'fa fa-book',
     'text' => 'heading_title',
     'description' => 'description_shipping_address',
     'address_style' => 'radio',
@@ -246,6 +246,7 @@ $_['d_quickcheckout_shipping_address'] = array(
             ),
             'autocomplete' => 'country-name',
             'type' => 'select',
+            'search' => 0,
             'refresh' => '4',
             'custom' => 0,
             'sort_order' => 8,
@@ -265,6 +266,7 @@ $_['d_quickcheckout_shipping_address'] = array(
             ),
             'autocomplete' => 'address-level1',
             'type' => 'select',
+            'search' => 0,
             'refresh' => '4',
             'custom' => 0,
             'sort_order' => 9,

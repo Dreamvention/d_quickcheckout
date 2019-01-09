@@ -4,33 +4,38 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_text_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ isVisible() } class="field-sortable form-group d-vis  clearfix { (opts.error && isRequired()) ? 'has-error' : ''}">
-        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field_id }">
+    <div if={ isVisible() } class="field-sortable d-vis ve-clearfix  { (opts.error && isRequired()) ? 've-field--error' : ''}">
+        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field_id }" if={getLanguage()[opts.step][opts.field.text]}>
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ isRequired() } class="require">*</span>
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
-        <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
+        <div  class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <input
+                if={!getState().edit }
                 type="text"
                 ref="input"
                 id="{ opts.step }_{ opts.field_id }"
                 name="{ opts.step }[{opts.field_id}]"
-                class="form-control d-vis validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.type } { opts.field_id }"
+                class="ve-input d-vis validate { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.type } { opts.field_id }"
                 value="{ opts.riotValue }"
                 no-reorder
                 autocomplete="{ opts.field.autocomplete }"
                 placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                 onchange={ change }
                 />
-        </div>
-        <div class="col-full error" if={opts.error && isRequired()}>
-            <div class="text-danger">{ getLanguage()[opts.step][opts.error] }</div>
+            <input if={getState().edit } 
+                class="ve-input"
+                type="text"
+                placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
+                disabled=true
+                />
+            <div if={opts.error && isRequired()} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </div>
     </div>
 
     <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
     <script>

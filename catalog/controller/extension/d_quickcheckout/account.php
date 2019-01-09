@@ -60,10 +60,9 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
                 $this->model_extension_d_quickcheckout_store->updateState(array('session', 'account'), $data['data']['session']['account']);
             }
             
-            if(isset($data['data']['email'])
-            && isset($data['data']['password'])){
-                $this->login($data['data']['email'], $data['data']['password']);
-                $this->model_extension_d_quickcheckout_store->updateState(array('text_account_login'), $this->getAccountLoginText());
+            if(isset($data['data']['session']['email'])
+            && isset($data['data']['session']['password'])){
+                $this->login($data['data']['session']['email'], $data['data']['session']['password']);
             }
             
             //REFACTOR - added other data like config and layout
@@ -94,9 +93,8 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         $this->load->language('checkout/checkout');
 
         $data = array();
-
         if (!$this->customer->login($email, $password)) {
-        $data['errors']['account']['login'] = $this->language->get('error_login');
+            $data['errors']['account']['login'] = $this->language->get('error_login');
         }
 
         $this->load->model('account/customer');
@@ -115,16 +113,17 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 
 
         if (!$data) {
-        // Add to activity log
-        $this->load->model('account/activity');
+            // Add to activity log
+            $this->load->model('account/activity');
 
-        $activity_data = array(
-            'customer_id' => $this->customer->getId(),
-            'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
-        );
+            $activity_data = array(
+                'customer_id' => $this->customer->getId(),
+                'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
+            );
 
-        $this->model_account_activity->addActivity('login', $activity_data);
-        $data['session']['account'] = 'logged';
+            $this->model_account_activity->addActivity('login', $activity_data);
+            $data['session']['account'] = 'logged';
+            $this->model_extension_d_quickcheckout_store->updateState(array('text_account_login'), $this->getAccountLoginText());
         }
 
         $this->model_extension_d_quickcheckout_store->setState($data);

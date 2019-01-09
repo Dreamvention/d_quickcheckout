@@ -79,6 +79,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $state['config'] = array();
         $state['action'] = array();
         $state['language'] = array();
+        $state['notifications'] = array();
         $state['session'] = $this->session->data;
 
         $settings = $this->getSetting();
@@ -127,7 +128,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $this->config->set('d_quickcheckout_steps', $this->cache->get('d_quickcheckout_steps'));
         $this->config->set('d_quickcheckout_action', $this->cache->get('d_quickcheckout_action'));
         $this->config->set('d_quickcheckout_language', $this->cache->get('d_quickcheckout_language'));
-        $this->config->set('d_quickcheckout_notifications', "");
+        $this->config->set('d_quickcheckout_notifications', array());
     }
 
     public function setState($data, $save = false){
@@ -312,7 +313,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
             $state['session'] = $this->session->data;
             $state['layouts'] = ($this->config->get('d_quickcheckout_layouts')) ? $this->config->get('d_quickcheckout_layouts') : array();
             $state['skins'] = ($this->config->get('d_quickcheckout_skins')) ? $this->config->get('d_quickcheckout_skins') : array();
-            $state['notifications'] = ($this->config->get('d_quickcheckout_notifications')) ? $this->config->get('d_quickcheckout_notifications') : "";
+            $state['notifications'] = ($this->config->get('d_quickcheckout_notifications')) ? $this->config->get('d_quickcheckout_notifications') : array();
             $state['config'] = ($this->config->get('d_quickcheckout_config')) ? $this->config->get('d_quickcheckout_config') : array();
             $state['layout'] =($this->config->get('d_quickcheckout_layout')) ? $this->config->get('d_quickcheckout_layout') : array();
             $state['errors'] = ($this->config->get('d_quickcheckout_errors')) ? $this->config->get('d_quickcheckout_errors') : array();
@@ -338,7 +339,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $this->config->set('d_quickcheckout_steps', array());
         $this->config->set('d_quickcheckout_action', array());
         $this->config->set('d_quickcheckout_language', array());
-        $this->config->set('d_quickcheckout_notifications', "");
+        $this->config->set('d_quickcheckout_notifications', array());
         
 
         $store_id = $this->config->get('config_store_id');

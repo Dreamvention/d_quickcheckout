@@ -1,10 +1,10 @@
-<qc_layout>
+<qc_layout class="ve-editor ve-editor--topmenu">
     <link rel="stylesheet" href="{'catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+getSession().skin+'/'+getSession().skin+'.css?'+rand()}">
     <qc_layout_setting if={getState().edit}></qc_layout_setting>
 
     <div if={getState().layout.pages}>
         
-        <div class="process page-nav clearfix">
+        <div class="process page-nav ve-clearfix">
             <qc_page_nav 
             each={ page_id, i in page_ids}
             if={ getLayout().pages[page_id] && getLayout().pages[page_id].display && getLayout().pages[page_id].deleted != "1" && (getLayout().pages[page_id].display == '1' || getState().edit) }
@@ -18,14 +18,14 @@
             <qc_page_nav_add if={riot.util.tags.selectTags().search('"page_nav_add"') && getState().edit}></qc_page_nav_add>
         </div>
 
-        <div class="tab-content active pages clearfix">
+        <div class="pages clearfix">
             <qc_page 
             each={ page_id, i in page_ids }
             no-reorder
             id="{page_id}" 
             page_id="{page_id}" 
             page={getLayout().pages[page_id]}
-            class="tab-pane page { getSession().page_id == page_id ? 'active' : ''}">
+            class="page { getSession().page_id == page_id ? 'active' : ''}">
                 
             </qc_page>
         </div>

@@ -8,7 +8,7 @@ $_['d_quickcheckout_payment_method_language'] = array(
 );
 $_['d_quickcheckout_payment_method'] = array(
     'id' => 'payment_method',
-    'icon' => 'fa fa-credit-card',
+    'icon' => '', //'fa fa-credit-card',
     'text' => 'heading_title',
     'description' => 'description_payment_method',
     'display_options' => 1,

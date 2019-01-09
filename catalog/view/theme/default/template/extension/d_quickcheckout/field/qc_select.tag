@@ -4,18 +4,19 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_select_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ isVisible() }  class="field-sortable form-group d-vis  clearfix { (opts.error && isRequired()) ? 'has-error' : ''}">
-        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field.id }">
+    <div if={ isVisible() }  class="field-sortable d-vis ve-clearfix { (opts.error && isRequired()) ? 've-field--error' : ''}">
+        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ isRequired() } class="require">*</span>
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <select
+                if={!getState().edit }
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
                 ref="input"
-                class="form-control d-vis selectpicker { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
+                class="ve-input d-vis { (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'selectpicker' : ''} { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
                 required="{ opts.field.require }"
                 autocomplete="{ opts.field.autocomplete }"
                 no-reorder
@@ -29,14 +30,27 @@
                     { option.name } 
                 </option>
             </select>
-        </div>
-        <div class="col-md-12 error" if={opts.error && opts.field.require == 1}>
-            <div class="text-danger">{getLanguage()[opts.step][opts.error]}</div>
+
+            <select
+                if={getState().edit }
+                disabled=disabled
+                class="ve-input d-vis  { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
+                no-reorder>
+                <option if={ opts.field.custom !=1 } value="" selected={ opts.riotValue == 0} >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
+                <option
+                    each={option in opts.field.options }
+                    if={option}
+                    value={ option.value }
+                    selected={ option.value == parent.opts.riotValue} >
+                    { option.name } 
+                </option>
+            </select>
+            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>
         </div>
     </div>
 
     <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-md-12" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
     <script>
@@ -140,20 +154,22 @@
 
         this.on('mount', function(){
             this.initTooltip();
-            setTimeout(function(){
+            if(this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
                 $(tag.root).find('.selectpicker').selectpicker({
-                    style: 'btn',
+                    style: 'btn btn-default',
                     size: 12,
                     liveSearch: true
                 });
-            }.bind(this), 300)
+            }
         })
 
         this.on('update', function(){
             this.initTooltip();
-            setTimeout(function(){
-                $(tag.root).find('.selectpicker').val(tag.tag_value).selectpicker('refresh');
-            })
+            if(this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
+                setTimeout(function(){
+                    $(tag.root).find('.selectpicker').val(tag.tag_value).selectpicker('refresh');
+                },1)
+            }
         })
 
     </script>

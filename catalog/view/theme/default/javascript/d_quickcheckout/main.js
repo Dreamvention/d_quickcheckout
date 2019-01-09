@@ -27,7 +27,7 @@ var qc = (function() {
      * state. Refer to Redux http://redux.js.org/docs/api/Store.html
      */
     this.createStore = function(state) {
-        console.log('Welcome to Ajax Quick Checkout.');
+        //console.log('Welcome to Ajax Quick Checkout.');
 
         this.state = Immutable.fromJS(state, function(key, value, path) {
             return Immutable.isIndexed(value) ? value.toList() : value.toOrderedMap()
@@ -60,6 +60,10 @@ var qc = (function() {
 
     this.loading = function(state) {
         var edited = this.stateCached.edited;
+        if (!state) {
+            this.state = this.state.setIn(['loading'], state);
+        }
+        //REFACTOR - change to loader
         this.state = this.state.setIn(['session', 'confirm', 'loading'], state);
         this.stateCached = this.state.toJS();
         this.stateCached.edited = edited;
@@ -328,6 +332,10 @@ var qc = (function() {
                 }
             }.bind(this));
         }
+
+        $(window).bind('beforeunload', function() {
+            this.loading(true);
+        }.bind(this));
     }
 
     this.send = function(route, data, callback) {
@@ -368,9 +376,11 @@ var qc = (function() {
         $('.spinner').hide();
     }
 
+
     // this returns the object that can therefore be extended
     return this;
 })();
+
 
 /**
  *  Alias for d_quickcheckout

@@ -1,21 +1,29 @@
-.qc-checkout-product{
+.qc-checkout-product {
     overflow: hidden;
-    .qc-quantity{
-        .input-group{
-            max-width: 170px;
+    .qc-quantity {
+        .input-group,
+        .ve-input-group {
+            max-width: 180px;
         }
     }
-    .qc-image{
-        a{
+    .qc-image {
+        a {
             display: inline-block;
         }
     }
-    .qc-totals{
-        > .row:last-child {
+    .qc-totals {
+        margin-top: 30px;
+        >.qc-row {
+            padding-bottom: 10px;
+            .text-right {
+                font-weight: 600;
+            }
+        }
+        >.qc-row:last-child {
             border-top: 1px solid #efefef;
             margin-top: 5px;
             padding-top: 15px;
-            > * {
+            >* {
                 font-size: 16px;
                 font-weight: bold;
             }

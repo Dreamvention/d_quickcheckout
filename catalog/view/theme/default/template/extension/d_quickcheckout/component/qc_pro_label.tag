@@ -1,5 +1,5 @@
 <qc_pro_label>
-    <a class="label label-warning pro-label" onclick={showAlert}>get PRO</a>
+    <a class="ve-badge ve-badge--warning pro-label" onclick={showAlert}>get PRO</a>
     <div class="get-pro">
         <div class="get-pro-image"><img src="catalog/view/theme/default/image/d_quickcheckout/logo.svg"/></div>
         <div class="get-pro-heading">Get more with PRO.</div>

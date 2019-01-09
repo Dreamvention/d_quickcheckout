@@ -7,55 +7,61 @@
 
         <!-- Step -->
         <div if={ (getState().session.account != 'logged') && (getConfig().account.display == 1) } >
-            <div class="panel panel-default" if={ getState().config.guest.account.option.guest.display == 1 || getState().config.guest.account.option.register.display == 1 || (getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 )}>
-                <div class="btn-group btn-group-justified" data-toggle="buttons">
-                  <label if={getState().config.guest.account.option.guest.display == 1} class="btn d-vis  btn-primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
+            <div class="ve-mb-4" if={ getState().config.guest.account.option.guest.display == 1 || getState().config.guest.account.option.register.display == 1 || (getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 )}>
+                <div class="ve-btn-group ve-btn-group--block" data-toggle="buttons">
+                  <label if={getState().config.guest.account.option.guest.display == 1} class="ve-btn d-vis ve-btn--primary { getAccount() == 'guest' ?  'active' : '' }" onclick={changeAccount}>
                     <input type="radio" name="account" value="guest" id="guest" autocomplete="off" checked={ getAccount() == 'guest' }> {getLanguage().account.entry_guest}
                   </label>
-                  <label if={getState().config.guest.account.option.register.display == 1} class="btn d-vis  btn-primary { getAccount() == 'register' ?  'active' : '' }" onclick={changeAccount}>
+                  <label if={getState().config.guest.account.option.register.display == 1} class="ve-btn d-vis ve-btn--primary { getAccount() == 'register' ?  'active' : '' }" onclick={changeAccount}>
                     <input type="radio" name="account" value="register" id="register" autocomplete="off" checked={ getAccount() == 'register' }> {getLanguage().account.entry_register}
                   </label>
-                  <a class="btn d-vis btn-primary" onclick={openLoginPopup} if={getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 }> {getLanguage().account.entry_login}
+                  <a class="ve-btn d-vis ve-btn--primary" onclick={openLoginPopup} if={getState().config.guest.account.login_popup == 1 && getState().config.guest.account.option.login.display == 1 }> {getLanguage().account.entry_login}
                   </a>
                 </div>
             </div>
 
-            <div class="panel panel-default" if={getState().config.guest.account.login_popup != 1 && getState().config.guest.account.option.login.display == 1 }>
-                <div class="panel-heading">
-                    <h4 class="panel-title">
+            <div class="ve-card" if={getState().config.guest.account.login_popup != 1 && getState().config.guest.account.option.login.display == 1 }>
+                <div class="ve-card__header">
+                    <h4 class="ve-h4">
                         <span class="icon">
                             <i class="{ getConfig().account.icon }"></i>
                         </span>
                         { getLanguage().account.heading_title }
                     </h4>
-                    <h5 if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </h5>
+                    <p class="ve-p" if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </p>
                 </div>
-                <div class="panel-body">
+                <div class="ve-card__section">
                     <div if={getError() && getError().account && getError().account.login } class="alert alert-danger">
                         {getError().account.login}
                     </div>
                     <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="qc-row form-group d-vis clearfix qc-social-login">
-                        <div class="qc-col-md-12">
+                        <div class="ve-col-md-12">
                             <qc_raw content="{getState().config.guest.account.social_login.value}"></qc_raw>
                         </div>
                     </div>
-                    <form class="qc-row no-gutters">
-                        <div class="qc-col-sm-12 form-group d-vis clearfix">
-                            <label class="qc-col-md-5">{getLanguage().account.entry_email}</label>
-                            <div class="qc-col-md-7">
-                                <input ref="email" type="text" autocomplete="email" class="form-control" name="email" value="">
+                    <form>
+                        <div class="ve-field d-vis clearfix">
+                            <div class="ve-row">
+                                <label class="ve-col-md-5">{getLanguage().account.entry_email}</label>
+                                <div class="ve-col-md-7">
+                                    <input ref="email" type="text" autocomplete="email" class="ve-input" name="email" value="">
+                                </div>
                             </div>
                         </div>
-                        <div class="qc-col-sm-12 form-group d-vis clearfix">
-                            <label class="qc-col-md-5">{getLanguage().account.entry_password}</label>
-                            <div class="qc-col-md-7">
-                                <input ref="password" type="password" autocomplete="current-password" class="form-control" name="password" value="">
+                        <div class="ve-field d-vis clearfix">
+                            <div class="ve-row">
+                                <label class="ve-col-md-5">{getLanguage().account.entry_password}</label>
+                                <div class="ve-col-md-7">
+                                    <input ref="password" type="password" autocomplete="current-password" class="ve-input" name="password" value="">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="qc-col-sm-12 form-group d-vis clearfix">
-                            <div class="qc-col-md-7 qc-col-md-offset-5">
-                                <button class="btn d-vis btn-primary" onclick={login}>{getLanguage().account.button_login}</button>
+                        <div class="ve-field d-vis clearfix">
+                            <div class="ve-row">
+                                <div class="ve-col-md-7 ve-col-offset-5">
+                                    <button class="ve-btn d-vis ve-btn--primary" onclick={login}>{getLanguage().account.button_login}</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -64,46 +70,39 @@
 
             <div class="modal fade" id="login_popup"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
+                    <div class="ve-card">
                         <form >
-                            <div class="modal-header">
+                            <div class="ve-card__header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">
-                                    <span class="icon">
+                                <h4 class="ve-h4">
+                                    <span if={ getConfig().account.icon } class="icon">
                                         <i class="{ getConfig().account.icon }"></i>
                                     </span>
                                     {getLanguage().account.entry_login}
                                 </h4>
-                                <h5 if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </h5>
+                                <p class="ve-p" if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </p>
                             </div>
-                            <div class="modal-body">
-                                <div class="qc-row">
-                                    <div if={getError() && getError().account && getError().account.login } class="alert alert-danger">
-                                        {getError().account.login}
-                                    </div>
-
-                                    <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="form-group d-vis clearfix qc-social-login">
-                                        <div class="qc-col-md-12">
-                                            <qc_raw content="{getState().config.guest.account.social_login.value}"></qc_raw>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group d-vis clearfix">
-                                        <label class="qc-col-md-5">{getLanguage().account.entry_email}</label>
-                                        <div class="qc-col-md-7">
-                                            <input ref="email" type="text" autocomplete="email" class="form-control" name="email" value="">
-                                        </div>
-                                    </div>
-                                    <div class="form-group d-vis clearfix">
-                                        <label class="qc-col-md-5">{getLanguage().account.entry_password}</label>
-                                        <div class="qc-col-md-7">
-                                            <input ref="password" type="password" autocomplete="current-password" class="form-control" name="password" value="">
-                                        </div>
-                                    </div>
+                            <div class="ve-card__section">
+                                <div if={getError() && getError().account && getError().account.login } class="ve-alert ve-alert--danger">
+                                    {getError().account.login}
                                 </div>
+                            
+                                <div if={getState().config.guest.account.social_login.display == 1 && getState().config.guest.account.social_login.value} class="form-group d-vis clearfix qc-social-login">
+                                    <qc_raw content="{getState().config.guest.account.social_login.value}"></qc_raw>
+                                </div>
+
+                                <div class="ve-field d-vis clearfix">
+                                    <label class="ve-label">{getLanguage().account.entry_email}</label>
+                                    <input ref="email" type="text" autocomplete="email" class="ve-input" name="email" value="">
+                                </div>
+                                <div class="ve-field d-vis clearfix">
+                                    <label class="ve-label">{getLanguage().account.entry_password}</label>
+                                    <input ref="password" type="password" autocomplete="current-password" class="ve-input" name="password" value="">
+                                </div>
+
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn d-vis btn-primary btn-block" onclick={login}>{getLanguage().account.button_login}</button>
+                            <div class="ve-card__footer">
+                                <button class="ve-btn d-vis ve-btn--primary ve-btn--block" onclick={login}>{getLanguage().account.button_login}</button>
                             </div>
                         </form>
                     </div><!-- /.modal-content -->
@@ -114,8 +113,8 @@
 
         <!-- Hidden Step -->
         <div show={(getConfig().account.display != 1 || getState().session.account == 'logged') && getState().edit}>
-            <div class="panel panel-default" style="opacity: 0.5">
-                <div class="panel-heading">{ getLanguage().account.heading_title } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></div>
+            <div class="ve-card" style="opacity: 0.5">
+                <div class="ve-card__header">{ getLanguage().account.heading_title } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></div>
             </div>
         </div>
     </div>
@@ -125,7 +124,7 @@
         var tag = this;
 
         login(e){
-            this.store.dispatch('account/update', $(e.currentTarget).parents('form').serializeJSON());
+            this.store.dispatch('account/login', $(e.currentTarget).parents('form').serializeJSON());
             e.preventDefault();
         }
 
@@ -136,6 +135,10 @@
         openLoginPopup(e){
             $('#login_popup').modal('toggle');
         }
+
+        this.on('mount', function(){
+            $(this.root).find('#login_popup').appendTo('body');
+        })
 
         this.store.subscribe('account/updated', function(data) {
             if(data.session.account == 'logged'){

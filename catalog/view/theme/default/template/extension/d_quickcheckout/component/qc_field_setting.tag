@@ -1,14 +1,14 @@
 <qc_field_setting>
     <form class="qc-field-setting">
-        <div class="btn-group btn-group-xs" data-toggle="buttons">
-            <label class="btn btn-default handle-sortable" id="{ opts.field_id }">
+        <div class="ve-btn-group ve-btn-group--sm" data-toggle="buttons">
+            <label class="ve-btn ve-btn--default handle-sortable" id="{ opts.field_id }">
                 <i class="fa fa-arrows"></i>
             </label>
-            <a class="btn btn-default " onclick="{toggleSetting}" >
+            <a class="ve-btn ve-btn--default " onclick="{toggleSetting}" >
                 <i class="fa fa-gear"></i>
             </a>
 
-            <label if={(isEmpty(parent.opts.field.depends))} class="btn btn-default { opts.display == 1 ? 'active' : '' }" onclick="{editCheckbox}">
+            <label if={(isEmpty(parent.opts.field.depends))} class="ve-btn ve-btn--default { opts.display == 1 ? 'active' : '' }" onclick="{editCheckbox}">
                 <input name="config[{getAccount()}][{opts.step}][fields][{ opts.field_id }][display]" type="hidden"  value="0">
                 <input name="config[{getAccount()}][{opts.step}][fields][{ opts.field_id }][display]" type="checkbox" value="1" checked={ (opts.display == 1) }>
                 <i class="fa fa-eye"></i>
@@ -16,11 +16,11 @@
 
             <yield/>
 
-            <a if={(!isEmpty(parent.opts.field.depends))} class="btn btn-default " onclick="{toggleDependency}" >
+            <a if={(!isEmpty(parent.opts.field.depends))} class="ve-btn ve-btn--default " onclick="{toggleDependency}" >
                 <i class="fa fa-link"></i> {isEmpty(parent.opts.field.depends)}
             </a>
 
-            <label if={opts.delete} class="btn btn-default" onclick="{deleteField}">
+            <label if={opts.delete} class="ve-btn ve-btn--default" onclick="{deleteField}">
                 <i class="fa fa-times"></i>
             </label>
 

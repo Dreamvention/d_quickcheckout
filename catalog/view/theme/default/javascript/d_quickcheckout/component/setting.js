@@ -72,7 +72,6 @@
     }
 
     this.hideSetting = function() {
-
         $('body').removeClass('show-setting');
         $('.qc-setting').removeClass('show');
     }
@@ -171,7 +170,7 @@ $(document).on('click', '.qc-tab', function() {
     $('.qc-tab').removeClass('active');
     $(this).addClass('active');
     var tab_id = $(this).find('a').attr('href');
-    $(tab_id).parents('.qc-tab-content').find('.qc-tab-pane').removeClass('in').removeClass('active').hide();
+    $(tab_id).parents('.qc-setting-tab-content').find('.qc-setting-tab-pane').removeClass('in').removeClass('active').hide();
     $(tab_id).addClass('in').addClass('active').show();
     return false;
 })

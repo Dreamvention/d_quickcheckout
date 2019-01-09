@@ -3,30 +3,35 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_password_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
-        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field.id }">
+    <div if={ (opts.field.display == 1) } class="field-sortable d-vis ve-clearfix { (opts.error && opts.field.require == 1) ? 've-field--error' : ''}">
+        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ (opts.field.require == 1) } class="require">*</span>
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <input
+                if={!getState().edit }
                 type="password"
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
-                class="form-control d-vis validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.type } { opts.field.id }"
+                class="ve-input d-vis validate { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.type } { opts.field.id }"
                 autocomplete="new-password"
                 no-reorder
                 placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                 onchange={change}>
-        </div>
-        <div class="col-md-12 error" if={opts.error && opts.field.require == 1}>
-            <div class="text-danger">{getLanguage()[opts.step][opts.error]}</div>
+            <input 
+                if={getState().edit }
+                class="ve-input"
+                type="password"
+                disabled=true
+            />
+            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>
         </div>
     </div>
 
     <div class="no-display" if={ (opts.field.display != 1 && getState().edit && typeof opts.field.display !== 'undefined')  }>
-        <label class="col-md-12" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
     <script>

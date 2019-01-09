@@ -3,39 +3,36 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_checkbox_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ isVisible() } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
+    <div if={ isVisible() } class="field-sortable d-vis ve-clearfix { (opts.error && opts.field.require == 1) ? 've-field--error' : ''}">
         <form class="col-full">
-            <div class="qc-checkbox {opts.riotValue == 1 ? 'qc-checkbox-selected' : '' }">
-                <label for="{ opts.step }_{ opts.field.id }" class="control-label" >
-                    <input
-                        type="hidden"
-                        name="{ opts.step }[{ opts.field.id }]"
-                        value="0" />
-                    <input
-                        type="checkbox"
-                        id="{ opts.step }_{ opts.field.id }"
-                        ref="input"
-                        name="{ opts.step }[{ opts.field.id }]"
-                        class="validate { (opts.field.require) ? 'required' : 'not-required'}"
-                        value="1"
-                        no-reorder
-                        checked={ opts.riotValue == 1 }
-                        { (opts.field.require) ? 'required' : ''}
-                        onchange={change} />
-                    <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{ opts.field.tooltip }">
-                        <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
-                        <span if={ (opts.field.require == 1) } class="require">*</span>
-                        <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
-                    </span>
-                </label>
-            </div>
+            <label for="{ opts.step }_{ opts.field.id }" class="ve-checkbox {opts.riotValue == 1 ? 'qc-checkbox-selected' : '' }" >
+                <input
+                    type="hidden"
+                    name="{ opts.step }[{ opts.field.id }]"
+                    value="0" />
+                <input
+                    type="checkbox"
+                    id="{ opts.step }_{ opts.field.id }"
+                    ref="input"
+                    name="{ opts.step }[{ opts.field.id }]"
+                    class="ve-input validate { (opts.field.require) ? 'qc-required' : 'qc-not-required'}"
+                    value="1"
+                    no-reorder
+                    checked={ opts.riotValue == 1 }
+                    { (opts.field.require) ? 'qc-required' : ''}
+                    onchange={change} />
+                <i></i>
+                <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{ opts.field.tooltip }">
+                    <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
+                    <span if={ (opts.field.require == 1) } class="require">*</span>
+                    <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+                </span>
+            </label>
+            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </form>
-        <div class="col-md-12 error" if={opts.error && opts.field.require == 1}>
-            <div class="text-danger">{ getLanguage()[opts.step][opts.error] }</div>
-        </div>
     </div>
     <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-md-12" ><raw content="{ getLanguage()[opts.step][opts.field.text] }"/><div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" ><qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw><div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
     <script>
         this.mixin({store:d_quickcheckout_store});
@@ -57,7 +54,7 @@
         getTagConfig(){
             return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]);
         }
-
+        
         tag.tag_value = this.getValue();
         tag.tag_error = this.getTagError();
         tag.tag_config = this.getTagConfig();
@@ -81,10 +78,11 @@
         }
 
         isVisible(){
-            if(tag.opts.step == 'payment_address' 
+            if( !this.store.getState().edit
+            && tag.opts.step == 'payment_address' 
             && tag.opts.field_id == 'shipping_address'
             && this.store.getConfig().shipping_address.display == '0'
-            && this.store.getConfig().shipping_method.display == '0'){
+            && !this.store.getSession().has_shipping){
                 return false;
             }
 

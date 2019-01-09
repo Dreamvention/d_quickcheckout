@@ -1,29 +1,29 @@
 <qc_depend_setting>
     <hr/>
     <div>
-        <div class="btn btn-danger btn-sm pull-right" onclick={removeDepend} data-depend_id={opts.depend_id}>{getLanguage().general.text_remove}</div>
+        <div class="ve-btn ve-btn--danger ve-btn--sm ve-pull-right" onclick={removeDepend} data-depend_id={opts.depend_id}>{getLanguage().general.text_remove}</div>
         <h3>{stripTags(getLanguage()[parent.opts.step][field.text])} ({field.id}) </h3>
     </div>
     <br/>
     <div class="depend-values">
         <div 
             each={depend_value, depend_value_id in opts.depend}
-            class="well">
-            <div class="form-group">
-                <label class="control-label">{getLanguage().general.text_value}</label>
-                <div class="input-group">
+            class="ve-well ve-well--primary">
+            <div class="ve-field">
+                <label class="ve-label">{getLanguage().general.text_value}</label>
+                <div class="ve-input-group">
                     <input 
                     if={ parent.field.type != 'radio' && parent.field.type != 'select' && parent.field.type != 'checkbox'}
                     onchange="{parent.opts.edit}" 
                     type="text" 
-                    class="form-control" 
+                    class="ve-input" 
                     name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][value]" 
                     value={ depend_value.value } />
 
                     <select
                         if={parent.field.type== 'radio' || parent.field.type == 'select'}
                         name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][value]"
-                        class="form-control"
+                        class="ve-input"
                         onchange={parent.opts.edit}>
                         <option value="">{getLanguage().general.text_select}</option>
                         <option
@@ -38,35 +38,33 @@
                     <select
                         if={parent.field.type == 'checkbox'}
                         name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][value]"
-                        class="form-control"
+                        class="ve-input"
                         onchange={parent.opts.edit}>
                         <option value="0" selected={ depend_value.value == 0}>{getLanguage().general.text_not_checked}</option>
                         <option value="1" selected={ depend_value.value == 1}>{getLanguage().general.text_checked}</option>
                         
                     </select>
-                    <div class="input-group-btn">
-                        <div class="btn btn-danger" onclick={parent.removeDependValue} data-depend_id={parent.opts.depend_id}  data-depend_value_id={depend_value_id}><i class="fa fa-times"></i></div>
-                    </div>
+                    <div class="ve-btn ve-btn--danger" onclick={parent.removeDependValue} data-depend_id={parent.opts.depend_id}  data-depend_value_id={depend_value_id}><i class="fa fa-times"></i></div>
                 </div>
             </div>
                 
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label class="control-label">{getLanguage().general.text_display}</label>
+                <div class="ve-field col-md-6">
+                    <label class="ve-label">{getLanguage().general.text_display}</label>
                     <div>
                         <qc_switcher onclick="{parent.opts.edit}" name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][display]" data-label-text="Enabled" value="{ depend_value.display }" />
                     </div>
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label class="control-label">{getLanguage().general.text_require}</label>
+                <div class="ve-field col-md-6">
+                    <label class="ve-label">{getLanguage().general.text_require}</label>
                     <div>
                         <qc_switcher onclick="{parent.opts.edit}" name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][require]" data-label-text="Enabled" value="{ depend_value.require }" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="btn btn-default btn-block btn-sm" onclick={addDependValue} data-depend_id={opts.depend_id}>{getLanguage().general.text_add}</div>
+        <div class="ve-btn ve-btn--primary ve-btn--block ve-btn--sm" onclick={addDependValue} data-depend_id={opts.depend_id}>{getLanguage().general.text_add}</div>
         
     </div>
     <script>

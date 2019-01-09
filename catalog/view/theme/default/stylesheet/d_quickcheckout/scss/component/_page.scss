@@ -1,144 +1,152 @@
-.page{
-
+.pages {
+    >.page {
+        display: none;
+    }
+    >.active {
+        display: block;
+    }
 }
 
 .process {
     display: flex;
-    &-page{
-        padding: 0; 
+    &-page {
+        padding: 0;
         position: relative;
         flex: 1;
         text-align: center;
         margin-bottom: 30px;
-
         &-label {
-            color: #595959; 
-            font-size: 16px; 
+            color: #595959;
+            font-size: 16px;
             margin-bottom: 5px;
         }
-
-        &-description{
-            color: #999; 
+        &-description {
+            color: #999;
             font-size: 14px;
         }
-
-        &-dot{
-            position: absolute; 
-            width: 30px; 
-            height: 30px; 
-            display: block; 
-            background: #fbe8aa; 
-            top: 45px; 
-            left: 50%; 
-            margin-top: -15px; 
-            margin-left: -15px; 
+        a.process-page-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            display: block;
+            background: #b7c8f9;
+            top: 45px;
+            left: 50%;
+            margin-top: -15px;
+            margin-left: -15px;
             border-radius: 50%;
             &:after {
-                content: ' '; 
-                width: 14px; 
-                height: 14px; 
-                background: #fbbd19; 
-                border-radius: 50px; 
-                position: absolute; 
-                top: 8px; 
-                left: 8px; } 
+                content: ' ';
+                width: 14px;
+                height: 14px;
+                background: #648bfd;
+                border-radius: 50px;
+                position: absolute;
+                top: 8px;
+                left: 8px;
+            }
         }
-        &-progress{
-            position: relative; 
-            border-radius: 0px; 
-            height: 8px; 
-            box-shadow: none; 
+        &-progress {
+            position: relative;
+            border-radius: 0px;
+            height: 8px;
+            box-shadow: none;
             margin: 20px 0;
             background: #f5f5f5;
-            &-bar{
-                width:0px; 
-                box-shadow: none; 
-                background: #fbe8aa;
+            &-bar {
+                width: 0px;
+                box-shadow: none;
+                background: #b7c8f9;
                 height: 100%;
             }
         }
-
         &.complete {
-            .process-page-progress{
+            .process-page-progress {
                 &-bar {
-                    width:100%;
+                    width: 100%;
                 }
             }
         }
-
         &.active {
-            .process-page-progress{
+            .process-page-progress {
                 &-bar {
-                    width:50%;
+                    width: 50%;
                 }
             }
         }
-
-        &.disabled{
-            .process-page-dot{
+        &.disabled {
+            .process-page-dot {
                 background-color: #f5f5f5;
                 pointer-events: none;
-                &:after{
+                &:after {
                     opacity: 0;
                 }
             }
         }
-
-        &:first-child{
-            .process-page-progress{
-                left: 50%; width: 50%;
+        &:first-child {
+            .process-page-progress {
+                left: 50%;
+                width: 50%;
             }
-
-            &.active{
-                .process-page-progress{
-                    &-bar{
-                        width:0%;
-                    }
-                }
-            }
-
-            &.complete {
-                .process-page-progress{
+            &.active {
+                .process-page-progress {
                     &-bar {
-                        width:100%;
+                        width: 0%;
                     }
                 }
-                .process-page-dot{
+            }
+            &.complete {
+                .process-page-progress {
+                    &-bar {
+                        width: 100%;
+                    }
+                }
+                .process-page-dot {
                     cursor: pointer;
                 }
             }
-
         }
-
-        &:last-child{
-            .process-page-progress{
+        &:last-child {
+            .process-page-progress {
                 width: 50%;
             }
-            &.active{
-                .process-page-progress{
-                    &-bar{
-                        width:100%;
+            &.active {
+                .process-page-progress {
+                    &-bar {
+                        width: 100%;
                     }
                 }
+            }
+        }
+        @media (max-width: 767.98px) {
+            .process-page-progress,
+            .process-page-dot {
+                display: none !important;
+            }
+            .process-page-label {
+                font-size: 14px;
+            }
+            .process-page-description {
+                font-size: 12px;
+            }
+            &.active .process-page-label {
+                color: #648bfd;
+                font-weight: 600;
             }
         }
     }
 }
 
-
-
-.edit{
-
-    .process{
+.edit {
+    .process {
         display: block;
         border-bottom: 1px solid #ccc;
         padding-left: 1px;
-
-        &-page{
+        &-page {
             position: relative;
             width: 20%;
             float: left;
-                &-edit{
+            &-edit {
                 border: 1px solid #ccc;
                 display: block;
                 padding: 10px;
@@ -146,89 +154,85 @@
                 background: #fff;
                 text-align: left;
                 height: 67px;
-                .text{
+                .text {
                     font-size: 16px;
                     font-weight: bold;
                     color: #333;
                     margin-bottom: 5px;
                 }
-                .description{
+                .description {
                     font-size: 10px;
                     color: #666;
                 }
-                .label{
+                .qc-badge {
                     position: absolute;
-                    top:0px;
+                    top: 0px;
                     right: 0px;
-                    margin:10px;
+                    margin: 10px;
                     display: block;
                     padding: 4px;
                 }
-                &-hidden{
-                    .text{
+                &-hidden {
+                    .text {
                         opacity: 0.5;
                     }
-                    .description{
+                    .description {
                         opacity: 0.5;
                     }
                 }
             }
         }
-        .page-nav-add{
+        .page-nav-add {
             display: block;
             float: left;
             width: 20%;
             margin-bottom: -1px;
             margin-left: -1px;
-            .icon{
+            .icon {
                 float: left;
                 font-size: 20px;
                 padding: 10px 15px 10px 5px;
-                .fa{
+                .fa {
                     font-size: 25px;
                     color: #000;
                 }
             }
-            .content{
+            .content {
                 float: left;
             }
         }
         .active {
-            .process-page-edit{
+            .process-page-edit {
                 background: #F5F5F8;
             }
         }
-
         .page-nav-item,
-        .sortable-placeholder{
+        .sortable-placeholder {
             margin: 0px;
             margin-bottom: -1px;
             margin-left: -1px;
-
-            &:hover{
-                .page-nav-setting{
+            &:hover {
+                .page-nav-setting {
                     display: block;
                 }
             }
-            &:first-child{
-                .process-page-edit{
+            &:first-child {
+                .process-page-edit {
                     border-radius: 3px 0px 0px 0px;
                 }
             }
-            &:last-child{
-                .process-page-edit{
+            &:last-child {
+                .process-page-edit {
                     border-radius: 0px 3px 0px 0px;
                 }
             }
         }
-
-        .ui-sortable-placeholder{
+        .ui-sortable-placeholder {
             width: 20%;
             height: 67px;
         }
     }
-
-    .page-add-module{
+    .page-add-module {
         display: block;
         border: none;
         padding: 10px;
@@ -241,9 +245,7 @@
         cursor: pointer;
         background: #3cb1d4;
     }
-
-    .add-step{
+    .add-step {
         cursor: pointer;
     }
 }
-

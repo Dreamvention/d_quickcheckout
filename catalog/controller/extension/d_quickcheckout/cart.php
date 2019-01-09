@@ -87,7 +87,6 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
             if(isset($data['data']['coupon'])){
                 $state = $this->model_extension_d_quickcheckout_store->getState();
-                
                 $coupon = $data['data']['coupon'];
                 if(VERSION < '2.1.0.0'){
                     $this->load->model('checkout/coupon');

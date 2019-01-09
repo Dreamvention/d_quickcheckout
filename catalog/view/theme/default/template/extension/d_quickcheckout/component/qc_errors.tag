@@ -1,14 +1,12 @@
 <qc_errors>
-    <div class="input-group">
-        <select class="form-control error-type" >
+    <div class="ve-input-group">
+        <select class="ve-input error-type" >
             <option
             each={error_type in getState().error_types}
             value={error_type}
             >{getLanguage().general['text_'+error_type]}</option>
         </select>
-        <div class="input-group-btn">
-            <a class="btn btn-default" onclick={addError}>{getLanguage().general.text_add}</a>
-        </div>
+        <a class="ve-btn ve-btn--primary" onclick={addError}>{getLanguage().general.text_add}</a>
     </div>
 
     <div each={error, error_id in opts.errors }>

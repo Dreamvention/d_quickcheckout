@@ -200,10 +200,10 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 if($state['session']['account'] == 'logged' && $state['session']['payment_address']['address_id']==0){
                     $this->load->model('extension/d_quickcheckout/address');
                     $address_id = $this->model_extension_d_quickcheckout_address->addAddress($state['session']['payment_address']);
-                    $update['session']['payment_address']['address_id'] = $address_id; 
+                    $state['session']['payment_address']['address_id'] = $address_id; 
                     $update['session']['addresses'] = $this->model_extension_d_quickcheckout_address->getAddresses();
 
-                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $state['session']['payment_address']);
                     $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
             
                 }
@@ -534,7 +534,11 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         $output = $this->load->controller('common/header');
         $html_dom = new d_simple_html_dom();
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-        $text = (string)$html_dom->find('#top-links > ul > li', 1)->innertext;
+        $html_element = $html_dom->find('#top-links > ul > li', 1);
+        if($html_element){
+            $text = (string)$html_element->innertext;
+        }
+        
         return $text;
     }
 }

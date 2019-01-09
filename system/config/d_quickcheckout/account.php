@@ -27,7 +27,7 @@ $_['d_quickcheckout_account_language'] = array(
 );
 $_['d_quickcheckout_account'] = array(
     'id' => 'account',
-    'icon' => 'fa fa-user',
+    'icon' => '', //'fa fa-user',
     'text' => 'heading_title',
     'description' => 'description_account',
     'default_option' => 'guest',

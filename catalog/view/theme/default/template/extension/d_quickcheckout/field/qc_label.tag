@@ -3,9 +3,9 @@
     
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_label_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="form-group d-vis  clearfix field-sortable">
-        <div class="col-xs-12">
-            <label class="control-label" for="{ opts.step }_{ opts.field.id }">
+    <div if={ (opts.field.display == 1) } class="d-vis clearfix field-sortable">
+        <div class="col-full">
+            <label class="ve-label" for="{ opts.step }_{ opts.field.id }">
                 { getLanguage()[opts.step][opts.field.text] }
             </label>
             <p id="{ opts.step }_{ opts.field.id }" class="label-text" />
@@ -15,7 +15,7 @@
     </div>
 
     <div class="no-display" if={ (opts.field.display != 1 && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-md-12" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
     <script>

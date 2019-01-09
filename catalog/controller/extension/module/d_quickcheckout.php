@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 /*
  *	location: catalog/controller
  */
@@ -72,7 +69,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/moment/moment.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/bootstrap-datetimepicker.min.js');
-
+        $this->document->addStyle('catalog/view/javascript/d_quickcheckout/ripecss/ripe.css');
         $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
 
         $state = $this->initState();
@@ -150,10 +147,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         return $this->load->view($this->model_extension_d_quickcheckout_view->template($this->route), $data);
     }
 
-    public function header(){
-
-    }
-
     public function update(){
 
         $setting_id = 1;
@@ -166,12 +159,15 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             //$post = $this->request->post;
             $rawData = file_get_contents('php://input');
             $post = json_decode($rawData, true);
+            if(!$post){
+                $post = $this->request->post;
+            }
+            
 
             if(isset($post['layout'])){
                 $this->model_extension_d_quickcheckout_store->updateState(array('layout'), $post['layout']);
                 unset($post['layout']);
             }
-
             $this->model_extension_d_quickcheckout_store->setState($post);
 
             $state = $this->model_extension_d_quickcheckout_store->getState();

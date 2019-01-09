@@ -3,18 +3,17 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_heading_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="form-group d-vis  clearboth field-sortable">
-        <div class="col-md-12">
-            <h4><i class="fa fa-book"></i>
+    <div if={ (opts.field.display == 1) } class="d-vis clearboth field-sortable">
+        <div class="col-full">
+            <h4 class="ve-h4">
             { getLanguage()[opts.step][opts.field.text] }</h4>
             
         </div>
-        <br/>
         <hr/>
     </div>
 
     <div class="no-display" if={ (opts.field.display != 1 && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-md-12" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
     <script>

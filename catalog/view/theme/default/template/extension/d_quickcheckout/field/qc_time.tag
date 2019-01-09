@@ -4,20 +4,20 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_time_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="field-sortable form-group d-vis  clearfix { (opts.error && opts.field.require == 1) ? 'has-error' : ''}">
-        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} control-label" for="{ opts.step }_{ opts.field_id }">
+    <div if={ (opts.field.display == 1) } class="field-sortable d-vis  ve-clearfix  { (opts.error && opts.field.require == 1) ? 've-field--error' : ''}">
+        <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field_id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ (opts.field.require == 1) } class="require">*</span>
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[parent.opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
 
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
-            <div class="input-group">
+            <div if={!getState().edit } class="ve-input-group">
                 <input
                     type="text"
                     id="{ opts.step }_{ opts.field.id }"
                     name="{ opts.step }[{ opts.field.id }]"
-                    class="form-control d-vis { (opts.field.mask) ?  'qc-mask': '' } { opts.field.type } validate { (opts.field.require) ? 'required' : 'not-required'} { opts.field.id }"
+                    class="ve-input d-vis { (opts.field.mask) ?  'qc-mask': '' } { opts.field.type } validate { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
                     value="{ opts.riotValue }"
                     no-reorder
                     autocomplete="{ opts.field.autocomplete }"
@@ -25,18 +25,23 @@
                     data-date-format="HH:mm"
                     onchange={change} >
 
-                <span class="input-group-btn d-vis " >
-                    <label type="button" class="btn btn-default" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
-                </span>
+                <label type="button" class="ve-btn d-vis ve-btn--default" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
+                
             </div>
-        </div>
-        <div class="col-md-12 error" if={opts.error && opts.field.require == 1}>
-            <div class="text-danger">{ getLanguage()[opts.step][opts.error] }</div>
+            <div if={getState().edit } class="ve-input-group">
+                <input 
+                    class="ve-input"
+                    type="text"
+                    disabled=true
+                    />
+                <label class="ve-btn d-vis ve-btn--default"><i class="fa fa-calendar"></i></label>
+            </div>
+            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </div>
     </div>
     
     <div class="no-display" if={ (opts.field.display != 1 && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-md-12" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
     <script>
@@ -44,6 +49,39 @@
         this.setting_id = opts.step +'_'+ opts.field_id +'_setting';
 
         var tag = this;
+
+        getValue(){
+            return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagError(){
+            if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
+                return '' ;
+            }
+            return this.store.getError()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getTagConfig(){
+            return JSON.stringify(this.store.getConfig()[tag.opts.step].fields[tag.opts.field_id]);
+        }
+
+        tag.tag_value = this.getValue();
+        tag.tag_error = this.getTagError();
+        tag.tag_config = this.getTagConfig();
+
+        shouldUpdate(){
+            if(this.store.getState().edit){
+                return true;
+            }
+            if(tag.tag_value == this.getValue() && tag.tag_error == this.getTagError() && tag.tag_config == this.getTagConfig()) {
+                return false;
+            }else{
+                tag.tag_value = this.getValue();
+                tag.tag_error = this.getTagError();
+                tag.tag_config = this.getTagConfig();
+                return true;
+            }
+        }
 
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];
@@ -108,7 +146,11 @@
             $('#' + this.opts.step + '_' + this.opts.field_id).datetimepicker({
                 language: this.store.getSession().language,
                 pickDate: false
-            });
+            }).on('dp.change', function(e){
+                error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
+                this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            }.bind(this));
         }
 
         initTooltip(){

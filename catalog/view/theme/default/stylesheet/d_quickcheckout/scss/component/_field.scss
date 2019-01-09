@@ -1,28 +1,42 @@
-.error{
+.qc-title {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.error {
     margin-top: 10px;
 }
-.add-custom-field{
+
+.add-custom-field {
     cursor: pointer;
 }
-.qc-col{
+
+.qc-field-col {
     width: 50%;
     float: left;
     position: relative;
 }
-.qc-clearboth{
+
+.qc-clearboth {
     clear: both;
 }
+
 .intl-tel-input {
     display: block;
 }
+
 .col-half {
     width: 50%;
     padding: 0px 15px;
     float: left;
 }
+
 .col-full {
     width: 100%;
     padding: 0px 15px;
+    display: block;
 }
-.qc-field{
+
+.radio-input:not(:last-child) {
+    margin-bottom: 10px;
 }

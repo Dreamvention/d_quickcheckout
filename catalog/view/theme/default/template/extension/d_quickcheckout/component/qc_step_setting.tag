@@ -1,16 +1,16 @@
 <qc_step_setting>
     <form class="step-setting">
-        <div class="btn-group btn-group-xs" data-toggle="buttons">
-            <label class="btn btn-default handle-sortable" id="{ opts.field_id }">
+        <div class="ve-btn-group ve-btn-group--sm" data-toggle="buttons">
+            <label class="ve-btn ve-btn--default handle-sortable" id="{ opts.field_id }">
                 <i class="fa fa-arrows"></i>
             </label>
-            <a class="btn btn-default " onclick="{toggleSetting}" >
+            <a class="ve-btn ve-btn--default " onclick="{toggleSetting}" >
                 <i class="fa fa-gear"></i>
             </a>
 
             <yield/>
 
-            <a class="btn btn-default " onclick="{removeStep}" >
+            <a class="ve-btn ve-btn--default " onclick="{removeStep}" >
                 <i class="fa fa-times"></i>
             </a>
         </div>

@@ -1,13 +1,12 @@
 /**
-*   Row Model
-*/
+ *   Row Model
+ */
 
-(function(){
+(function() {
 
-    this.subscribe('row/add', function(data){
-        console.log(data);
+    this.subscribe('row/add', function(data) {
         var state = this.getState();
-        var row_id = 'row'+this.rand();
+        var row_id = 'row' + this.rand();
         var layout = {};
         var page = $.extend(true, {}, state.layout.pages[state.session['page_id']]);
         this.flattenLayout(page, 'children', layout);
@@ -21,7 +20,7 @@
         }
 
 
-        var col_id = 'col'+this.rand();
+        var col_id = 'col' + this.rand();
         layout[col_id] = {
             'id': col_id,
             'parent': row_id,
@@ -29,7 +28,7 @@
             'children': {},
             'size': 12,
             'type': 'col'
-            
+
         }
 
         page = this.unflattenLayout(layout, state.session['page_id']);
@@ -37,12 +36,12 @@
 
     })
 
-    this.subscribe('row/remove', function(data){
-        $('#'+data.row_id).hide();
+    this.subscribe('row/remove', function(data) {
+        $('#' + data.row_id).hide();
         this.setLayoutAction('rowRemove', data);
     })
 
-    this.rowRemove = function(data, layout){
+    this.rowRemove = function(data, layout) {
 
         delete layout[data.row_id]
         return layout;

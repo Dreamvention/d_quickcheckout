@@ -1,14 +1,12 @@
 <qc_depends>
-    <div class="input-group">
-        <select class="form-control depend-id" >
+    <div class="ve-input-group">
+        <select class="ve-input depend-id" >
             <option
             each={field in getConfig()[opts.step].fields}
             value={field.id}
             >{stripTags(getLanguage()[parent.opts.step][field.text])}</option>
         </select>
-        <div class="input-group-btn">
-            <a class="btn btn-default" onclick={addDepend}>{getLanguage().general.text_add}</a>
-        </div>
+        <a class="ve-btn ve-btn--primary" onclick={addDepend}>{getLanguage().general.text_add}</a>
     </div>
     <div each={depend, depend_id in opts.depends }>
         <qc_depend_setting 

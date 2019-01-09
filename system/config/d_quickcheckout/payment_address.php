@@ -116,7 +116,7 @@ $_['d_quickcheckout_payment_address_language'] = array(
 );
 $_['d_quickcheckout_payment_address'] = array(
     'id' => 'payment_address',
-    'icon' => 'fa fa-book',
+    'icon' => '', //'fa fa-book',
     'text' => 'heading_title',
     'description' => 'description_payment_address',
     'address_style' => 'radio',
@@ -451,6 +451,7 @@ $_['d_quickcheckout_payment_address'] = array(
                 )
             ),
             'type' => 'select',
+            'search' => 0,
             'autocomplete' => 'country-name',
             'refresh' => '3',
             'custom' => 0,
@@ -472,6 +473,7 @@ $_['d_quickcheckout_payment_address'] = array(
             ),
             'autocomplete' => 'address-level1',
             'type' => 'select',
+            'search' => 0,
             'refresh' => '3',
             'custom' => 0,
             'sort_order' => 16,

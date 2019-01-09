@@ -6,3 +6,14 @@
 .show {
     display: block;
 }
+
+.qc {
+    .tab-pane {
+        &.active {
+            display: block;
+            .tab-pane {
+                display: block;
+            }
+        }
+    }
+}

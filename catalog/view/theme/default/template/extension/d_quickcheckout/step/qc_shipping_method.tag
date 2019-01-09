@@ -6,43 +6,48 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_shipping_method_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="panel panel-default" show={ getConfig().shipping_method.display == 1 }>
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <span wclass="icon">
+        <div class="ve-card" show={ getConfig().shipping_method.display == 1 }>
+
+            <div class="ve-card__header">
+                <h4 class="ve-h4">
+                    <span if={ getState().config.guest.shipping_method.icon } class="icon">
                         <i class="{ getState().config.guest.shipping_method.icon }"></i>
                     </span>
                     <span class="text">{ getLanguage().shipping_method.heading_title }</span>
                 </h4>
-                <h5 if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </h5>
+                <p class="ve-p" if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </p>
             </div>
-            <div class="panel-body">
-                <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger has-error"><raw content="{error}"></raw></div>
+
+            <div class="ve-card__section">
+                <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger ve-field--error"><raw content="{error}"></raw></div>
                 <form id="shipping_method_list" if={getState().config.guest.shipping_method.display_options == 1 && getSession().shipping_methods}>
+                    
+                    <!-- input_style = radio -->
                     <div if={ getState().config.guest.shipping_method.input_style == 'radio'} 
                     each={ shipping_method, name in getSession().shipping_methods } 
                     class="radio-input" >
                         <div if={shipping_method}>
-                            <strong if={getState().config.guest.shipping_method.display_group_title == 1} class="title">{ shipping_method.title }</strong>
-                            <div each={ quote, index in shipping_method.quote } >
-
-                                <label  for="{ quote.code }" class="qc-radio {getSession().shipping_method.code == quote.code ? 'qc-radio-selected' : ''}">
+                            <p if={getState().config.guest.shipping_method.display_group_title == 1} class="qc-title">{ shipping_method.title }</p>
+                            <div class="ve-field" each={ quote, index in shipping_method.quote } >
+                                <label  for="{ quote.code }" class="ve-radio {getSession().shipping_method.code == quote.code ? 've-radio--selected' : ''}">
                                     <input
                                     type="radio"
+                                    class="ve-input"
                                     name="shipping_method"
                                     value="{ quote.code }"
                                     id="{ quote.code }"
                                     checked={ getSession().shipping_method.code == quote.code }
                                     onclick={change}/>
+                                    <i></i>
                                     <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
                                 </label>
                             </div>
                         </div>
                     </div>
 
+                    <!-- input_style = select -->
                     <div if={getState().config.guest.shipping_method.input_style == 'select'}>
-
-                        <select if={getState().config.guest.shipping_method.display_group_title == 1} class="form-control" onchange={change}>
+                        <select if={getState().config.guest.shipping_method.display_group_title == 1} class="ve-input" onchange={change}>
                             <optgroup label="{ shipping_method.title }" 
                             each={ shipping_method, name in getSession().shipping_methods } >
                                 <option 
@@ -54,7 +59,7 @@
                             </optgroup>
                         </select>
 
-                        <select if={getState().config.guest.shipping_method.display_group_title == 0} class="form-control" onchange={change}>
+                        <select if={getState().config.guest.shipping_method.display_group_title == 0} class="ve-input" onchange={change}>
                             <option 
                                 each={ quote, index in flattenShippingMethods() } 
                                 selected={ getSession().shipping_method.code == quote.code }
@@ -68,8 +73,8 @@
         </div>
 
         <div show={(getConfig().shipping_method.display != 1 && getState().edit)}>
-            <div class="panel panel-default" style="opacity: 0.5">
-                <div class="panel-heading">{ getLanguage().shipping_method.heading_title } <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div></div>
+            <div class="ve-card" style="opacity: 0.5">
+                <div class="ve-card__header">{ getLanguage().shipping_method.heading_title } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></div>
             </div>
         </div>
     </div>
@@ -94,9 +99,9 @@
             return result;
         }
 
-        $(tag.root).on('click', '.qc-radio', function(){
-            $(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
-            $(this).addClass('qc-radio-selected');
+        $(tag.root).on('click', '.ve-radio', function(){
+            $(tag.root).find('.ve-radio').removeClass('ve-radio--selected');
+            $(this).addClass('ve-radio--selected');
         })
     </script>
 </qc_shipping_method>

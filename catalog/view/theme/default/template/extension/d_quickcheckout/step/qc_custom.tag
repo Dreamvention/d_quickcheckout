@@ -6,44 +6,45 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_custom_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="panel panel-default" show={ getConfig().custom.display == 1 }>
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <span class="icon">
+        <div class="ve-card" show={ getConfig().custom.display == 1 }>
+            <div class="ve-card__header">
+                <h4 class="ve-h4">
+                    <span if={ getConfig().custom.icon } class="icon">
                         <i class="{ getConfig().custom.icon }"></i>
                     </span>
                     { getLanguage().custom.heading_title }
                 </h4>
-                <h5 if={getLanguage().custom.text_description}>{  getLanguage().custom.text_description } </h5>
+                <p class="ve-p" if={getLanguage().custom.text_description}>{  getLanguage().custom.text_description } </p>
             </div>
-            <div class="panel-body">
-                <div class="qc-row">
-                    <form  id="custom_fields" class="custom-fields" >
-                        <div 
-                            each={ field_id in fields }
-                            if={ (getConfig().custom.fields[field_id])}
-                            class="qc-field { (getState().config.guest.custom.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
-                            sort_order={ getConfig().custom.fields[field_id].sort_order }
-                            field_id={field_id}
-                            step="custom"
-                            no-reorder
-                            field={ getConfig().custom.fields[field_id] }
-                            value={ getSession().custom[field_id] }
-                            error={ getError().custom && getError().custom[field_id]}
-                            data-is={ getConfig().custom.fields[field_id].type ? 'qc_field_' + getConfig().custom.fields[field_id].type : ''}
-                        ></div>
-                    </form>
+            <div class="ve-card__section">
+                
+                <form  id="custom_fields" class="custom-fields qc-row" >
+                    <div 
+                        each={ field_id in fields }
+                        if={ (getConfig().custom.fields[field_id])}
+                        class="qc-field ve-field { (getState().config.guest.custom.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
+                        sort_order={ getConfig().custom.fields[field_id].sort_order }
+                        field_id={field_id}
+                        step="custom"
+                        no-reorder
+                        field={ getConfig().custom.fields[field_id] }
+                        value={ getSession().custom[field_id] }
+                        error={ getError().custom && getError().custom[field_id]}
+                        data-is={ getConfig().custom.fields[field_id].type ? 'qc_field_' + getConfig().custom.fields[field_id].type : ''}
+                    ></div>
+                </form>
+                <div if={getState().edit} class="ve-mt-3">
+                    <qc_custom_field setting_id="custom_custom_field_{rand()}" step="custom" location_account="true"></qc_custom_field>
                 </div>
-                <qc_custom_field if={getState().edit} setting_id="custom_custom_field_{rand()}" step="custom" location_account="true"></qc_custom_field>
             </div>
         </div>
 
         <!-- Hidden Step -->
         <div show={(getConfig().custom.display != 1 && getState().edit)}>
-            <div class="panel panel-default" style="opacity: 0.5">
-                <div class="panel-heading"> 
+            <div class="ve-card" style="opacity: 0.5">
+                <div class="ve-card__header"> 
                     { getLanguage().custom.heading_title } 
-                    <div class="pull-right"><span class="label label-warning">{getLanguage().general.text_hidden}<span></div>
+                    <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div>
                 </div>
             </div>
         </div>

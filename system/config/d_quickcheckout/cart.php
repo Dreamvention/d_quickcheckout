@@ -16,16 +16,18 @@ $_['d_quickcheckout_cart_language'] = array(
     'entry_quantity' => 'column_quantity',
     'entry_price' => 'column_price',
     'entry_total' => 'column_total',
+
+    'text_apply' => 'Apply'
 );
 $_['d_quickcheckout_cart'] = array(
     'id' => 'cart',
-    'icon' => 'fa fa-shopping-cart',
+    'icon' => '', //'fa fa-shopping-cart',
     'text' => 'heading_title',
     'description' => 'description_cart',
     'display_text' => 1,
     'display_description' => 1,
     'image_size' => array('width' => 180, 'height' => 180),
-    'thumb_size' => array('width' => 80, 'height' => 80),
+    'thumb_size' => array('width' => 60, 'height' => 60),
     'min_total' => 0,
     'min_quantity' => 0,
     'option' => array(

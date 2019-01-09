@@ -124,10 +124,6 @@
         "catalog/view/theme/default/stylesheet/d_quickcheckout/main.css.map",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/main.scss",
 
-        "catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css",
-        "catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.css.map",
-        "catalog/view/theme/default/stylesheet/d_quickcheckout/bootstrap.scss",
-
         "catalog/view/theme/default/template/extension/d_quickcheckout/step/qc_account.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/step/qc_cart.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/step/qc_confirm.tag",

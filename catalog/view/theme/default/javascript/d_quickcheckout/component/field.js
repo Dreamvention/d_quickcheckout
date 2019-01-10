@@ -44,6 +44,7 @@
     }
 
     this.addCustomField = function(step, custom_field_id) {
+        console.log(this);
         var state = this.getState();
 
         var custom_field = state.custom_fields.find(function(custom_field) {
@@ -105,6 +106,7 @@
             this.updateState(['config', accounts[i], step, 'fields'], state.config[accounts[i]][step].fields);
         }
 
+        console.log(this.getState());
     }
 
     this.subscribe('field/addDepend', function(data) {

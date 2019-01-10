@@ -23,6 +23,7 @@
                     autocomplete="{ opts.field.autocomplete }"
                     qc-mask="{ opts.field.mask }"
                     data-date-format="HH:mm"
+                    placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                     onchange={change} >
 
                 <label type="button" class="ve-btn d-vis ve-btn--default" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
@@ -32,6 +33,7 @@
                 <input 
                     class="ve-input"
                     type="text"
+                    placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                     disabled=true
                     />
                 <label class="ve-btn d-vis ve-btn--default"><i class="fa fa-calendar"></i></label>

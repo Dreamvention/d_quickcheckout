@@ -164,6 +164,10 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 $this->model_extension_d_quickcheckout_store->updateState(array('layout'), $post['layout']);
                 unset($post['layout']);
             }
+            if(isset($post['config'])){
+                $this->model_extension_d_quickcheckout_store->updateState(array('config'), $post['config']);
+                unset($post['config']);
+            }
             $this->model_extension_d_quickcheckout_store->setState($post);
 
             $state = $this->model_extension_d_quickcheckout_store->getState();

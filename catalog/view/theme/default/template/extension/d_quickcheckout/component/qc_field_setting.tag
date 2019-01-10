@@ -56,7 +56,7 @@
         }
 
         deleteField(e){
-            this.store.deleteCustomField(this.opts.step, opts.field_id);
+            this.store.deleteCustomField(this.opts.step, this.opts.field_id);
             this.store.hideSetting();
             this.opts.ondelete();
         }

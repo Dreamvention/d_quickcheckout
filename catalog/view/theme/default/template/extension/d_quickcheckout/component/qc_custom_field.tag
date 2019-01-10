@@ -11,7 +11,7 @@
                     each={option in getState().custom_fields }
                     class="panel panel-default add-custom-field"
                     if={option && parent.validateLocation(option.location) }
-                    onclick={addCustomField}
+                    onclick={parent.parent.addCustomField}
                     custom_field_id={option.custom_field_id}>
                     <div class="panel-heading"><i class="fa fa-plus"></i> { option.name } </div>
                     
@@ -59,7 +59,7 @@
         addCustomField(e){
             var custom_field_id = $(e.currentTarget).attr('custom_field_id');
             var step = tag.opts.step;
-
+console.log('dd');
             tag.store.addCustomField(step, custom_field_id);
 
             tag.opts.onchange();

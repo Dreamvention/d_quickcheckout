@@ -222,7 +222,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     public function updateState($keys, $value) {
         $state = $this->getState();
 
-        if(is_array($keys) && $keys[0] == 'config' && ($keys[1] != 'guest' || $keys[1] != 'register' || $keys[1] != 'logged')){
+        if(is_array($keys) && isset($keys['config']) && $keys[0] == 'config' && ($keys[1] != 'guest' || $keys[1] != 'register' || $keys[1] != 'logged')){
             array_splice( $keys, 1, 0, array($state['session']['account']) );
         }
 

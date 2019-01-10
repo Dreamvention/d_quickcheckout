@@ -24,6 +24,7 @@
             <textarea if={getState().edit } 
                 class="ve-input"
                 disabled=true
+                placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                 ></textarea>
             <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </div>

@@ -39,6 +39,7 @@
             <input if={getState().edit } 
                 class="ve-input"
                 type="text"
+                placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                 disabled=true
                 />
             <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>

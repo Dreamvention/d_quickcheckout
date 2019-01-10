@@ -84,7 +84,7 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
 
     public function validate(){
 
-        $this->model_extension_d_quickcheckout_store->updateState(array('errors', 'account', 'login'), false);
+        $this->model_extension_d_quickcheckout_store->updateState(array('errors', 'account', 'login'), '');
         return true;
     }
     

@@ -276,14 +276,14 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $state['errors']['cart']['error_min_total'] = sprintf($this->language->get('error_min_total'), $this->currency->format( $state['config']['guest']['cart']['min_total'], $this->session->data['currency']));
             $result = false;
         }else{
-            $state['errors']['cart']['error_min_total'] = false;
+            $state['errors']['cart']['error_min_total'] = '';
         }
 
         if($state['config']['guest']['cart']['min_quantity'] > $state['session']['quantity']){
             $state['errors']['cart']['error_min_quantity'] = sprintf($this->language->get('error_min_quantity'), $state['config']['guest']['cart']['min_quantity']);
             $result = false;
         }else{
-            $state['errors']['cart']['error_min_quantity'] = false;
+            $state['errors']['cart']['error_min_quantity'] = '';
         }
 
         if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
@@ -291,7 +291,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $state['errors']['cart']['error_stock'] = $this->language->get('error_stock');
             $result = false;
         }else{
-            $state['errors']['cart']['error_stock'] = false;
+            $state['errors']['cart']['error_stock'] = '';
         }
 
         $this->model_extension_d_quickcheckout_store->updateState(array( 'errors' , 'cart'), $state['errors']['cart']);

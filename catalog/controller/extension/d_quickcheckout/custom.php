@@ -102,11 +102,11 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
                         }
                     }
                     if($no_errors){
-                        $state['errors'][$step][$field_id] = false;
+                        $state['errors'][$step][$field_id] = '';
                     }
                 }
             }else{
-                $state['errors'][$step][$field_id] = false;
+                $state['errors'][$step][$field_id] = '';
             }
             
         }

@@ -15,7 +15,7 @@ class ModelExtensionDQuickcheckoutError extends Model {
         $state = $this->model_extension_d_quickcheckout_store->getState();
         if(isset($state['errors'][$step])){
             foreach($state['errors'][$step] as $field_id => $field){
-                $state['errors'][$step][$field_id] = false;
+                $state['errors'][$step][$field_id] = '';
             }
             $this->model_extension_d_quickcheckout_store->setState($state);
         }
@@ -107,7 +107,7 @@ class ModelExtensionDQuickcheckoutError extends Model {
         }
       }
 
-      $this->model_extension_d_quickcheckout_store->updateState(array('errors', $step, $field_id), false);
+      $this->model_extension_d_quickcheckout_store->updateState(array('errors', $step, $field_id), '');
 
       return true;
     }

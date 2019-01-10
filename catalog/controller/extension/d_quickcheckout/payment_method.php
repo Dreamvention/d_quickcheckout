@@ -124,7 +124,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
             $state['errors']['payment_method']['error_no_payment'] = $this->language->get('error_no_payment');
             $result = false;
         }else{
-            $state['errors']['payment_method']['error_no_payment'] = false;
+            $state['errors']['payment_method']['error_no_payment'] = '';
             if(empty($state['session']['payment_method'] )){
                 $state['errors']['payment_method']['error_payment'] = $this->language->get('error_payment');
                 $result = false;

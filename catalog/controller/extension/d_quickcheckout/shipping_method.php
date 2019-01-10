@@ -119,10 +119,10 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         if(empty($state['errors']['shipping_method'])){
             $state['errors']['shipping_method'] = array();
         }
-        $state['errors']['shipping_method']['error_shipping'] = false;
+        $state['errors']['shipping_method']['error_shipping'] = '';
 
         if(!$this->hasShipping()){
-            $state['errors']['shipping_method']['error_no_shipping'] = false;
+            $state['errors']['shipping_method']['error_no_shipping'] = '';
             foreach($state['config'] as $account => $value){
                 $state['config'][$account]['shipping_method']['display'] = 0;
             }
@@ -148,7 +148,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
             $state['errors']['shipping_method']['error_no_shipping'] = $this->language->get('error_no_shipping');
             $result = false;
         }else{
-            $state['errors']['shipping_method']['error_no_shipping'] = false;
+            $state['errors']['shipping_method']['error_no_shipping'] = '';
             if(empty($state['session']['shipping_method'] )){
                 $state['errors']['shipping_method']['error_shipping'] = $this->language->get('error_shipping');
                 $result = false;

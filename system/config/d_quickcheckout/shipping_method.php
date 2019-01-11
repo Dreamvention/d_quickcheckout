@@ -18,6 +18,7 @@ $_['d_quickcheckout_shipping_method'] = array(
     'display_desciption' => 1,
     'display_options' => 1,
     'default_option' => '',
+    'style' => 'card',
     'account' => array(
         'guest' => array(
             'display' => 1

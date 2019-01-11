@@ -165,9 +165,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 unset($post['layout']);
             }
             if(isset($post['config']) && isset($post['config']['guest'])){
-                foreach($post['config'] as $key => $value){
-                    $this->model_extension_d_quickcheckout_store->updateState(array('config', $key), $value);
-                }
+                $this->model_extension_d_quickcheckout_store->updateState(array('config'), $post['config']);
                 unset($post['config']);
             }
             $this->model_extension_d_quickcheckout_store->setState($post);
@@ -409,6 +407,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['entry_compare_to'] = $this->language->get('entry_compare_to');
         $data['entry_regex'] = $this->language->get('entry_regex');
         $data['entry_text'] = $this->language->get('entry_text');
+        $data['entry_radio'] = $this->language->get('entry_radio');
+        $data['entry_select'] = $this->language->get('entry_select');
 
         $data['error_min_length'] = $this->language->get('error_min_length');
         $data['error_max_length'] = $this->language->get('error_max_length');

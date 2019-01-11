@@ -6,8 +6,8 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_continue_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <!-- type 1 -->
-        <div show={(getConfig().continue.display == 1 && getConfig().continue.type == 1)} class="ve-card">
+        <!-- style card -->
+        <div if={(getConfig().continue.display == 1 && getState().config.guest.continue.style == 'card')} class="ve-card">
             <div class="ve-card__header">
                 <h4 class="ve-h4">
                     <span if={ getConfig().continue.icon } class="icon">
@@ -23,8 +23,8 @@
             </div>
         </div>
 
-        <!-- type 2 -->
-        <div show={(getConfig().continue.display == 1 && getConfig().continue.type == 2)} class="ve-field ve-clearfix">
+        <!-- style clear -->
+        <div if={ getConfig().continue.display == 1 && getState().config.guest.continue.style == 'clear' } class="ve-mb-3 ve-clearfix">
             <p class="ve-p" if={getLanguage().continue.text_description}>{  getLanguage().continue.text_description } </p>
             <a if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</a>
             <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().continue.text_next}</button>

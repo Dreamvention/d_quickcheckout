@@ -17,6 +17,7 @@ $_['d_quickcheckout_custom'] = array(
     'icon' => '',
     'text' => 'heading_title',
     'description' => 'description_custom',
+    'style' => 'card',
     'fields' => array(
         'comment' => array(
             'id' => 'comment',

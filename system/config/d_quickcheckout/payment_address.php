@@ -120,6 +120,7 @@ $_['d_quickcheckout_payment_address'] = array(
     'text' => 'heading_title',
     'description' => 'description_payment_address',
     'address_style' => 'radio',
+    'style' => 'card',
     'fields' => array(
         'firstname' => array(
             'id' => 'firstname',

@@ -11,7 +11,7 @@ $_['d_quickcheckout_confirm'] = array(
     'text' => 'heading_title',
     'description' => 'description_confirm',
     'trigger' => '#button-confirm, .button, .btn, .button_oc, input[type=submit]',
-    'type' => 2,
+    'style' => 'clear',
     'account' => array(
         'guest' => array(
             'display' => 1

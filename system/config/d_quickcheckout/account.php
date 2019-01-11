@@ -32,6 +32,7 @@ $_['d_quickcheckout_account'] = array(
     'description' => 'description_account',
     'default_option' => 'guest',
     'login_popup' => 1,
+    'style' => 'card',
     'social_login' => array(
         'value' => 1,
         'display' => 1

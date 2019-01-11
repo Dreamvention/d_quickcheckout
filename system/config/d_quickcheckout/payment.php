@@ -10,6 +10,7 @@ $_['d_quickcheckout_payment'] = array(
     'description' => 'description_payment',
     'default_payment_popup' => 0,
     'payment_popups' => array(),
+    'style' => 'card',
     'account' => array(
         'guest' => array(
             'display' => 1

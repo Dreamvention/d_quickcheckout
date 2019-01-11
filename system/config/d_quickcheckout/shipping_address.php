@@ -64,6 +64,7 @@ $_['d_quickcheckout_shipping_address'] = array(
     'text' => 'heading_title',
     'description' => 'description_shipping_address',
     'address_style' => 'radio',
+    'style' => 'card',
     'fields' => array(
         'firstname' => array(
             'id' => 'firstname',

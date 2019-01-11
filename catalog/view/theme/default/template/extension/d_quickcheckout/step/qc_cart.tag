@@ -6,7 +6,7 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_cart_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="ve-card" show={ getConfig().cart.display == 1 }>
+        <div class="ve-card" if={ getConfig().cart.display == 1 && getState().config.guest.cart.style == 'card' }>
             <div class="ve-card__header">
                 <h4 class="ve-h4">
                     <span if={getConfig().cart.icon} class="icon">
@@ -81,6 +81,154 @@
             </div>
             <hr class="ve-hr"/>
             <div class="qc-checkout-product ve-card__section">
+                <div class="">
+
+                    <div class="ve-field d-vis qc-coupon" show={getConfig().cart.option.coupon.display == '1'}>
+                        
+                        <div class="ve-alert ve-alert--danger" if={getState().notifications.cart && getState().notifications.cart.error_coupon}>
+                            {getState().notifications.cart.error_coupon}
+                        </div>
+                        <div class="ve-alert ve-alert--success" if={getState().notifications.cart && getState().notifications.cart.success_coupon}>
+                            {getState().notifications.cart.success_coupon}
+                        </div>
+                        <div class="ve-row">
+                            <label class="ve-col-md-4 ve-label" >
+                                { getLanguage().cart.entry_coupon }
+                            </label>
+                            <div class="ve-col-md-8">
+                                <div class="ve-field ve-field--block">
+                                    <input type="text" value="{getSession().coupon}" name="coupon" placeholder="{ getLanguage().cart.entry_coupon }" class="ve-input" onkeydown={changeCoupon}/>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useCoupon} type="button">{ getLanguage().cart.text_apply }</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ve-field d-vis qc-voucher" show={getConfig().cart.option.voucher.display == '1'}>
+                        <div class="ve-alert ve-alert--danger"  if={getState().notifications.cart && getState().notifications.cart.error_voucher}>
+                            {getState().notifications.cart.error_voucher}
+                        </div>
+                        <div class="ve-alert ve-alert--success" if={getState().notifications.cart && getState().notifications.cart.success_voucher}>
+                            {getState().notifications.cart.success_voucher}
+                        </div>
+                        <div class="ve-row">
+                            <label class="ve-col-sm-4 ve-label" >
+                                { getLanguage().cart.entry_voucher }
+                            </label>
+                            <div class="ve-col-sm-8">
+                                <div class="ve-field ve-field--block">
+                                    <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="ve-input" onkeydown={changeVoucher}/>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.text_apply }</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ve-field d-vis qc-reward" show={getConfig().cart.option.reward.display == '1'}>
+                        <div class="ve-alert ve-alert--danger" if={getState().notifications.cart && getState().notifications.cart.error_reward}>
+                            {getState().notifications.cart.error_reward}
+                        </div>
+                        <div class="ve-alert ve-alert--success" if={getState().notifications.cart && getState().notifications.cart.success_reward}>
+                            {getState().notifications.cart.success_reward}
+                        </div>
+                        <div class="ve-row">
+                            <label class="ve-col-sm-4 ve-label" >
+                                { getLanguage().cart.entry_reward }
+                            </label>
+                            <div class="ve-col-sm-8">
+                                <div class="ve-field ve-field--block">
+                                    <input class="ve-input" type="text" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" onkeydown={changeReward} />
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useReward} type="button">{ getLanguage().cart.text_apply }</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal qc-totals">
+                    <div class="qc-row ve-clearfix" each={total in getSession().totals} if={total}>
+                        <label class="qc-col-sm-9 qc-col-xs-6 ve-label" >{ total.title }</label>
+                        <div class="qc-col-sm-3 qc-col-xs-6 text-right">{ total.text }</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Step -->
+        <div if={ getConfig().cart.display == 1 && getState().config.guest.cart.style == 'clear' } class="ve-mb-3 ve-clearfix">
+            <h4 class="ve-h4">
+                <span if={getConfig().cart.icon} class="icon">
+                    <i class="{ getConfig().cart.icon }"></i>
+                </span>
+                <span class="text">{ getLanguage().cart.heading_title }</span>
+            </h4>
+            <p class="ve-p" if={getLanguage().cart.text_description}>{  getLanguage().cart.text_description } </p>
+
+            <div class="qc-checkout-product">
+                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }>{error}<raw  content="{error}"></raw></div>
+            
+                <table class="ve-table ve-table--borderless">
+                    <thead class="ve-hidden">
+                        <tr>
+                            <td class="qc-image" show={ getConfig().cart.columns.image.display == 1} >{ getLanguage().cart.entry_image }</td>
+                            <td class="qc-name" show={ getConfig().cart.columns.name.display == 1}>{ getLanguage().cart.entry_name }</td>
+                            <td class="qc-model" show={ getConfig().cart.columns.model.display == 1} >{ getLanguage().cart.entry_model }</td>
+                            <td class="qc-quantity" show={ getConfig().cart.columns.quantity.display == 1} >{ getLanguage().cart.entry_quantity }</td>
+                            <td class="qc-price ve-hidden-xs { ( getConfig().cart.columns.price.display == 1 ) ? '' : 'hidden' }">{ getLanguage().cart.entry_price }</td>
+                            <td class="qc-total { ( getConfig().cart.columns.total.display == 1 ) ? '' : 'hidden' }">{ getLanguage().cart.entry_total }</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr each={ product in getSession().cart.products } if={product}>
+                            <td class="qc-image" show={ getConfig().cart.columns.image.display == 1} >
+                                <a  href="{ raw(product.href) }"
+                                    data-container="body"
+                                    data-toggle="popover"
+                                    data-placement="top"
+                                    data-trigger="hover"
+                                    class="qc-popover ve-thumbnail" 
+                                    data-image="{ product.image }">
+                                    <img src="{ product.thumb }" class="img-responsive"/>
+
+                                </a>
+                            </td>
+
+                            <td class="qc-name" show={ getConfig().cart.columns.name.display == 1 } >
+                                <a href="{ raw(product.href) }" { getConfig().cart.columns.image.display == 1 ? '' : 'rel="popup" data-help=\'<img src="' + product.image + '"/>\'' }>
+                                    { product.name } <span class="out-of-stock" show={!product.stock}>***</span>
+                                </a>
+                                <p class="ve-help ve-hidden ve-visible--sm">{ product.price } x { product.quantity }</p>
+                            </td>
+
+                            <td class="qc-model ve-hidden--sm" show={ getConfig().cart.columns.model.display == 1 }>{ product.model }</td>
+
+                            <td class="qc-quantity ve-hidden--sm" show={ getConfig().cart.columns.quantity.display == 1 }>
+                                <div class="ve-input-group">
+                                    
+                                    <button class="ve-btn d-vis ve-btn--primary decrease" data-product="{ product.key }" onclick={decrease}><i class="fa fa-chevron-down"></i></button>
+                                    <input type="text" data-mask="9?999999999999999" value="{ product.quantity }"  class="ve-input qc-product-quantity text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
+                                    <button class="ve-btn d-vis ve-btn--primary increase" data-product="{ product.key }" onclick={increase}><i class="fa fa-chevron-up"></i></button>
+                                    <button class="ve-btn d-vis ve-btn--danger delete" data-product="{ product.key }"  onclick={delete}><i class="fa fa-times"></i></button>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-btn">
+                                        
+                                    </span>
+                                    <span class="input-group-btn">
+                                        
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="qc-price ve-hidden--sm { ( getConfig().cart.columns.price.display == 1 )  ? '' : 've-hidden' }">{ product.price }</td>
+                            <td class="qc-total { ( getConfig().cart.columns.total.display == 1 )  ? '' : 've-hidden' }">{ product.total }</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="ve-hr"/>
+            <div class="qc-checkout-product">
                 <div class="">
 
                     <div class="ve-field d-vis qc-coupon" show={getConfig().cart.option.coupon.display == '1'}>

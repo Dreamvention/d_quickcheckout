@@ -221,8 +221,9 @@ class ModelExtensionDQuickcheckoutStore extends Model {
 
     public function updateState($keys, $value) {
         $state = $this->getState();
-
-        if(is_array($keys) && $keys[0] == 'config' && (!isset($keys[1]) || $keys[1] != 'guest' || $keys[1] != 'register' || $keys[1] != 'logged')){
+FB::log($keys);
+        if(is_array($keys) && $keys[0] == 'config' && isset($keys[1]) && $keys[1] != 'guest' && $keys[1] != 'register' && $keys[1] != 'logged'){
+            FB::log('HI');
             array_splice( $keys, 1, 0, array($state['session']['account']) );
         }
 

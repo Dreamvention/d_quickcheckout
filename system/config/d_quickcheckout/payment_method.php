@@ -15,6 +15,7 @@ $_['d_quickcheckout_payment_method'] = array(
     'display_images' => 1,
     'input_style' => 'radio',
     'default_option' => 'bank_transfer',
+    'style' => 'card',
     'account' => array(
         'guest' => array(
             'display' => 1

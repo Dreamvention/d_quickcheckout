@@ -6,7 +6,7 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_shipping_method_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="ve-card" show={ getConfig().shipping_method.display == 1 }>
+        <div class="ve-card" if={ getConfig().shipping_method.display == 1 && getState().config.guest.shipping_method.style == 'card' }>
 
             <div class="ve-card__header">
                 <h4 class="ve-h4">
@@ -70,6 +70,68 @@
                     </div>
                 </form>
             </div>
+        </div>
+
+
+        <div class="ve-mb-3 ve-clearfix" if={ getConfig().shipping_method.display == 1 && getState().config.guest.shipping_method.style == 'clear' }>
+            <h4 class="ve-h4">
+                <span if={ getState().config.guest.shipping_method.icon } class="icon">
+                    <i class="{ getState().config.guest.shipping_method.icon }"></i>
+                </span>
+                <span class="text">{ getLanguage().shipping_method.heading_title }</span>
+            </h4>
+            <p class="ve-p" if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </p>
+
+            <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger ve-field--error"><raw content="{error}"></raw></div>
+            <form id="shipping_method_list" if={getState().config.guest.shipping_method.display_options == 1 && getSession().shipping_methods}>
+                
+                <!-- input_style = radio -->
+                <div if={ getState().config.guest.shipping_method.input_style == 'radio'} 
+                each={ shipping_method, name in getSession().shipping_methods } 
+                class="radio-input" >
+                    <div if={shipping_method}>
+                        <p if={getState().config.guest.shipping_method.display_group_title == 1} class="qc-title">{ shipping_method.title }</p>
+                        <div class="ve-field" each={ quote, index in shipping_method.quote } >
+                            <label  for="{ quote.code }" class="ve-radio {getSession().shipping_method.code == quote.code ? 've-radio--selected' : ''}">
+                                <input
+                                type="radio"
+                                class="ve-input"
+                                name="shipping_method"
+                                value="{ quote.code }"
+                                id="{ quote.code }"
+                                checked={ getSession().shipping_method.code == quote.code }
+                                onclick={change}/>
+                                <i></i>
+                                <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- input_style = select -->
+                <div if={getState().config.guest.shipping_method.input_style == 'select'}>
+                    <select if={getState().config.guest.shipping_method.display_group_title == 1} class="ve-input" onchange={change}>
+                        <optgroup label="{ shipping_method.title }" 
+                        each={ shipping_method, name in getSession().shipping_methods } >
+                            <option 
+                                each={ quote, index in shipping_method.quote } 
+                                selected={ getSession().shipping_method.code == quote.code }
+                                value="{ quote.code }">
+                                <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                            </option>
+                        </optgroup>
+                    </select>
+
+                    <select if={getState().config.guest.shipping_method.display_group_title == 0} class="ve-input" onchange={change}>
+                        <option 
+                            each={ quote, index in flattenShippingMethods() } 
+                            selected={ getSession().shipping_method.code == quote.code }
+                            value="{ quote.code }">
+                            <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                        </option>
+                    </select>
+                </div>
+            </form>
         </div>
 
         <div show={(getConfig().shipping_method.display != 1 && getState().edit)}>

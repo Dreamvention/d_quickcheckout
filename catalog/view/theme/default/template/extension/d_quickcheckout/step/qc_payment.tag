@@ -6,7 +6,7 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_payment_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="ve-card" show={getConfig().payment.display == 1 && getState().edit}>
+        <div class="ve-card" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'card'}>
             <div class="ve-card__header">
                 <h4 class="ve-h4">
                     <span if={ getConfig().payment.icon } class="icon">
@@ -17,12 +17,18 @@
                 <p class="ve-p" if={getLanguage().payment.text_description}>{  getLanguage().payment.text_description } </p>
             </div>
             <div class="ve-card__section">
-                {getSession().payment_method.title}
+                <div if={getState().edit}>{getSession().payment_method.title}</div>
+                <div if={!getState().edit}>
+                    <div id="payment" show={ getConfig().payment.display == 1 }></div>
+                </div>
             </div>
         </div>
-        <div if={!getState().edit}>
+
+        <div class="ve-mb-3 ve-clearfix" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'clear'}>
             <p class="ve-p" if={getLanguage().payment.text_description}>{  getLanguage().payment.text_description } </p>
-            <div id="payment" show={ getConfig().payment.display == 1 }>
+            <div if={getState().edit}>{getSession().payment_method.title}</div>
+            <div if={!getState().edit}>
+                <div id="payment" show={ getConfig().payment.display == 1 }></div>
             </div>
         </div>
 

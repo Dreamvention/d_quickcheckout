@@ -20,6 +20,9 @@ $_['text_checked'] = 'Checked';
 $_['text_has_dependencies'] = 'This field has dependencies setup';
 $_['text_no_payment_step'] = 'Your checkout does not have a Payment step. Customers will not be able to checkout without a payment step. Please add this step and hide it if required.';
 
+$_['entry_select'] = 'select';
+$_['entry_radio'] = 'radio';
+
 $_['text_telephone_validation'] = 'Telephone validation';
 $_['text_telephone_countries'] = 'Allowed telephone countries';
 $_['text_layout'] = 'Select layout';

@@ -30,6 +30,7 @@ $_['d_quickcheckout_cart'] = array(
     'thumb_size' => array('width' => 60, 'height' => 60),
     'min_total' => 0,
     'min_quantity' => 0,
+    'style' => 'card',
     'option' => array(
         'voucher' => array(
             'id' => 'voucher',

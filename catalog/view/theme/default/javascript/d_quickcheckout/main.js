@@ -342,8 +342,12 @@ var qc = (function() {
         this.showLoader();
         //clear notifications
         this.updateState(['notifications'], {});
-        $.post('index.php?route=' + route, data, function(json) {
-            callback(json);
+        $.post('index.php?route=' + route, data, function(json, status) {
+            try {
+                callback(json);
+            } catch (err) {
+                console.error("Ajax Quick Checkout: POST /route=" + route + " returned error: \n" + json);
+            }
             this.hideLoader();
         }.bind(this));
     }
@@ -356,7 +360,7 @@ var qc = (function() {
             setTimeout(function() {
                 that.loading(false);
                 $('.loader').hide();
-            }, 5000);
+            }, 10000);
         }, 10);
 
     }

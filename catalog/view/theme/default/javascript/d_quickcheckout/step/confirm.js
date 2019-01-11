@@ -4,7 +4,8 @@
 
 (function() {
     this.subscribe('confirm/confirm', function(data) {
-        this.updateState(['session', 'confirm', 'loading'], true);
+        //this.updateState(['session', 'confirm', 'loading'], true);
+        this.loading(true);
         setTimeout(function() {
             this.send('extension/d_quickcheckout/confirm/update', data, function(json) {
                 this.setState(json);

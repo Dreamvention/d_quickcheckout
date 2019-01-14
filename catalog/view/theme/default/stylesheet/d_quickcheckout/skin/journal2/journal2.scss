@@ -1,14 +1,13 @@
 .oc2 {
     .qc {
-        > div{
+        >div {
             min-height: 300px;
         }
         .input-group-btn button i {
-            top: 0px; 
+            top: 0px;
         }
-
         .text-danger {
-            color: #fff; 
+            color: #fff;
         }
         .clearfix.process {
             display: flex;
@@ -24,20 +23,20 @@
         .process-page.disabled .process-page-dot {
             background-color: #f5f5f5;
         }
-        .panel-heading, .panel-heading:hover {
+        .panel-heading,
+        .panel-heading:hover {
             background-color: #fff;
         }
-        .panel-title{
+        .panel-title {
             color: #333;
         }
-        .tab-content{
+        .tab-content {
             background-color: #fff;
         }
         .qc-product-quantity {
             min-width: 40px;
         }
-
-        .bootstrap-select ul.dropdown-menu  li{
+        .bootstrap-select ul.dropdown-menu li {
             margin-left: 0px;
         }
     }

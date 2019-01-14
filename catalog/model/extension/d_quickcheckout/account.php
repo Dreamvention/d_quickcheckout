@@ -58,6 +58,8 @@ class ModelExtensionDQuickcheckoutAccount extends Model {
                  $this->session->data['guest'][$key] = $this->session->data['payment_address'][$key];
             }
         }
+
+        $this->session->data['guest']['customer_group_id'] = $this->getDefaultCustomerGroup();
       }
     }
 
@@ -119,7 +121,12 @@ class ModelExtensionDQuickcheckoutAccount extends Model {
     }
 
     public function getDefaultCustomerGroup(){
-        return $this->config->get('config_customer_group_id');
+        if($this->config->get('config_customer_group_id')){
+            return $this->config->get('config_customer_group_id');
+        }else{
+            $this->load->model('setting/setting');
+            return $this->model_setting_setting->getSettingValue('config_customer_group_id', $this->config->get('config_store_id'));
+        }
     }
 
     public function getCustomFields(){

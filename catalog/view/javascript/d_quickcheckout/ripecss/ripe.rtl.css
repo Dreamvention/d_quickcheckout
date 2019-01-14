@@ -92,20 +92,20 @@ a[class^=ve-] {
 
 @-webkit-keyframes spinner-border {
   to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg); } }
 
 @keyframes spinner-border {
   to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg); } }
 
 .ve-container {
   width: 100%;
-  padding-right: 15px;
   padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto; }
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto; }
   @media (min-width: 576px) {
     .ve-container {
       max-width: 540px; } }
@@ -121,24 +121,24 @@ a[class^=ve-] {
 
 .ve-container-fluid {
   width: 100%;
-  padding-right: 15px;
   padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto; }
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto; }
 
 .ve-row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px; }
+  margin-left: -15px;
+  margin-right: -15px; }
 
 .ve-no-gutters {
-  margin-right: 0;
-  margin-left: 0; }
+  margin-left: 0;
+  margin-right: 0; }
   .ve-no-gutters > .ve-col,
   .ve-no-gutters > [class*="col-"] {
-    padding-right: 0;
-    padding-left: 0; }
+    padding-left: 0;
+    padding-right: 0; }
 
 .ve-col-1, .ve-col-2, .ve-col-3, .ve-col-4, .ve-col-5, .ve-col-6, .ve-col-7, .ve-col-8, .ve-col-9, .ve-col-10, .ve-col-11, .ve-col-12, .ve-col,
 .ve-col-auto, .ve-col-sm-1, .ve-col-sm-2, .ve-col-sm-3, .ve-col-sm-4, .ve-col-sm-5, .ve-col-sm-6, .ve-col-sm-7, .ve-col-sm-8, .ve-col-sm-9, .ve-col-sm-10, .ve-col-sm-11, .ve-col-sm-12, .ve-col-sm,
@@ -148,8 +148,8 @@ a[class^=ve-] {
 .ve-col-xl-auto {
   position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px; }
+  padding-left: 15px;
+  padding-right: 15px; }
 
 .ve-col {
   flex-basis: 0;
@@ -255,37 +255,37 @@ a[class^=ve-] {
   order: 12; }
 
 .ve-offset-1 {
-  margin-left: 8.33333%; }
+  margin-right: 8.33333%; }
 
 .ve-offset-2 {
-  margin-left: 16.66667%; }
+  margin-right: 16.66667%; }
 
 .ve-offset-3 {
-  margin-left: 25%; }
+  margin-right: 25%; }
 
 .ve-offset-4 {
-  margin-left: 33.33333%; }
+  margin-right: 33.33333%; }
 
 .ve-offset-5 {
-  margin-left: 41.66667%; }
+  margin-right: 41.66667%; }
 
 .ve-offset-6 {
-  margin-left: 50%; }
+  margin-right: 50%; }
 
 .ve-offset-7 {
-  margin-left: 58.33333%; }
+  margin-right: 58.33333%; }
 
 .ve-offset-8 {
-  margin-left: 66.66667%; }
+  margin-right: 66.66667%; }
 
 .ve-offset-9 {
-  margin-left: 75%; }
+  margin-right: 75%; }
 
 .ve-offset-10 {
-  margin-left: 83.33333%; }
+  margin-right: 83.33333%; }
 
 .ve-offset-11 {
-  margin-left: 91.66667%; }
+  margin-right: 91.66667%; }
 
 @media (min-width: 576px) {
   .ve-col-sm {
@@ -363,29 +363,29 @@ a[class^=ve-] {
   .ve-order-sm-12 {
     order: 12; }
   .ve-offset-sm-0 {
-    margin-left: 0; }
+    margin-right: 0; }
   .ve-offset-sm-1 {
-    margin-left: 8.33333%; }
+    margin-right: 8.33333%; }
   .ve-offset-sm-2 {
-    margin-left: 16.66667%; }
+    margin-right: 16.66667%; }
   .ve-offset-sm-3 {
-    margin-left: 25%; }
+    margin-right: 25%; }
   .ve-offset-sm-4 {
-    margin-left: 33.33333%; }
+    margin-right: 33.33333%; }
   .ve-offset-sm-5 {
-    margin-left: 41.66667%; }
+    margin-right: 41.66667%; }
   .ve-offset-sm-6 {
-    margin-left: 50%; }
+    margin-right: 50%; }
   .ve-offset-sm-7 {
-    margin-left: 58.33333%; }
+    margin-right: 58.33333%; }
   .ve-offset-sm-8 {
-    margin-left: 66.66667%; }
+    margin-right: 66.66667%; }
   .ve-offset-sm-9 {
-    margin-left: 75%; }
+    margin-right: 75%; }
   .ve-offset-sm-10 {
-    margin-left: 83.33333%; }
+    margin-right: 83.33333%; }
   .ve-offset-sm-11 {
-    margin-left: 91.66667%; } }
+    margin-right: 91.66667%; } }
 
 @media (min-width: 768px) {
   .ve-col-md {
@@ -463,29 +463,29 @@ a[class^=ve-] {
   .ve-order-md-12 {
     order: 12; }
   .ve-offset-md-0 {
-    margin-left: 0; }
+    margin-right: 0; }
   .ve-offset-md-1 {
-    margin-left: 8.33333%; }
+    margin-right: 8.33333%; }
   .ve-offset-md-2 {
-    margin-left: 16.66667%; }
+    margin-right: 16.66667%; }
   .ve-offset-md-3 {
-    margin-left: 25%; }
+    margin-right: 25%; }
   .ve-offset-md-4 {
-    margin-left: 33.33333%; }
+    margin-right: 33.33333%; }
   .ve-offset-md-5 {
-    margin-left: 41.66667%; }
+    margin-right: 41.66667%; }
   .ve-offset-md-6 {
-    margin-left: 50%; }
+    margin-right: 50%; }
   .ve-offset-md-7 {
-    margin-left: 58.33333%; }
+    margin-right: 58.33333%; }
   .ve-offset-md-8 {
-    margin-left: 66.66667%; }
+    margin-right: 66.66667%; }
   .ve-offset-md-9 {
-    margin-left: 75%; }
+    margin-right: 75%; }
   .ve-offset-md-10 {
-    margin-left: 83.33333%; }
+    margin-right: 83.33333%; }
   .ve-offset-md-11 {
-    margin-left: 91.66667%; } }
+    margin-right: 91.66667%; } }
 
 @media (min-width: 992px) {
   .ve-col-lg {
@@ -563,29 +563,29 @@ a[class^=ve-] {
   .ve-order-lg-12 {
     order: 12; }
   .ve-offset-lg-0 {
-    margin-left: 0; }
+    margin-right: 0; }
   .ve-offset-lg-1 {
-    margin-left: 8.33333%; }
+    margin-right: 8.33333%; }
   .ve-offset-lg-2 {
-    margin-left: 16.66667%; }
+    margin-right: 16.66667%; }
   .ve-offset-lg-3 {
-    margin-left: 25%; }
+    margin-right: 25%; }
   .ve-offset-lg-4 {
-    margin-left: 33.33333%; }
+    margin-right: 33.33333%; }
   .ve-offset-lg-5 {
-    margin-left: 41.66667%; }
+    margin-right: 41.66667%; }
   .ve-offset-lg-6 {
-    margin-left: 50%; }
+    margin-right: 50%; }
   .ve-offset-lg-7 {
-    margin-left: 58.33333%; }
+    margin-right: 58.33333%; }
   .ve-offset-lg-8 {
-    margin-left: 66.66667%; }
+    margin-right: 66.66667%; }
   .ve-offset-lg-9 {
-    margin-left: 75%; }
+    margin-right: 75%; }
   .ve-offset-lg-10 {
-    margin-left: 83.33333%; }
+    margin-right: 83.33333%; }
   .ve-offset-lg-11 {
-    margin-left: 91.66667%; } }
+    margin-right: 91.66667%; } }
 
 @media (min-width: 1200px) {
   .ve-col-xl {
@@ -663,29 +663,29 @@ a[class^=ve-] {
   .ve-order-xl-12 {
     order: 12; }
   .ve-offset-xl-0 {
-    margin-left: 0; }
+    margin-right: 0; }
   .ve-offset-xl-1 {
-    margin-left: 8.33333%; }
+    margin-right: 8.33333%; }
   .ve-offset-xl-2 {
-    margin-left: 16.66667%; }
+    margin-right: 16.66667%; }
   .ve-offset-xl-3 {
-    margin-left: 25%; }
+    margin-right: 25%; }
   .ve-offset-xl-4 {
-    margin-left: 33.33333%; }
+    margin-right: 33.33333%; }
   .ve-offset-xl-5 {
-    margin-left: 41.66667%; }
+    margin-right: 41.66667%; }
   .ve-offset-xl-6 {
-    margin-left: 50%; }
+    margin-right: 50%; }
   .ve-offset-xl-7 {
-    margin-left: 58.33333%; }
+    margin-right: 58.33333%; }
   .ve-offset-xl-8 {
-    margin-left: 66.66667%; }
+    margin-right: 66.66667%; }
   .ve-offset-xl-9 {
-    margin-left: 75%; }
+    margin-right: 75%; }
   .ve-offset-xl-10 {
-    margin-left: 83.33333%; }
+    margin-right: 83.33333%; }
   .ve-offset-xl-11 {
-    margin-left: 91.66667%; } }
+    margin-right: 91.66667%; } }
 
 .ve-thumbnail {
   display: inline-block;
@@ -759,7 +759,7 @@ a[class^=ve-] {
     color: #C4CDD5; }
   .ve-input[type=radio], .ve-input[type=checkbox] {
     display: inline-block;
-    margin-right: 4px; }
+    margin-left: 4px; }
   .ve-input--sm[type=text], .ve-input--sm[type=email], .ve-input--sm[type=password], .ve-input--sm[type=tel], .ve-input--sm {
     padding: 1px 6px;
     font-size: 12px;
@@ -800,8 +800,8 @@ select.ve-input {
   background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='rgb(99,115,129)' d='M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z' fill-rule='evenodd'></path></svg>");
   background-size: 18px 18px;
   background-repeat: no-repeat;
-  background-position: right 7px top 7px;
-  padding-right: 20px;
+  background-position: left 7px top 7px;
+  padding-left: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px; }
   select.ve-input:focus {
@@ -812,8 +812,8 @@ select.ve-input {
 .ve-checkbox {
   position: relative;
   display: inline-block;
-  padding-left: 1.7em;
-  padding-right: 5px;
+  padding-right: 1.7em;
+  padding-left: 5px;
   vertical-align: bottom;
   cursor: pointer; }
   .ve-checkbox [type=checkbox] {
@@ -834,7 +834,7 @@ select.ve-input {
     border: 1px solid transparent;
     z-index: 0;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0.1em;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -842,20 +842,20 @@ select.ve-input {
     border-radius: 3px;
     transition: .4s; }
   .ve-checkbox i:after {
-    left: 0.38em;
+    right: 0.38em;
     top: 0.2em;
     border-width: 0;
     box-shadow: none;
     width: 0.4em;
     height: 0.8em;
-    -webkit-transform: rotate(40deg);
-            transform: rotate(40deg);
+    -webkit-transform: rotate(-40deg);
+            transform: rotate(-40deg);
     background-color: transparent;
     transition: 0s; }
   .ve-checkbox [type=checkbox]:checked + i:after {
     display: block;
     border: solid #fff;
-    border-width: 0 0.1em 0.1em 0;
+    border-width: 0 0 0.1em 0.1em;
     background-color: transparent;
     border-radius: 0;
     box-shadow: none; }
@@ -866,8 +866,8 @@ select.ve-input {
 .ve-radio {
   position: relative;
   display: inline-block;
-  padding-left: 1.7em;
-  padding-right: 5px;
+  padding-right: 1.7em;
+  padding-left: 5px;
   cursor: pointer; }
   .ve-radio + .ve-help,
   .ve-radio + .ve-field__error {
@@ -890,7 +890,7 @@ select.ve-input {
     border: 1px solid transparent;
     z-index: 0;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0.1em;
     background-color: #fff;
     border-radius: 100%;
@@ -910,8 +910,8 @@ select.ve-input {
 .ve-switch {
   position: relative;
   display: inline-block;
-  padding-left: 45px;
-  padding-right: 5px;
+  padding-right: 45px;
+  padding-left: 5px;
   cursor: pointer;
   height: 22px; }
   .ve-switch + .ve-help,
@@ -926,7 +926,7 @@ select.ve-input {
     height: 24px;
     width: 40px;
     top: 0px;
-    left: 0px;
+    right: 0px;
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 1.2em;
     transition: background-color 0.5s ease; }
@@ -936,15 +936,15 @@ select.ve-input {
     height: 20px;
     width: 20px;
     top: 2px;
-    left: 2px;
+    right: 2px;
     background-color: white;
     transition: .4s;
     border-radius: 50%; }
   .ve-switch [type=checkbox]:checked + i:before {
     background-color: #648bfd; }
   .ve-switch [type=checkbox]:checked + i:after {
-    -webkit-transform: translateX(16px);
-            transform: translateX(16px); }
+    -webkit-transform: translateX(-16px);
+            transform: translateX(-16px); }
 
 .ve-file,
 label.ve-file {
@@ -953,7 +953,7 @@ label.ve-file {
   color: #333333;
   display: block;
   position: relative;
-  text-align: right;
+  text-align: left;
   background: #fff; }
   .ve-file [type=file],
   label.ve-file [type=file] {
@@ -963,13 +963,13 @@ label.ve-file {
     height: 100%; }
   .ve-file__title,
   label.ve-file__title {
-    float: left;
+    float: right;
     padding: .4em .8em;
     overflow: hidden;
     white-space: nowrap;
     max-width: 100%;
     position: absolute;
-    left: 0;
+    right: 0;
     z-index: 0; }
   .ve-file .ve-btn,
   .ve-file a.ve-btn,
@@ -1008,7 +1008,7 @@ label.ve-file {
     border: 0px solid rgba(0, 0, 0, 0);
     border-radius: 5px; }
   [type='range'].ve-input::-webkit-slider-thumb {
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 1px rgba(13, 13, 13, 0.1);
+    box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 1px rgba(13, 13, 13, 0.1);
     background: #fff;
     border: 0px solid #fff;
     border-radius: 12px;
@@ -1028,7 +1028,7 @@ label.ve-file {
     border-radius: 5px;
     height: 4px; }
   [type='range'].ve-input::-moz-range-thumb {
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 1px rgba(13, 13, 13, 0.1);
+    box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 1px rgba(13, 13, 13, 0.1);
     background: #fff;
     border: 0px solid #fff;
     border-radius: 12px;
@@ -1055,7 +1055,7 @@ label.ve-file {
     border: 0px solid rgba(0, 0, 0, 0);
     border-radius: 10px; }
   [type='range'].ve-input::-ms-thumb {
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 1px rgba(13, 13, 13, 0.1);
+    box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 1px rgba(13, 13, 13, 0.1);
     background: #fff;
     border: 0px solid #fff;
     border-radius: 12px;
@@ -1102,7 +1102,7 @@ label.ve-file {
   .ve-field--block .ve-label {
     margin-bottom: 0px; }
   .ve-field--block > *:not(:last-child) {
-    margin-right: 5px; }
+    margin-left: 5px; }
 
 .ve-field--error .ve-label,
 .ve-field--error .ve-switch,
@@ -1181,22 +1181,22 @@ label.ve-file {
   .ve-input-group a:not([href]):not([tabindex]).ve-btn {
     box-shadow: none;
     box-sizing: border-box;
-    margin-left: -1px; }
+    margin-right: -1px; }
     .ve-input-group__addon:first-child,
     .ve-input-group .ve-input:first-child,
     .ve-input-group .ve-btn:first-child,
     .ve-input-group a.ve-btn:first-child,
     .ve-input-group a:not([href]):not([tabindex]).ve-btn:first-child {
-      border-left-width: 1px;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0; }
+      border-right-width: 1px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0; }
     .ve-input-group__addon:last-child,
     .ve-input-group .ve-input:last-child,
     .ve-input-group .ve-btn:last-child,
     .ve-input-group a.ve-btn:last-child,
     .ve-input-group a:not([href]):not([tabindex]).ve-btn:last-child {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0; }
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0; }
     .ve-input-group__addon:not(:first-child):not(:last-child),
     .ve-input-group .ve-input:not(:first-child):not(:last-child),
     .ve-input-group .ve-btn:not(:first-child):not(:last-child),
@@ -1255,8 +1255,8 @@ label.ve-file {
   min-height: 30px;
   overflow: visible; }
   .ve-card.ve-col {
-    margin-left: 15px;
-    margin-right: 15px; }
+    margin-right: 15px;
+    margin-left: 15px; }
   .ve-card__header {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 15px; }
@@ -1363,7 +1363,7 @@ a:not([href]):not([tabindex]).ve-btn {
               animation: spinner-border .5s infinite linear;
       border: 2px solid #dbdbdb;
       border-radius: 290486px;
-      border-right-color: transparent !important;
+      border-left-color: transparent !important;
       border-top-color: transparent !important;
       content: "";
       display: block;
@@ -1371,7 +1371,7 @@ a:not([href]):not([tabindex]).ve-btn {
       position: relative;
       width: 1em;
       position: absolute;
-      left: calc(50% - (1em / 2));
+      right: calc(50% - (1em / 2));
       top: calc(50% - (1em / 2));
       position: absolute !important; }
   .ve-btn--sm,
@@ -1551,10 +1551,10 @@ a:not([href]):not([tabindex]).ve-btn {
   .ve-btn-group a.ve-btn,
   .ve-btn-group a:not([href]):not([tabindex]).ve-btn {
     flex: 1 1 auto;
-    border-right-width: 0;
+    border-left-width: 0;
     border-radius: 0;
     box-shadow: none;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 0;
     position: relative; }
     .ve-btn-group .ve-btn:hover, .ve-btn-group .ve-btn:active,
@@ -1627,7 +1627,7 @@ a:not([href]):not([tabindex]).ve-btn {
     .ve-btn-group--vertical .ve-btn,
     .ve-btn-group--vertical a.ve-btn,
     .ve-btn-group--vertical a:not([href]):not([tabindex]).ve-btn {
-      border-right: none;
+      border-left: none;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       .ve-btn-group--vertical .ve-btn:last-child,
       .ve-btn-group--vertical a.ve-btn:last-child,
@@ -1639,16 +1639,16 @@ a:not([href]):not([tabindex]).ve-btn {
   .ve-dropdown__menu {
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0;
     z-index: 100;
     display: none;
-    float: left;
+    float: right;
     min-width: 200px;
     padding: 0px 0;
     margin: 5px 0 0;
     font-size: 14px;
     color: #333333;
-    text-align: left;
+    text-align: right;
     list-style: none;
     background-color: #fff;
     background-clip: padding-box;
@@ -1688,13 +1688,13 @@ a:not([href]):not([tabindex]).ve-btn {
   position: relative;
   font-size: 14px; }
   .ve-alert__media {
-    padding: 0px 15px 15px 0px;
-    float: left;
+    padding: 0px 0px 15px 15px;
+    float: right;
     height: 100%; }
   .ve-alert__close {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     padding: 15px;
     cursor: pointer;
     border: none;
@@ -1703,7 +1703,7 @@ a:not([href]):not([tabindex]).ve-btn {
     .ve-alert__close:active, .ve-alert__close:focus {
       outline: none; }
   .ve-alert--dismissible {
-    padding-right: 30px; }
+    padding-left: 30px; }
   .ve-alert--primary {
     background: #e2e9ff;
     color: #648bfd;
@@ -1885,52 +1885,52 @@ a:not([href]):not([tabindex]).ve-btn {
   border: 0px; }
 
 .ve-pull-right {
-  float: right; }
+  float: left; }
 
 .ve-pull-left {
-  float: left; }
+  float: right; }
 
 .ve-text-center {
   text-align: center; }
 
 .text-left {
-  text-align: left !important; }
+  text-align: right !important; }
 
 .text-right {
-  text-align: right !important; }
+  text-align: left !important; }
 
 .text-center {
   text-align: center !important; }
 
 @media (min-width: 576px) {
   .text-sm-left {
-    text-align: left !important; }
-  .text-sm-right {
     text-align: right !important; }
+  .text-sm-right {
+    text-align: left !important; }
   .text-sm-center {
     text-align: center !important; } }
 
 @media (min-width: 768px) {
   .text-md-left {
-    text-align: left !important; }
-  .text-md-right {
     text-align: right !important; }
+  .text-md-right {
+    text-align: left !important; }
   .text-md-center {
     text-align: center !important; } }
 
 @media (min-width: 992px) {
   .text-lg-left {
-    text-align: left !important; }
-  .text-lg-right {
     text-align: right !important; }
+  .text-lg-right {
+    text-align: left !important; }
   .text-lg-center {
     text-align: center !important; } }
 
 @media (min-width: 1200px) {
   .text-xl-left {
-    text-align: left !important; }
-  .text-xl-right {
     text-align: right !important; }
+  .text-xl-right {
+    text-align: left !important; }
   .text-xl-center {
     text-align: center !important; } }
 
@@ -1943,7 +1943,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-0,
 .ve-mx-0 {
-  margin-right: 0 !important; }
+  margin-left: 0 !important; }
 
 .ve-mb-0,
 .ve-my-0 {
@@ -1951,7 +1951,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-0,
 .ve-mx-0 {
-  margin-left: 0 !important; }
+  margin-right: 0 !important; }
 
 .ve-m-1 {
   margin: 2.5px !important; }
@@ -1962,7 +1962,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-1,
 .ve-mx-1 {
-  margin-right: 2.5px !important; }
+  margin-left: 2.5px !important; }
 
 .ve-mb-1,
 .ve-my-1 {
@@ -1970,7 +1970,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-1,
 .ve-mx-1 {
-  margin-left: 2.5px !important; }
+  margin-right: 2.5px !important; }
 
 .ve-m-2 {
   margin: 5px !important; }
@@ -1981,7 +1981,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-2,
 .ve-mx-2 {
-  margin-right: 5px !important; }
+  margin-left: 5px !important; }
 
 .ve-mb-2,
 .ve-my-2 {
@@ -1989,7 +1989,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-2,
 .ve-mx-2 {
-  margin-left: 5px !important; }
+  margin-right: 5px !important; }
 
 .ve-m-3 {
   margin: 10px !important; }
@@ -2000,7 +2000,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-3,
 .ve-mx-3 {
-  margin-right: 10px !important; }
+  margin-left: 10px !important; }
 
 .ve-mb-3,
 .ve-my-3 {
@@ -2008,7 +2008,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-3,
 .ve-mx-3 {
-  margin-left: 10px !important; }
+  margin-right: 10px !important; }
 
 .ve-m-4 {
   margin: 15px !important; }
@@ -2019,7 +2019,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-4,
 .ve-mx-4 {
-  margin-right: 15px !important; }
+  margin-left: 15px !important; }
 
 .ve-mb-4,
 .ve-my-4 {
@@ -2027,7 +2027,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-4,
 .ve-mx-4 {
-  margin-left: 15px !important; }
+  margin-right: 15px !important; }
 
 .ve-m-5 {
   margin: 30px !important; }
@@ -2038,7 +2038,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-5,
 .ve-mx-5 {
-  margin-right: 30px !important; }
+  margin-left: 30px !important; }
 
 .ve-mb-5,
 .ve-my-5 {
@@ -2046,7 +2046,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-5,
 .ve-mx-5 {
-  margin-left: 30px !important; }
+  margin-right: 30px !important; }
 
 .ve-p-0 {
   padding: 0 !important; }
@@ -2057,7 +2057,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pr-0,
 .ve-px-0 {
-  padding-right: 0 !important; }
+  padding-left: 0 !important; }
 
 .ve-pb-0,
 .ve-py-0 {
@@ -2065,7 +2065,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pl-0,
 .ve-px-0 {
-  padding-left: 0 !important; }
+  padding-right: 0 !important; }
 
 .ve-p-1 {
   padding: 2.5px !important; }
@@ -2076,7 +2076,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pr-1,
 .ve-px-1 {
-  padding-right: 2.5px !important; }
+  padding-left: 2.5px !important; }
 
 .ve-pb-1,
 .ve-py-1 {
@@ -2084,7 +2084,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pl-1,
 .ve-px-1 {
-  padding-left: 2.5px !important; }
+  padding-right: 2.5px !important; }
 
 .ve-p-2 {
   padding: 5px !important; }
@@ -2095,7 +2095,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pr-2,
 .ve-px-2 {
-  padding-right: 5px !important; }
+  padding-left: 5px !important; }
 
 .ve-pb-2,
 .ve-py-2 {
@@ -2103,7 +2103,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pl-2,
 .ve-px-2 {
-  padding-left: 5px !important; }
+  padding-right: 5px !important; }
 
 .ve-p-3 {
   padding: 10px !important; }
@@ -2114,7 +2114,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pr-3,
 .ve-px-3 {
-  padding-right: 10px !important; }
+  padding-left: 10px !important; }
 
 .ve-pb-3,
 .ve-py-3 {
@@ -2122,7 +2122,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pl-3,
 .ve-px-3 {
-  padding-left: 10px !important; }
+  padding-right: 10px !important; }
 
 .ve-p-4 {
   padding: 15px !important; }
@@ -2133,7 +2133,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pr-4,
 .ve-px-4 {
-  padding-right: 15px !important; }
+  padding-left: 15px !important; }
 
 .ve-pb-4,
 .ve-py-4 {
@@ -2141,7 +2141,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pl-4,
 .ve-px-4 {
-  padding-left: 15px !important; }
+  padding-right: 15px !important; }
 
 .ve-p-5 {
   padding: 30px !important; }
@@ -2152,7 +2152,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pr-5,
 .ve-px-5 {
-  padding-right: 30px !important; }
+  padding-left: 30px !important; }
 
 .ve-pb-5,
 .ve-py-5 {
@@ -2160,7 +2160,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-pl-5,
 .ve-px-5 {
-  padding-left: 30px !important; }
+  padding-right: 30px !important; }
 
 .ve-m-n1 {
   margin: -2.5px !important; }
@@ -2171,7 +2171,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-n1,
 .ve-mx-n1 {
-  margin-right: -2.5px !important; }
+  margin-left: -2.5px !important; }
 
 .ve-mb-n1,
 .ve-my-n1 {
@@ -2179,7 +2179,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-n1,
 .ve-mx-n1 {
-  margin-left: -2.5px !important; }
+  margin-right: -2.5px !important; }
 
 .ve-m-n2 {
   margin: -5px !important; }
@@ -2190,7 +2190,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-n2,
 .ve-mx-n2 {
-  margin-right: -5px !important; }
+  margin-left: -5px !important; }
 
 .ve-mb-n2,
 .ve-my-n2 {
@@ -2198,7 +2198,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-n2,
 .ve-mx-n2 {
-  margin-left: -5px !important; }
+  margin-right: -5px !important; }
 
 .ve-m-n3 {
   margin: -10px !important; }
@@ -2209,7 +2209,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-n3,
 .ve-mx-n3 {
-  margin-right: -10px !important; }
+  margin-left: -10px !important; }
 
 .ve-mb-n3,
 .ve-my-n3 {
@@ -2217,7 +2217,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-n3,
 .ve-mx-n3 {
-  margin-left: -10px !important; }
+  margin-right: -10px !important; }
 
 .ve-m-n4 {
   margin: -15px !important; }
@@ -2228,7 +2228,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-n4,
 .ve-mx-n4 {
-  margin-right: -15px !important; }
+  margin-left: -15px !important; }
 
 .ve-mb-n4,
 .ve-my-n4 {
@@ -2236,7 +2236,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-n4,
 .ve-mx-n4 {
-  margin-left: -15px !important; }
+  margin-right: -15px !important; }
 
 .ve-m-n5 {
   margin: -30px !important; }
@@ -2247,7 +2247,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-n5,
 .ve-mx-n5 {
-  margin-right: -30px !important; }
+  margin-left: -30px !important; }
 
 .ve-mb-n5,
 .ve-my-n5 {
@@ -2255,7 +2255,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-n5,
 .ve-mx-n5 {
-  margin-left: -30px !important; }
+  margin-right: -30px !important; }
 
 .ve-m-auto {
   margin: auto !important; }
@@ -2266,7 +2266,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-mr-auto,
 .ve-mx-auto {
-  margin-right: auto !important; }
+  margin-left: auto !important; }
 
 .ve-mb-auto,
 .ve-my-auto {
@@ -2274,7 +2274,7 @@ a:not([href]):not([tabindex]).ve-btn {
 
 .ve-ml-auto,
 .ve-mx-auto {
-  margin-left: auto !important; }
+  margin-right: auto !important; }
 
 @media (min-width: 576px) {
   .ve-m-sm-0 {
@@ -2284,13 +2284,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 0 !important; }
   .ve-mr-sm-0,
   .ve-mx-sm-0 {
-    margin-right: 0 !important; }
+    margin-left: 0 !important; }
   .ve-mb-sm-0,
   .ve-my-sm-0 {
     margin-bottom: 0 !important; }
   .ve-ml-sm-0,
   .ve-mx-sm-0 {
-    margin-left: 0 !important; }
+    margin-right: 0 !important; }
   .ve-m-sm-1 {
     margin: 2.5px !important; }
   .ve-mt-sm-1,
@@ -2298,13 +2298,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 2.5px !important; }
   .ve-mr-sm-1,
   .ve-mx-sm-1 {
-    margin-right: 2.5px !important; }
+    margin-left: 2.5px !important; }
   .ve-mb-sm-1,
   .ve-my-sm-1 {
     margin-bottom: 2.5px !important; }
   .ve-ml-sm-1,
   .ve-mx-sm-1 {
-    margin-left: 2.5px !important; }
+    margin-right: 2.5px !important; }
   .ve-m-sm-2 {
     margin: 5px !important; }
   .ve-mt-sm-2,
@@ -2312,13 +2312,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 5px !important; }
   .ve-mr-sm-2,
   .ve-mx-sm-2 {
-    margin-right: 5px !important; }
+    margin-left: 5px !important; }
   .ve-mb-sm-2,
   .ve-my-sm-2 {
     margin-bottom: 5px !important; }
   .ve-ml-sm-2,
   .ve-mx-sm-2 {
-    margin-left: 5px !important; }
+    margin-right: 5px !important; }
   .ve-m-sm-3 {
     margin: 10px !important; }
   .ve-mt-sm-3,
@@ -2326,13 +2326,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 10px !important; }
   .ve-mr-sm-3,
   .ve-mx-sm-3 {
-    margin-right: 10px !important; }
+    margin-left: 10px !important; }
   .ve-mb-sm-3,
   .ve-my-sm-3 {
     margin-bottom: 10px !important; }
   .ve-ml-sm-3,
   .ve-mx-sm-3 {
-    margin-left: 10px !important; }
+    margin-right: 10px !important; }
   .ve-m-sm-4 {
     margin: 15px !important; }
   .ve-mt-sm-4,
@@ -2340,13 +2340,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 15px !important; }
   .ve-mr-sm-4,
   .ve-mx-sm-4 {
-    margin-right: 15px !important; }
+    margin-left: 15px !important; }
   .ve-mb-sm-4,
   .ve-my-sm-4 {
     margin-bottom: 15px !important; }
   .ve-ml-sm-4,
   .ve-mx-sm-4 {
-    margin-left: 15px !important; }
+    margin-right: 15px !important; }
   .ve-m-sm-5 {
     margin: 30px !important; }
   .ve-mt-sm-5,
@@ -2354,13 +2354,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 30px !important; }
   .ve-mr-sm-5,
   .ve-mx-sm-5 {
-    margin-right: 30px !important; }
+    margin-left: 30px !important; }
   .ve-mb-sm-5,
   .ve-my-sm-5 {
     margin-bottom: 30px !important; }
   .ve-ml-sm-5,
   .ve-mx-sm-5 {
-    margin-left: 30px !important; }
+    margin-right: 30px !important; }
   .ve-p-sm-0 {
     padding: 0 !important; }
   .ve-pt-sm-0,
@@ -2368,13 +2368,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 0 !important; }
   .ve-pr-sm-0,
   .ve-px-sm-0 {
-    padding-right: 0 !important; }
+    padding-left: 0 !important; }
   .ve-pb-sm-0,
   .ve-py-sm-0 {
     padding-bottom: 0 !important; }
   .ve-pl-sm-0,
   .ve-px-sm-0 {
-    padding-left: 0 !important; }
+    padding-right: 0 !important; }
   .ve-p-sm-1 {
     padding: 2.5px !important; }
   .ve-pt-sm-1,
@@ -2382,13 +2382,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 2.5px !important; }
   .ve-pr-sm-1,
   .ve-px-sm-1 {
-    padding-right: 2.5px !important; }
+    padding-left: 2.5px !important; }
   .ve-pb-sm-1,
   .ve-py-sm-1 {
     padding-bottom: 2.5px !important; }
   .ve-pl-sm-1,
   .ve-px-sm-1 {
-    padding-left: 2.5px !important; }
+    padding-right: 2.5px !important; }
   .ve-p-sm-2 {
     padding: 5px !important; }
   .ve-pt-sm-2,
@@ -2396,13 +2396,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 5px !important; }
   .ve-pr-sm-2,
   .ve-px-sm-2 {
-    padding-right: 5px !important; }
+    padding-left: 5px !important; }
   .ve-pb-sm-2,
   .ve-py-sm-2 {
     padding-bottom: 5px !important; }
   .ve-pl-sm-2,
   .ve-px-sm-2 {
-    padding-left: 5px !important; }
+    padding-right: 5px !important; }
   .ve-p-sm-3 {
     padding: 10px !important; }
   .ve-pt-sm-3,
@@ -2410,13 +2410,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 10px !important; }
   .ve-pr-sm-3,
   .ve-px-sm-3 {
-    padding-right: 10px !important; }
+    padding-left: 10px !important; }
   .ve-pb-sm-3,
   .ve-py-sm-3 {
     padding-bottom: 10px !important; }
   .ve-pl-sm-3,
   .ve-px-sm-3 {
-    padding-left: 10px !important; }
+    padding-right: 10px !important; }
   .ve-p-sm-4 {
     padding: 15px !important; }
   .ve-pt-sm-4,
@@ -2424,13 +2424,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 15px !important; }
   .ve-pr-sm-4,
   .ve-px-sm-4 {
-    padding-right: 15px !important; }
+    padding-left: 15px !important; }
   .ve-pb-sm-4,
   .ve-py-sm-4 {
     padding-bottom: 15px !important; }
   .ve-pl-sm-4,
   .ve-px-sm-4 {
-    padding-left: 15px !important; }
+    padding-right: 15px !important; }
   .ve-p-sm-5 {
     padding: 30px !important; }
   .ve-pt-sm-5,
@@ -2438,13 +2438,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 30px !important; }
   .ve-pr-sm-5,
   .ve-px-sm-5 {
-    padding-right: 30px !important; }
+    padding-left: 30px !important; }
   .ve-pb-sm-5,
   .ve-py-sm-5 {
     padding-bottom: 30px !important; }
   .ve-pl-sm-5,
   .ve-px-sm-5 {
-    padding-left: 30px !important; }
+    padding-right: 30px !important; }
   .ve-m-sm-n1 {
     margin: -2.5px !important; }
   .ve-mt-sm-n1,
@@ -2452,13 +2452,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -2.5px !important; }
   .ve-mr-sm-n1,
   .ve-mx-sm-n1 {
-    margin-right: -2.5px !important; }
+    margin-left: -2.5px !important; }
   .ve-mb-sm-n1,
   .ve-my-sm-n1 {
     margin-bottom: -2.5px !important; }
   .ve-ml-sm-n1,
   .ve-mx-sm-n1 {
-    margin-left: -2.5px !important; }
+    margin-right: -2.5px !important; }
   .ve-m-sm-n2 {
     margin: -5px !important; }
   .ve-mt-sm-n2,
@@ -2466,13 +2466,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -5px !important; }
   .ve-mr-sm-n2,
   .ve-mx-sm-n2 {
-    margin-right: -5px !important; }
+    margin-left: -5px !important; }
   .ve-mb-sm-n2,
   .ve-my-sm-n2 {
     margin-bottom: -5px !important; }
   .ve-ml-sm-n2,
   .ve-mx-sm-n2 {
-    margin-left: -5px !important; }
+    margin-right: -5px !important; }
   .ve-m-sm-n3 {
     margin: -10px !important; }
   .ve-mt-sm-n3,
@@ -2480,13 +2480,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -10px !important; }
   .ve-mr-sm-n3,
   .ve-mx-sm-n3 {
-    margin-right: -10px !important; }
+    margin-left: -10px !important; }
   .ve-mb-sm-n3,
   .ve-my-sm-n3 {
     margin-bottom: -10px !important; }
   .ve-ml-sm-n3,
   .ve-mx-sm-n3 {
-    margin-left: -10px !important; }
+    margin-right: -10px !important; }
   .ve-m-sm-n4 {
     margin: -15px !important; }
   .ve-mt-sm-n4,
@@ -2494,13 +2494,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -15px !important; }
   .ve-mr-sm-n4,
   .ve-mx-sm-n4 {
-    margin-right: -15px !important; }
+    margin-left: -15px !important; }
   .ve-mb-sm-n4,
   .ve-my-sm-n4 {
     margin-bottom: -15px !important; }
   .ve-ml-sm-n4,
   .ve-mx-sm-n4 {
-    margin-left: -15px !important; }
+    margin-right: -15px !important; }
   .ve-m-sm-n5 {
     margin: -30px !important; }
   .ve-mt-sm-n5,
@@ -2508,13 +2508,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -30px !important; }
   .ve-mr-sm-n5,
   .ve-mx-sm-n5 {
-    margin-right: -30px !important; }
+    margin-left: -30px !important; }
   .ve-mb-sm-n5,
   .ve-my-sm-n5 {
     margin-bottom: -30px !important; }
   .ve-ml-sm-n5,
   .ve-mx-sm-n5 {
-    margin-left: -30px !important; }
+    margin-right: -30px !important; }
   .ve-m-sm-auto {
     margin: auto !important; }
   .ve-mt-sm-auto,
@@ -2522,13 +2522,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: auto !important; }
   .ve-mr-sm-auto,
   .ve-mx-sm-auto {
-    margin-right: auto !important; }
+    margin-left: auto !important; }
   .ve-mb-sm-auto,
   .ve-my-sm-auto {
     margin-bottom: auto !important; }
   .ve-ml-sm-auto,
   .ve-mx-sm-auto {
-    margin-left: auto !important; } }
+    margin-right: auto !important; } }
 
 @media (min-width: 768px) {
   .ve-m-md-0 {
@@ -2538,13 +2538,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 0 !important; }
   .ve-mr-md-0,
   .ve-mx-md-0 {
-    margin-right: 0 !important; }
+    margin-left: 0 !important; }
   .ve-mb-md-0,
   .ve-my-md-0 {
     margin-bottom: 0 !important; }
   .ve-ml-md-0,
   .ve-mx-md-0 {
-    margin-left: 0 !important; }
+    margin-right: 0 !important; }
   .ve-m-md-1 {
     margin: 2.5px !important; }
   .ve-mt-md-1,
@@ -2552,13 +2552,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 2.5px !important; }
   .ve-mr-md-1,
   .ve-mx-md-1 {
-    margin-right: 2.5px !important; }
+    margin-left: 2.5px !important; }
   .ve-mb-md-1,
   .ve-my-md-1 {
     margin-bottom: 2.5px !important; }
   .ve-ml-md-1,
   .ve-mx-md-1 {
-    margin-left: 2.5px !important; }
+    margin-right: 2.5px !important; }
   .ve-m-md-2 {
     margin: 5px !important; }
   .ve-mt-md-2,
@@ -2566,13 +2566,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 5px !important; }
   .ve-mr-md-2,
   .ve-mx-md-2 {
-    margin-right: 5px !important; }
+    margin-left: 5px !important; }
   .ve-mb-md-2,
   .ve-my-md-2 {
     margin-bottom: 5px !important; }
   .ve-ml-md-2,
   .ve-mx-md-2 {
-    margin-left: 5px !important; }
+    margin-right: 5px !important; }
   .ve-m-md-3 {
     margin: 10px !important; }
   .ve-mt-md-3,
@@ -2580,13 +2580,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 10px !important; }
   .ve-mr-md-3,
   .ve-mx-md-3 {
-    margin-right: 10px !important; }
+    margin-left: 10px !important; }
   .ve-mb-md-3,
   .ve-my-md-3 {
     margin-bottom: 10px !important; }
   .ve-ml-md-3,
   .ve-mx-md-3 {
-    margin-left: 10px !important; }
+    margin-right: 10px !important; }
   .ve-m-md-4 {
     margin: 15px !important; }
   .ve-mt-md-4,
@@ -2594,13 +2594,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 15px !important; }
   .ve-mr-md-4,
   .ve-mx-md-4 {
-    margin-right: 15px !important; }
+    margin-left: 15px !important; }
   .ve-mb-md-4,
   .ve-my-md-4 {
     margin-bottom: 15px !important; }
   .ve-ml-md-4,
   .ve-mx-md-4 {
-    margin-left: 15px !important; }
+    margin-right: 15px !important; }
   .ve-m-md-5 {
     margin: 30px !important; }
   .ve-mt-md-5,
@@ -2608,13 +2608,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 30px !important; }
   .ve-mr-md-5,
   .ve-mx-md-5 {
-    margin-right: 30px !important; }
+    margin-left: 30px !important; }
   .ve-mb-md-5,
   .ve-my-md-5 {
     margin-bottom: 30px !important; }
   .ve-ml-md-5,
   .ve-mx-md-5 {
-    margin-left: 30px !important; }
+    margin-right: 30px !important; }
   .ve-p-md-0 {
     padding: 0 !important; }
   .ve-pt-md-0,
@@ -2622,13 +2622,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 0 !important; }
   .ve-pr-md-0,
   .ve-px-md-0 {
-    padding-right: 0 !important; }
+    padding-left: 0 !important; }
   .ve-pb-md-0,
   .ve-py-md-0 {
     padding-bottom: 0 !important; }
   .ve-pl-md-0,
   .ve-px-md-0 {
-    padding-left: 0 !important; }
+    padding-right: 0 !important; }
   .ve-p-md-1 {
     padding: 2.5px !important; }
   .ve-pt-md-1,
@@ -2636,13 +2636,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 2.5px !important; }
   .ve-pr-md-1,
   .ve-px-md-1 {
-    padding-right: 2.5px !important; }
+    padding-left: 2.5px !important; }
   .ve-pb-md-1,
   .ve-py-md-1 {
     padding-bottom: 2.5px !important; }
   .ve-pl-md-1,
   .ve-px-md-1 {
-    padding-left: 2.5px !important; }
+    padding-right: 2.5px !important; }
   .ve-p-md-2 {
     padding: 5px !important; }
   .ve-pt-md-2,
@@ -2650,13 +2650,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 5px !important; }
   .ve-pr-md-2,
   .ve-px-md-2 {
-    padding-right: 5px !important; }
+    padding-left: 5px !important; }
   .ve-pb-md-2,
   .ve-py-md-2 {
     padding-bottom: 5px !important; }
   .ve-pl-md-2,
   .ve-px-md-2 {
-    padding-left: 5px !important; }
+    padding-right: 5px !important; }
   .ve-p-md-3 {
     padding: 10px !important; }
   .ve-pt-md-3,
@@ -2664,13 +2664,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 10px !important; }
   .ve-pr-md-3,
   .ve-px-md-3 {
-    padding-right: 10px !important; }
+    padding-left: 10px !important; }
   .ve-pb-md-3,
   .ve-py-md-3 {
     padding-bottom: 10px !important; }
   .ve-pl-md-3,
   .ve-px-md-3 {
-    padding-left: 10px !important; }
+    padding-right: 10px !important; }
   .ve-p-md-4 {
     padding: 15px !important; }
   .ve-pt-md-4,
@@ -2678,13 +2678,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 15px !important; }
   .ve-pr-md-4,
   .ve-px-md-4 {
-    padding-right: 15px !important; }
+    padding-left: 15px !important; }
   .ve-pb-md-4,
   .ve-py-md-4 {
     padding-bottom: 15px !important; }
   .ve-pl-md-4,
   .ve-px-md-4 {
-    padding-left: 15px !important; }
+    padding-right: 15px !important; }
   .ve-p-md-5 {
     padding: 30px !important; }
   .ve-pt-md-5,
@@ -2692,13 +2692,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 30px !important; }
   .ve-pr-md-5,
   .ve-px-md-5 {
-    padding-right: 30px !important; }
+    padding-left: 30px !important; }
   .ve-pb-md-5,
   .ve-py-md-5 {
     padding-bottom: 30px !important; }
   .ve-pl-md-5,
   .ve-px-md-5 {
-    padding-left: 30px !important; }
+    padding-right: 30px !important; }
   .ve-m-md-n1 {
     margin: -2.5px !important; }
   .ve-mt-md-n1,
@@ -2706,13 +2706,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -2.5px !important; }
   .ve-mr-md-n1,
   .ve-mx-md-n1 {
-    margin-right: -2.5px !important; }
+    margin-left: -2.5px !important; }
   .ve-mb-md-n1,
   .ve-my-md-n1 {
     margin-bottom: -2.5px !important; }
   .ve-ml-md-n1,
   .ve-mx-md-n1 {
-    margin-left: -2.5px !important; }
+    margin-right: -2.5px !important; }
   .ve-m-md-n2 {
     margin: -5px !important; }
   .ve-mt-md-n2,
@@ -2720,13 +2720,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -5px !important; }
   .ve-mr-md-n2,
   .ve-mx-md-n2 {
-    margin-right: -5px !important; }
+    margin-left: -5px !important; }
   .ve-mb-md-n2,
   .ve-my-md-n2 {
     margin-bottom: -5px !important; }
   .ve-ml-md-n2,
   .ve-mx-md-n2 {
-    margin-left: -5px !important; }
+    margin-right: -5px !important; }
   .ve-m-md-n3 {
     margin: -10px !important; }
   .ve-mt-md-n3,
@@ -2734,13 +2734,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -10px !important; }
   .ve-mr-md-n3,
   .ve-mx-md-n3 {
-    margin-right: -10px !important; }
+    margin-left: -10px !important; }
   .ve-mb-md-n3,
   .ve-my-md-n3 {
     margin-bottom: -10px !important; }
   .ve-ml-md-n3,
   .ve-mx-md-n3 {
-    margin-left: -10px !important; }
+    margin-right: -10px !important; }
   .ve-m-md-n4 {
     margin: -15px !important; }
   .ve-mt-md-n4,
@@ -2748,13 +2748,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -15px !important; }
   .ve-mr-md-n4,
   .ve-mx-md-n4 {
-    margin-right: -15px !important; }
+    margin-left: -15px !important; }
   .ve-mb-md-n4,
   .ve-my-md-n4 {
     margin-bottom: -15px !important; }
   .ve-ml-md-n4,
   .ve-mx-md-n4 {
-    margin-left: -15px !important; }
+    margin-right: -15px !important; }
   .ve-m-md-n5 {
     margin: -30px !important; }
   .ve-mt-md-n5,
@@ -2762,13 +2762,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -30px !important; }
   .ve-mr-md-n5,
   .ve-mx-md-n5 {
-    margin-right: -30px !important; }
+    margin-left: -30px !important; }
   .ve-mb-md-n5,
   .ve-my-md-n5 {
     margin-bottom: -30px !important; }
   .ve-ml-md-n5,
   .ve-mx-md-n5 {
-    margin-left: -30px !important; }
+    margin-right: -30px !important; }
   .ve-m-md-auto {
     margin: auto !important; }
   .ve-mt-md-auto,
@@ -2776,13 +2776,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: auto !important; }
   .ve-mr-md-auto,
   .ve-mx-md-auto {
-    margin-right: auto !important; }
+    margin-left: auto !important; }
   .ve-mb-md-auto,
   .ve-my-md-auto {
     margin-bottom: auto !important; }
   .ve-ml-md-auto,
   .ve-mx-md-auto {
-    margin-left: auto !important; } }
+    margin-right: auto !important; } }
 
 @media (min-width: 992px) {
   .ve-m-lg-0 {
@@ -2792,13 +2792,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 0 !important; }
   .ve-mr-lg-0,
   .ve-mx-lg-0 {
-    margin-right: 0 !important; }
+    margin-left: 0 !important; }
   .ve-mb-lg-0,
   .ve-my-lg-0 {
     margin-bottom: 0 !important; }
   .ve-ml-lg-0,
   .ve-mx-lg-0 {
-    margin-left: 0 !important; }
+    margin-right: 0 !important; }
   .ve-m-lg-1 {
     margin: 2.5px !important; }
   .ve-mt-lg-1,
@@ -2806,13 +2806,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 2.5px !important; }
   .ve-mr-lg-1,
   .ve-mx-lg-1 {
-    margin-right: 2.5px !important; }
+    margin-left: 2.5px !important; }
   .ve-mb-lg-1,
   .ve-my-lg-1 {
     margin-bottom: 2.5px !important; }
   .ve-ml-lg-1,
   .ve-mx-lg-1 {
-    margin-left: 2.5px !important; }
+    margin-right: 2.5px !important; }
   .ve-m-lg-2 {
     margin: 5px !important; }
   .ve-mt-lg-2,
@@ -2820,13 +2820,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 5px !important; }
   .ve-mr-lg-2,
   .ve-mx-lg-2 {
-    margin-right: 5px !important; }
+    margin-left: 5px !important; }
   .ve-mb-lg-2,
   .ve-my-lg-2 {
     margin-bottom: 5px !important; }
   .ve-ml-lg-2,
   .ve-mx-lg-2 {
-    margin-left: 5px !important; }
+    margin-right: 5px !important; }
   .ve-m-lg-3 {
     margin: 10px !important; }
   .ve-mt-lg-3,
@@ -2834,13 +2834,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 10px !important; }
   .ve-mr-lg-3,
   .ve-mx-lg-3 {
-    margin-right: 10px !important; }
+    margin-left: 10px !important; }
   .ve-mb-lg-3,
   .ve-my-lg-3 {
     margin-bottom: 10px !important; }
   .ve-ml-lg-3,
   .ve-mx-lg-3 {
-    margin-left: 10px !important; }
+    margin-right: 10px !important; }
   .ve-m-lg-4 {
     margin: 15px !important; }
   .ve-mt-lg-4,
@@ -2848,13 +2848,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 15px !important; }
   .ve-mr-lg-4,
   .ve-mx-lg-4 {
-    margin-right: 15px !important; }
+    margin-left: 15px !important; }
   .ve-mb-lg-4,
   .ve-my-lg-4 {
     margin-bottom: 15px !important; }
   .ve-ml-lg-4,
   .ve-mx-lg-4 {
-    margin-left: 15px !important; }
+    margin-right: 15px !important; }
   .ve-m-lg-5 {
     margin: 30px !important; }
   .ve-mt-lg-5,
@@ -2862,13 +2862,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 30px !important; }
   .ve-mr-lg-5,
   .ve-mx-lg-5 {
-    margin-right: 30px !important; }
+    margin-left: 30px !important; }
   .ve-mb-lg-5,
   .ve-my-lg-5 {
     margin-bottom: 30px !important; }
   .ve-ml-lg-5,
   .ve-mx-lg-5 {
-    margin-left: 30px !important; }
+    margin-right: 30px !important; }
   .ve-p-lg-0 {
     padding: 0 !important; }
   .ve-pt-lg-0,
@@ -2876,13 +2876,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 0 !important; }
   .ve-pr-lg-0,
   .ve-px-lg-0 {
-    padding-right: 0 !important; }
+    padding-left: 0 !important; }
   .ve-pb-lg-0,
   .ve-py-lg-0 {
     padding-bottom: 0 !important; }
   .ve-pl-lg-0,
   .ve-px-lg-0 {
-    padding-left: 0 !important; }
+    padding-right: 0 !important; }
   .ve-p-lg-1 {
     padding: 2.5px !important; }
   .ve-pt-lg-1,
@@ -2890,13 +2890,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 2.5px !important; }
   .ve-pr-lg-1,
   .ve-px-lg-1 {
-    padding-right: 2.5px !important; }
+    padding-left: 2.5px !important; }
   .ve-pb-lg-1,
   .ve-py-lg-1 {
     padding-bottom: 2.5px !important; }
   .ve-pl-lg-1,
   .ve-px-lg-1 {
-    padding-left: 2.5px !important; }
+    padding-right: 2.5px !important; }
   .ve-p-lg-2 {
     padding: 5px !important; }
   .ve-pt-lg-2,
@@ -2904,13 +2904,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 5px !important; }
   .ve-pr-lg-2,
   .ve-px-lg-2 {
-    padding-right: 5px !important; }
+    padding-left: 5px !important; }
   .ve-pb-lg-2,
   .ve-py-lg-2 {
     padding-bottom: 5px !important; }
   .ve-pl-lg-2,
   .ve-px-lg-2 {
-    padding-left: 5px !important; }
+    padding-right: 5px !important; }
   .ve-p-lg-3 {
     padding: 10px !important; }
   .ve-pt-lg-3,
@@ -2918,13 +2918,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 10px !important; }
   .ve-pr-lg-3,
   .ve-px-lg-3 {
-    padding-right: 10px !important; }
+    padding-left: 10px !important; }
   .ve-pb-lg-3,
   .ve-py-lg-3 {
     padding-bottom: 10px !important; }
   .ve-pl-lg-3,
   .ve-px-lg-3 {
-    padding-left: 10px !important; }
+    padding-right: 10px !important; }
   .ve-p-lg-4 {
     padding: 15px !important; }
   .ve-pt-lg-4,
@@ -2932,13 +2932,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 15px !important; }
   .ve-pr-lg-4,
   .ve-px-lg-4 {
-    padding-right: 15px !important; }
+    padding-left: 15px !important; }
   .ve-pb-lg-4,
   .ve-py-lg-4 {
     padding-bottom: 15px !important; }
   .ve-pl-lg-4,
   .ve-px-lg-4 {
-    padding-left: 15px !important; }
+    padding-right: 15px !important; }
   .ve-p-lg-5 {
     padding: 30px !important; }
   .ve-pt-lg-5,
@@ -2946,13 +2946,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 30px !important; }
   .ve-pr-lg-5,
   .ve-px-lg-5 {
-    padding-right: 30px !important; }
+    padding-left: 30px !important; }
   .ve-pb-lg-5,
   .ve-py-lg-5 {
     padding-bottom: 30px !important; }
   .ve-pl-lg-5,
   .ve-px-lg-5 {
-    padding-left: 30px !important; }
+    padding-right: 30px !important; }
   .ve-m-lg-n1 {
     margin: -2.5px !important; }
   .ve-mt-lg-n1,
@@ -2960,13 +2960,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -2.5px !important; }
   .ve-mr-lg-n1,
   .ve-mx-lg-n1 {
-    margin-right: -2.5px !important; }
+    margin-left: -2.5px !important; }
   .ve-mb-lg-n1,
   .ve-my-lg-n1 {
     margin-bottom: -2.5px !important; }
   .ve-ml-lg-n1,
   .ve-mx-lg-n1 {
-    margin-left: -2.5px !important; }
+    margin-right: -2.5px !important; }
   .ve-m-lg-n2 {
     margin: -5px !important; }
   .ve-mt-lg-n2,
@@ -2974,13 +2974,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -5px !important; }
   .ve-mr-lg-n2,
   .ve-mx-lg-n2 {
-    margin-right: -5px !important; }
+    margin-left: -5px !important; }
   .ve-mb-lg-n2,
   .ve-my-lg-n2 {
     margin-bottom: -5px !important; }
   .ve-ml-lg-n2,
   .ve-mx-lg-n2 {
-    margin-left: -5px !important; }
+    margin-right: -5px !important; }
   .ve-m-lg-n3 {
     margin: -10px !important; }
   .ve-mt-lg-n3,
@@ -2988,13 +2988,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -10px !important; }
   .ve-mr-lg-n3,
   .ve-mx-lg-n3 {
-    margin-right: -10px !important; }
+    margin-left: -10px !important; }
   .ve-mb-lg-n3,
   .ve-my-lg-n3 {
     margin-bottom: -10px !important; }
   .ve-ml-lg-n3,
   .ve-mx-lg-n3 {
-    margin-left: -10px !important; }
+    margin-right: -10px !important; }
   .ve-m-lg-n4 {
     margin: -15px !important; }
   .ve-mt-lg-n4,
@@ -3002,13 +3002,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -15px !important; }
   .ve-mr-lg-n4,
   .ve-mx-lg-n4 {
-    margin-right: -15px !important; }
+    margin-left: -15px !important; }
   .ve-mb-lg-n4,
   .ve-my-lg-n4 {
     margin-bottom: -15px !important; }
   .ve-ml-lg-n4,
   .ve-mx-lg-n4 {
-    margin-left: -15px !important; }
+    margin-right: -15px !important; }
   .ve-m-lg-n5 {
     margin: -30px !important; }
   .ve-mt-lg-n5,
@@ -3016,13 +3016,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -30px !important; }
   .ve-mr-lg-n5,
   .ve-mx-lg-n5 {
-    margin-right: -30px !important; }
+    margin-left: -30px !important; }
   .ve-mb-lg-n5,
   .ve-my-lg-n5 {
     margin-bottom: -30px !important; }
   .ve-ml-lg-n5,
   .ve-mx-lg-n5 {
-    margin-left: -30px !important; }
+    margin-right: -30px !important; }
   .ve-m-lg-auto {
     margin: auto !important; }
   .ve-mt-lg-auto,
@@ -3030,13 +3030,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: auto !important; }
   .ve-mr-lg-auto,
   .ve-mx-lg-auto {
-    margin-right: auto !important; }
+    margin-left: auto !important; }
   .ve-mb-lg-auto,
   .ve-my-lg-auto {
     margin-bottom: auto !important; }
   .ve-ml-lg-auto,
   .ve-mx-lg-auto {
-    margin-left: auto !important; } }
+    margin-right: auto !important; } }
 
 @media (min-width: 1200px) {
   .ve-m-xl-0 {
@@ -3046,13 +3046,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 0 !important; }
   .ve-mr-xl-0,
   .ve-mx-xl-0 {
-    margin-right: 0 !important; }
+    margin-left: 0 !important; }
   .ve-mb-xl-0,
   .ve-my-xl-0 {
     margin-bottom: 0 !important; }
   .ve-ml-xl-0,
   .ve-mx-xl-0 {
-    margin-left: 0 !important; }
+    margin-right: 0 !important; }
   .ve-m-xl-1 {
     margin: 2.5px !important; }
   .ve-mt-xl-1,
@@ -3060,13 +3060,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 2.5px !important; }
   .ve-mr-xl-1,
   .ve-mx-xl-1 {
-    margin-right: 2.5px !important; }
+    margin-left: 2.5px !important; }
   .ve-mb-xl-1,
   .ve-my-xl-1 {
     margin-bottom: 2.5px !important; }
   .ve-ml-xl-1,
   .ve-mx-xl-1 {
-    margin-left: 2.5px !important; }
+    margin-right: 2.5px !important; }
   .ve-m-xl-2 {
     margin: 5px !important; }
   .ve-mt-xl-2,
@@ -3074,13 +3074,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 5px !important; }
   .ve-mr-xl-2,
   .ve-mx-xl-2 {
-    margin-right: 5px !important; }
+    margin-left: 5px !important; }
   .ve-mb-xl-2,
   .ve-my-xl-2 {
     margin-bottom: 5px !important; }
   .ve-ml-xl-2,
   .ve-mx-xl-2 {
-    margin-left: 5px !important; }
+    margin-right: 5px !important; }
   .ve-m-xl-3 {
     margin: 10px !important; }
   .ve-mt-xl-3,
@@ -3088,13 +3088,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 10px !important; }
   .ve-mr-xl-3,
   .ve-mx-xl-3 {
-    margin-right: 10px !important; }
+    margin-left: 10px !important; }
   .ve-mb-xl-3,
   .ve-my-xl-3 {
     margin-bottom: 10px !important; }
   .ve-ml-xl-3,
   .ve-mx-xl-3 {
-    margin-left: 10px !important; }
+    margin-right: 10px !important; }
   .ve-m-xl-4 {
     margin: 15px !important; }
   .ve-mt-xl-4,
@@ -3102,13 +3102,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 15px !important; }
   .ve-mr-xl-4,
   .ve-mx-xl-4 {
-    margin-right: 15px !important; }
+    margin-left: 15px !important; }
   .ve-mb-xl-4,
   .ve-my-xl-4 {
     margin-bottom: 15px !important; }
   .ve-ml-xl-4,
   .ve-mx-xl-4 {
-    margin-left: 15px !important; }
+    margin-right: 15px !important; }
   .ve-m-xl-5 {
     margin: 30px !important; }
   .ve-mt-xl-5,
@@ -3116,13 +3116,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: 30px !important; }
   .ve-mr-xl-5,
   .ve-mx-xl-5 {
-    margin-right: 30px !important; }
+    margin-left: 30px !important; }
   .ve-mb-xl-5,
   .ve-my-xl-5 {
     margin-bottom: 30px !important; }
   .ve-ml-xl-5,
   .ve-mx-xl-5 {
-    margin-left: 30px !important; }
+    margin-right: 30px !important; }
   .ve-p-xl-0 {
     padding: 0 !important; }
   .ve-pt-xl-0,
@@ -3130,13 +3130,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 0 !important; }
   .ve-pr-xl-0,
   .ve-px-xl-0 {
-    padding-right: 0 !important; }
+    padding-left: 0 !important; }
   .ve-pb-xl-0,
   .ve-py-xl-0 {
     padding-bottom: 0 !important; }
   .ve-pl-xl-0,
   .ve-px-xl-0 {
-    padding-left: 0 !important; }
+    padding-right: 0 !important; }
   .ve-p-xl-1 {
     padding: 2.5px !important; }
   .ve-pt-xl-1,
@@ -3144,13 +3144,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 2.5px !important; }
   .ve-pr-xl-1,
   .ve-px-xl-1 {
-    padding-right: 2.5px !important; }
+    padding-left: 2.5px !important; }
   .ve-pb-xl-1,
   .ve-py-xl-1 {
     padding-bottom: 2.5px !important; }
   .ve-pl-xl-1,
   .ve-px-xl-1 {
-    padding-left: 2.5px !important; }
+    padding-right: 2.5px !important; }
   .ve-p-xl-2 {
     padding: 5px !important; }
   .ve-pt-xl-2,
@@ -3158,13 +3158,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 5px !important; }
   .ve-pr-xl-2,
   .ve-px-xl-2 {
-    padding-right: 5px !important; }
+    padding-left: 5px !important; }
   .ve-pb-xl-2,
   .ve-py-xl-2 {
     padding-bottom: 5px !important; }
   .ve-pl-xl-2,
   .ve-px-xl-2 {
-    padding-left: 5px !important; }
+    padding-right: 5px !important; }
   .ve-p-xl-3 {
     padding: 10px !important; }
   .ve-pt-xl-3,
@@ -3172,13 +3172,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 10px !important; }
   .ve-pr-xl-3,
   .ve-px-xl-3 {
-    padding-right: 10px !important; }
+    padding-left: 10px !important; }
   .ve-pb-xl-3,
   .ve-py-xl-3 {
     padding-bottom: 10px !important; }
   .ve-pl-xl-3,
   .ve-px-xl-3 {
-    padding-left: 10px !important; }
+    padding-right: 10px !important; }
   .ve-p-xl-4 {
     padding: 15px !important; }
   .ve-pt-xl-4,
@@ -3186,13 +3186,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 15px !important; }
   .ve-pr-xl-4,
   .ve-px-xl-4 {
-    padding-right: 15px !important; }
+    padding-left: 15px !important; }
   .ve-pb-xl-4,
   .ve-py-xl-4 {
     padding-bottom: 15px !important; }
   .ve-pl-xl-4,
   .ve-px-xl-4 {
-    padding-left: 15px !important; }
+    padding-right: 15px !important; }
   .ve-p-xl-5 {
     padding: 30px !important; }
   .ve-pt-xl-5,
@@ -3200,13 +3200,13 @@ a:not([href]):not([tabindex]).ve-btn {
     padding-top: 30px !important; }
   .ve-pr-xl-5,
   .ve-px-xl-5 {
-    padding-right: 30px !important; }
+    padding-left: 30px !important; }
   .ve-pb-xl-5,
   .ve-py-xl-5 {
     padding-bottom: 30px !important; }
   .ve-pl-xl-5,
   .ve-px-xl-5 {
-    padding-left: 30px !important; }
+    padding-right: 30px !important; }
   .ve-m-xl-n1 {
     margin: -2.5px !important; }
   .ve-mt-xl-n1,
@@ -3214,13 +3214,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -2.5px !important; }
   .ve-mr-xl-n1,
   .ve-mx-xl-n1 {
-    margin-right: -2.5px !important; }
+    margin-left: -2.5px !important; }
   .ve-mb-xl-n1,
   .ve-my-xl-n1 {
     margin-bottom: -2.5px !important; }
   .ve-ml-xl-n1,
   .ve-mx-xl-n1 {
-    margin-left: -2.5px !important; }
+    margin-right: -2.5px !important; }
   .ve-m-xl-n2 {
     margin: -5px !important; }
   .ve-mt-xl-n2,
@@ -3228,13 +3228,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -5px !important; }
   .ve-mr-xl-n2,
   .ve-mx-xl-n2 {
-    margin-right: -5px !important; }
+    margin-left: -5px !important; }
   .ve-mb-xl-n2,
   .ve-my-xl-n2 {
     margin-bottom: -5px !important; }
   .ve-ml-xl-n2,
   .ve-mx-xl-n2 {
-    margin-left: -5px !important; }
+    margin-right: -5px !important; }
   .ve-m-xl-n3 {
     margin: -10px !important; }
   .ve-mt-xl-n3,
@@ -3242,13 +3242,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -10px !important; }
   .ve-mr-xl-n3,
   .ve-mx-xl-n3 {
-    margin-right: -10px !important; }
+    margin-left: -10px !important; }
   .ve-mb-xl-n3,
   .ve-my-xl-n3 {
     margin-bottom: -10px !important; }
   .ve-ml-xl-n3,
   .ve-mx-xl-n3 {
-    margin-left: -10px !important; }
+    margin-right: -10px !important; }
   .ve-m-xl-n4 {
     margin: -15px !important; }
   .ve-mt-xl-n4,
@@ -3256,13 +3256,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -15px !important; }
   .ve-mr-xl-n4,
   .ve-mx-xl-n4 {
-    margin-right: -15px !important; }
+    margin-left: -15px !important; }
   .ve-mb-xl-n4,
   .ve-my-xl-n4 {
     margin-bottom: -15px !important; }
   .ve-ml-xl-n4,
   .ve-mx-xl-n4 {
-    margin-left: -15px !important; }
+    margin-right: -15px !important; }
   .ve-m-xl-n5 {
     margin: -30px !important; }
   .ve-mt-xl-n5,
@@ -3270,13 +3270,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: -30px !important; }
   .ve-mr-xl-n5,
   .ve-mx-xl-n5 {
-    margin-right: -30px !important; }
+    margin-left: -30px !important; }
   .ve-mb-xl-n5,
   .ve-my-xl-n5 {
     margin-bottom: -30px !important; }
   .ve-ml-xl-n5,
   .ve-mx-xl-n5 {
-    margin-left: -30px !important; }
+    margin-right: -30px !important; }
   .ve-m-xl-auto {
     margin: auto !important; }
   .ve-mt-xl-auto,
@@ -3284,13 +3284,13 @@ a:not([href]):not([tabindex]).ve-btn {
     margin-top: auto !important; }
   .ve-mr-xl-auto,
   .ve-mx-xl-auto {
-    margin-right: auto !important; }
+    margin-left: auto !important; }
   .ve-mb-xl-auto,
   .ve-my-xl-auto {
     margin-bottom: auto !important; }
   .ve-ml-xl-auto,
   .ve-mx-xl-auto {
-    margin-left: auto !important; } }
+    margin-right: auto !important; } }
 
 .ve-badge {
   display: inline-block;
@@ -3316,8 +3316,8 @@ a:not([href]):not([tabindex]).ve-btn {
   top: -1px; }
 
 .ve-badge-pill {
-  padding-right: 0.6em;
   padding-left: 0.6em;
+  padding-right: 0.6em;
   border-radius: 10rem; }
 
 .ve-badge--primary {
@@ -3405,7 +3405,7 @@ a:not([href]):not([tabindex]).ve-btn {
       text-decoration: none; }
       .ve-list__item > * > * {
         flex: auto;
-        padding-left: 20px; }
+        padding-right: 20px; }
       .ve-list__item > *:hover {
         text-decoration: none;
         color: #333333;
@@ -3433,10 +3433,10 @@ a:not([href]):not([tabindex]).ve-btn {
   color: #777777; }
 
 .ve-breadcrumb__item + .ve-breadcrumb__item {
-  padding-left: 1rem; }
+  padding-right: 1rem; }
   .ve-breadcrumb__item + .ve-breadcrumb__item::before {
     display: inline-block;
-    padding-right: 1rem;
+    padding-left: 1rem;
     color: #777777;
     font-size: 0.5em;
     content: ">"; }
@@ -3460,7 +3460,7 @@ a:not([href]):not([tabindex]).ve-btn {
   .ve-form__row > *:after {
     clear: both; }
   .ve-form__row .ve-label {
-    text-align: right; }
+    text-align: left; }
 
 .ve-table {
   width: 100%;
@@ -3497,16 +3497,16 @@ a:not([href]):not([tabindex]).ve-btn {
     border-top: 0px; }
   .ve-table--bordered tr th:first-child,
   .ve-table--bordered tr td:first-child {
-    border-left: 0px; }
+    border-right: 0px; }
   .ve-table--bordered tr th:last-child,
   .ve-table--bordered tr td:last-child {
-    border-right: 0px; }
+    border-left: 0px; }
   .ve-table--bordered tr:last-child td {
     border-bottom: 0px; }
   .ve-table--bordered tr:last-child td:first-child {
-    border-left: 0px; }
-  .ve-table--bordered tr:last-child td:last-child {
     border-right: 0px; }
+  .ve-table--bordered tr:last-child td:last-child {
+    border-left: 0px; }
   .ve-table--bordered thead th,
   .ve-table--bordered thead td {
     border-bottom-width: 2px; }
@@ -3580,7 +3580,7 @@ a:not([href]):not([tabindex]).ve-btn {
     height: 60px;
     width: 100%;
     top: 0px;
-    left: 0px;
+    right: 0px;
     display: flex;
     flex-wrap: wrap;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -3606,11 +3606,11 @@ a:not([href]):not([tabindex]).ve-btn {
   .ve-editor__setting {
     background: #fff;
     width: 300px;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
     position: fixed;
     height: 100%;
     top: 0px;
-    left: 0px;
+    right: 0px;
     display: none;
     flex-direction: column;
     z-index: 1000; }
@@ -3661,7 +3661,7 @@ a:not([href]):not([tabindex]).ve-btn {
     position: relative;
     height: 100%; }
   .ve-editor__setting + .ve-editor__content {
-    margin-left: 300px; }
+    margin-right: 300px; }
   .ve-editor__menu + .ve-editor__content,
   .ve-editor__menu + .ve-editor__setting,
   .ve-editor__menu + .ve-editor__setting + .ve-editor__content,
@@ -3686,4 +3686,4 @@ a:not([href]):not([tabindex]).ve-btn {
 .ve-admin__content {
   padding: 15px; }
 
-/*# sourceMappingURL=ripe.css.map */
+/*# sourceMappingURL=ripe.rtl.css.map */

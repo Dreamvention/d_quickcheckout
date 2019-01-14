@@ -32,7 +32,7 @@
         </form>
     </div>
     <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
-        <label class="col-full" ><qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw><div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
+        <label class="col-full" ><qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw><div class="ve-pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
     <script>
         this.mixin({store:d_quickcheckout_store});

@@ -31,7 +31,7 @@
         <!-- Hidden Step -->
         <div show={(getConfig().confirm.display != 1 && getState().edit)}>
             <div class="ve-card" style="opacity: 0.5">
-                <div class="ve-card__header">{ getLanguage().confirm.heading_title } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></div>
+                <div class="ve-card__header">{ getLanguage().confirm.heading_title } <div class="ve-pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></div>
             </div>
         </div>
     </div>

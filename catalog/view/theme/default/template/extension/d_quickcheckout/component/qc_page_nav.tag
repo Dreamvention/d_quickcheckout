@@ -11,14 +11,14 @@
         <span class="qc-badge ve-badge ve-badge--warning {(opts.page.display == '1') ? 've-hidden' : ''}">{getLanguage().general.text_hidden}<span></div>
     </a>
 
-    <div if={ !getState().edit }>
+    <a if={ !getState().edit } onclick={(opts.status == '2') ? pageOpen : ''}>
         <div class="process-page-label">{opts.page.text}</div>
         <div class="process-page-progress ve-hidden--sm">
             <div class="process-page-progress-bar"></div>
         </div>
-        <a onclick={(opts.status == '2') ? pageOpen : ''} class="process-page-dot ve-hidden--sm"></a>
+        <div class="process-page-dot ve-hidden--sm"></div>
         <div class="process-page-description">{opts.page.description}</div>
-    </div>
+    </a>
 
     <script>
         this.mixin({store:d_quickcheckout_store});

@@ -106,7 +106,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
         //entry
         $data['entry_status'] = $this->language->get('entry_status');
-        $data['entry_bootstrap'] = $this->language->get('entry_bootstrap');
+        $data['entry_rtl'] = $this->language->get('entry_rtl');
 
         $data['entry_support'] = $this->language->get('entry_support');
         $data['text_support'] = $this->language->get('text_support');
@@ -141,10 +141,10 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $data[$this->codename.'_status'] = $this->config->get($this->codename.'_status');
         }
 
-        if (isset($this->request->post[$this->codename.'_bootstrap'])) {
-            $data[$this->codename.'_bootstrap'] = $this->request->post[$this->codename.'_bootstrap'];
+        if (isset($this->request->post[$this->codename.'_rtl'])) {
+            $data[$this->codename.'_rtl'] = $this->request->post[$this->codename.'_rtl'];
         } else {
-            $data[$this->codename.'_bootstrap'] = $this->config->get($this->codename.'_bootstrap');
+            $data[$this->codename.'_rtl'] = $this->config->get($this->codename.'_rtl');
         }
 
         $data['settings'] = $this->getSettings();
@@ -189,7 +189,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 `date_modified` = NOW()");
 
         $data['d_quickcheckout_status'] = 1;
-        $data['d_quickcheckout_bootstrap'] = $this->isBoostrapNeeded();
+        $data['d_quickcheckout_rtl'] = $this->isRtlNeeded();
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting($this->codename, $data, $this->store_id);
 
@@ -200,20 +200,20 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     }
 
-    public function isBoostrapNeeded(){
-        $themes = array('journal');
-        $config_theme = $this->config->get('config_theme');
-        $config_default_directory = $this->config->get('theme_default_directory');
+    public function isRtlNeeded(){
+        // $themes = array('journal');
+        // $config_theme = $this->config->get('config_theme');
+        // $config_default_directory = $this->config->get('theme_default_directory');
 
-        foreach($themes as $theme){
-            if(strpos($config_theme, $theme) !== false){
-                return true;
-            }
+        // foreach($themes as $theme){
+        //     if(strpos($config_theme, $theme) !== false){
+        //         return true;
+        //     }
 
-            if(strpos($config_default_directory, $theme) !== false){
-                return true;
-            }
-        }
+        //     if(strpos($config_default_directory, $theme) !== false){
+        //         return true;
+        //     }
+        // }
 
         return false;
     }

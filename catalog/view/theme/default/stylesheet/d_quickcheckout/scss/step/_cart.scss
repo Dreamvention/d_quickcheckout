@@ -1,5 +1,13 @@
 .qc-checkout-product {
     overflow: hidden;
+    tr {
+        td {
+            vertical-align: middle;
+        }
+    }
+    .qc-total {
+        text-align: right;
+    }
     .qc-quantity {
         .input-group,
         .ve-input-group {
@@ -13,13 +21,13 @@
     }
     .qc-totals {
         margin-top: 30px;
-        >.qc-row {
+        >.qc-total {
             padding-bottom: 10px;
             .text-right {
                 font-weight: 600;
             }
         }
-        >.qc-row:last-child {
+        >.qc-total:last-child {
             border-top: 1px solid #efefef;
             margin-top: 5px;
             padding-top: 15px;

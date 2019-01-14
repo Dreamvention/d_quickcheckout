@@ -22,7 +22,8 @@
 .oc2 .qc .process-page.disabled .process-page-dot {
   background-color: #f5f5f5; }
 
-.oc2 .qc .panel-heading, .oc2 .qc .panel-heading:hover {
+.oc2 .qc .panel-heading,
+.oc2 .qc .panel-heading:hover {
   background-color: #fff; }
 
 .oc2 .qc .panel-title {
@@ -37,4 +38,4 @@
 .oc2 .qc .bootstrap-select ul.dropdown-menu li {
   margin-left: 0px; }
 
-/*# sourceMappingURL=journal2.css.map */
+/*# sourceMappingURL=../../../../Users/dmitriyzhuk/Sites/opencart/302/d_quickcheckout_pack/catalog/view/theme/default/stylesheet/d_quickcheckout/skin/journal2/journal2.css.map */

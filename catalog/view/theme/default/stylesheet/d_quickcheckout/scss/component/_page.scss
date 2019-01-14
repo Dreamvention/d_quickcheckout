@@ -9,12 +9,12 @@
 
 .process {
     display: flex;
+    margin-bottom: 30px;
     &-page {
         padding: 0;
         position: relative;
         flex: 1;
         text-align: center;
-        margin-bottom: 30px;
         &-label {
             color: #595959;
             font-size: 16px;
@@ -24,7 +24,7 @@
             color: #999;
             font-size: 14px;
         }
-        a.process-page-dot {
+        .process-page-dot {
             position: absolute;
             width: 30px;
             height: 30px;
@@ -129,10 +129,39 @@
             .process-page-description {
                 font-size: 12px;
             }
+            &.active {
+                background: #f1f5ff;
+            }
             &.active .process-page-label {
                 color: #648bfd;
                 font-weight: 600;
             }
+            &.page-nav-item {
+                padding: 5px;
+                display: flex;
+                &:last-child {
+                    border-right: none;
+                }
+                &:last-child {
+                    border-radius: 0px 3px 3px 0px;
+                }
+                &:first-child {
+                    border-radius: 3px 0px 0px 3px;
+                }
+                >a {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+    @media (max-width: 767.98px) {
+        & {
+            box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.1), 0 1px 3px 0 rgba(63, 63, 68, 0.1);
+            border-radius: 3px;
+            margin-bottom: 15px;
         }
     }
 }

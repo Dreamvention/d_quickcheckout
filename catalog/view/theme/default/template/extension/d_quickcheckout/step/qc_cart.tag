@@ -57,7 +57,6 @@
 
                             <td class="qc-quantity ve-hidden--sm" show={ getConfig().cart.columns.quantity.display == 1 }>
                                 <div class="ve-input-group">
-                                    
                                     <button class="ve-btn d-vis ve-btn--primary decrease" data-product="{ product.key }" onclick={decrease}><i class="fa fa-chevron-down"></i></button>
                                     <input type="text" data-mask="9?999999999999999" value="{ product.quantity }"  class="ve-input qc-product-quantity text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
                                     <button class="ve-btn d-vis ve-btn--primary increase" data-product="{ product.key }" onclick={increase}><i class="fa fa-chevron-up"></i></button>
@@ -146,9 +145,9 @@
                     </div>
                 </div>
                 <div class="form-horizontal qc-totals">
-                    <div class="qc-row ve-clearfix" each={total in getSession().totals} if={total}>
-                        <label class="qc-col-sm-9 qc-col-xs-6 ve-label" >{ total.title }</label>
-                        <div class="qc-col-sm-3 qc-col-xs-6 text-right">{ total.text }</div>
+                    <div class="ve-row ve-clearfix qc-total" each={total in getSession().totals} if={total}>
+                        <label class="ve-col-sm-9 ve-col-6 ve-label" >{ total.title }</label>
+                        <div class="ve-col-sm-3 ve-col-6 text-right">{ total.text }</div>
                     </div>
                 </div>
 
@@ -294,9 +293,9 @@
                     </div>
                 </div>
                 <div class="form-horizontal qc-totals">
-                    <div class="qc-row ve-clearfix" each={total in getSession().totals} if={total}>
-                        <label class="qc-col-sm-9 qc-col-xs-6 ve-label" >{ total.title }</label>
-                        <div class="qc-col-sm-3 qc-col-xs-6 text-right">{ total.text }</div>
+                    <div class="ve-row ve-clearfix qc-total" each={total in getSession().totals} if={total}>
+                        <label class="ve-col-sm-9 ve-col-6 ve-label" >{ total.title }</label>
+                        <div class="ve-col-sm-3 ve-col-6 text-right">{ total.text }</div>
                     </div>
                 </div>
 
@@ -306,7 +305,7 @@
         <!-- Hidden Step -->
         <div show={(getConfig().cart.display != 1 && getState().edit)}>
             <div class="ve-card" style="opacity: 0.5">
-                <div class="ve-card__header">{ getLanguage().cart.heading_title } <div class="pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></div>
+                <div class="ve-card__header">{ getLanguage().cart.heading_title } <div class="ve-pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></div>
             </div>
         </div>
     </div>

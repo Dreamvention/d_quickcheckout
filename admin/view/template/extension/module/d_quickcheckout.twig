@@ -127,6 +127,14 @@
                                         </div><!-- //status -->
 
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input_rtl">{{entry_rtl}}</label>
+                                            <div class="col-sm-10">                                     
+                                                <input type="hidden" name="{{codename}}_rtl" value="0" />
+                                                <input type="checkbox" name="{{codename}}_rtl" class="switcher" data-label-text="{{text_enabled}}" id="input_rtl"  {{attribute(_context, codename~'_rtl') ? 'checked="checked"' }} value="1" />
+                                            </div>
+                                        </div><!-- //rtl -->
+
+                                        <div class="form-group">
                                             <label class="col-sm-2 control-label" for="input_status">{{entry_support}}</label>
                                             <div class="col-sm-10">                                     
                                                 <a class="btn btn-success" href="https://dreamvention.ee/support" target="_blank">{{text_support}}</a>

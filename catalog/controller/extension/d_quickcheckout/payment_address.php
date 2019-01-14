@@ -193,6 +193,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         }
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'account'), $update['session']['account']);
             
                     }
                 }
@@ -536,9 +537,8 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
         $html_element = $html_dom->find('#top-links > ul > li', 1);
         if($html_element){
-            $text = (string)$html_element->innertext;
+            return (string)$html_element->innertext;
         }
-        
-        return $text;
+        return null;
     }
 }

@@ -17,7 +17,7 @@ $_['d_quickcheckout_cart_language'] = array(
     'entry_price' => 'column_price',
     'entry_total' => 'column_total',
 
-    'text_apply' => 'Apply'
+    'button_apply' => 'Apply'
 );
 $_['d_quickcheckout_cart'] = array(
     'id' => 'cart',

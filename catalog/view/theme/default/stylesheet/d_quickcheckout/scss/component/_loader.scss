@@ -1,9 +1,9 @@
-.loader{
+.qc-loader {
     position: fixed;
-    top:12px;
+    top: 12px;
     padding: 8px 15px;
     border-radius: 3px;
-    background: orange;
+    background: #648bfd;
     left: 50%;
     margin-left: -50px;
     width: 100px;
@@ -14,23 +14,27 @@
 }
 
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+    to {
+        transform: rotate(360deg);
+    }
 }
-.spinner{
-  min-height: 500px;
+
+.spinner {
+    min-height: 500px;
 }
+
 .spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100px;
-  height: 100px;
-  margin-top: -50px;
-  margin-left: -50px;
-  border-radius: 50%;
-  border-top: 3px solid #07d;
-  border-right: 3px solid transparent;
-  animation: spinner .6s linear infinite;
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    border-radius: 50%;
+    border-top: 3px solid #07d;
+    border-right: 3px solid transparent;
+    animation: spinner .6s linear infinite;
 }

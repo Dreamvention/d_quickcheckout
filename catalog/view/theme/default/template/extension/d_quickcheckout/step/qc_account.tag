@@ -143,7 +143,7 @@
 
                             </div>
                             <div class="ve-card__footer">
-                                <button class="ve-btn d-vis ve-btn--primary ve-btn--block" onclick={login}>{getLanguage().account.button_login}</button>
+                                <button class="ve-btn d-vis ve-btn--primary ve-btn--block qc-btn" onclick={login}>{getLanguage().account.button_login}</button>
                             </div>
                         </form>
                     </div><!-- /.modal-content -->

@@ -1,2 +1,43 @@
+.qc .ve-btn--primary,
+.qc a.ve-btn--primary,
+.qc-btn.ve-btn--primary {
+  background: #23a1d1 !important;
+  color: #fff !important; }
+  .qc .ve-btn--primary > *,
+  .qc a.ve-btn--primary > *,
+  .qc-btn.ve-btn--primary > * {
+    color: #fff !important; }
+  .qc .ve-btn--primary:after,
+  .qc a.ve-btn--primary:after,
+  .qc-btn.ve-btn--primary:after {
+    border-color: #fff !important; }
+  .qc .ve-btn--primary:hover,
+  .qc a.ve-btn--primary:hover,
+  .qc-btn.ve-btn--primary:hover {
+    background: #24a8da !important; }
+  .qc .ve-btn--primary:active, .qc .ve-btn--primary.active,
+  .qc a.ve-btn--primary:active,
+  .qc a.ve-btn--primary.active,
+  .qc-btn.ve-btn--primary:active,
+  .qc-btn.ve-btn--primary.active {
+    background: #186f8f !important; }
 
-/*# sourceMappingURL=../../../../Users/dmitriyzhuk/Sites/opencart/302/d_quickcheckout_pack/catalog/view/theme/default/stylesheet/d_quickcheckout/skin/default/default.css.map */
+.qc .ve-radio--selected {
+  color: #23a1d1 !important; }
+
+.qc .ve-radio [type=radio]:checked + i:before {
+  border-color: #23a1d1 !important;
+  background-color: #fff; }
+
+.qc .ve-radio [type=radio]:checked + i:after {
+  background-color: #23a1d1 !important; }
+
+.qc .ve-checkbox [type=checkbox]:checked + i:before {
+  border: 1px solid #23a1d1 !important;
+  background-color: #23a1d1 !important; }
+
+.qc .qc-name a,
+.qc label a {
+  color: #23a1d1 !important; }
+
+/*# sourceMappingURL=default.css.map */

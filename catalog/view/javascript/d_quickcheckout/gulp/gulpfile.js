@@ -1,3 +1,10 @@
+/**
+ * This Gulp File is for development purposes. 
+ * NEEDS REFACTORING
+ * Dreamvention
+ * 15.01.2019
+ */
+
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     browserSync = require('browser-sync'),
@@ -49,11 +56,12 @@ gulp.task('sass-rtl', function() {
 gulp.task('sass_multi', function() {
     var folders = getFolders(style_folders);
     var tasks = folders.map(function(folder) {
+        console.log(folder);
         return gulp.src(path.join(style_folders, folder, folder + '.s*ss'))
             .pipe(sourcemaps.init())
             .pipe(sass().on('error', sass.logError))
             .pipe(autoprefixer(['last 15 versions']))
-            .pipe(sourcemaps.write('../../../../' + path.join(style_folders, folder)))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(path.join(style_folders, folder)))
             .pipe(browserSync.stream({ match: '**/*.css' }));
 

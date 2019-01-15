@@ -5,7 +5,7 @@
     </div>
 
     <div if={getSession().status}>
-        <div class="loader" style="display:none">{getLanguage().general.text_loading}</div>
+        <div class="qc-loader" style="display:none">{getLanguage().general.text_loading}</div>
         <qc_layout></qc_layout>
     </div>
 

@@ -108,4 +108,12 @@
         var layoutString = JSON.stringify(this.getState().layout.pages);
         return (layoutString.indexOf('payment"') == -1);
     }
+
+    this.goToPageNav = function() {
+        if (this.isMobile()) {
+            setTimeout(function() {
+                $('html,body').animate({ scrollTop: $(".process-page").offset().top - 60 }, 'slow');
+            }, 10);
+        }
+    }
 })(qc);

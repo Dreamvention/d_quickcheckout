@@ -428,6 +428,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->language('checkout/cart');
         $data['text_cart_title'] = $this->language->get('heading_title');
         $data['text_cart_empty'] = $this->language->get('text_empty');
+
+        $this->load->model('extension/d_quickcheckout/store');
+        $language = $this->model_extension_d_quickcheckout_store->getLanguage();
+        if(isset($language['general'])){
+            $data = array_replace_recursive($data, $language['general']);
+        }
         
 
 

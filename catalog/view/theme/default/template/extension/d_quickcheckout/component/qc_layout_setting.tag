@@ -26,6 +26,16 @@
             </div>
 
             <div class="ve-field">
+                <label class="ve-label">{getLanguage().general.text_loading}</label>
+                <div class="ve-input-group">
+                    <span class="ve-input-group__addon">
+                        <img src="{getLanguage().general.img}">
+                    </span>
+                    <input onchange="{parent.edit}" type="text" class="ve-input" name="language[general][text_loading]" value={ getLanguage().general.text_loading } />
+                </div>
+            </div>
+
+            <div class="ve-field">
                 <label class="ve-label"> {getLanguage().general.text_layout}</label><br/>
                 <select
                     class="ve-input"

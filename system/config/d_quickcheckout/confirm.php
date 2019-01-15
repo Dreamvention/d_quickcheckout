@@ -3,6 +3,7 @@ $_['d_quickcheckout_confirm_language'] = array(
     'heading_title' => 'text_confirm',
     'description_confirm' => '',
     'text_trigger' => 'text_trigger',
+    'text_confirm' => 'text_confirm',
     'button_confirm' => 'button_confirm'
 );
 $_['d_quickcheckout_confirm'] = array(

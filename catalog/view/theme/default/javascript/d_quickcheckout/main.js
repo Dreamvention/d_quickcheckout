@@ -356,10 +356,10 @@ var qc = (function() {
         this.loading(true);
         var that = this;
         setTimeout(function() {
-            $('.loader').show();
+            $('.qc-loader').show();
             setTimeout(function() {
                 that.loading(false);
-                $('.loader').hide();
+                $('.qc-loader').hide();
             }, 10000);
         }, 10);
 
@@ -367,7 +367,7 @@ var qc = (function() {
 
     this.hideLoader = function() {
         this.loading(false);
-        $('.loader').hide();
+        $('.qc-loader').hide();
     }
 
     this.showSpinner = function() {
@@ -378,6 +378,12 @@ var qc = (function() {
 
     this.hideSpinner = function() {
         $('.spinner').hide();
+    }
+
+    this.isMobile = function() {
+        if (screen.width <= 480) {
+            return true;
+        } else false;
     }
 
 

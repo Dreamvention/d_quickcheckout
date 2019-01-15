@@ -97,7 +97,7 @@
                             <div class="ve-col-md-8">
                                 <div class="ve-field ve-field--block">
                                     <input type="text" value="{getSession().coupon}" name="coupon" placeholder="{ getLanguage().cart.entry_coupon }" class="ve-input" onkeydown={changeCoupon}/>
-                                    <button class="ve-btn d-vis ve-btn--default" onclick={useCoupon} type="button">{ getLanguage().cart.text_apply }</button>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useCoupon} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                             <div class="ve-col-sm-8">
                                 <div class="ve-field ve-field--block">
                                     <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="ve-input" onkeydown={changeVoucher}/>
-                                    <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.text_apply }</button>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                             <div class="ve-col-sm-8">
                                 <div class="ve-field ve-field--block">
                                     <input class="ve-input" type="text" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" onkeydown={changeReward} />
-                                    <button class="ve-btn d-vis ve-btn--default" onclick={useReward} type="button">{ getLanguage().cart.text_apply }</button>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useReward} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +245,7 @@
                             <div class="ve-col-md-8">
                                 <div class="ve-field ve-field--block">
                                     <input type="text" value="{getSession().coupon}" name="coupon" placeholder="{ getLanguage().cart.entry_coupon }" class="ve-input" onkeydown={changeCoupon}/>
-                                    <button class="ve-btn d-vis ve-btn--default" onclick={useCoupon} type="button">{ getLanguage().cart.text_apply }</button>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useCoupon} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                             <div class="ve-col-sm-8">
                                 <div class="ve-field ve-field--block">
                                     <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="ve-input" onkeydown={changeVoucher}/>
-                                    <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.text_apply }</button>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
                         </div>
@@ -286,7 +286,7 @@
                             <div class="ve-col-sm-8">
                                 <div class="ve-field ve-field--block">
                                     <input class="ve-input" type="text" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" onkeydown={changeReward} />
-                                    <button class="ve-btn d-vis ve-btn--default" onclick={useReward} type="button">{ getLanguage().cart.text_apply }</button>
+                                    <button class="ve-btn d-vis ve-btn--default" onclick={useReward} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
                         </div>

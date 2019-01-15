@@ -50,6 +50,9 @@
                                 <a href="{ raw(product.href) }" { getConfig().cart.columns.image.display == 1 ? '' : 'rel="popup" data-help=\'<img src="' + product.image + '"/>\'' }>
                                     { product.name } <span class="out-of-stock" show={!product.stock}>***</span>
                                 </a>
+                                <p each={option in product.option}>
+                                    {option.name}: {option.value}
+                                </p>
                                 <p class="ve-help ve-hidden ve-visible--sm">{ product.price } x { product.quantity }</p>
                             </td>
 
@@ -198,6 +201,9 @@
                                 <a href="{ raw(product.href) }" { getConfig().cart.columns.image.display == 1 ? '' : 'rel="popup" data-help=\'<img src="' + product.image + '"/>\'' }>
                                     { product.name } <span class="out-of-stock" show={!product.stock}>***</span>
                                 </a>
+                                <p each={option in product.option}>
+                                    {option.name}: {option.value}
+                                </p>
                                 <p class="ve-help ve-hidden ve-visible--sm">{ product.price } x { product.quantity }</p>
                             </td>
 

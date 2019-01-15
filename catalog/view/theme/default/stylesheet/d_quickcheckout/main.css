@@ -904,12 +904,26 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
     display: block;
 }
 
+.qc {
+    max-width: 1200px;
+    margin: auto;
+}
+
 .qc .tab-pane.active {
     display: block;
 }
 
 .qc .tab-pane.active .tab-pane {
     display: block;
+}
+
+.qc-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.qc-logo img {
+    margin: auto;
 }
 
 .pages>.page {

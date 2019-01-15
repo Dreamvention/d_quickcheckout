@@ -425,7 +425,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['error_email_exists'] = $this->language->get('error_email_exists');
 
         $data['name'] = $this->config->get('config_name');
-        
+
         if ($this->request->server['HTTPS']) {
 			$server = $this->config->get('config_ssl');
 		} else {
@@ -435,7 +435,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
 			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
 		} else {
-			$data['logo'] = '';
+			$data['logo'] =  $server . 'image/' . $this->config->get('config_logo');
 		}
 
         $this->load->language('checkout/cart');
@@ -447,7 +447,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if(isset($language['general'])){
             $data = array_replace_recursive($data, $language['general']);
         }
-        
+        if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
+			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
+		} else {
+			$data['logo'] =  $server . 'image/' . $this->config->get('config_logo');
+		}
 
 
         $data['img'] = $this->getLanguageImage();

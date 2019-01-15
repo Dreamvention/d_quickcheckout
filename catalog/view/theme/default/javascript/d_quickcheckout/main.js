@@ -372,12 +372,12 @@ var qc = (function() {
 
     this.showSpinner = function() {
         setTimeout(function() {
-            $('.spinner').show();
+            $('.qc-spinner').show();
         }, 10);
     }
 
     this.hideSpinner = function() {
-        $('.spinner').hide();
+        $('.qc-spinner').hide();
     }
 
     this.isMobile = function() {

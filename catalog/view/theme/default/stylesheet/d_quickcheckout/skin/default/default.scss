@@ -25,6 +25,10 @@ $color: #23a1d1 !default;
     background: $color;
 }
 
+.qc-spinner:before {
+    border-top: 3px solid $color;
+}
+
 .qc {
     .ve-radio--selected {
         color: $color !important;

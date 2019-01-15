@@ -4,7 +4,7 @@
  */
 ?>
 
-<div class="spinner"></div>
+<div class="qc-spinner"></div>
 <d_quickcheckout id="d_quickcheckout" class="qc {% if edit %} edit {% endif %}"></d_quickcheckout>
 
 
@@ -23,7 +23,7 @@
             body > *{
                 display: none;
             }
-            body > .spinner{
+            body > .qc-spinner{
                 display: block;
             }
             body > #d_quickcheckout{
@@ -35,11 +35,11 @@
     <script>
         var header_footer = {{state.layout.header_footer}}
         if(header_footer != 1){
-            $('body').prepend($('.spinner'));
+            $('body').prepend($('.qc-spinner'));
             $('body').prepend($('#d_quickcheckout'));
 
         }else{
-            $('.spinner').after($('#d_quickcheckout'));
+            $('.qc-spinner').after($('#d_quickcheckout'));
         }
     </script>
 {% endif %}

@@ -19,11 +19,11 @@
     }
 }
 
-.spinner {
+.qc-spinner {
     min-height: 500px;
 }
 
-.spinner:before {
+.qc-spinner:before {
     content: '';
     box-sizing: border-box;
     position: absolute;

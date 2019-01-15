@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="{'catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+getSession().skin+'/'+getSession().skin+'.css?'+rand()}">
     <qc_layout_setting if={getState().edit}></qc_layout_setting>
 
-    <div if={getLayout().header_footer} class="qc-logo">
+    <div if={getLayout().header_footer != 1} class="qc-logo">
         <img if={getLanguage().general.logo} src="{ getLanguage().general.logo }" title="{ getLanguage().general.name }" alt="{ getLanguage().general.name }" class="img-responsive" />
         <h1 if={!getLanguage().general.logo}>{ getLanguage().general.name }</h1>
     </div>

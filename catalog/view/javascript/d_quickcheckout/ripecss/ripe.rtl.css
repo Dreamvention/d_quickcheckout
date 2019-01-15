@@ -64,12 +64,12 @@ xmp {
     margin: 0px; }
 
 .ve-a,
-a[class^=ve-] {
+a[class^=ve-a] {
   text-decoration: none;
   color: #648bfd; }
   .ve-a:hover, .ve-a:active,
-  a[class^=ve-]:hover,
-  a[class^=ve-]:active {
+  a[class^=ve-a]:hover,
+  a[class^=ve-a]:active {
     text-decoration: none; }
 
 .ve-help {

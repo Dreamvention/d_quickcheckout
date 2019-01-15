@@ -6,7 +6,7 @@
         <div class="get-pro-text">Wherever you see this label, there is a setting waiting for you! Unlock PRO features like field settings, field sorting, step settings, page settings, layouts and themes. </div>
         <div><strong>Stop losing customers today.</strong><br/><br/></div>
         <div class="get-pro-btn">
-            <a class="btn btn-warning btn-lg" href="https://aqc.page.link/getpro" target="_blank">Get PRO -10% OFF</a>
+            <a class="ve-btn ve-btn--warning ve-btn-lg" href="https://aqc.page.link/getpro" target="_blank">Get PRO -10% OFF</a>
             <br/><br/>
             <small>Ends soon! Will open in a new window</small>
         </div>

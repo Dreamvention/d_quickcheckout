@@ -1383,11 +1383,11 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
     }
 }
 
-.spinner {
+.qc-spinner {
     min-height: 500px;
 }
 
-.spinner:before {
+.qc-spinner:before {
     content: '';
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

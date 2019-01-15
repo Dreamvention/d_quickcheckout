@@ -110,10 +110,6 @@
                     'display': (this.getLayout().header_footer == 1) ? 'block' : 'block'
                 })
 
-                style += this.buildStyleBySelector('.qc-breadcrumb', {
-                    'display': (this.getLayout().breadcrumb == 1) ? 'block' : 'none'
-                })
-
                 style += '</style>';
 
                 $('html > head').append($(style));
@@ -121,7 +117,7 @@
                 if (this.getLayout().header_footer != 1) {
                     $('body').prepend($('#d_quickcheckout'));
                 } else {
-                    $('.spinner').after($('#d_quickcheckout'));
+                    $('.qc-spinner').after($('#d_quickcheckout'));
                 }
 
             }.bind(this));

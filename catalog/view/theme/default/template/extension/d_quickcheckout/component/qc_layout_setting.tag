@@ -14,16 +14,6 @@
                     value={ getLayout().header_footer } />
                 </div>
             </div>
-            <div class="ve-field">
-                <label class="ve-label">{getLanguage().general.text_display} {getLanguage().general.text_breadcrumb}</label>
-                <div>
-                    <qc_switcher 
-                    onclick="{parent.edit}" 
-                    name="layout[breadcrumb]" 
-                    data-label-text="Enabled" 
-                    value={ getLayout().breadcrumb } />
-                </div>
-            </div>
 
             <div class="ve-field">
                 <label class="ve-label">{getLanguage().general.text_loading}</label>

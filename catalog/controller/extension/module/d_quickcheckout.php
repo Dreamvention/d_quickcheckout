@@ -380,7 +380,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['text_checked'] = $this->language->get('text_checked');
         $data['text_mask'] = $this->language->get('text_mask');
         $data['text_header_footer'] = $this->language->get('text_header_footer');
-        $data['text_breadcrumb'] = $this->language->get('text_breadcrumb');
         $data['text_has_dependencies'] = $this->language->get('text_has_dependencies');
         $data['text_no_payment_step'] = $this->language->get('text_no_payment_step');
 
@@ -424,6 +423,20 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['error_regex'] = $this->language->get('error_regex');
         $data['error_telephone'] = $this->language->get('error_telephone');
         $data['error_email_exists'] = $this->language->get('error_email_exists');
+
+        $data['name'] = $this->config->get('config_name');
+        
+        if ($this->request->server['HTTPS']) {
+			$server = $this->config->get('config_ssl');
+		} else {
+			$server = $this->config->get('config_url');
+		}
+
+		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
+			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
+		} else {
+			$data['logo'] = '';
+		}
 
         $this->load->language('checkout/cart');
         $data['text_cart_title'] = $this->language->get('heading_title');

@@ -35,7 +35,6 @@ $_['text_design'] = 'Design';
 $_['text_style'] = 'Style';
 $_['text_mask'] = 'Mask';
 $_['text_header_footer'] = 'Header & footer';
-$_['text_breadcrumb'] = 'Breadcrumb';
 $_['text_reset'] = 'Reset layout';
 
 $_['text_add_page'] = 'Add page';

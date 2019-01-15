@@ -3,7 +3,6 @@
 $_['d_quickcheckout_layout'] = array( 
     "codename" => 'default',
     "header_footer" => 1,
-    "breadcrumb" => 1,
     "pages" => array( 
         "page0" => array(
             "id" => "page0",

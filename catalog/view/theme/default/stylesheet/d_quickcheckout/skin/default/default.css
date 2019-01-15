@@ -22,6 +22,9 @@
   .qc-btn.ve-btn--primary.active {
     background: #186f8f !important; }
 
+.qc-loader {
+  background: #23a1d1; }
+
 .qc .ve-radio--selected {
   color: #23a1d1 !important; }
 
@@ -39,5 +42,21 @@
 .qc .qc-name a,
 .qc label a {
   color: #23a1d1 !important; }
+
+.qc .process-page-progress-bar,
+.qc .process-page .process-page-dot {
+  background-color: #9ed9ef; }
+
+.qc .process-page .process-page-dot:after {
+  background-color: #23a1d1; }
+
+.qc .process-page.disabled .process-page-dot {
+  background-color: #f5f5f5; }
+
+@media (max-width: 767.98px) {
+  .qc .process-page.active {
+    background: #edf8fc; }
+  .qc .process-page.active .process-page-label {
+    color: #23a1d1; } }
 
 /*# sourceMappingURL=default.css.map */

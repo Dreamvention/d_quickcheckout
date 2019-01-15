@@ -22,7 +22,7 @@ $_['text_open_editor']              = 'Go to Visual Editor';
 $_['help_editor']                   = '<h4>Visual Editor</h4><p>Now Ajax Quick Checkout has a visual editor. You can modify any settings directly on the frontend. Simply hover over a field or step and click the gear icon to open settings editor. To sort simply drag and drop block and fields where needed.</p>';
 
 $_['entry_status']                  = 'Status';
-$_['entry_bootstrap']               = 'Force bootstrap <br/><small>If the frontend is disorganized, activate Boostrap. Required for Journal and other bootstrapless themes</small>';
+$_['entry_rtl']                     = 'RTl language <br/><small>If have a RTL language, turn this feature on for the AQC to render the checkout accordingly</small>';
 
 $_['entry_support']                 = 'Support<br/><small>Create a ticket. If you find a bug, even in a free version, please let us know.</small>';
 $_['text_support']                  = 'Open Ticket';

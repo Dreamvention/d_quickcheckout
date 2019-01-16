@@ -18,7 +18,7 @@
                 <p class="ve-p" if={getLanguage().continue.text_description}>{  getLanguage().continue.text_description } </p>
             </div>
             <div class="ve-card__section">
-                <a if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</a>
+                <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</button>
                 <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--lg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().continue.text_next}</button>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <!-- style clear -->
         <div if={ getConfig().continue.display == 1 && getState().config.guest.continue.style == 'clear' } class="ve-mb-3 ve-clearfix">
             <p class="ve-p" if={getLanguage().continue.text_description}>{  getLanguage().continue.text_description } </p>
-            <a if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</a>
+            <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().continue.text_prev}</button>
             <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().continue.text_next}</button>
         </div>
 
@@ -45,9 +45,10 @@
         this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
+        var pages = this.store.getSession().pages.filter(page => page != false );
 
-        tag.prev = this.store.getSession().pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.continue.buttons.prev.display == 1;
-        tag.next = this.store.getSession().pages[this.store.getSession().pages.length-1] != this.store.getSession().page_id;
+        tag.prev = pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.continue.buttons.prev.display == 1;
+        tag.next = pages[pages.length-1] != this.store.getSession().page_id;
 
         nextPage(e){
             this.store.dispatch('continue/next');
@@ -58,8 +59,8 @@
         }
 
         this.on("update", function(){
-            tag.prev = this.store.getSession().pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.continue.buttons.prev.display == 1;
-            tag.next = this.store.getSession().pages[this.store.getSession().pages.length-1] != this.store.getSession().page_id;
+            tag.prev = pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.continue.buttons.prev.display == 1;
+            tag.next = pages[pages.length-1] != this.store.getSession().page_id;
         });
 
     </script>

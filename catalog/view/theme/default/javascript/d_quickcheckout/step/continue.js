@@ -25,6 +25,21 @@
 
     });
 
+    this.subscribe('continue/prev', function() {
+        var pages = this.getSession().pages;
+        var current_page_id = this.getSession().page_id;
+
+        var prev_page_index = pages.indexOf(current_page_id) - 1;
+        var prev_page_id = pages[prev_page_index];
+
+        if (prev_page_id) {
+            var state = { 'session': { 'page_id': prev_page_id } };
+            this.setState(state);
+            //to avoid page unsync
+            this.send('extension/module/d_quickcheckout/update', state, function(json) {}.bind(this));
+        }
+    });
+
     this.subscribe('continue/edit', function(data) {
         this.setState(data);
     });

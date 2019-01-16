@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.1.0",
+    "version": "7.1.1",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -210,6 +210,9 @@
         "admin/view/image/d_quickcheckout"
     ],
     "changelog": [{
+            "varsion": "7.1.1",
+            "change": "Back button fix"
+        }, {
             "varsion": "7.1.0",
             "change": "Added RipeCss, removed bootstrap"
         }, {

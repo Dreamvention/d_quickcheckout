@@ -184,6 +184,9 @@
         this.store.subscribe('account/updated', function(data) {
             if(data.session.account == 'logged'){
                 $('.modal-backdrop').remove();
+
+                //bugfix: required to close the model window.
+                $('#login_popup').modal('hide');
                 $('body').removeClass('modal-open')
             }
         });

@@ -1,5 +1,4 @@
 <qc_layout class="ve-editor ve-editor--topmenu">
-    <link rel="stylesheet" href="{'catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+getSession().skin+'/'+getSession().skin+'.css?'+rand()}">
     <qc_layout_setting if={getState().edit}></qc_layout_setting>
 
     <div if={getLayout().header_footer != 1} class="qc-logo">

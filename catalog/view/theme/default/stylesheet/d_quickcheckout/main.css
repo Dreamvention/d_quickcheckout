@@ -917,6 +917,10 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
     display: block;
 }
 
+.qc .process {
+    margin-top: 10px;
+}
+
 .qc-logo {
     text-align: center;
     margin-bottom: 30px;

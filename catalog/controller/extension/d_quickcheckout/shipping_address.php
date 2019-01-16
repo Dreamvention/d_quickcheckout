@@ -87,13 +87,14 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             //is shipping show
             if($display_shipping_address){
                 $this->load->model('extension/d_quickcheckout/error');
+                
                 if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
-                    
                     $state = $this->model_extension_d_quickcheckout_store->getState();
 
                     //guest
                     if($state['session']['account'] == 'guest'){
                         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'display'), 1);
+
                         $this->load->model('extension/d_quickcheckout/address');
                         $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($state['session']['shipping_address']['country_id']);
 
@@ -113,21 +114,24 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                     if($this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
 
                         if($state['config'][$state['session']['account']]['shipping_address']['display'] == 0){
+                            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getShippingAddressFromPaymentAddress());
+                            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', 'address_id'), $state['session']['payment_address']['address_id']);
                         }
                     }
-
                     //logged in change
                     if(!$this->model_extension_d_quickcheckout_store->isUpdated('account') && $state['session']['account'] == 'logged'){
                         if(!$this->model_extension_d_quickcheckout_store->isUpdated('payment_address_address_id') 
                         && $state['config'][$state['session']['account']]['shipping_address']['display'] == 0 
                         && $state['session']['payment_address']['shipping_address'] == 1){
-                            FB::log('here');
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getShippingAddressFromPaymentAddress());
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', 'address_id'), $state['session']['payment_address']['address_id']);
                         }else{
                             $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'display'), 1);
                         }
+                        
                     }
+                }else{
+                    $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'display'), 1);
                 }
 
             }else{
@@ -150,7 +154,6 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
             $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'fields', 'zone_id', 'options'), $zones);
         }
-
         if($data['action'] == 'confirm/update'){
             
             $display_shipping_address = $this->getDisplayShippingAddress();
@@ -161,6 +164,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                     //guest
                     if($state['session']['account'] == 'guest'){
+                        // nothing...
                     }
 
                     //register -> login

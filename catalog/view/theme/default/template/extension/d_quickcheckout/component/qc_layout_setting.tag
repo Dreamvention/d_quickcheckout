@@ -1,4 +1,6 @@
 <qc_layout_setting>
+    <link rel="stylesheet" href="{'catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+getSession().skin+'/'+getSession().skin+'.css?'+rand()}">
+    
     <qc_setting 
     if={getState().edit} 
     setting_id={setting_id}

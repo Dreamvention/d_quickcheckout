@@ -64,12 +64,8 @@
                 'tooltip': 'tooltip_' + field_id,
                 'errors': {
                     'error0': {
-                        'min_length': 3,
-                        'text': 'error_' + field_id + '_min_length'
-                    },
-                    'error1': {
-                        'max_length': 34,
-                        'text': 'error_' + field_id + '_max_length'
+                        'not_empty': true,
+                        'text': 'error_' + field_id + '_not_empty'
                     }
                 },
                 'type': custom_field.type,

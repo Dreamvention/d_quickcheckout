@@ -14,6 +14,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('extension/d_quickcheckout/method');
         $this->load->model('extension/d_quickcheckout/error');
+        $this->load->model('extension/d_quickcheckout/page');
     }
 
     /**
@@ -22,8 +23,13 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
     public function index($config){
         $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/confirm.js');
 
-        $state = $this->model_extension_d_quickcheckout_store->getState();
+        $pages = $this->model_extension_d_quickcheckout_page->getActivePages();
+        $page_id = (isset($pages[0])) ? $pages[0] : false;
 
+        $this->model_extension_d_quickcheckout_store->updateState(array('session','pages'), $pages);
+        $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $page_id);
+
+        $state = $this->model_extension_d_quickcheckout_store->getState();
         $state['session']['confirm'] = $this->getDefault();
         $state['config'] = $this->getConfig();
 
@@ -60,17 +66,41 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
 
         //updating payment_method value
         if($data['action'] == 'confirm/update'){
-            $state['session']['confirm'] = $this->getDefault();
-            if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
-                $state['session']['confirm']['checkout'] = true;
-            }
+            if(isset($data['data']['page_id'])){
+                $page_id = $data['data']['page_id'];
+                if($this->validatePage($page_id)){
+                    $state['session']['page_id'] = $this->getNextPage($page_id);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $state['session']['page_id']);
+                }
 
-            $this->model_extension_d_quickcheckout_store->updateState(array('session','confirm','checkout'), $state['session']['confirm']['checkout']);
-            $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $this->request->get);
+                $this->model_extension_d_quickcheckout_store->dispatch('continue/update/after', $this->request->get);
+            }else{
+                $state['session']['confirm'] = $this->getDefault();
+                if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
+                    $state['session']['confirm']['checkout'] = true;
+                }
+
+                $this->model_extension_d_quickcheckout_store->updateState(array('session','confirm','checkout'), $state['session']['confirm']['checkout']);
+                $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $this->request->get);
+            }
+            
         }
     }
 
     public function validate(){
+        return true;
+    }
+
+    private function validatePage($page_id){
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+
+        if(isset($state['layout']['pages'][$page_id])){
+            
+
+            $this->load->model('extension/d_quickcheckout/error');
+            return $this->model_extension_d_quickcheckout_error->validatePage($page_id);
+
+        }
         return true;
     }
 
@@ -121,6 +151,21 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
         $result['image'] = HTTPS_SERVER.'image/catalog/d_quickcheckout/step/confirm.svg';
 
         return $result;
+    }
+
+    private function getNextPage($page_id){
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        $pages = array_keys($state['layout']['pages']);
+        $page_index = array_search($page_id, $pages);
+        $pages_total = count($pages);
+
+        if($pages_total){
+            $page_index++;
+            if($page_index < $pages_total){
+                return $pages[$page_index];
+            }
+        }
+        return $page_id;
     }
 
     private function getDefault(){

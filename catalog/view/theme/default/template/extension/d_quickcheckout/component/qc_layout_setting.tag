@@ -5,63 +5,95 @@
     if={getState().edit} 
     setting_id={setting_id}
     title={getLanguage().general.text_general}>
-        <div class="ve-editor__setting__content__section">
-            <div class="ve-field">
-                <label class="ve-label">{getLanguage().general.text_display} {getLanguage().general.text_header_footer}</label>
-                <div>
-                    <qc_switcher 
-                    onclick="{parent.edit}" 
-                    name="layout[header_footer]" 
-                    data-label-text="Enabled" 
-                    value={ getLayout().header_footer } />
+
+    <ul class="qc-setting-tabs ve-tab ve-tab--block">
+            <li class="qc-tab ve-tab__item active">
+                <a href="#{ opts.setting_id }_general" id="{ opts.setting_id }_home_tab" role="tab" data-toggle="tab" aria-controls="{ setting_id }_general" aria-expanded="true">{getLanguage().general.text_general}</a>
+            </li>
+            <li class="qc-tab ve-tab__item">
+                <a href="#{ opts.setting_id }_error" id="{ opts.setting_id }_error_tab" role="tab" data-toggle="tab" aria-controls="{ opts.setting_id }_error" aria-expanded="true">{getLanguage().general.text_css}</a>
+            </li>
+            <li class="qc-tab ve-tab__item">
+                <a href="#{ opts.setting_id }_advanced" id="{ opts.setting_id }_advanced_tab" role="tab" data-toggle="tab" aria-controls="{ opts.setting_id }_advanced" aria-expanded="true">{getLanguage().general.text_script}</a>
+            </li>
+            <!--  <li class="ve-tab__item">
+                <a href="#{ opts.setting_id }_design" id="{ opts.setting_id }_design_tab" role="tab" data-toggle="tab" aria-controls="{ opts.setting_id }_design" aria-expanded="true">{getLanguage().general.text_design}</a>
+            </li>  -->
+        </ul>
+        <div class="qc-setting-tab-content"> 
+            <div class="qc-setting-tab-pane fade in active" role="tabpanel" id="{ opts.setting_id }_general" aria-labelledby="{ opts.setting_id }_general_tab"> 
+                <div class="ve-editor__setting__content__section">
+                    <div class="ve-field">
+                        <label class="ve-label">{getLanguage().general.text_display} {getLanguage().general.text_header_footer}</label>
+                        <div>
+                            <qc_switcher 
+                            onclick="{parent.edit}" 
+                            name="layout[header_footer]" 
+                            data-label-text="Enabled" 
+                            value={ getLayout().header_footer } />
+                        </div>
+                    </div>
+
+                    <div class="ve-field">
+                        <label class="ve-label">{getLanguage().general.text_loading}</label>
+                        <div class="ve-input-group">
+                            <span class="ve-input-group__addon">
+                                <img src="{getLanguage().general.img}">
+                            </span>
+                            <input onchange="{parent.edit}" type="text" class="ve-input" name="language[general][text_loading]" value={ getLanguage().general.text_loading } />
+                        </div>
+                    </div>
+
+                    <div class="ve-field">
+                        <label class="ve-label"> {getLanguage().general.text_layout}</label><br/>
+                        <select
+                            class="ve-input"
+                            onchange="{parent.changeLayout}" >
+                            <option
+                                each={layout in getState().layouts }
+                                if={layout}
+                                value={ layout }
+                                selected={ layout == getLayout().codename} >
+                                { layout } 
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="ve-field">
+                        <label class="ve-label"> {getLanguage().general.text_skin}</label><br/>
+                        <select
+                            class="ve-input"
+                            onchange="{parent.changeSkin}" >
+                            <option
+                                each={skin in getState().skins }
+                                if={skin}
+                                value={ skin }
+                                selected={ skin == getSession().skin} >
+                                { skin } 
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="ve-hr">
+                <div class="ve-editor__setting__content__section">
+                    <div class="ve-field">
+                        <label class="ve-label"> {getLanguage().general.text_reset}</label><br/>
+                        <a class="ve-btn ve-btn--danger" onclick={parent.resetState}>{getLanguage().general.text_reset}</a>
+                    </div>
                 </div>
             </div>
-
-            <div class="ve-field">
-                <label class="ve-label">{getLanguage().general.text_loading}</label>
-                <div class="ve-input-group">
-                    <span class="ve-input-group__addon">
-                        <img src="{getLanguage().general.img}">
-                    </span>
-                    <input onchange="{parent.edit}" type="text" class="ve-input" name="language[general][text_loading]" value={ getLanguage().general.text_loading } />
+            <div class="qc-setting-tab-pane fade" role="tabpanel" id="{ opts.setting_id }_error" aria-labelledby="{ opts.setting_id }_error_tab">
+                <div class="ve-editor__setting__content__section">
+                    <label>Input your custom CSS here </label>
+                    <textarea name="layout[css]" class="ve-input" rows="10" onchange="{parent.edit}" >{getLayout().css}</textarea>
                 </div>
-            </div>
+            </div> 
 
-            <div class="ve-field">
-                <label class="ve-label"> {getLanguage().general.text_layout}</label><br/>
-                <select
-                    class="ve-input"
-                    onchange="{parent.changeLayout}" >
-                    <option
-                        each={layout in getState().layouts }
-                        if={layout}
-                        value={ layout }
-                        selected={ layout == getLayout().codename} >
-                        { layout } 
-                    </option>
-                </select>
-            </div>
-
-            <div class="ve-field">
-                <label class="ve-label"> {getLanguage().general.text_skin}</label><br/>
-                <select
-                    class="ve-input"
-                    onchange="{parent.changeSkin}" >
-                    <option
-                        each={skin in getState().skins }
-                        if={skin}
-                        value={ skin }
-                        selected={ skin == getSession().skin} >
-                        { skin } 
-                    </option>
-                </select>
-            </div>
-        </div>
-        <hr class="ve-hr">
-        <div class="ve-editor__setting__content__section">
-            <div class="ve-field">
-                <label class="ve-label"> {getLanguage().general.text_reset}</label><br/>
-                <a class="ve-btn ve-btn--danger" onclick={parent.resetState}>{getLanguage().general.text_reset}</a>
+            <div class="qc-setting-tab-pane fade" role="tabpanel" id="{ opts.setting_id }_advanced" aria-labelledby="{ opts.setting_id }_design_tab">
+                <div class="ve-editor__setting__content__section">
+                    <label>Input your custom JavaScript here </label>
+                    <textarea name="layout[js]" class="ve-input" rows="10" onchange="{parent.edit}" >{getLayout().js}</textarea>
+                </div>
             </div>
         </div>
     </qc_setting>

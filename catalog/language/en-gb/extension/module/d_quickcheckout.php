@@ -29,6 +29,8 @@ $_['text_layout'] = 'Select layout';
 $_['text_skin'] = 'Select skin';
 
 $_['text_general'] = 'General';
+$_['text_css'] = 'CSS';
+$_['text_script'] = 'Scripts';
 $_['text_error'] = 'Errors';
 $_['text_dependency'] = 'Dependency';
 $_['text_design'] = 'Design';

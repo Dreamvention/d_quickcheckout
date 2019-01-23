@@ -88,7 +88,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->controller('extension/d_quickcheckout/shipping_method'); 
         $this->load->controller('extension/d_quickcheckout/payment_method'); 
         $this->load->controller('extension/d_quickcheckout/cart'); 
-        $this->load->controller('extension/d_quickcheckout/continue'); 
+        //$this->load->controller('extension/d_quickcheckout/continue'); 
         $this->load->controller('extension/d_quickcheckout/confirm'); 
         $this->load->controller('extension/d_quickcheckout/payment'); 
 
@@ -220,7 +220,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
         $this->load->controller('extension/d_quickcheckout/payment_method'); //10
         $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-        $this->load->controller('extension/d_quickcheckout/continue'); //0.12
+        //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
         $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
         $this->load->controller('extension/d_quickcheckout/payment'); //4.5
 
@@ -245,7 +245,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
         $this->load->controller('extension/d_quickcheckout/payment_method'); //10
         $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-        $this->load->controller('extension/d_quickcheckout/continue'); //0.12
+        //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
         $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
         $this->load->controller('extension/d_quickcheckout/payment'); //4.5
 
@@ -274,7 +274,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
             $this->load->controller('extension/d_quickcheckout/payment_method'); //10
             $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-            $this->load->controller('extension/d_quickcheckout/continue'); //0.12
+            //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
             $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
             $this->load->controller('extension/d_quickcheckout/payment'); //4.5
         }
@@ -371,6 +371,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['text_hidden'] = $this->language->get('text_hidden');
         $data['text_remove'] = $this->language->get('button_remove');
         $data['text_general'] = $this->language->get('text_general');
+        $data['text_css'] = $this->language->get('text_css');
+        $data['text_script'] = $this->language->get('text_script');
         $data['text_error'] = $this->language->get('text_error');
         $data['text_dependency'] = $this->language->get('text_dependency');
         $data['text_design'] = $this->language->get('text_design');

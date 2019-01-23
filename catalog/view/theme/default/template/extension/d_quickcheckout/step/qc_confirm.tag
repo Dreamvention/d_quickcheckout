@@ -18,14 +18,18 @@
                 <p class="ve-p" if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </p>
             </div>
             <div class="ve-card__section">
-                <a onclick={ confirm } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</a>
+                <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().confirm.text_prev}</button>
+                <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
+                <button if={confirm == 1} onclick={ confirmCheckout } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</button>
             </div>
         </div>
 
         <!-- style clear -->
         <div if={ getConfig().confirm.display == 1 && getState().config.guest.confirm.style == 'clear' } class="ve-mb-3 ve-clearfix">
-                <p class="ve-p" if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </p>
-                <a onclick={ confirm } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</a>
+            <p class="ve-p" if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </p>
+            <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().confirm.text_prev}</button>
+            <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
+            <button if={confirm == 1} onclick={ confirmCheckout } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</button>
         </div>
 
         <!-- Hidden Step -->
@@ -39,10 +43,29 @@
         this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
+        var pages = this.store.getSession().pages.filter(page => page != false );
 
-        confirm(){
+        tag.prev = pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.confirm.buttons.prev.display == 1;
+        tag.next = pages[pages.length-1] != this.store.getSession().page_id;
+        tag.confirm = pages[pages.length-1] == this.store.getSession().page_id;
+
+        confirmCheckout(){
             this.store.dispatch('confirm/confirm');
             return false;
         }
+        
+        nextPage(e){
+            this.store.dispatch('confirm/next');
+        }
+
+        prevPage(e){
+            this.store.dispatch('confirm/prev');
+        }
+
+        this.on("update", function(){
+            tag.prev = pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.confirm.buttons.prev.display == 1;
+            tag.next = pages[pages.length-1] != this.store.getSession().page_id;
+            tag.confirm = pages[pages.length-1] == this.store.getSession().page_id;
+        });
     </script>
 </qc_confirm>

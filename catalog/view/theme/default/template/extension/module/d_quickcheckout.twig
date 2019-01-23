@@ -32,6 +32,9 @@
             }
         {% endif %}
     </style>
+    <style>
+    {{state.layout.css}}
+    </style>
     <script>
         var header_footer = {{state.layout.header_footer}}
         if(header_footer != 1){
@@ -41,6 +44,9 @@
         }else{
             $('.qc-spinner').after($('#d_quickcheckout'));
         }
+    </script>
+    <script>
+    {{state.layout.js}}
     </script>
 {% endif %}
 

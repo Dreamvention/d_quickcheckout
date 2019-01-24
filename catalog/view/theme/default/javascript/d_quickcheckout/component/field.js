@@ -53,6 +53,19 @@
         var field_id = 'custom-' + custom_field.location + '-' + custom_field.custom_field_id;
         var sort_order = Object.keys(state.config.guest[step].fields).length;
 
+        var format = '';
+        if (custom_field.type == 'date') {
+            format = 'DD-MM-YYYY'
+        }
+
+        if (custom_field.type == 'time') {
+            format = 'HH:mm'
+        }
+
+        if (custom_field.type == 'datetime') {
+            format = 'DD-MM-YYYY HH:mm'
+        }
+
         var accounts = ['guest', 'register', 'logged'];
         for (i = 0; i < accounts.length; i++) {
             state.config[accounts[i]][step].fields[field_id] = {
@@ -75,6 +88,7 @@
                 'location': custom_field.location,
                 'custom_field_id': custom_field.custom_field_id,
                 'sort_order': sort_order,
+                'format': format,
                 'class': '',
                 'value': '',
                 'mask': '',

@@ -37,7 +37,7 @@
                         <div
                             each={ field_id in fields}
                             if={getConfig().shipping_address.fields[field_id]}
-                            class="qc-field ve-field { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
+                            class="qc-field ve-field {field_id} { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().shipping_address.fields[field_id].sort_order }
                             field_id={field_id}
                             step="shipping_address"

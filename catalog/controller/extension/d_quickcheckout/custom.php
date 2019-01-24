@@ -207,11 +207,34 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
             }
         }
         $default = $state['config'][$state['session']['account']]['custom']['fields'];
-        return array(
+        $address = array(
             'comment' => (isset($custom['comment'])) ? $custom['comment'] : $default['comment']['value'],
             'agree' => (isset($custom['agree'])) ? $custom['agree'] : $default['agree']['value'],
+            'custom_field' => array();
             );
 
+        //init custom fields
+        foreach($default as $key => $field){
+            if(!empty($field['custom'])){
+                $address[$key] = $field['value'];
+
+                $part = explode('-', $key);
+                if(isset($part[2]) && is_numeric($part[2])){
+                    if($part[0] == 'custom'){
+                        $location = $part[1];
+                        $custom_field_id = $part[2];
+                    }
+                }
+
+                $custom_field = array( 
+                    $location => array( 
+                        $custom_field_id => $field['value']
+                    )
+                );
+                $address['custom_field'] = array_merge($address['custom_field'], $custom_field);
+            }
+        }
+        return $address;
     }
 
     private function validateField($field, $value){

@@ -388,7 +388,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
         $default = $state['config'][$state['session']['account']]['shipping_address']['fields'];
 
-        return array(
+        $address = array(
             'firstname' => (isset($shipping_address['firstname'])) ? $shipping_address['firstname'] : $default['firstname']['value'],
             'lastname' => (isset($shipping_address['lastname'])) ? $shipping_address['lastname'] : $default['lastname']['value'],
             'company' => (isset($shipping_address['company'])) ? $shipping_address['company'] : $default['company']['value'],
@@ -407,6 +407,30 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             'zone_code' => (isset($shipping_address['zone_code'])) ? $shipping_address['zone_code'] : '',
             'address_id' => (isset($shipping_address['address_id'])) ? $shipping_address['address_id'] : 0
             );
+
+        //init custom fields
+        foreach($default as $key => $field){
+            if(!empty($field['custom'])){
+                $address[$key] = $field['value'];
+
+                $part = explode('-', $key);
+                if(isset($part[2]) && is_numeric($part[2])){
+                    if($part[0] == 'custom'){
+                        $location = $part[1];
+                        $custom_field_id = $part[2];
+                    }
+                }
+
+                $custom_field = array( 
+                    $location => array( 
+                        $custom_field_id => $field['value']
+                    )
+                );
+                $address['custom_field'] = array_merge($address['custom_field'], $custom_field);
+            }
+        }
+
+        return $address;
 
     }
 

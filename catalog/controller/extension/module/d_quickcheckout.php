@@ -116,8 +116,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
 
         //set opened page
-        if(!isset($state['session']['skin'])){
-            $data['state']['session']['skin'] = 'default';
+        if(!isset($state['layout']['skin'])){
+            $data['state']['layout']['skin'] = 'default';
         }
 
         $this->model_extension_d_quickcheckout_store->saveState();
@@ -144,7 +144,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $data['state']['edit'] = true;
             $data['edit'] = true;
         }else{
-            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'.$data['state']['session']['skin'] .'/'.$data['state']['session']['skin'] .'.css?'.rand());
+            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'.$data['state']['layout']['skin'] .'/'.$data['state']['layout']['skin'] .'.css?'.rand());
         }
         return $this->load->view($this->model_extension_d_quickcheckout_view->template($this->route), $data);
     }

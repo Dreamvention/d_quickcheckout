@@ -46,7 +46,7 @@
     });
 
     this.subscribe('setting/changeSkin', function(data) {
-        this.updateState(['session', 'skin'], data.skin_codename);
+        this.updateState(['layout', 'skin'], data.skin_codename);
     });
 
     this.subscribe('setting/changeLanguage', function(data) {

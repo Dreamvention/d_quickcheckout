@@ -1,5 +1,5 @@
 <qc_payment_address>
-    <div class="step">
+    <div class="step qc-payment-address">
 
         <qc_payment_address_setting if={riot.util.tags.selectTags().search('"qc_payment_address_setting"') && getState().edit} step="{opts.step}"></qc_payment_address_setting>
 

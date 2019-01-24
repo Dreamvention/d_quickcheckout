@@ -351,7 +351,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         }
                     }else{
                         $part = explode('-', $field);
-                        if(isset($part[1]) && is_numeric($part[1])){
+                        if(isset($part[2]) && is_numeric($part[2])){
                             if($part[0] == 'custom'){
                                 $location = $part[1];
                                 $custom_field_id = $part[2];
@@ -510,6 +510,29 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'newsletter' => 0,
             'address_id' => 0
         );
+
+        //init custom fields
+        foreach($default as $key => $field){
+            if(!empty($field['custom'])){
+                $address[$key] = $field['value'];
+
+                $part = explode('-', $key);
+                if(isset($part[2]) && is_numeric($part[2])){
+                    if($part[0] == 'custom'){
+                        $location = $part[1];
+                        $custom_field_id = $part[2];
+                    }
+                }
+
+                $custom_field = array( 
+                    $location => array( 
+                        $custom_field_id => $field['value']
+                    )
+                );
+                $address['custom_field'] = array_merge($address['custom_field'], $custom_field);
+            }
+        }
+
 
         foreach($address as $key => $value){
             if(isset($payment_address[$key])){

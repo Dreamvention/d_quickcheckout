@@ -69,21 +69,16 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
             if(isset($data['data']['page_id'])){
                 $page_id = $data['data']['page_id'];
                 if($this->validatePage($page_id)){
-                    $state['session']['page_id'] = $this->getNextPage($page_id);
-                    $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $state['session']['page_id']);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session','page_id'), $this->getNextPage($page_id));
                 }
-
-                $this->model_extension_d_quickcheckout_store->dispatch('continue/update/after', $this->request->get);
             }else{
                 $state['session']['confirm'] = $this->getDefault();
                 if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
                     $state['session']['confirm']['checkout'] = true;
                 }
-
                 $this->model_extension_d_quickcheckout_store->updateState(array('session','confirm','checkout'), $state['session']['confirm']['checkout']);
-                $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $this->request->get);
             }
-            
+            $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $this->request->get);
         }
     }
 

@@ -63,7 +63,16 @@ class ModelExtensionDQuickcheckoutError extends Model {
     }
 
     public function validatePage($page_id){
-
+        //clear all errors first
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        foreach($state['steps'] as $step){
+            if(isset($state['errors'][$step])){
+                foreach($state['errors'][$step] as $field_id => $field){
+                    $state['errors'][$step][$field_id] = '';
+                }
+            }
+        }
+        
         $steps = $this->getPageSteps($page_id);
 
         foreach($steps as $step){

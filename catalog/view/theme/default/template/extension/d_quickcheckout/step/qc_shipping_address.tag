@@ -1,5 +1,5 @@
 <qc_shipping_address>
-    <div class="step">
+    <div class="step qc-shipping-address">
 
         <qc_shipping_address_setting if={riot.util.tags.selectTags().search('"qc_shipping_address_setting"') && getState().edit} step="{opts.step}"></qc_shipping_address_setting>
 

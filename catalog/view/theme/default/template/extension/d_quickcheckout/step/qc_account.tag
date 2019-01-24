@@ -1,5 +1,5 @@
 <qc_account>
-    <div class="step">
+    <div class="step qc-account">
 
         <qc_account_setting if={riot.util.tags.selectTags().search('"qc_account_setting"') && getState().edit} step="{opts.step}"></qc_account_setting>
 

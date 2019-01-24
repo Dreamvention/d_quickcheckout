@@ -1,5 +1,5 @@
 <qc_custom>
-    <div class="step">
+    <div class="step qc-custom">
 
         <qc_custom_setting if={riot.util.tags.selectTags().search('"qc_custom_setting"') && getState().edit} step="{opts.step}"></qc_custom_setting>
 

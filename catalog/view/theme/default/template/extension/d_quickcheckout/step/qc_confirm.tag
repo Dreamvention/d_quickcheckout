@@ -1,5 +1,5 @@
 <qc_confirm>
-    <div class="step">
+    <div class="step qc-confirm">
 
         <qc_confirm_setting if={riot.util.tags.selectTags().search('"qc_confirm_setting"') && getState().edit} step="{opts.step}"></qc_confirm_setting>
 

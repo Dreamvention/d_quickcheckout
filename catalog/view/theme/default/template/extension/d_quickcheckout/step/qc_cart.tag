@@ -1,5 +1,5 @@
 <qc_cart>
-    <div class="step">
+    <div class="step  qc-cart">
 
         <qc_cart_setting if={riot.util.tags.selectTags().search('"qc_cart_setting"') && getState().edit} step="{opts.step}"></qc_cart_setting>
 

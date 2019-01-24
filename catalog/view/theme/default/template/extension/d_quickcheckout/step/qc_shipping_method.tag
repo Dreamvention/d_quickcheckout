@@ -1,5 +1,5 @@
 <qc_shipping_method>
-    <div class="step">
+    <div class="step qc-shipping-method">
 
         <qc_shipping_method_setting if={riot.util.tags.selectTags().search('"qc_shipping_method_setting"') && getState().edit} step="{opts.step}"></qc_shipping_method_setting>
 

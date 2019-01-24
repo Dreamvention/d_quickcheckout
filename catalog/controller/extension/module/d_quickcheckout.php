@@ -63,8 +63,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->document->addStyle('catalog/view/javascript/d_quickcheckout/intltelinput/css/intlTelInput.min.css');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/intlTelInput.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
+
+        
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/moment/moment.min.js');
         $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/bootstrap-datetimepicker.min.js');
+        $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/moment/locales.min.js');
         if($this->config->get('d_quickcheckout_rtl')){
             $this->document->addStyle('catalog/view/javascript/d_quickcheckout/ripecss/ripe.rtl.css');
             $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');

@@ -22,7 +22,7 @@
                     no-reorder
                     autocomplete="{ opts.field.autocomplete }"
                     qc-mask="{ opts.field.mask }"
-                    data-date-format="YYYY-MM-DD"
+                    data-date-format="{opts.field.format}"
                     placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                     onchange={change} >
 

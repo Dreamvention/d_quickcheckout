@@ -1149,6 +1149,9 @@ label.ve-file {
   align-items: center;
   margin-bottom: 0px;
   box-shadow: 0 1px 3px 0 #e6ebf1; }
+  .ve-input-group + .ve-help,
+  .ve-input-group + .ve-field__error {
+    margin-top: 10px; }
   .ve-input-group__addon,
   .ve-input-group .ve-label {
     background: #fff;

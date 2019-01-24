@@ -68,7 +68,7 @@
                                 each={skin in getState().skins }
                                 if={skin}
                                 value={ skin }
-                                selected={ skin == getSession().skin} >
+                                selected={ skin == getLayout().skin} >
                                 { skin } 
                             </option>
                         </select>

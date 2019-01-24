@@ -210,8 +210,8 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
         $address = array(
             'comment' => (isset($custom['comment'])) ? $custom['comment'] : $default['comment']['value'],
             'agree' => (isset($custom['agree'])) ? $custom['agree'] : $default['agree']['value'],
-            'custom_field' => array();
-            );
+            'custom_field' => array()
+        );
 
         //init custom fields
         foreach($default as $key => $field){

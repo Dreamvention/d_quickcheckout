@@ -38,21 +38,24 @@
 
     this.subscribe('confirm/next', function(data) {
         clearTimeout(this.continue_timer);
-        var current_page_id = this.getSession().page_id;
-        var data = { page_id: current_page_id }
+        setTimeout(function() {
+            var current_page_id = this.getSession().page_id;
+            var data = { page_id: current_page_id }
 
-        this.continue_timer = setTimeout(function() {
-            this.send('extension/d_quickcheckout/confirm/update', data, function(json) {
-                this.setState(json);
-                this.setChange(this.getState());
-                if (current_page_id == this.getSession().page_id) {
-                    this.goToError();
-                } else {
-                    this.goToPageNav();
-                }
+            this.continue_timer = setTimeout(function() {
+                this.send('extension/d_quickcheckout/confirm/update', data, function(json) {
+                    this.setState(json);
+                    this.setChange(this.getState());
+                    if (current_page_id == this.getSession().page_id) {
+                        this.goToError();
+                    } else {
+                        this.goToPageNav();
+                    }
 
-            }.bind(this));
-        }, 11);
+                }.bind(this));
+            }, 11);
+
+        }, 500);
 
     });
 

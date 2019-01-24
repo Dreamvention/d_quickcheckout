@@ -21,7 +21,7 @@
                 autocomplete="{ opts.field.autocomplete }"
                 no-reorder
                 onchange={change} >
-                <option if={ opts.field.custom !=1 } value="" selected={ opts.riotValue == 0} >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
+                <option value="" selected={ opts.riotValue == 0} >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
                 <option
                     each={option in opts.field.options }
                     if={option}

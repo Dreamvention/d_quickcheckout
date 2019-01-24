@@ -11,24 +11,24 @@
 
             <div if={condition == 'text'}  class="ve-field">
                 <label class="ve-label">{getLanguage().general['entry_text']}</label>
-                <input onchange="{parent.opts.onchange}" type="text" class="ve-input" name="language[{parent.parent.opts.step}][{value}]" value={ getLanguage()[parent.opts.step][value] } />
+                <input onchange="{parent.opts.edit}" type="text" class="ve-input" name="language[{parent.parent.opts.step}][{value}]" value={ getLanguage()[parent.opts.step][value] } />
 
                 <input type="hidden" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][text]" value={ value } />
             </div>
 
             <div if={condition == 'min_length'} class="ve-field">
                 <label class="ve-label">{getLanguage().general['entry_min_length']}</label>
-                <input onchange="{parent.opts.onchange}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][min_length]" value={ value } />
+                <input onchange="{parent.opts.edit}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][min_length]" value={ value } />
             </div>
 
             <div if={condition == 'max_length'} class="ve-field">
                 <label class="ve-label">{getLanguage().general['entry_max_length']}</label>
-                <input onchange="{parent.opts.onchange}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][max_length]" value={ value } />
+                <input onchange="{parent.opts.edit}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][max_length]" value={ value } />
             </div>
 
             <div if={condition == 'compare_to'} class="ve-field">
                 <label class="ve-label">{getLanguage().general['entry_compare_to']}</label>
-                <select onchange="{parent.opts.onchange}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][compare_to]" value={ value } >
+                <select onchange="{parent.opts.edit}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][compare_to]" value={ value } >
                     <option>{ getLanguage().general.text_select }</option>
                     <option
                         each={field in getConfig().payment_address.fields}
@@ -58,7 +58,7 @@
 
             <div if={condition == 'regex'} class="ve-field">
                 <label>{getLanguage().general['entry_regex']}</label>
-                <input onchange="{parent.opts.onchange}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][regex]" value={ value } />
+                <input onchange="{parent.opts.edit}" type="text" class="ve-input" name="config[{getAccount()}][{parent.opts.step}][fields][{parent.opts.field_id }][errors][{parent.opts.error_id}][regex]" value={ value } />
             </div>
 
             <div if={condition == 'telephone'} class="ve-field">

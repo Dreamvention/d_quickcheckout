@@ -94,7 +94,7 @@
     }
 
     this.updateLayoutStyle = function() {
-        $.when($.get('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/' + this.getSession().skin + '/' + this.getSession().skin + '.css?' + this.rand()))
+        $.when($.get('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/' + this.getLayout().skin + '/' + this.getLayout().skin + '.css?' + this.rand()))
             .done(function(response) {
                 $('html > head').find('[title="d_quickcheckout"]').remove();
 

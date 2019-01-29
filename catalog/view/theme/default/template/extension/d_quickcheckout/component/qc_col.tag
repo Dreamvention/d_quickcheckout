@@ -128,7 +128,6 @@
                         cellWidth = state.cellWidth;
                     }
                     var cellMin = cellWidth * options.cellMin;
-
                     $(tag.root).addClass('gr-resizable').resizable({
                         grid: cellWidth,
                         handles: options.handles,

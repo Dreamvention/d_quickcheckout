@@ -119,6 +119,14 @@
                 if(!$(tag.root).hasClass('gr-resizable')){
                     var $parent = $(tag.root).parent();
                     var cellWidth = ($parent.width()/options.gridRows);
+
+                    //fix width of hidden div bug
+                    if(cellWidth > 0){
+                        tag.store.updateState(['cellWidth'], cellWidth);
+                    }else{
+                        var state = tag.store.getState();
+                        cellWidth = state.cellWidth;
+                    }
                     var cellMin = cellWidth * options.cellMin;
 
                     $(tag.root).addClass('gr-resizable').resizable({

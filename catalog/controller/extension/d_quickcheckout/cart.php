@@ -295,6 +295,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         }
 
         $this->model_extension_d_quickcheckout_store->updateState(array( 'errors' , 'cart'), $state['errors']['cart']);
+        
 
         $cart = $this->getCart();
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
@@ -511,6 +512,12 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         if(!$quantity){
             $this->model_extension_d_quickcheckout_store->updateState(array( 'session', 'status'), false);
+        }
+
+        if(isset($data['error_warning'])){
+            $this->model_extension_d_quickcheckout_store->updateState(array( 'errors' , 'cart', 'error_minimum'), $data['error_warning']);
+        }else{
+            $this->model_extension_d_quickcheckout_store->updateState(array( 'errors' , 'cart', 'error_minimum'), '');
         }
 
         return $data;

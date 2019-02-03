@@ -7,6 +7,19 @@
   .qc a.ve-btn--primary > *,
   .qc-btn.ve-btn--primary > * {
     color: #fff !important; }
+  .qc .ve-btn--primary.ve-btn--loading,
+  .qc a.ve-btn--primary.ve-btn--loading,
+  .qc-btn.ve-btn--primary.ve-btn--loading {
+    color: transparent !important; }
+    .qc .ve-btn--primary.ve-btn--loading > *,
+    .qc a.ve-btn--primary.ve-btn--loading > *,
+    .qc-btn.ve-btn--primary.ve-btn--loading > * {
+      color: transparent !important; }
+    .qc .ve-btn--primary.ve-btn--loading:after,
+    .qc a.ve-btn--primary.ve-btn--loading:after,
+    .qc-btn.ve-btn--primary.ve-btn--loading:after {
+      border-right-color: transparent !important;
+      border-top-color: transparent !important; }
   .qc .ve-btn--primary:after,
   .qc a.ve-btn--primary:after,
   .qc-btn.ve-btn--primary:after {
@@ -24,6 +37,9 @@
 
 .qc-loader {
   background: #23a1d1; }
+
+.qc-spinner:before {
+  border-top: 3px solid #23a1d1; }
 
 .qc .ve-radio--selected {
   color: #23a1d1 !important; }

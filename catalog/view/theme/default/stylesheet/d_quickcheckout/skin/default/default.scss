@@ -8,6 +8,16 @@ $color: #23a1d1 !default;
         >* {
             color: #fff !important;
         }
+        &.ve-btn--loading {
+            color: transparent !important;
+            >* {
+                color: transparent !important;
+            }
+            &:after {
+                border-right-color: transparent !important;
+                border-top-color: transparent !important;
+            }
+        }
         &:after {
             border-color: #fff !important;
         }

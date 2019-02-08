@@ -15,7 +15,7 @@
     width: 50%;
     float: left;
     position: relative;
-    @media (max-width: 767px) {
+    @media (max-device-width: 480px) {
         width: 100%;
     }
 }

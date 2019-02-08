@@ -142,6 +142,7 @@
                 error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
                 this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
                 this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+                $('#' + this.opts.step + '_' + this.opts.field_id).focusout();
             }.bind(this));
         }
 

@@ -10,26 +10,26 @@
             <span if={ isRequired() } class="require">*</span>
             <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
         </label>
-        <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
+        <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} qc-select">
             <select
                 if={!getState().edit }
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
                 ref="input"
-                class="ve-input d-vis { (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'selectpicker' : ''} { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
+                class="ve-input d-vis qc-select{ (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'selectpicker' : ''} { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
                 required="{ opts.field.require }"
                 autocomplete="{ opts.field.autocomplete }"
-                no-reorder
                 onchange={change} >
-                <option value="" selected={ isEmpty(opts.riotValue) } >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
+                <option value="" selected={ isEmpty(opts.riotValue) ? true : null} >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
                 <option
                     each={option in opts.field.options }
                     if={option}
                     value={ option.value }
-                    selected={ option.value == parent.opts.riotValue} >
+                    selected={ (option.value == parent.opts.riotValue) ? true : null} >
                     { option.name } 
                 </option>
             </select>
+            <i class="qc-select-placeholder">{ getName() } </i>
 
             <select
                 if={getState().edit }
@@ -61,6 +61,17 @@
 
         getValue(){
             return this.store.getSession()[tag.opts.step][tag.opts.field_id];
+        }
+
+        getName(){
+            var result = opts.field.options.filter(function(item){
+                if(item.value == tag.tag_value){
+                    return item.name
+                }
+            })
+            if(result[0].name){
+                return result[0].name;
+            }
         }
 
         getTagError(){
@@ -156,9 +167,10 @@
             this.initTooltip();
             if(this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
                 $(tag.root).find('.selectpicker').selectpicker({
-                    style: 'btn btn-default',
+                    style: 've-input ve-selectpicker',
                     size: 12,
-                    liveSearch: true
+                    liveSearch: true,
+                    noneSelectedText: ''
                 });
             }
         })
@@ -173,4 +185,35 @@
         })
 
     </script>
+    <style>
+        
+        .bootstrap-select{
+            border: none !important;
+            padding: 0px !important;
+            width: 100% !important;
+        }
+        .qc-select {
+            position: relative;
+        }
+        .qc-select select{
+            z-index: 1;
+            color: transparent;
+            background: transparent;
+            position: relative;
+        }
+        .qc-select-placeholder{
+            position: absolute;
+            top: 0px;
+            padding: 6px 11px;
+            font-style: normal;
+            width: calc(100% - 30px);
+            display: block;
+            background: #fff;
+            border-radius: 3px;
+            height: 30px;
+        }
+        .ve-field--error .qc-select-placeholder{
+            background-color: #fee2e1;
+        }
+    </style>
 </qc_field_select>

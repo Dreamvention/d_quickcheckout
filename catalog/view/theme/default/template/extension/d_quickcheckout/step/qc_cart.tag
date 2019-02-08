@@ -300,8 +300,8 @@
                 </div>
                 <div class="form-horizontal qc-totals">
                     <div class="ve-row ve-clearfix qc-total" each={total in getSession().totals} if={total}>
-                        <label class="ve-col-sm-9 ve-col-6 ve-label" >{ total.title }</label>
-                        <div class="ve-col-sm-3 ve-col-6 text-right">{ total.text }</div>
+                        <label class="ve-col ve-col-sm-9 ve-label" >{ total.title }</label>
+                        <div class="ve-col ve-col-sm-3 text-right">{ total.text }</div>
                     </div>
                 </div>
 

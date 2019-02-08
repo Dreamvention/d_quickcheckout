@@ -15,6 +15,9 @@
     width: 50%;
     float: left;
     position: relative;
+    @media (max-width: 767px) {
+        width: 100%;
+    }
 }
 
 .qc-clearboth {

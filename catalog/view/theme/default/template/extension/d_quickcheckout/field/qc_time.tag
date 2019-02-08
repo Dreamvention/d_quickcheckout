@@ -13,6 +13,7 @@
 
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <div if={!getState().edit } class="ve-input-group">
+                <label type="button" class="ve-btn d-vis ve-btn--default {isMobile() ? 've-hidden' : ''}" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
                 <input
                     type="text"
                     id="{ opts.step }_{ opts.field.id }"
@@ -24,19 +25,16 @@
                     qc-mask="{ opts.field.mask }"
                     data-date-format="{opts.field.format}"
                     placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
-                    onchange={change} >
-
-                <label type="button" class="ve-btn d-vis ve-btn--default" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
-                
+                    onchange={change} />
             </div>
             <div if={getState().edit } class="ve-input-group">
+                <label class="ve-btn d-vis ve-btn--default"><i class="fa fa-calendar"></i></label>
                 <input 
                     class="ve-input"
                     type="text"
                     placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                     disabled=true
                     />
-                <label class="ve-btn d-vis ve-btn--default"><i class="fa fa-calendar"></i></label>
             </div>
             <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </div>

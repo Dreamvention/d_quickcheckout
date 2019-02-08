@@ -19,7 +19,7 @@
             </div>
             <div class="ve-card__section">
                 <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().confirm.text_prev}</button>
-                <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
+                <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link {(getSession().confirm.loading == 1)? 've-btn--loading' : ''}" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
                 <button if={confirm == 1} onclick={ confirmCheckout } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</button>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div if={ getConfig().confirm.display == 1 && getState().config.guest.confirm.style == 'clear' } class="ve-mb-3 ve-clearfix">
             <p class="ve-p" if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </p>
             <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().confirm.text_prev}</button>
-            <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
+            <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link {(getSession().confirm.loading == 1)? 've-btn--loading' : ''}" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
             <button if={confirm == 1} onclick={ confirmCheckout } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</button>
         </div>
 

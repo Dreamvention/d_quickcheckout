@@ -737,14 +737,14 @@ a[class^=ve-a] {
   max-width: 100%;
   font-family: -apple-system, "BlinkMacSystemFont", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
   transition: box-shadow 0.2s cubic-bezier(0.64, 0, 0.35, 1); }
-  .ve-input[type=text], .ve-input[type=email], .ve-input[type=password], .ve-input[type=tel] {
+  .ve-input[type=text], .ve-input[type=email], .ve-input[type=password], .ve-input[type=time], .ve-input[type=date], .ve-input[type=datetime], .ve-input[type=tel] {
     width: 100%;
     box-shadow: 0 1px 3px 0 #e6ebf1;
     height: 32px;
     min-height: auto;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px; }
-    .ve-input[type=text]:focus, .ve-input[type=email]:focus, .ve-input[type=password]:focus, .ve-input[type=tel]:focus {
+    .ve-input[type=text]:focus, .ve-input[type=email]:focus, .ve-input[type=password]:focus, .ve-input[type=time]:focus, .ve-input[type=date]:focus, .ve-input[type=datetime]:focus, .ve-input[type=tel]:focus {
       border-color: #648bfd;
       outline: none;
       box-shadow: inset 0 0 0 0 transparent, 0 0 0 1px #648bfd, 0 1px 3px 0 #e6ebf1;
@@ -1114,6 +1114,9 @@ label.ve-file {
 .ve-field--error [type=email].ve-input,
 .ve-field--error [type=tel].ve-input,
 .ve-field--error [type=password].ve-input,
+.ve-field--error [type=time].ve-input,
+.ve-field--error [type=date].ve-input,
+.ve-field--error [type=datetime].ve-input,
 .ve-field--error select.ve-input,
 .ve-field--error textarea.ve-input {
   border-color: #f96f66;
@@ -1122,6 +1125,9 @@ label.ve-file {
   .ve-field--error [type=email].ve-input:focus,
   .ve-field--error [type=tel].ve-input:focus,
   .ve-field--error [type=password].ve-input:focus,
+  .ve-field--error [type=time].ve-input:focus,
+  .ve-field--error [type=date].ve-input:focus,
+  .ve-field--error [type=datetime].ve-input:focus,
   .ve-field--error select.ve-input:focus,
   .ve-field--error textarea.ve-input:focus {
     outline: none;

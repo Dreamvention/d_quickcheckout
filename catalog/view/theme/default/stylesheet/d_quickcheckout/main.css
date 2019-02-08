@@ -1266,6 +1266,12 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
     position: relative;
 }
 
+@media (max-device-width: 480px) {
+    .qc-field-col {
+        width: 100%;
+    }
+}
+
 .qc-clearboth {
     clear: both;
 }

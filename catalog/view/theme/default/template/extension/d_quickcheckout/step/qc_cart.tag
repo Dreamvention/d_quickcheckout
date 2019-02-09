@@ -18,7 +18,7 @@
             </div>
 
             <div class="qc-checkout-product ve-card__section">
-                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }>{error}<raw  content="{error}"></raw></div>
+                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }><qc_raw  content="{error}"></qc_raw></div>
             
                 <table class="ve-table ve-table--borderless">
                     <thead class="ve-hidden">
@@ -48,7 +48,7 @@
 
                             <td class="qc-name" show={ getConfig().cart.columns.name.display == 1 } >
                                 <a href="{ raw(product.href) }" { getConfig().cart.columns.image.display == 1 ? '' : 'rel="popup" data-help=\'<img src="' + product.image + '"/>\'' }>
-                                    { product.name } <span class="out-of-stock" show={!product.stock}>***</span>
+                                    <qc_raw content="{ product.name }"></qc_raw> <span class="out-of-stock" show={!product.stock}>***</span>
                                 </a>
                                 <p each={option in product.option}>
                                     <small>{option.name}: {option.value}</small>
@@ -169,7 +169,7 @@
             <p class="ve-p" if={getLanguage().cart.text_description}>{  getLanguage().cart.text_description } </p>
 
             <div class="qc-checkout-product">
-                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }>{error}<raw  content="{error}"></raw></div>
+                <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }><qc_raw  content="{error}"></qc_raw></div>
             
                 <table class="ve-table ve-table--borderless">
                     <thead class="ve-hidden">
@@ -199,7 +199,7 @@
 
                             <td class="qc-name" show={ getConfig().cart.columns.name.display == 1 } >
                                 <a href="{ raw(product.href) }" { getConfig().cart.columns.image.display == 1 ? '' : 'rel="popup" data-help=\'<img src="' + product.image + '"/>\'' }>
-                                    { product.name } <span class="out-of-stock" show={!product.stock}>***</span>
+                                    <qc_raw content="{ product.name }"></qc_raw>  <span class="out-of-stock" show={!product.stock}>***</span>
                                 </a>
                                 <p each={option in product.option}>
                                     <small>{option.name}: {option.value}</small>

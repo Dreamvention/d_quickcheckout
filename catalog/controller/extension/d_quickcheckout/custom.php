@@ -129,6 +129,24 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
                 break;
 
                 default: 
+                    if(isset($state['config']['guest']['custom']['fields'][$field])){
+                        if($state['config']['guest']['custom']['fields'][$field]['custom']){
+                            $location = $state['config']['guest']['custom']['fields'][$field]['location'];
+                            $custom_field_id = $state['config']['guest']['custom']['fields'][$field]['custom_field_id'];
+                        }
+                    }else{
+                        $part = explode('-', $field);
+                        if(isset($part[2]) && is_numeric($part[2])){
+                            if($part[0] == 'custom'){
+                                $location = $part[1];
+                                $custom_field_id = $part[2];
+                            }
+                        }
+                        
+                    }
+                    if(isset($location)){
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'custom', 'custom_field', $location, $custom_field_id),  $value);
+                    }
                     //nothing at the moment;
                 break;
             }

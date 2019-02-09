@@ -301,6 +301,24 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                         }
                     }
                 default: 
+                    if(isset($state['config']['guest']['shipping_address']['fields'][$field])){
+                        if($state['config']['guest']['shipping_address']['fields'][$field]['custom']){
+                            $location = $state['config']['guest']['shipping_address']['fields'][$field]['location'];
+                            $custom_field_id = $state['config']['guest']['shipping_address']['fields'][$field]['custom_field_id'];
+                        }
+                    }else{
+                        $part = explode('-', $field);
+                        if(isset($part[2]) && is_numeric($part[2])){
+                            if($part[0] == 'custom'){
+                                $location = $part[1];
+                                $custom_field_id = $part[2];
+                            }
+                        }
+                        
+                    }
+                    if(isset($location)){
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', 'custom_field', $location, $custom_field_id),  $value);
+                    }
                     //nothing at the moment;
                 break;
             }

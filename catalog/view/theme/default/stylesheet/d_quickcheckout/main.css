@@ -1296,6 +1296,53 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
     margin-bottom: 10px;
 }
 
+.bootstrap-select {
+    border: none !important;
+    padding: 0px !important;
+    width: 100% !important;
+}
+
+@media (max-device-width: 480px) {
+    .qc-select {
+        position: relative;
+    }
+}
+
+@media (max-device-width: 480px) {
+    .qc-select select {
+        z-index: 1;
+        color: transparent;
+        background: transparent;
+        position: relative;
+    }
+}
+
+.qc-select-placeholder {
+    display: none;
+}
+
+@media (max-device-width: 480px) {
+    .qc-select-placeholder {
+        position: absolute;
+        top: 0px;
+        padding: 6px 11px;
+        font-style: normal;
+        width: -webkit-calc(100% - 30px);
+        width: calc(100% - 30px);
+        display: block;
+        background: #fff;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        height: 30px;
+    }
+}
+
+@media (max-device-width: 480px) {
+    .ve-field--error .qc-select-placeholder {
+        background-color: #fee2e1;
+    }
+}
+
 
 /**
  * alertifyjs 1.11.1 http://alertifyjs.com

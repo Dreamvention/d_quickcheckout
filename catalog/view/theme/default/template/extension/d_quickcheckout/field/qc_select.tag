@@ -185,35 +185,4 @@
         })
 
     </script>
-    <style>
-        
-        .bootstrap-select{
-            border: none !important;
-            padding: 0px !important;
-            width: 100% !important;
-        }
-        .qc-select {
-            position: relative;
-        }
-        .qc-select select{
-            z-index: 1;
-            color: transparent;
-            background: transparent;
-            position: relative;
-        }
-        .qc-select-placeholder{
-            position: absolute;
-            top: 0px;
-            padding: 6px 11px;
-            font-style: normal;
-            width: calc(100% - 30px);
-            display: block;
-            background: #fff;
-            border-radius: 3px;
-            height: 30px;
-        }
-        .ve-field--error .qc-select-placeholder{
-            background-color: #fee2e1;
-        }
-    </style>
 </qc_field_select>

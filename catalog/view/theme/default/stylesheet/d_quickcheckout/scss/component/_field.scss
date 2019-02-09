@@ -52,40 +52,31 @@
 }
 
 .qc-select {
-    @media (max-device-width: 480px) {
-        position: relative;
-    }
+    position: relative;
 }
 
 .qc-select select {
-    @media (max-device-width: 480px) {
-        z-index: 1;
-        color: transparent;
-        background: transparent;
-        position: relative;
-        option {
-            color: #333;
-        }
+    z-index: 1;
+    color: transparent;
+    background: transparent;
+    position: relative;
+    option {
+        color: #333;
     }
 }
 
 .qc-select-placeholder {
-    display: none;
-    @media (max-device-width: 480px) {
-        position: absolute;
-        top: 0px;
-        padding: 6px 11px;
-        font-style: normal;
-        width: calc(100% - 30px);
-        display: block;
-        background: #fff;
-        border-radius: 3px;
-        height: 30px;
-    }
+    position: absolute;
+    top: 0px;
+    padding: 6px 11px;
+    font-style: normal;
+    width: calc(100% - 30px);
+    display: block;
+    background: #fff;
+    border-radius: 3px;
+    height: 30px;
 }
 
 .ve-field--error .qc-select-placeholder {
-    @media (max-device-width: 480px) {
-        background-color: #fee2e1;
-    }
+    background-color: #fee2e1;
 }

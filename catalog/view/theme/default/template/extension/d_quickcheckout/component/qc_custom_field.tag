@@ -6,6 +6,7 @@
         <div class="ve-editor__setting__content__section">
             
             <div class="ve-field">
+                <p if={ parent.locationLimit() } class="ve-alert ve-alert--info">This step allows only { parent.locationLimit() } custom fields to be shown</p>
                 <h3 class="ve-h3">Select custom field</h3>
                 <div 
                     each={option in getState().custom_fields }
@@ -31,6 +32,17 @@
         var tag = this;
 
         var custom_fields = [];
+        locationLimit(){
+            if(tag.opts.location_account && tag.opts.location_address){
+                return false;
+            }
+            if(tag.opts.location_account){;
+                return 'account';
+            }
+            if(tag.opts.location_address){
+                return 'address';
+            }
+        }
 
         validateLocation(location){
             if(tag.opts.location_account && location == 'account'){
@@ -72,6 +84,7 @@
         }
 
         this.on('mount', function(){
+
             $(this.root).find('.qc-setting').appendTo('body');
         })
 

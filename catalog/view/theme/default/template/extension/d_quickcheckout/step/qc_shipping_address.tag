@@ -50,7 +50,7 @@
                         ></div>
                     </form>
                     <div if={getState().edit} class="ve-mt-3">
-                        <qc_custom_field setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_account="true" location_address="true" onchange={updateFields}></qc_custom_field>
+                        <qc_custom_field setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_address="true" onchange={updateFields}></qc_custom_field>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                     ></div>
                 </form>
                 <div if={getState().edit} class="ve-mt-3">
-                    <qc_custom_field setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_account="true" location_address="true" onchange={updateFields}></qc_custom_field>
+                    <qc_custom_field setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_address="true" onchange={updateFields}></qc_custom_field>
                 </div>
             </div>
         </div>

@@ -1315,6 +1315,9 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
         background: transparent;
         position: relative;
     }
+    .qc-select select option {
+        color: #333;
+    }
 }
 
 .qc-select-placeholder {

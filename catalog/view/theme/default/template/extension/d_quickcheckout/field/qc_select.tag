@@ -69,7 +69,7 @@
                     return item.name
                 }
             })
-            if(result[0].name){
+            if(result[0]){
                 return result[0].name;
             }
         }

@@ -81,7 +81,6 @@
 
         this.on('mount', function(){
             this.store.initFieldSortable('custom');
-            
         })
     </script>
 </qc_custom>

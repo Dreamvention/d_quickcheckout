@@ -168,9 +168,11 @@ class ModelExtensionDQuickcheckoutError extends Model {
         $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $result = true;
         try {
-            if(is_string($rule) || is_int($rule)){
-                $swissNumberProto = $phoneUtil->parse($value, $rule);
+            if(!empty($value)){
+                $swissNumberProto = $phoneUtil->parse($value);
                 $result = $phoneUtil->isValidNumber($swissNumberProto);
+            }else{
+                $result = false;
             }
         } catch (\libphonenumber\NumberParseException $e) {
             $result = false;

@@ -1,4 +1,4 @@
-<p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://opencart.dreamvention.com/market/image/d_quickcheckout/logo.svg" alt="Vue logo"></a></p>
+<p align="center"><a href="https://shopunity.net/extension/ajax-quick-checkout-lite" target="_blank" rel="noopener noreferrer"><img width="100" src="https://opencart.dreamvention.com/market/image/d_quickcheckout/logo.svg" alt="Ajax Quick Checkout logo"></a></p>
 
 # Ajax Quick Checkout 7 (for Opencart  2.x & 3.x)
 

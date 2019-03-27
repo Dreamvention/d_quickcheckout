@@ -157,7 +157,6 @@
             this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
             
             setTimeout(function(){
-            console.log(targetId)
                 $('#'+targetId).val(value)
             }, 200);
         }

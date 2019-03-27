@@ -23,6 +23,7 @@
         this.cart_timer = setTimeout(function() {
             this.send('extension/d_quickcheckout/cart/update', data, function(json) {
                 this.setState(json);
+                this.updateState(['session', 'cart'],json.session.cart);
                 this.dispatch('setting/updateCommon', json);
             }.bind(this));
         }, 10);

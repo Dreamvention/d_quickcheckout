@@ -205,6 +205,9 @@
         "admin/view/image/d_quickcheckout"
     ],
     "changelog": [{
+            "varsion": "7.1.3",
+            "change": "Fix select for firefox. fix 'term and confitions'"
+        },{
             "varsion": "7.1.2",
             "change": "Added type switch, date field mobile fix"
         }, {

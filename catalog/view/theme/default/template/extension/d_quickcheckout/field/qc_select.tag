@@ -152,8 +152,14 @@
         change(e){
             error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-
+            var value = $(e.currentTarget).val();
+            var targetId = $(e.currentTarget).attr('id');
             this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            
+            setTimeout(function(){
+            console.log(targetId)
+                $('#'+targetId).val(value)
+            }, 200);
         }
 
         initTooltip(){

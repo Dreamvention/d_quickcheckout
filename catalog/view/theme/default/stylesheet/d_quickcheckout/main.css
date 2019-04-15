@@ -1319,6 +1319,7 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
 
 .qc-select-placeholder {
     position: absolute;
+    overflow: hidden;
     top: 0px;
     padding: 6px 11px;
     font-style: normal;

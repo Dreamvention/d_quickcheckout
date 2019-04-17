@@ -69,8 +69,11 @@
                     return item.name
                 }
             })
+            
             if(result[0]){
                 return result[0].name;
+            }else{
+                return getLanguage()[opts.step][opts.field.placeholder]
             }
         }
 

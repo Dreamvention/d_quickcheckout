@@ -306,7 +306,8 @@
 }
 
 .gr-has-controls {
-/*     position: relative; */
+    position: relative;
+    clear: both;
 }
 
 .gr-placeholder {

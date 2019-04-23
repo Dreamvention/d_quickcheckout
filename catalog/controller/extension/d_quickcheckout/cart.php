@@ -39,6 +39,8 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $cart = $this->getDefault();
         //$this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart'), $cart);
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
+        //FIX buy voucher
+        //$this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'vouchers'), $cart['vouchers']);
 
         $totals = $this->getTotals();
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'totals'), $totals);
@@ -362,7 +364,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         $language = $this->model_extension_d_quickcheckout_store->getLanguage();
         if(isset($language['cart'])){
-            $result = array_replace_recursive($result, $language['cart']);
+            $result = array_replace_recursive($language['cart'], $result);
         }
 
         $result['image'] = HTTPS_SERVER.'image/catalog/d_quickcheckout/step/cart.svg';
@@ -508,6 +510,19 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
             $quantity = $product['quantity'];
         }
+//fix buy voucher
+//         if (!empty($this->session->data['vouchers'])) {
+//     foreach ($this->session->data['vouchers'] as $key => $voucher) {
+//         $data['vouchers'][] = array(
+//             'key' => $key,
+//             'description' => $voucher['description'],
+//             'price' => $this->currency->format($voucher['amount'], $this->session->data['currency']),
+//             'amount' => $voucher['amount'],
+//             'remove' => $this->url->link('checkout/cart', 'remove=' . $key),
+//         );
+//     }
+// }
+
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'quantity'), $quantity);
 
         if(!$quantity){

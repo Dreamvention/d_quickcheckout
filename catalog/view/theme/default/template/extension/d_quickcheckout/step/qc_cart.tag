@@ -77,6 +77,22 @@
                             <td class="qc-price ve-hidden--sm { ( getConfig().cart.columns.price.display == 1 )  ? '' : 've-hidden' }">{ product.price }</td>
                             <td class="qc-total { ( getConfig().cart.columns.total.display == 1 )  ? '' : 've-hidden' }">{ product.total }</td>
                         </tr>
+                        <hr>
+                        <tr each={ voucher in getSession().vouchers } if={voucher}>
+                            <td class="qc-image"  >                               
+                            </td>
+                            <td class="qc-name" >
+                                <qc_raw content="{ voucher.description }"></qc_raw>
+                                <p class="ve-help ve-hidden ve-visible--sm">{ voucher.amount }</p>
+                            </td>
+                            <td class="qc-model ve-hidden--sm" show={ getConfig().cart.columns.model.display == 1 }>hello</td>
+                            <td class="qc-quantity ve-hidden--sm" >
+                                <div class="ve-input-group">
+                                </div>
+                            </td>
+                            <td class="qc-price ve-hidden--sm { ( getConfig().cart.columns.price.display == 1 )  ? '' : 've-hidden' }">{ voucher.price }</td>
+                            <td class="qc-total { ( getConfig().cart.columns.total.display == 1 )  ? '' : 've-hidden' }">{ voucher.price }</td>
+                        </tr>
                     </tbody>
                 </table>
 

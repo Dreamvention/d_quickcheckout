@@ -543,6 +543,29 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
 
       return $data;
     }
+    public function addVoucher($order_id, $voucher) {
+
+        if(VERSION >= '2.3.0.0'){
+            $this->load->model('extension/total/voucher');
+            return $this->model_extension_total_voucher->addVoucher($order_id, $voucher);
+        } elseif (VERSION >= '2.1.0.1') {
+            $this->load->model('total/voucher');
+            return $this->model_total_voucher->addVoucher($order_id, $voucher);
+        } else {
+            $this->load->model('checkout/voucher');
+            return $this->model_checkout_voucher->addVoucher($order_id, $voucher);
+        }
+    }
+
+    public function isVoucher($order_id, $voucher) {
+
+        $result = $this->db->query("SELECT * FROM " . DB_PREFIX . "voucher WHERE order_id = " . (int)$order_id . " AND message = '" . $this->db->escape($voucher['message']) . "' AND amount = '" . (float) $voucher['amount'] . "'");
+        if($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function prepareMarketingData($data = array()){
       $data['affiliate_id'] = 0;

@@ -39,8 +39,10 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $cart = $this->getDefault();
         //$this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart'), $cart);
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
-        //FIX buy voucher
-        //$this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'vouchers'), $cart['vouchers']);
+        if(isset($cart['vouchers'])){
+            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'vouchers'), $cart['vouchers']);
+        }
+        
 
         $totals = $this->getTotals();
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'totals'), $totals);
@@ -302,8 +304,6 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $cart = $this->getCart();
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
 
-
-
         return $result;
     }
 
@@ -510,22 +510,29 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
             $quantity = $product['quantity'];
         }
-//fix buy voucher
-//         if (!empty($this->session->data['vouchers'])) {
-//     foreach ($this->session->data['vouchers'] as $key => $voucher) {
-//         $data['vouchers'][] = array(
-//             'key' => $key,
-//             'description' => $voucher['description'],
-//             'price' => $this->currency->format($voucher['amount'], $this->session->data['currency']),
-//             'amount' => $voucher['amount'],
-//             'remove' => $this->url->link('checkout/cart', 'remove=' . $key),
-//         );
-//     }
-// }
+
+        if (!empty($this->session->data['vouchers'])) {
+        foreach ($this->session->data['vouchers'] as $voucher) {
+              $data['vouchers'][] = array(
+                  'description'      => $voucher['description'],
+                  'code'             => substr(md5(mt_rand()), 0, 10),
+                  'to_name'          => $voucher['to_name'],
+                  'to_email'         => $voucher['to_email'],
+                  'from_name'        => $voucher['from_name'],
+                  'from_email'       => $voucher['from_email'],
+                  'voucher_theme_id' => $voucher['voucher_theme_id'],
+                  'message'          => $voucher['message'],
+                  'amount'           => $voucher['amount']
+              );
+          }
+    
+    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'vouchers'), $data['vouchers']);
+
+}
 
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'quantity'), $quantity);
 
-        if(!$quantity){
+        if(!$quantity && !isset($data['vouchers'])){
             $this->model_extension_d_quickcheckout_store->updateState(array( 'session', 'status'), false);
         }
 

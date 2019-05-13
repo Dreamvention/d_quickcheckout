@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.1.3",
+    "version": "7.1.4",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -205,23 +205,27 @@
         "admin/view/image/d_quickcheckout"
     ],
     "changelog": [{
-            "varsion": "7.1.3",
+
+            "version": "7.1.4",
+            "change": "Fix disappearing shipping/payment methods.Fix shipping style error."
+        }, {
+            "version": "7.1.3",
             "change": "Fix select for firefox. fix 'term and confitions'. cart.js compatibility with 2.0.3.1, fix overlay rows."
-        },{
-            "varsion": "7.1.2",
+        }, {
+            "version": "7.1.2",
             "change": "Added type switch, date field mobile fix"
         }, {
-            "varsion": "7.1.1",
+            "version": "7.1.1",
             "change": "Back button fix, removed continue component"
         }, {
-            "varsion": "7.1.0",
+            "version": "7.1.0",
             "change": "Added RipeCss, removed bootstrap"
         }, {
-            "varsion": "7.0.1",
+            "version": "7.0.1",
             "change": "Fix initial bugs, fix free checkout bug, fix custom fields bug, new fields"
         },
         {
-            "varsion": "7.0.0",
+            "version": "7.0.0",
             "change": "Add Visual Editor, Multiple pages. Extensibily and stability."
         }
     ]

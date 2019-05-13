@@ -17,7 +17,7 @@
                 <p class="ve-p" if={getLanguage().payment_method.text_description}>{  getLanguage().payment_method.text_description } </p>
             </div>
             <div class="ve-card__section">
-                <div each={error, error_id in getError().payment_method} if={error} class="ve-alert ve-alert--danger has-error"><raw content="{error}"></raw></div>
+                <div each={error, error_id in getError().payment_method} if={error} class="ve-alert ve-alert--danger has-error"><qc_raw content="{error}"></qc_raw></div>
                 <form id="payment_method_list" if={getConfig().payment_method.display_options == 1 && getSession().payment_methods}>
                     <div if={getState().config.guest.payment_method.input_style == 'radio'}  each={ payment_method, name in getSession().payment_methods } class="ve-field" >
                         <label for="{ payment_method.code }" if={ payment_method} class="ve-radio { getSession().payment_method.code == payment_method.code ? 've-radio--selected' : '' }">
@@ -57,7 +57,7 @@
                 <span class="text">{ getLanguage().payment_method.heading_title }</span>
             </h4>
             <p class="ve-p" if={getLanguage().payment_method.text_description}>{  getLanguage().payment_method.text_description } </p>
-            <div each={error, error_id in getError().payment_method} if={error} class="ve-alert ve-alert--danger has-error"><raw content="{error}"></raw></div>
+            <div each={error, error_id in getError().payment_method} if={error} class="ve-alert ve-alert--danger has-error"><qc_raw content="{error}"></qc_raw></div>
             <form id="payment_method_list" if={getConfig().payment_method.display_options == 1 && getSession().payment_methods}>
                 <div if={getState().config.guest.payment_method.input_style == 'radio'}  each={ payment_method, name in getSession().payment_methods } class="ve-field" >
                     <label for="{ payment_method.code }" if={ payment_method} class="ve-radio { getSession().payment_method.code == payment_method.code ? 've-radio--selected' : '' }">

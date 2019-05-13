@@ -19,7 +19,7 @@
             </div>
 
             <div class="ve-card__section">
-                <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger ve-field--error"><raw content="{error}"></raw></div>
+                <div each={error, error_id in getError().shipping_method} if={error} class="ve-alert ve-alert--danger ve-field--error"><qc_raw content="{error}"></qc_raw></div>
                 <form id="shipping_method_list" if={getState().config.guest.shipping_method.display_options == 1 && getSession().shipping_methods}>
                     
                     <!-- input_style = radio -->
@@ -82,7 +82,7 @@
             </h4>
             <p class="ve-p" if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </p>
 
-            <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger ve-field--error"><raw content="{error}"></raw></div>
+            <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger ve-field--error"><qc_raw content="{error}"></qc_raw></div>
             <form id="shipping_method_list" if={getState().config.guest.shipping_method.display_options == 1 && getSession().shipping_methods}>
                 
                 <!-- input_style = radio -->

@@ -26,7 +26,12 @@
                             if (href != '' && href != undefined) {
                                 document.location.href = href;
                             } else {
-                                $(json.session.confirm.trigger, $('#payment')).click();
+                                
+                                if(getSession().payment.payment_popup == true){
+                                    $('#payment_modal').modal('toggle');
+                                }else{
+                                    $(json.session.confirm.trigger, $('#payment')).click();
+                                }
                             }
                             $(document).unbind('ajaxComplete');
                         }, 100);

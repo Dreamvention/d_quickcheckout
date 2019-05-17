@@ -2,6 +2,7 @@
 class ModelExtensionDQuickcheckoutMethod extends Model {
 
 	public function getShippingMethods($shipping_address = array()){
+		
 		if(!$shipping_address){
 			$this->load->model('extension/d_quickcheckout/address');
 			$shipping_address = $this->model_extension_d_quickcheckout_address->paymentOrShippingAddress();
@@ -168,18 +169,18 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 	public function getPayment(){
 		$json = array();
 		if(isset($this->session->data['payment_method']) && isset($this->session->data['payment_method']['code'])){
-			//$json['payment_popup'] = $this->getPaymentPopup($this->session->data['payment_method']['code']);
-			$json['payment_popup'] = false;
+			$json['payment_popup'] = $this->getPaymentPopup($this->session->data['payment_method']['code']);
+			// $json['payment_popup'] = false;
 			if($json['payment_popup']){
-				if(!empty($payment['cofirm_order'])){
+				// if(!empty($payment['cofirm_order'])){
 					if(VERSION < '2.3.0.0'){
 						$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
 					}else{
 						$json['payment'] = $this->load->controller('extension/payment/' . $this->session->data['payment_method']['code']);
 					}
-				}else{
-					$json['payment'] = '';
-				}
+				// }else{
+				// 	$json['payment'] = '';
+				// }
 			}else{
 				if(VERSION < '2.3.0.0'){
 					$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
@@ -197,5 +198,22 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 		}
 
 		return $json;
+	}
+
+	public function getPaymentPopup($payment_code){
+
+		$payment_popup = false;
+		$this->load->model('extension/d_quickcheckout/store');
+
+		$state = $this->model_extension_d_quickcheckout_store->getState();
+
+		if(isset($state['config']['guest']['payment']['payment_popups'])
+		&&!empty(($state['config']['guest']['payment']['payment_popups']))){
+			if(isset($state['config']['guest']['payment']['payment_popups'][$payment_code])){
+				$payment_popup = (bool)$state['config']['guest']['payment']['payment_popups'][$payment_code];
+			}
+		}
+		
+		return $payment_popup;
 	}
 }

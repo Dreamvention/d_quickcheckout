@@ -6,7 +6,20 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_payment_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="ve-card" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'card'}>
+        <div class="modal fade" id="payment_modal" if={getSession().payment.payment_popup == true}>
+	        <div class="modal-dialog">
+		        <div class="modal-content">
+			        <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span></button>
+				        <h4 class="modal-title"><span class="text"> { getLanguage().payment.heading_title }</span></h4>
+			        </div>
+			        <div class="modal-body clearfix">
+			        	<qc_raw content="{getSession().payment.payment}"></qc_raw>
+			        </div>
+		        </div>
+	        </div>
+        </div>
+        <div class="ve-card" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'card' && getSession().payment.payment_popup == false}>
             <div class="ve-card__header">
                 <h4 class="ve-h4">
                     <span if={ getConfig().payment.icon } class="icon">
@@ -24,7 +37,7 @@
             </div>
         </div>
 
-        <div class="ve-mb-3 ve-clearfix" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'clear'}>
+        <div class="ve-mb-3 ve-clearfix" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'clear' && getSession().payment.payment_popup == false}>
             <p class="ve-p" if={getLanguage().payment.text_description}>{  getLanguage().payment.text_description } </p>
             <div if={getState().edit}>{getSession().payment_method.title}</div>
             <div if={!getState().edit}>

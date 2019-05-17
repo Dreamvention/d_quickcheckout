@@ -1,10 +1,11 @@
 <?php
 $_['d_quickcheckout_payment_method_language'] = array(
-    'heading_title' => 'text_payment_method',
+    'heading_title'         => 'text_payment_method',
     'description_payment_method' => '',
-    'text_display_images' => 'text_display_images',
-    'text_display_options' => 'text_display_options',
-    'text_input_style' => 'text_input_style'
+    'text_display_images'   => 'text_display_images',
+    'text_display_options'  => 'text_display_options',
+    'text_input_style'      => 'text_input_style',
+    'text_payment_popups'   => 'text_payment_popups'
 );
 $_['d_quickcheckout_payment_method'] = array(
     'id' => 'payment_method',

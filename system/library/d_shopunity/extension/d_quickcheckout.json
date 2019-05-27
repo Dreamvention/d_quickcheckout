@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.1.4",
+    "version": "7.1.5",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -206,6 +206,10 @@
         "admin/view/image/d_quickcheckout"
     ],
     "changelog": [{
+        
+            "version": "7.1.5",
+            "change": "Add zone and country info for default selected country/zone"
+        }, {
 
             "version": "7.1.4",
             "change": "Fix disappearing shipping/payment methods.Fix shipping style error. Added setting popup for payment method"

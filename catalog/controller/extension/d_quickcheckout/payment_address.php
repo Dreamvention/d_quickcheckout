@@ -543,6 +543,30 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         }
         $address['customer_group_id'] = $this->model_extension_d_quickcheckout_account->getDefaultCustomerGroup();
         
+         //add zone and country info for default selected country/zone
+         if(!empty($address['country_id'])){
+            $this->load->model('localisation/country');
+            $country_specification = array();
+            $country_specification = $this->model_localisation_country->getCountry($address['country_id']);
+            
+            $address['country']         = $country_specification['name'];
+            $address['iso_code_2']      = $country_specification['iso_code_2'];
+            $address['iso_code_3']      = $country_specification['iso_code_3'];
+            $address['address_format']  = $country_specification['address_format'];
+            unset($country_specification);
+        }
+
+        if(!empty($address['zone_id'])){
+            $this->load->model('localisation/zone');
+            $zone_specification = array();
+            $zone_specification = $this->model_localisation_zone->getZone($address['zone_id']);
+
+            $address['zone']        = $zone_specification['name'];
+            $address['zone_code']   = $zone_specification['code'];
+            unset($zone_specification);
+        }
+
+
         return $address;
 
     }

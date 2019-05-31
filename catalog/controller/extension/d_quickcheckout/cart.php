@@ -203,7 +203,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
                     $state['notifications']['cart']['error_reward'] = sprintf($this->language->get('error_maximum'), $points_total);
                 }
 
-                if (!$state['notifications']['cart']) {
+                if (!isset($state['notifications']['cart'])) {
                     $state['session']['reward'] = abs($reward);
 
                     $state['notifications']['cart']['success_reward'] = $this->language->get('text_success');
@@ -329,6 +329,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $this->load->language('checkout/cart');
         $this->load->language('checkout/checkout');
         $this->load->language('extension/d_quickcheckout/confirm');
+        $this->load->language('extension/d_quickcheckout/cart');
         $result = array();
         $languages = $this->config->get('d_quickcheckout_cart_language');
 
@@ -363,6 +364,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $result['entry_reward'] = sprintf($this->language->get('heading_title'), $points ? $points : 0);
 
         $language = $this->model_extension_d_quickcheckout_store->getLanguage();
+
         if(isset($language['cart'])){
             $result = array_replace_recursive($language['cart'], $result);
         }

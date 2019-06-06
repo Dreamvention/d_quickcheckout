@@ -510,6 +510,10 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'newsletter' => 0,
             'address_id' => 0
         );
+        
+        if(isset($state['session']['addresses'][1]['address_id'])){
+            $address['address_id'] = $state['session']['addresses'][1]['address_id'];
+        }
 
         //init custom fields
         foreach($default as $key => $field){

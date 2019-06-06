@@ -426,6 +426,10 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             'address_id' => (isset($shipping_address['address_id'])) ? $shipping_address['address_id'] : 0
             );
 
+            if(isset($state['session']['payment_address']['address_id'])){
+                $address['address_id'] = $state['session']['payment_address']['address_id'];
+            }
+
         //init custom fields
         foreach($default as $key => $field){
             if(!empty($field['custom'])){

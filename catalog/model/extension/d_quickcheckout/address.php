@@ -25,6 +25,7 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
             if($zones){
                 foreach ($zones as $zone) {
                     $zone['value'] = $zone['zone_id'];
+                    $zone['name'] = html_entity_decode($zone['name'], ENT_QUOTES, 'UTF-8');
                     unset($zone['zone_id']);
                     $options[] = $zone;
                 }

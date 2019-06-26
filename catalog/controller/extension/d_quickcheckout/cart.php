@@ -181,13 +181,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
                 
                 $points = $this->customer->getRewardPoints();
 
-                $points_total = 0;
-
-                foreach ($this->cart->getProducts() as $product) {
-                    if ($product['points']) {
-                        $points_total += $product['points'];
-                    }
-                }
+                $points_total = $this->rewardsToUse();
 
                 $reward = $data['data']['reward'];
 
@@ -361,7 +355,9 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             $this->load->language('extension/total/reward');
         }
         $points = $this->customer->getRewardPoints();
-        $result['entry_reward'] = sprintf($this->language->get('heading_title'), $points ? $points : 0);
+        $points_total = $this->rewardsToUse();
+        $result['reward_heading_title'] = sprintf($this->language->get('heading_title'), $points ? $points : 0);
+        $result['entry_reward'] = sprintf($this->language->get('entry_reward'), $points_total ? $points_total : 0);
 
         $language = $this->model_extension_d_quickcheckout_store->getLanguage();
 
@@ -566,5 +562,16 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             );
         $this->load->model('extension/d_quickcheckout/order');
         return $this->model_extension_d_quickcheckout_order->getTotals($total_data);
+    }
+    private function rewardsToUse(){
+
+        $points_total = 0;
+
+        foreach ($this->cart->getProducts() as $product) {
+            if ($product['points']) {
+                $points_total += $product['points'];
+            }
+        }      
+        return $points_total;
     }
 }

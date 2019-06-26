@@ -152,7 +152,7 @@
                         </div>
                         <div class="ve-row">
                             <label class="ve-col-sm-4 ve-label" >
-                                { getLanguage().cart.entry_reward }
+                                { getLanguage().cart.reward_heading_title }
                             </label>
                             <div class="ve-col-sm-8">
                                 <div class="ve-field ve-field--block">

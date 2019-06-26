@@ -208,7 +208,7 @@
     "changelog": [{
         
             "version": "7.1.5",
-            "change": "Add zone and country info for default selected country/zone. Select existing address. Right zone names "
+            "change": "Add zone and country info for default selected country/zone. Select existing address. Right zone names. Fix rewards. "
         }, {
 
             "version": "7.1.4",

@@ -8,6 +8,7 @@ $_['d_quickcheckout_cart_language'] = array(
     'entry_coupon' => 'entry_coupon',
     'placeholder_coupon' => '',
     'entry_reward' => 'entry_reward',
+    'reward_heading_title' => 'reward_heading_title',
     'placeholder_reward' => '',
 
     'entry_image' => 'column_image',

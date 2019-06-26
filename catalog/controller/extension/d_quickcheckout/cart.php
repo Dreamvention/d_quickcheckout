@@ -362,7 +362,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $language = $this->model_extension_d_quickcheckout_store->getLanguage();
 
         if(isset($language['cart'])){
-            $result = array_replace_recursive($language['cart'], $result);
+            $result = array_replace_recursive($result, $language['cart']);
         }
 
         $result['image'] = HTTPS_SERVER.'image/catalog/d_quickcheckout/step/cart.svg';

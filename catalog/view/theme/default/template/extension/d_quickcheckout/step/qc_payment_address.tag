@@ -19,12 +19,12 @@
             <div class="ve-card__section">
                 
                 <qc_address_radio 
-                if={getSession().addresses && getConfig().payment_address.address_style == 'radio'} 
+                if={getSession().addresses && getState().config.guest.payment_address.address_style == 'radio'} 
                 step="payment_address" 
                 address_id={ getSession().payment_address.address_id }></qc_address_radio>
 
                 <qc_address_select 
-                if={getSession().addresses && getConfig().payment_address.address_style == 'select'} 
+                if={getSession().addresses && getState().config.guest.payment_address.address_style == 'select'} 
                 step="payment_address" 
                 address_id={ getSession().payment_address.address_id }></qc_address_select>
 
@@ -66,12 +66,12 @@
             <p class="ve-p" if={getLanguage().payment_address.text_description}>{  getLanguage().payment_address.text_description } </p>
 
             <qc_address_radio 
-            if={getSession().addresses && getConfig().payment_address.address_style == 'radio'} 
+            if={getSession().addresses && getState().config.guest.payment_address.address_style == 'radio'} 
             step="payment_address" 
             address_id={ getSession().payment_address.address_id }></qc_address_radio>
 
             <qc_address_select 
-            if={getSession().addresses && getConfig().payment_address.address_style == 'select'} 
+            if={getSession().addresses && getState().config.guest.payment_address.address_style == 'select'} 
             step="payment_address" 
             address_id={ getSession().payment_address.address_id }></qc_address_select>
 

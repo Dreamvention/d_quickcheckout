@@ -19,12 +19,12 @@
 
             <div class="ve-card__section">
                 <qc_address_radio 
-                if={getSession().addresses && getConfig().shipping_address.address_style == 'radio'} 
+                if={getSession().addresses && getState().config.guest.shipping_address.address_style == 'radio'} 
                 step="shipping_address" 
                 address_id={ getSession().shipping_address.address_id }></qc_address_radio>
 
                 <qc_address_select 
-                if={getSession().addresses && getConfig().shipping_address.address_style == 'select'} 
+                if={getSession().addresses && getState().config.guest.shipping_address.address_style == 'select'} 
                 step="shipping_address" 
                 address_id={ getSession().shipping_address.address_id }></qc_address_select>
 
@@ -67,12 +67,12 @@
             <p class="ve-p" if={getLanguage().shipping_address.text_description}>{  getLanguage().shipping_address.text_description } </p>
         
             <qc_address_radio 
-            if={getSession().addresses && getConfig().shipping_address.address_style == 'radio'} 
+            if={getSession().addresses && getState().config.guest.shipping_address.address_style == 'radio'} 
             step="shipping_address" 
             address_id={ getSession().shipping_address.address_id }></qc_address_radio>
 
             <qc_address_select 
-            if={getSession().addresses && getConfig().shipping_address.address_style == 'select'} 
+            if={getSession().addresses && getState().config.guest.shipping_address.address_style == 'select'} 
             step="shipping_address" 
             address_id={ getSession().shipping_address.address_id }></qc_address_select>
 

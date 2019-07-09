@@ -111,61 +111,40 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
     }
 
 
-    public function setPaymentAddressCountry($country_id){
+    public function getAddressCountry($country_id){
 
         $country_info = $this->getCountryInfo($country_id);
+        $data = array();
+
         if ($country_info) {
-            $this->session->data['payment_address']['country'] = $country_info['name'];
-            $this->session->data['payment_address']['iso_code_2'] = $country_info['iso_code_2'];
-            $this->session->data['payment_address']['iso_code_3'] = $country_info['iso_code_3'];
-            $this->session->data['payment_address']['address_format'] = $country_info['address_format'];
+            $data['country'] = $country_info['name'];
+            $data['iso_code_2'] = $country_info['iso_code_2'];
+            $data['iso_code_3'] = $country_info['iso_code_3'];
+            $data['address_format'] = $country_info['address_format'];
         }else{
-            $this->session->data['payment_address']['country'] = '';
-            $this->session->data['payment_address']['iso_code_2'] = '';
-            $this->session->data['payment_address']['iso_code_3'] = '';
-            $this->session->data['payment_address']['address_format'] = '';
+            $data['country'] = '';
+            $data['iso_code_2'] = '';
+            $data['iso_code_3'] = '';
+            $data['address_format'] = '';
         }
+        return $data;
+
     }
 
-    public function setShippingAddressCountry($country_id){
-
-        $country_info = $this->getCountryInfo($country_id);
-        if ($country_info) {
-            $this->session->data['shipping_address']['country'] = $country_info['name'];
-            $this->session->data['shipping_address']['iso_code_2'] = $country_info['iso_code_2'];
-            $this->session->data['shipping_address']['iso_code_3'] = $country_info['iso_code_3'];
-            $this->session->data['shipping_address']['address_format'] = $country_info['address_format'];
-        }else{
-            $this->session->data['shipping_address']['country'] = '';
-            $this->session->data['shipping_address']['iso_code_2'] = '';
-            $this->session->data['shipping_address']['iso_code_3'] = '';
-            $this->session->data['shipping_address']['address_format'] = '';
-        }
-    }
-
-    public function setPaymentAddressZone($zone_id){
+    public function getAddressZone($zone_id){
         $zone_info = $this->getZoneInfo($zone_id);
+        $data = array();
 
         if ($zone_info) {
-            $this->session->data['payment_address']['zone'] = $zone_info['name'];
-            $this->session->data['payment_address']['zone_code'] = $zone_info['code'];
+            $data['zone'] = $zone_info['name'];
+            $data['zone_code'] = $zone_info['code'];
         } else {
-            $this->session->data['payment_address']['zone'] = '';
-            $this->session->data['payment_address']['zone_code'] = '';
+            $data['zone'] = '';
+            $data['zone_code'] = '';
         }
+        return $data;
     }
 
-    public function setShippingAddressZone($zone_id){
-        $zone_info = $this->getZoneInfo($zone_id);
-
-        if ($zone_info) {
-            $this->session->data['shipping_address']['zone'] = $zone_info['name'];
-            $this->session->data['shipping_address']['zone_code'] = $zone_info['code'];
-        } else {
-            $this->session->data['shipping_address']['zone'] = '';
-            $this->session->data['shipping_address']['zone_code'] = '';
-        }
-    }
 
 
     private function getDisplayShippingAddress(){

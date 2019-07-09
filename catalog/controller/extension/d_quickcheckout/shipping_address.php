@@ -274,10 +274,11 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                 case 'country_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
-                        $this->model_extension_d_quickcheckout_address->setShippingAddressCountry($value);
+                        $country_data = $this->model_extension_d_quickcheckout_address->getAddressCountry($value);
+                        $state['session']['shipping_address'] = array_merge($state['session']['shipping_address'], $country_data);
                         
-                        $update['session']['shipping_address']['zone_id'] = '';
-                        $this->model_extension_d_quickcheckout_store->setState($update);
+                        $state['session']['shipping_address']['zone_id'] = '';
+                        $this->model_extension_d_quickcheckout_store->setState($state);
 
                         $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($value);
                         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'fields', 'zone_id', 'options'), $zones);
@@ -286,7 +287,9 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                 case 'zone_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
-                        $this->model_extension_d_quickcheckout_address->setShippingAddressZone($value);
+                        $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($value);
+                        $state['session']['shipping_address'] = array_merge($state['session']['shipping_address'], $zone_data);
+                        $this->model_extension_d_quickcheckout_store->setState($state);
                     }
                 break;
 
@@ -429,7 +432,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             if(isset($state['session']['payment_address']['address_id'])){
                 $address['address_id'] = $state['session']['payment_address']['address_id'];
             }
-
+            
         //init custom fields
         foreach($default as $key => $field){
             if(!empty($field['custom'])){

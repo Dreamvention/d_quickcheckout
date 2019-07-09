@@ -291,8 +291,10 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 case 'country_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field)){
                         $this->load->model('extension/d_quickcheckout/address');
-                        $this->model_extension_d_quickcheckout_address->setPaymentAddressCountry($value);
 
+                        $country_data = $this->model_extension_d_quickcheckout_address->getAddressCountry($value);
+                        $state['session']['payment_address'] = array_merge($state['session']['payment_address'], $country_data);
+                   
                         $state['session']['payment_address']['zone_id'] = '';
                         $this->model_extension_d_quickcheckout_store->setState($state);
 
@@ -305,7 +307,9 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 case 'zone_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field)){
                         $this->load->model('extension/d_quickcheckout/address');
-                        $this->model_extension_d_quickcheckout_address->setPaymentAddressZone($value);
+                        $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($value);
+                        $state['session']['payment_address'] = array_merge($state['session']['payment_address'], $zone_data);
+                        $this->model_extension_d_quickcheckout_store->setState($state);
                     }
                     break;
 
@@ -510,11 +514,11 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'newsletter' => 0,
             'address_id' => 0
         );
-        
+
         if(isset($state['session']['addresses'][1]['address_id'])){
             $address['address_id'] = $state['session']['addresses'][1]['address_id'];
         }
-
+        
         //init custom fields
         foreach($default as $key => $field){
             if(!empty($field['custom'])){
@@ -548,26 +552,17 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         $address['customer_group_id'] = $this->model_extension_d_quickcheckout_account->getDefaultCustomerGroup();
         
          //add zone and country info for default selected country/zone
+         $this->load->model('extension/d_quickcheckout/address');
          if(!empty($address['country_id'])){
-            $this->load->model('localisation/country');
-            $country_specification = array();
-            $country_specification = $this->model_localisation_country->getCountry($address['country_id']);
-            
-            $address['country']         = $country_specification['name'];
-            $address['iso_code_2']      = $country_specification['iso_code_2'];
-            $address['iso_code_3']      = $country_specification['iso_code_3'];
-            $address['address_format']  = $country_specification['address_format'];
-            unset($country_specification);
+            $country_data = $this->model_extension_d_quickcheckout_address->getAddressCountry($address['country_id']);
+            $address = array_merge($address, $country_data);
+            unset($country_data);
         }
 
         if(!empty($address['zone_id'])){
-            $this->load->model('localisation/zone');
-            $zone_specification = array();
-            $zone_specification = $this->model_localisation_zone->getZone($address['zone_id']);
-
-            $address['zone']        = $zone_specification['name'];
-            $address['zone_code']   = $zone_specification['code'];
-            unset($zone_specification);
+            $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($address['zone_id']);
+            $address = array_merge($address, $zone_data);
+            unset($zone_data);
         }
 
 

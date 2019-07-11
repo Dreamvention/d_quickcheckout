@@ -140,6 +140,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
                         $state['config'][$account]['shipping_method']['display'] = $value['display'];
                     }
                 }
+                $this->model_extension_d_quickcheckout_store->setState($state);
             }
         }
 

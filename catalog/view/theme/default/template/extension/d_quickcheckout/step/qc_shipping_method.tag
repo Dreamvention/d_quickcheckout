@@ -47,7 +47,7 @@
 
                     <!-- input_style = select -->
                     <div if={getState().config.guest.shipping_method.input_style == 'select'}>
-                        <select if={getState().config.guest.shipping_method.display_group_title == 1} class="ve-input" onchange={change}>
+                        <select name="shipping_method" if={getState().config.guest.shipping_method.display_group_title == 1} class="ve-input" onchange={change}>
                             <optgroup label="{ shipping_method.title }" 
                             each={ shipping_method, name in getSession().shipping_methods } >
                                 <option 
@@ -59,7 +59,7 @@
                             </optgroup>
                         </select>
 
-                        <select if={getState().config.guest.shipping_method.display_group_title == 0} class="ve-input" onchange={change}>
+                        <select name="shipping_method" if={getState().config.guest.shipping_method.display_group_title == 0} class="ve-input" onchange={change}>
                             <option 
                                 each={ quote, index in flattenShippingMethods() } 
                                 selected={ getSession().shipping_method.code == quote.code }
@@ -110,7 +110,7 @@
 
                 <!-- input_style = select -->
                 <div if={getState().config.guest.shipping_method.input_style == 'select'}>
-                    <select if={getState().config.guest.shipping_method.display_group_title == 1} class="ve-input" onchange={change}>
+                    <select name="shipping_method" if={getState().config.guest.shipping_method.display_group_title == 1} class="ve-input" onchange={change}>
                         <optgroup label="{ shipping_method.title }" 
                         each={ shipping_method, name in getSession().shipping_methods } >
                             <option 
@@ -122,7 +122,7 @@
                         </optgroup>
                     </select>
 
-                    <select if={getState().config.guest.shipping_method.display_group_title == 0} class="ve-input" onchange={change}>
+                    <select name="shipping_method" if={getState().config.guest.shipping_method.display_group_title == 0} class="ve-input" onchange={change}>
                         <option 
                             each={ quote, index in flattenShippingMethods() } 
                             selected={ getSession().shipping_method.code == quote.code }

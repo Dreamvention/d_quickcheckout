@@ -1,23 +1,59 @@
-<p align="center"><a href="https://shopunity.net/extension/ajax-quick-checkout-lite" target="_blank" rel="noopener noreferrer"><img width="100" src="https://opencart.dreamvention.com/market/image/d_quickcheckout/logo.svg" alt="Ajax Quick Checkout logo"></a></p>
-
-# Ajax Quick Checkout 7 (for Opencart  2.x & 3.x)
-
-By [Dreamvention.ee](https://dreamvention.ee)
-
-[DEMO](http://demo.shopunity.net/index.php?route=extension/demo&extension_download_id=79)
-
-The default Opencart Checkout could lose up to 67% of sales just becuase its so damn long. Too many fields and steps to fullfil. With Ajax Quick Checkout you get to change that. 
-
-AQC7 allows you to:
-1. Edit everything with Visual Editor
-2. Hide and sort steps and fields
-3. Add one or more pages to the checkout process
-4. Extend the functionality with plugins
-5. Pick ready made layouts and themes
-
-This is just a small list of all the features. 
-
-## Extend your checkout
-You can extend the functionality of the AQC7 with plugins. You can find them on [Dreamvention.ee](https://dreamvention.ee) or create your own.
+# AJAX Quick Checkout FREE
 
 
+
+[![N|Solid](https://www.opencart.com/application/view/image/icon/opencart-logo.png)](https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=15580)
+
+
+# Features:
+
+- Multi store
+- Multi language
+
+- Responsive (mobile ready)
+- Extensible (you can install other pluginsthat increase the functionality of the AQC)
+
+- Uses default language files for the front end so you can use any available opencart language translation pack
+
+- Clean code with backbonejs
+
+- Social logins: Google+, LinkedIn
+
+- 3 columns plus 4–th as combination of column 2 and 3
+
+- Hide options: Login, Register and Guest
+
+- Hide them all and use the default option to reduce the size of the checkout
+
+- Works with all major themes like Shoppica, Journal, Fastor, Sellya and others
+
+- Works with all popular payment methods and shipping methods
+
+- Save and stay option
+
+- Image popup on the name of the product
+
+- Error input highlight
+
+- Login popup view
+
+# Main Purpose:
+
+### All-in-one
+> All the steps are brought on one page. You can shuffle the order as you like.
+
+### Truly customizable
+
+> You can organize the steps into 1, 2, 3 or even create a double column on the right.
+
+### Code is poetry
+
+>In the heart of AQC lies backbone. This allows browser rendering which is super fast and keeps the code clean and simple.
+
+# Installation:
+
+- With Shopunity module
+
+- With Opencart Extension Installer
+
+- By uploading files with FTP

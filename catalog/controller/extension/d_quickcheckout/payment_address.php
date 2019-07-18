@@ -280,10 +280,9 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         
 
         if($this->validateField($field, $value)){
+
+            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', $field),  $value);
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            $state['session']['payment_address'][$field] = $value;
-            
-            $this->model_extension_d_quickcheckout_store->setState($state);
 
             switch ($field){
 
@@ -296,7 +295,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         $state['session']['payment_address'] = array_merge($state['session']['payment_address'], $country_data);
                    
                         $state['session']['payment_address']['zone_id'] = '';
-                        $this->model_extension_d_quickcheckout_store->setState($state);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
 
                         $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($value);
                         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), $zones);
@@ -309,7 +308,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         $this->load->model('extension/d_quickcheckout/address');
                         $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($value);
                         $state['session']['payment_address'] = array_merge($state['session']['payment_address'], $zone_data);
-                        $this->model_extension_d_quickcheckout_store->setState($state);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
                     }
                     break;
 
@@ -327,7 +326,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $this->getDefault($populate = false));
                     }
 
-                    $this->model_extension_d_quickcheckout_store->setState($state);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
                     break;
 
                 //validating telephone

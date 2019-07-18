@@ -268,17 +268,20 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
         
         if($this->validateField($field, $value)){
+           
             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address', $field),  $value);
-
+            $state = $this->model_extension_d_quickcheckout_store->getState();
+            
             switch ($field){
 
                 case 'country_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
                         $country_data = $this->model_extension_d_quickcheckout_address->getAddressCountry($value);
+
                         $state['session']['shipping_address'] = array_merge($state['session']['shipping_address'], $country_data);
                         
                         $state['session']['shipping_address']['zone_id'] = '';
-                        $this->model_extension_d_quickcheckout_store->setState($state);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'),  $state['session']['shipping_address']);
 
                         $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($value);
                         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'shipping_address', 'fields', 'zone_id', 'options'), $zones);
@@ -288,15 +291,17 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                 case 'zone_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
                         $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($value);
+
                         $state['session']['shipping_address'] = array_merge($state['session']['shipping_address'], $zone_data);
-                        $this->model_extension_d_quickcheckout_store->setState($state);
+
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'),  $state['session']['shipping_address']);
                     }
                 break;
 
                 case 'address_id':
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
                         $update['session']['shipping_address'] = $this->getAddress($value);
-                        $this->model_extension_d_quickcheckout_store->setState($update);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'),  $update['session']['shipping_address']);
                         
                         $state = $this->model_extension_d_quickcheckout_store->getState();
                         if($state['session']['shipping_address']['address_id'] == 0){

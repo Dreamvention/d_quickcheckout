@@ -14,7 +14,7 @@
             this.send('extension/d_quickcheckout/shipping_address/update', difference, function(json) {
                 this.setState(json);
                 //in further need add payment and shipping methods content(architecture) due deep-merge can't properly merge with empty content
-                if(getSession().payment_address.shipping_address){
+                if(json.session.shipping_methods){
                     this.updateState(['session', 'shipping_methods'],json.session.shipping_methods);
                 }
                 //

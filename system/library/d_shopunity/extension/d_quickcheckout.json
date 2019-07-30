@@ -207,7 +207,7 @@
     "changelog": [
         {
             "version": "7.1.9",
-            "change": "Return back setState in payment_addres. Added fix for p/s methods disappearing during email error. Fix login 'my address the same' "
+            "change": "Return back setState in payment_addres. Added fix for p/s methods disappearing during email error. Login with shipping address 'my address the same' in payment address. Fix taxes after login"
         }, { 
             "version": "7.1.8",
             "change": "fix shipping address updateField. increase speed updateField method for payment/shipping address. "

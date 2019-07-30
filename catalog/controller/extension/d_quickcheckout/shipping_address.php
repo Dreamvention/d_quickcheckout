@@ -434,7 +434,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             'address_id' => (isset($shipping_address['address_id'])) ? $shipping_address['address_id'] : 0
             );
 
-            if(isset($state['session']['payment_address']['address_id'])){
+            if(isset($state['session']['payment_address']['address_id']) && $state['session']['account'] != 'logged'){
                 $address['address_id'] = $state['session']['payment_address']['address_id'];
             }
             

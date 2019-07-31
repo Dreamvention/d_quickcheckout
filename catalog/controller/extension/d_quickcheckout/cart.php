@@ -226,6 +226,12 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
                     $this->model_extension_d_quickcheckout_order->initCart();
                 }
                 
+                //REFACTOR
+                //Need for load rewards, etc. after customer log in on checkout page.
+                $this->load->config('d_quickcheckout/cart');
+                $cart_language = $this->getLanguages();
+                $this->model_extension_d_quickcheckout_store->updateState(array( 'language' , 'cart'),  $cart_language);
+
                 $cart = $this->getCart();
                 $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
 
@@ -392,6 +398,12 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $this->model_extension_d_quickcheckout_address->updateTaxAddress();
 
         $data['products'] = array();
+
+        //some magic ¯\_(ツ)_/¯
+        $this->load->model('setting/setting');
+        $config_settings=$this->model_setting_setting->getSetting('config');
+        $this->config->set('config_customer_group_id',$config_settings['config_customer_group_id']);
+        //magic end here
 
         $products = $this->cart->getProducts();
         $this->load->model('tool/image');

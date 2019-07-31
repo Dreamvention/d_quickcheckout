@@ -223,7 +223,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $new_shipping_methods = $this->model_extension_d_quickcheckout_method->getShippingMethods($state['session']['shipping_address']);
 
-        if(isset($state['session']['shipping_methods'])){
+        if(!empty($state['session']['shipping_methods'])){
             foreach($state['session']['shipping_methods'] as $key => $value){
                 if(!isset($new_shipping_methods[$key])){
                     $new_shipping_methods[$key] = false;
@@ -231,6 +231,8 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
             }
         }
         
+        //Need for properly deep-merge in immutable on frontend.
+        $new_shipping_methods = !empty($new_shipping_methods) ? $new_shipping_methods : '';
 
         return $new_shipping_methods;
     }

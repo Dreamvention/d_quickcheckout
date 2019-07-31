@@ -194,13 +194,16 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $new_payment_methods = $this->model_extension_d_quickcheckout_method->getPaymentMethods($state['session']['payment_address'], $state['session']['total']);
 
-        if(isset($state['session']['payment_methods'])){
+        if(!empty($state['session']['payment_methods'])){
             foreach($state['session']['payment_methods'] as $key => $value){
                 if(!isset($new_payment_methods[$key])){
                         $new_payment_methods[$key] = false;
                 }
             }
         }
+
+        //Need for properly deep-merge in immutable on frontend.
+        $new_payment_methods = !empty($new_payment_methods)?$new_payment_methods:'';
         
 
         return $new_payment_methods;

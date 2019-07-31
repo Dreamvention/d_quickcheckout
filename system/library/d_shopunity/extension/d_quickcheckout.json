@@ -206,6 +206,9 @@
     ],
     "changelog": [
         {
+            "version": "7.1.10",
+            "change": "Increase speed updateField method for payment"
+        }, { 
             "version": "7.1.9",
             "change": "Return back setState in payment_addres. Added fix for p/s methods disappearing during email error. Login with shipping address 'my address the same' in payment address. Fix taxes after login. Fix disappearing shipping/payment methods. Fix reward points after login "
         }, { 

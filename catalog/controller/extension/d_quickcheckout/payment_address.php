@@ -283,10 +283,8 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
         if($this->validateField($field, $value)){
 
+            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', $field),  $value);
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            $state['session']['payment_address'][$field] = $value;
-            
-            $this->model_extension_d_quickcheckout_store->setState($state);
             
             switch ($field){
 

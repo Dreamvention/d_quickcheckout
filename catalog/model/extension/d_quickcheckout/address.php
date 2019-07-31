@@ -5,15 +5,10 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
      */
 
     public function getCountries() {
-        $this->load->model('localisation/country');
-        $countries = $this->model_localisation_country->getCountries();
-        $options = array();
-        foreach ($countries as $country) {
-            $country['value'] = $country['country_id'];
-            unset($country['country_id']);
-            $options[] = $country;
-        }
-        return $options;
+        
+        $query = $this->db->query("SELECT country_id as `value`,`name` FROM " . DB_PREFIX . "country WHERE status = '1' ORDER BY name ASC");
+
+        return $query->rows;
     }
 
     public function getZonesByCountryId($country_id) {

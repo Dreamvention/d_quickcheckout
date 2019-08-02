@@ -207,7 +207,7 @@
     "changelog": [
         {
             "version": "7.2.0",
-            "change": "Fix phone validation"
+            "change": "Fix phone validation. Added shipping method select by default."
         }, { 
             "version": "7.1.10",
             "change": "Increase speed updateField method for payment. Delete unnecessary files from country config"

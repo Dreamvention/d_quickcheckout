@@ -206,7 +206,8 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     }
 
     private function getDefault(){
-        return $this->model_extension_d_quickcheckout_method->getDefaultShippingMethod('flat.flat');
+        $state = $this->model_extension_d_quickcheckout_store->getState();
+        return $this->model_extension_d_quickcheckout_method->getDefaultShippingMethod($state['config']['guest']['shipping_method']['default_option']);
     }
 
     private function getShippingMethod($shipping_method = false){

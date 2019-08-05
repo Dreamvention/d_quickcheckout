@@ -95,10 +95,18 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     $update = true;
                 }
             }
-            if(!empty($data['data']['config']) || !empty($data['data']['layout'])||!empty($data['data']['errors'])){
-                foreach($data['data'] as $key => $second_data){
-                    $this->model_extension_d_quickcheckout_store->updateState(array($key),$second_data);
-                }
+            if( !empty($data['data']['errors'])){
+                array_walk_recursive( $data['data']['errors'],function(&$e){
+                    if($e == 'false'){
+                        $e = false;
+                    }
+                });   
+                $this->model_extension_d_quickcheckout_store->updateState(array('errors'),$data['data']['errors']);
+            }
+            
+            //REFACTOR - added other data like config and layout
+            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
+                $this->model_extension_d_quickcheckout_store->setState($data['data']);
             }
         }
         //updating customer group when changing account

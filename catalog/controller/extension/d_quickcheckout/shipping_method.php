@@ -29,8 +29,8 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         $state['session']['shipping_methods'] = $this->getShippingMethods();
         $this->model_extension_d_quickcheckout_store->setState($state);
 
-        $state['session']['shipping_method'] = $this->getDefault();
         $state['config'] = $this->getConfig();
+        $state['session']['shipping_method'] = $this->getShippingMethod($state['config']['guest']['shipping_method']['default_option']);
 
         $state['language']['shipping_method'] = $this->getLanguages();
         $state['action']['shipping_method'] = $this->action;
@@ -203,11 +203,6 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         $result['image'] = HTTPS_SERVER.'image/catalog/d_quickcheckout/step/shipping_method.svg';
 
         return $result;
-    }
-
-    private function getDefault(){
-        $state = $this->model_extension_d_quickcheckout_store->getState();
-        return $this->model_extension_d_quickcheckout_method->getDefaultShippingMethod($state['config']['guest']['shipping_method']['default_option']);
     }
 
     private function getShippingMethod($shipping_method = false){

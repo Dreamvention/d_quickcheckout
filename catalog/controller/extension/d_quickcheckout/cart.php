@@ -35,7 +35,6 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         $state['action']['cart'] = $this->action;
         $this->model_extension_d_quickcheckout_store->setState($state);
 
-        $state = $this->model_extension_d_quickcheckout_store->getState();
         $cart = $this->getDefault();
         //$this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart'), $cart);
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'cart', 'products'), $cart['products']);
@@ -443,7 +442,8 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             }
 
             $option_data = array();
-
+            $this->load->model('tool/upload');
+            
             foreach ($product['option'] as $option) {
                 if ($option['type'] != 'file') {
                     $value = $option['value'];

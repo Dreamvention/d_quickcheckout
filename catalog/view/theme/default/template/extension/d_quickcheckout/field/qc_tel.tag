@@ -42,7 +42,7 @@
                 placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
                 disabled=true
                 />
-            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>
+            <div if={opts.error && isRequired()} class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>
         </div>
     </div>
 
@@ -138,19 +138,24 @@
             var $iso2 = $('.'+ this.opts.ste + '-' + this.opts.field.id + '-iso2');
             $iso2.val($(e.currentTarget).intlTelInput("getSelectedCountryData").iso2); 
 
-            var data = $(e.currentTarget).serializeJSON();
-
-            data = $.extend(true, data, $iso2.serializeJSON());
+            if(this.opts.field.validation == '1'){
+                
+                $(e.currentTarget).val($(e.currentTarget).intlTelInput("getNumber"));
             
-            if ($.trim($(e.currentTarget).val())) {
-                if ($(e.currentTarget).intlTelInput("isValidNumber")) {
-                    error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
-                } else {
-                    error = 'error_telephone_telephone';
+                if ($.trim($(e.currentTarget).val())) {
+                    if ($(e.currentTarget).intlTelInput("isValidNumber")) {
+
+                        error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+                        
+                    } else {
+                        error = 'error_telephone_telephone';
+                    }
                 }
             }
 
-            
+            var data = $(e.currentTarget).serializeJSON();
+            data = $.extend(true, data, $iso2.serializeJSON());
+
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error });
             this.store.dispatch(this.opts.step+'/update', data);
         }

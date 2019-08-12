@@ -23,11 +23,6 @@
     this.subscribe('payment_address/error', function(data) {
         var state = { 'errors': { 'payment_address': {} } }
         state['errors']['payment_address'][data.field_id] = data.error;
-
-        //needed for every time get difference with error fields in this.getChange() (in payment_address/update) refactor!
-        this.updateState(['errors','payment_address',data.field_id], '');
-        this.setChange(this.getState());
-
         this.setState(state);
     });
 

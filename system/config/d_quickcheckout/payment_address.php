@@ -34,7 +34,7 @@ $_['d_quickcheckout_payment_address_language'] = array(
     'tooltip_telephone' => '',
     'error_telephone_min_length' => 'error_telephone',
     'error_telephone_max_length' => 'error_telephone',
-    'error_telephone_telephone' => 'error_telephone',
+    'error_telephone_telephone' => 'error_telephone_telephone',
 
     'entry_fax' => 'entry_fax',
     'placeholder_fax' => 'entry_fax',
@@ -219,6 +219,10 @@ $_['d_quickcheckout_payment_address'] = array(
                 'error1' => array(
                     'max_length' => 32,
                     'text' => 'error_telephone_max_length'
+                ),
+                'error2' => array(
+                    'telephone' => '',
+                    'text' => 'error_telephone_telephone'
                 )
             ),
             'validation' => 0,

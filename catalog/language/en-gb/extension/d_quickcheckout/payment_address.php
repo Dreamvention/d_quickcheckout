@@ -8,6 +8,7 @@ $_['error_newsletter_checked'] = 'You must subsribe to our newsletter to make th
 $_['error_company_length'] = 'Sorry, but you need to have the length of the text more then 3 and less then 34';
 $_['error_shipping_address_checked'] = 'Shipping address is required';
 $_['error_email_confirm_compare'] = 'Email confirmation does not match email';
+$_['error_telephone_telephone'] = 'Telephone validation error!';
 
 $_['text_address_style'] = 'Address style';
 $_['entry_fax'] = 'Fax';

@@ -95,14 +95,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     $update = true;
                 }
             }
-            if( !empty($data['data']['errors'])){
-                array_walk_recursive( $data['data']['errors'],function(&$e){
-                    if($e == 'false'){
-                        $e = false;
-                    }
-                });   
-                $this->model_extension_d_quickcheckout_store->updateState(array('errors'),$data['data']['errors']);
-            }
             
             //REFACTOR - added other data like config and layout
             if(!empty($data['data']['config']) || !empty($data['data']['layout'])){

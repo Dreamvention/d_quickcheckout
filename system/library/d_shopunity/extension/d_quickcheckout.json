@@ -190,7 +190,7 @@
     "changelog": [
         {
             "version": "7.2.0",
-            "change": "Fix phone validation. Fix error type(boolean) in payment address. Added shipping method select by default. Fix for products with upload files."
+            "change": "Fix phone validation front/back -end. Added shipping method select by default. Fix for products with upload files."
         }, { 
             "version": "7.1.10",
             "change": "Increase speed updateField method for payment. Delete unnecessary files from country config"

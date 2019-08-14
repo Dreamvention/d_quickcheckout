@@ -165,19 +165,23 @@ class ModelExtensionDQuickcheckoutError extends Model {
     }
 
     public function telephone($rule, $value){
-        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $result = true;
-        try {
-            if(!empty($value)){
-                $swissNumberProto = $phoneUtil->parse($value);
-                $result = $phoneUtil->isValidNumber($swissNumberProto);
-            }else{
+        $state = $this->model_extension_d_quickcheckout_store->getState(); 
+        
+        if($state['config'][$state['session']['account']]['payment_address']['fields']['telephone']['validation']){
+            $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        
+            try {
+                if(!empty($value)){
+                    $swissNumberProto = $phoneUtil->parse($value);
+                    $result = $phoneUtil->isValidNumber($swissNumberProto);
+                }else{
+                    $result = false;
+                }
+            } catch (\libphonenumber\NumberParseException $e) {
                 $result = false;
             }
-        } catch (\libphonenumber\NumberParseException $e) {
-            $result = false;
         }
-
         return $result;
     }
 

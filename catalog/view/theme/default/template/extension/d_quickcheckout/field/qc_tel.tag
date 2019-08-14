@@ -151,12 +151,13 @@
                         error = 'error_telephone_telephone';
                     }
                 }
+                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error });
             }
 
             var data = $(e.currentTarget).serializeJSON();
             data = $.extend(true, data, $iso2.serializeJSON());
 
-            this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error });
+            
             this.store.dispatch(this.opts.step+'/update', data);
         }
 

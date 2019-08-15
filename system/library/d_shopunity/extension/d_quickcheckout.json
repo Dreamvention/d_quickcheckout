@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.2.0",
+    "version": "7.2.1",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -189,6 +189,9 @@
     ],
     "changelog": [
         {
+            "version": "7.2.1",
+            "change": "Added 'file' custom field."
+        }, { 
             "version": "7.2.0",
             "change": "Fix phone validation front/back -end. Added shipping method select by default. Fix for products with upload files."
         }, { 

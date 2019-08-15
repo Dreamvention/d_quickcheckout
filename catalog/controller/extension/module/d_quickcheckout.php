@@ -14,6 +14,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->model('extension/d_quickcheckout/account');
         $this->load->model('extension/d_quickcheckout/error');
 
+        $this->session->data['user_id'] = $this->cache->get('d_aqc_user_id');
         if(!isset($this->user)){
             if(VERSION < '2.2.0.0'){
                 $this->user = new User($registry);

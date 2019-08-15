@@ -190,7 +190,7 @@
     "changelog": [
         {
             "version": "7.2.1",
-            "change": "Added 'file' custom field."
+            "change": "Added 'file' custom field. Added multistore support"
         }, { 
             "version": "7.2.0",
             "change": "Fix phone validation front/back -end. Added shipping method select by default. Fix for products with upload files."

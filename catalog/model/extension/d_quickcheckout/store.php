@@ -564,18 +564,18 @@ class ModelExtensionDQuickcheckoutStore extends Model {
             unset($data['config']);
         }
 
-        $this->db->query("DELETE FROM `" . DB_PREFIX . "dqc_setting_data` WHERE setting_id = '" . (int)$setting_id . "'");
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "dqc_setting_data` WHERE setting_id = '" . (int)$setting_id . "' AND `key` NOT LIKE 'language_%'");
 
         foreach ($data as $key => $value) {
             if($key == 'language'){
                 $key .= '_'.$this->config->get('config_language_id');
             }
             if (!is_array($value)) {
-                $this->db->query("INSERT INTO " . DB_PREFIX . "dqc_setting_data SET setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($value) . "'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "dqc_setting_data SET setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($value) . "' ON DUPLICATE KEY UPDATE setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($value) . "'");
             } else {
                 $value = json_encode($value, true);
                 
-                $this->db->query("INSERT INTO " . DB_PREFIX . "dqc_setting_data SET setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($value) . "'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "dqc_setting_data SET setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($value) . "' ON DUPLICATE KEY UPDATE setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($value) . "'");
             }
         }
         $this->saveState();

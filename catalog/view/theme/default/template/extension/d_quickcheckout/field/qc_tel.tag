@@ -4,7 +4,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_tel_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ (opts.field.display == 1) } class="field-sortable d-vis  ve-clearfix  { (opts.error && opts.field.require == 1) ? 've-field--error' : ''}">
+    <div if={ isVisible() } class="field-sortable d-vis  ve-clearfix  { (opts.error && opts.field.require == 1) ? 've-field--error' : ''}">
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ (opts.field.require == 1) } class="require">*</span>
@@ -56,7 +56,7 @@
 
         var tag = this;
 
-        getValue(){
+        /*getValue(){
             return this.store.getSession()[tag.opts.step][tag.opts.field_id];
         }
 
@@ -87,7 +87,7 @@
                 tag.tag_config = this.getTagConfig();
                 return true;
             }
-        }
+        }*/
 
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];

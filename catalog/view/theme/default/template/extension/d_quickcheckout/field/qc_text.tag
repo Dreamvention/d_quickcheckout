@@ -17,7 +17,7 @@
                 ref="input"
                 id="{ opts.step }_{ opts.field_id }"
                 name="{ opts.step }[{opts.field_id}]"
-                class="ve-input d-vis validate { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.type } { opts.field_id }"
+                class="ve-input d-vis validate { isRequired() ? 'qc-required' : 'qc-not-required'} { opts.field.type } { opts.field_id }"
                 value="{ opts.riotValue }"
                 no-reorder
                 autocomplete="{ opts.field.autocomplete }"
@@ -42,7 +42,7 @@
         this.mixin({store:d_quickcheckout_store});
         var tag = this;
 
-        getValue(){
+       /* getValue(){
             return this.store.getSession()[tag.opts.step][tag.opts.field_id];
         }
 
@@ -73,7 +73,7 @@
                 tag.tag_config = this.getTagConfig();
                 return true;
             }
-        }
+        }*/
 
         isVisible(){
             var field = tag.store.getConfig()[tag.opts.step].fields[tag.opts.field_id];

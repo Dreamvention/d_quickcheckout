@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.2.1",
+    "version": "7.2.2",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -189,6 +189,9 @@
     ],
     "changelog": [
         {
+            "version": "7.2.2",
+            "change": "Fix for IE11. Fix dependencies"
+        }, { 
             "version": "7.2.1",
             "change": "Added 'file' custom field. Added multistore support. Added multilanguage support"
         }, { 

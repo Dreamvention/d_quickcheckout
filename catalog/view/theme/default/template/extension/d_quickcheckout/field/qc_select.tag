@@ -16,8 +16,8 @@
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
                 ref="input"
-                class="ve-input d-vis qc-select{ (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'selectpicker' : ''} { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
-                required="{ opts.field.require }"
+                class="ve-input d-vis qc-select{ (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'selectpicker' : ''} { isRequired() ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
+                required="{ isRequired() }"
                 autocomplete="{ opts.field.autocomplete }"
                 onchange={change} >
                 <option value="" selected={ isEmpty(opts.riotValue) ? true : null} >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
@@ -34,7 +34,7 @@
             <select
                 if={getState().edit }
                 disabled=disabled
-                class="ve-input d-vis  { (opts.field.require) ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
+                class="ve-input d-vis  { isRequired() ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
                 no-reorder>
                 <option if={ opts.field.custom !=1 } value="" selected={ opts.riotValue == 0} >{ getLanguage()[opts.step][opts.field.placeholder] }</option>
                 <option
@@ -45,7 +45,7 @@
                     { option.name } 
                 </option>
             </select>
-            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>
+            <div if={opts.error && isRequired() } class="ve-help ve-text-danger">{getLanguage()[opts.step][opts.error]}</div>
         </div>
     </div>
 
@@ -59,9 +59,9 @@
 
         var tag = this;
 
-        getValue(){
+        /*getValue(){
             return this.store.getSession()[tag.opts.step][tag.opts.field_id];
-        }
+        }*/
 
         getName(){
             var result = opts.field.options.filter(function(item){
@@ -77,7 +77,7 @@
             }
         }
 
-        getTagError(){
+        /*getTagError(){
             if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
                 return '' ;
             }
@@ -104,7 +104,7 @@
                 tag.tag_config = this.getTagConfig();
                 return true;
             }
-        }
+        }*/
 
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];

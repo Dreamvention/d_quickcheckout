@@ -3,7 +3,7 @@
 
     <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_checkbox_setting"') < 0 && getState().edit}></qc_pro_label>
 
-    <div if={ isVisible() } class="field-sortable d-vis ve-clearfix { (opts.error && opts.field.require == 1) ? 've-field--error' : ''}">
+    <div if={ isVisible() } class="field-sortable d-vis ve-clearfix { (opts.error && isRequired()) ? 've-field--error' : ''}">
         <form class="col-full">
             <label for="{ opts.step }_{ opts.field.id }" class="ve-checkbox {opts.riotValue == 1 ? 'qc-checkbox-selected' : '' }" >
                 <input
@@ -15,20 +15,20 @@
                     id="{ opts.step }_{ opts.field.id }"
                     ref="input"
                     name="{ opts.step }[{ opts.field.id }]"
-                    class="ve-input validate { (opts.field.require) ? 'qc-required' : 'qc-not-required'}"
+                    class="ve-input validate { isRequired() ? 'qc-required' : 'qc-not-required'}"
                     value="1"
                     no-reorder
                     checked={ opts.riotValue == 1 }
-                    { (opts.field.require) ? 'qc-required' : ''}
+                    { isRequired() ? 'qc-required' : ''}
                     onchange={change} />
                 <i></i>
                 <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{ opts.field.tooltip }">
                     <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
-                    <span if={ (opts.field.require == 1) } class="require">*</span>
+                    <span if={ isRequired() } class="require">*</span>
                     <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
                 </span>
             </label>
-            <div if={opts.error && opts.field.require == 1} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
+            <div if={opts.error && isRequired()} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
         </form>
     </div>
     <div class="no-display" if={ (!isVisible() && getState().edit && typeof opts.field.display !== 'undefined') }>
@@ -40,7 +40,7 @@
 
         var tag = this;
 
-        getValue(){
+        /*getValue(){
             return this.store.getSession()[tag.opts.step][tag.opts.field_id];
         }
 
@@ -71,7 +71,7 @@
                 tag.tag_config = this.getTagConfig();
                 return true;
             }
-        }
+        }*/
 
         edit(e){
             this.store.dispatch(this.opts.step+'/edit', $('#'+ tag.setting_id).find('form').serializeJSON());

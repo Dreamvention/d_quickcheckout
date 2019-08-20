@@ -43,7 +43,7 @@
         this.mixin({store:d_quickcheckout_store});
 
         var tag = this;
-        var pages = this.store.getSession().pages.filter(page => page != false );
+        var pages = this.store.getSession().pages.filter(function(page){ return page != false } );
 
         tag.prev = pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.confirm.buttons.prev.display == 1;
         tag.next = pages[pages.length-1] != this.store.getSession().page_id;

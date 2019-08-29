@@ -53,15 +53,15 @@
         <label class="col-full" >{ getLanguage()[opts.step][opts.field.text] } <div class="ve-pull-right"><span class="ve-badge ve-badge--warning">{getLanguage().general.text_hidden}<span></div></label>
     </div>
 
-    <script>
+     <script>
         this.mixin({store:d_quickcheckout_store});
         this.setting_id = opts.step +'_'+ opts.field_id +'_setting';
 
         var tag = this;
 
-        /*getValue(){
+        getValue(){
             return this.store.getSession()[tag.opts.step][tag.opts.field_id];
-        }*/
+        }
 
         getName(){
             var result = opts.field.options.filter(function(item){
@@ -77,7 +77,7 @@
             }
         }
 
-        /*getTagError(){
+        getTagError(){
             if(this.store.isEmpty(this.store.getError()[tag.opts.step])){ 
                 return '' ;
             }
@@ -104,7 +104,7 @@
                 tag.tag_config = this.getTagConfig();
                 return true;
             }
-        }*/
+        }
 
         getStyle(){
             var field = tag.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id];

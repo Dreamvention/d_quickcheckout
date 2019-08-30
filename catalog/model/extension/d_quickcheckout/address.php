@@ -73,6 +73,10 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
     public function getAddress($address_id) {
         $this->load->model('account/address');
         $address = $this->model_account_address->getAddress($address_id);
+        
+        if(!empty($address["custom_field"])){
+            $address["custom_field"] = $this->getAddressCustomField($address["custom_field"]);
+        }
 
         if (!empty($address) && empty($address['address_format'])) {
                 $address['address_format'] = '{firstname} {lastname}' . '{company}' . "\n" . '{address_1}' . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
@@ -85,6 +89,13 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
 
         $this->load->model('account/address');
         $addresses = $this->model_account_address->getAddresses();
+
+        foreach($addresses as  $k => $v){
+            if(!empty($addresses[$k]["custom_field"])){
+                $addresses[$k]["custom_field"] = $this->getAddressCustomField($addresses[$k]["custom_field"]);
+            }
+        }
+
         foreach ($addresses as $key => $address) {
             if (!empty($address) && empty($address['address_format'])) {
                 $addresses[$key]['address_format'] = '{firstname} {lastname}' . '{company}' . "\n" . '{address_1}' . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
@@ -141,7 +152,22 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
     }
 
 
+    public function getAddressCustomField($data){
+        
+        $this->load->model('account/custom_field');
+        $custom_field_data = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
 
+        foreach( $custom_field_data as $custom_field){
+            $data = array(
+                $custom_field['location'] => array(
+                        $custom_field["custom_field_id"] => $data[$custom_field["custom_field_id"]]
+                    )
+            );
+        }
+        return $data;
+
+    }
+    
     private function getDisplayShippingAddress(){
 
         if($this->session->data['account'] == 'logged' && $this->session->data['payment_address']['address_id'] != 0){

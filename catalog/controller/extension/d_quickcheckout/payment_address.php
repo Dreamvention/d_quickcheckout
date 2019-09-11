@@ -325,6 +325,8 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         $state['session']['payment_address']['shipping_address'] = 0;
                     }
 
+                    $state['session']['payment_address']['customer_group_id'] = $this->customer->getGroupId();
+
                     if($state['session']['payment_address']['address_id'] == 0){
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $this->getDefault($populate = false));
                     }

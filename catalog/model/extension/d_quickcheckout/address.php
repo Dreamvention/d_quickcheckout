@@ -158,11 +158,13 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
         $custom_field_data = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
 
         foreach( $custom_field_data as $custom_field){
-            $data = array(
-                $custom_field['location'] => array(
-                        $custom_field["custom_field_id"] => $data[$custom_field["custom_field_id"]]
-                    )
-            );
+            if(array_key_exists($custom_field["custom_field_id"], $data)){
+                $data = array(
+                    $custom_field['location'] => array(
+                            $custom_field["custom_field_id"] => $data[$custom_field["custom_field_id"]]
+                        )
+                );
+            }
         }
         return $data;
 

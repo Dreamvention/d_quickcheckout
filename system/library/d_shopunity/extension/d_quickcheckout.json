@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.2.5",
+    "version": "7.2.6",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -12,8 +12,8 @@
     "opencart_version": "2.0.1.0-4",
     "type": "module",
     "license": {
-        "type": "commercial",
-        "url": "https://shopunity.net/licenses/commercial"
+        "type": "free",
+        "url": "https://shopunity.net/licenses/free"
     },
     "install": {
         "url": "extension/extension/module/install&extension=d_quickcheckout"
@@ -38,7 +38,8 @@
         "d_admin_style": ">=1.0.3",
         "libphonenumber": ">=8.9.8",
         "d_browser": ">=1.0.0",
-        "d_bootstrap_select": ">=1.12.4"
+        "d_bootstrap_select": ">=1.12.4",
+        "d_validator": ">=1.0.2"
     },
     "files": [
         "system/library/d_shopunity/extension/d_quickcheckout.json",
@@ -189,6 +190,9 @@
     ],
     "changelog": [
         {
+            "version": "7.2.6",
+            "change": "Validator dependency"
+        }, {
             "version": "7.2.5",
             "change": "Fixed customer group during switching the address_id"
         }, { 

@@ -21,6 +21,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
         $this->d_twig_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_twig_manager.json'));
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
+        $this->d_validator = (file_exists(DIR_SYSTEM . 'library/d_shopunity/extension/d_validator.json'));
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
         $this->store_id = (isset($this->request->get['store_id'])) ? $this->request->get['store_id'] : 0;
 
@@ -55,6 +56,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_module_d_event_manager->installCompatibility();
         }
 
+        if ($this->d_validator) {
+            $this->load->model('extension/d_shopunity/d_validator');
+            $this->model_extension_d_shopunity_d_validator->installCompatibility();
+        }
+
         $this->load->model('extension/module/d_quickcheckout');
         $this->model_extension_module_d_quickcheckout->update();
 
@@ -67,7 +73,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->model('extension/d_opencart_patch/cache');
 
         $this->model_extension_d_opencart_patch_cache->clearTwig();
-
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->model_setting_setting->editSetting($this->codename, $this->request->post, $this->store_id);

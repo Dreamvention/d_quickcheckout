@@ -190,6 +190,9 @@
     ],
     "changelog": [
         {
+            "version": "7.2.7",
+            "change": "Change customer_group on register"
+        }, {
             "version": "7.2.6",
             "change": "Validator dependency"
         }, {

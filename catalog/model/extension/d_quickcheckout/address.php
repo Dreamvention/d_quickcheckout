@@ -90,13 +90,12 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
         $this->load->model('account/address');
         $addresses = $this->model_account_address->getAddresses();
 
-        foreach($addresses as  $k => $v){
-            if(!empty($addresses[$k]["custom_field"])){
-                $addresses[$k]["custom_field"] = $this->getAddressCustomField($addresses[$k]["custom_field"]);
-            }
-        }
-
         foreach ($addresses as $key => $address) {
+
+            if(!empty($addresses[$key]["custom_field"])){
+                $addresses[$key]["custom_field"] = $this->getAddressCustomField($addresses[$key]["custom_field"]);
+            }
+
             if (!empty($address) && empty($address['address_format'])) {
                 $addresses[$key]['address_format'] = '{firstname} {lastname}' . '{company}' . "\n" . '{address_1}' . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
             }

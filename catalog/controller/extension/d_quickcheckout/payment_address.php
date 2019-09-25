@@ -287,7 +287,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', $field),  $value);
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            
+
             switch ($field){
 
                 //if country_id is modified
@@ -349,6 +349,12 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     }
 
                     $this->model_extension_d_quickcheckout_store->setState($state);
+                    break;
+
+                case 'customer_group_id' :
+                   
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', 'customer_group_id'), $value);
+                        $this->model_extension_d_quickcheckout_store->dispatch('total/update','');
                     break;
 
                 default: 

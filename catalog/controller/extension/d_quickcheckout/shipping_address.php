@@ -415,23 +415,23 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         $default = $state['config'][$state['session']['account']]['shipping_address']['fields'];
 
         $address = array(
-            'firstname' => (isset($shipping_address['firstname'])) ? $shipping_address['firstname'] : $default['firstname']['value'],
-            'lastname' => (isset($shipping_address['lastname'])) ? $shipping_address['lastname'] : $default['lastname']['value'],
-            'company' => (isset($shipping_address['company'])) ? $shipping_address['company'] : $default['company']['value'],
-            'address_1' => (isset($shipping_address['address_1'])) ? $shipping_address['address_1'] : $default['address_1']['value'],
-            'address_2' => (isset($shipping_address['address_2'])) ? $shipping_address['address_2'] : $default['address_2']['value'],
-            'postcode' => (isset($shipping_address['postcode'])) ? $shipping_address['postcode'] : $default['postcode']['value'],
-            'city' => (isset($shipping_address['city'])) ? $shipping_address['city'] : $default['city']['value'],
-            'country_id' => (isset($shipping_address['country_id'])) ? $shipping_address['country_id'] : $default['country_id']['value'],
-            'zone_id' => (isset($shipping_address['zone_id'])) ? $shipping_address['zone_id'] : $default['zone_id']['value'],
-            'country' => (isset($shipping_address['country'])) ? $shipping_address['country'] : '',
-            'iso_code_2' => (isset($shipping_address['iso_code_2'])) ? $shipping_address['iso_code_2'] : '',
-            'iso_code_3' => (isset($shipping_address['iso_code_3'])) ? $shipping_address['iso_code_3'] : '',
-            'address_format' => (isset($shipping_address['address_format'])) ? $shipping_address['address_format'] : '',
+            'firstname' => '',
+            'lastname' => '',
+            'company' => '',
+            'address_1' => '',
+            'address_2' => '',
+            'postcode' => '',
+            'city' => '',
+            'country_id' => '',
+            'zone_id' => '',
+            'country' => '',
+            'iso_code_2' => '',
+            'iso_code_3' => '',
+            'address_format' => '',
             'custom_field' =>  array(),
-            'zone' => (isset($shipping_address['zone'])) ? $shipping_address['zone'] : '',
-            'zone_code' => (isset($shipping_address['zone_code'])) ? $shipping_address['zone_code'] : '',
-            'address_id' => (isset($shipping_address['address_id'])) ? $shipping_address['address_id'] : 0
+            'zone' => '',
+            'zone_code' => '',
+            'address_id' => 0
             );
 
             if(isset($state['session']['payment_address']['address_id']) && $state['session']['account'] != 'logged'){
@@ -457,6 +457,14 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                     )
                 );
                 $address['custom_field'] = array_merge($address['custom_field'], $custom_field);
+            }
+        }
+        
+        foreach($address as $key => $value){
+            if(isset($payment_address[$key])){
+                $address[$key] = $payment_address[$key];
+            }elseif(isset($default[$key]) && isset($default[$key]['value'])){
+                $address[$key] = $default[$key]['value'];
             }
         }
 

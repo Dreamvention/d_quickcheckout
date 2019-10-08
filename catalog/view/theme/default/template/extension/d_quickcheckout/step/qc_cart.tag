@@ -61,7 +61,7 @@
                             <td class="qc-quantity ve-hidden--sm" show={ getConfig().cart.columns.quantity.display == 1 }>
                                 <div class="ve-input-group">
                                     <button class="ve-btn d-vis ve-btn--primary decrease" data-product="{ product.key }" onclick={decrease}><i class="fa fa-chevron-down"></i></button>
-                                    <input type="text" data-mask="9?999999999999999" value="{ product.quantity }"  class="ve-input qc-product-quantity text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
+                                    <input type="number" data-mask="9?999999999999999" value="{ product.quantity }"  class="ve-input qc-product-quantity text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
                                     <button class="ve-btn d-vis ve-btn--primary increase" data-product="{ product.key }" onclick={increase}><i class="fa fa-chevron-up"></i></button>
                                     <button class="ve-btn d-vis ve-btn--danger delete" data-product="{ product.key }"  onclick={delete}><i class="fa fa-times"></i></button>
                                 </div>
@@ -156,7 +156,7 @@
                             </label>
                             <div class="ve-col-sm-8">
                                 <div class="ve-field ve-field--block">
-                                    <input class="ve-input" type="text" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" onkeydown={changeReward} />
+                                    <input class="ve-input" type="number" value="{getSession().reward}" name="reward" placeholder="{ getLanguage().cart.entry_reward }" onkeydown={changeReward} />
                                     <button class="ve-btn d-vis ve-btn--default" onclick={useReward} type="button">{ getLanguage().cart.button_apply }</button>
                                 </div>
                             </div>
@@ -229,7 +229,7 @@
                                 <div class="ve-input-group">
                                     
                                     <button class="ve-btn d-vis ve-btn--primary decrease" data-product="{ product.key }" onclick={decrease}><i class="fa fa-chevron-down"></i></button>
-                                    <input type="text" data-mask="9?999999999999999" value="{ product.quantity }"  class="ve-input qc-product-quantity text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
+                                    <input type="number" data-mask="9?999999999999999" value="{ product.quantity }"  class="ve-input qc-product-quantity text-center" data-product="{ product.key }" name="cart[{ product.key }]"  data-refresh="2" onchange={change}/>
                                     <button class="ve-btn d-vis ve-btn--primary increase" data-product="{ product.key }" onclick={increase}><i class="fa fa-chevron-up"></i></button>
                                     <button class="ve-btn d-vis ve-btn--danger delete" data-product="{ product.key }"  onclick={delete}><i class="fa fa-times"></i></button>
                                 </div>

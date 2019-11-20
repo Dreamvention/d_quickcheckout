@@ -97,7 +97,7 @@ $_['d_quickcheckout_payment_address_language'] = array(
     'entry_zone_id' => 'entry_zone',
     'placeholder_zone_id' => 'text_select',
     'tooltip_zone_id' => '',
-    'error_zone_id_not_empty' => 'error_country',
+    'error_zone_id_not_empty' => 'error_zone',
 
     'entry_newsletter' => 'entry_newsletter',
     'tooltip_newsletter' => '',

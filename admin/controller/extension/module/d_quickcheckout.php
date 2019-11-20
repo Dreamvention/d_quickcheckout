@@ -324,7 +324,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $cart = $this->cart->getProducts();
 
         if(!$cart){
-            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p2s.store_id = '".(int)$store_id."' LIMIT 1");
+            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.quantity > '0' AND p2s.store_id = '".(int)$store_id."' LIMIT 1");
 
             $product = $query->row;
 

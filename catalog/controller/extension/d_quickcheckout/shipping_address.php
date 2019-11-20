@@ -412,6 +412,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             }
         }
 
+
         $default = $state['config'][$state['session']['account']]['shipping_address']['fields'];
 
         $address = array(
@@ -461,8 +462,8 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         }
         
         foreach($address as $key => $value){
-            if(isset($payment_address[$key])){
-                $address[$key] = $payment_address[$key];
+            if(isset($shipping_address[$key])){
+                $address[$key] = $shipping_address[$key];
             }elseif(isset($default[$key]) && isset($default[$key]['value'])){
                 $address[$key] = $default[$key]['value'];
             }

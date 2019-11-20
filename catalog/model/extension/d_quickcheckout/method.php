@@ -113,7 +113,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 				if ($method) {
 					if ($recurring) {
 						if(VERSION < '2.3.0.0'){
-							if (method_exists($this->{'model_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_payment_' . $result['code']}->recurringPayments()) {
+							if (property_exists($this->{'model_payment_' . $result['code']}, 'recurringPayments') && $this->{'model_payment_' . $result['code']}->recurringPayments()) {
 								$method_data[$result['code']] = $method;
 							}
 						}else{
@@ -208,7 +208,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 		$state = $this->model_extension_d_quickcheckout_store->getState();
 
 		if(isset($state['config']['guest']['payment']['payment_popups'])
-		&&!empty(($state['config']['guest']['payment']['payment_popups']))){
+		&&!empty($state['config']['guest']['payment']['payment_popups'])){
 			if(isset($state['config']['guest']['payment']['payment_popups'][$payment_code])){
 				$payment_popup = (bool)$state['config']['guest']['payment']['payment_popups'][$payment_code];
 			}

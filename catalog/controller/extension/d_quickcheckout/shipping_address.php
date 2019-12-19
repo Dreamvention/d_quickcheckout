@@ -299,16 +299,19 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
                 break;
 
                 case 'address_id':
-                    if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
+                    if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field) && $value != 0){
                         $state['session']['shipping_address'] = $this->getAddress($value);
+                    }
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'),  $state['session']['shipping_address']);
                         
                         $state = $this->model_extension_d_quickcheckout_store->getState();
+            
                         if($state['session']['shipping_address']['address_id'] == 0){
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getDefault($populate = false));
+                        }else{
+                            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $state['session']['shipping_address']);
                         }
-                    }
-                break;
+                    break;
                 default: 
                     if(isset($state['config']['guest']['shipping_address']['fields'][$field])){
                         if($state['config']['guest']['shipping_address']['fields'][$field]['custom']){
@@ -402,10 +405,13 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         $state = $this->model_extension_d_quickcheckout_store->getState();
         if($populate){
             if(isset($state['session']) && isset($state['session']['shipping_address'])){
-                if(!empty($state['session']['shipping_address']['address_id'])
-                    && !empty($state['session']['addresses']) 
-                    && !empty($state['session']['addresses'][$state['session']['shipping_address']['address_id']])){
-                    foreach($state['session']['addresses'][$state['session']['shipping_address']['address_id']] as $field_id => $value){
+                if(
+                    // !empty($state['session']['shipping_address']['address_id'])
+                     !empty($state['session']['addresses']) 
+                    && !empty(current($state['session']['addresses'])['address_id'])){
+                   
+                    // && !empty($state['session']['addresses'][$state['session']['shipping_address']['address_id']])){
+                    foreach(current($state['session']['addresses']) as $field_id => $value){
                         $state['session']['shipping_address'][$field_id] = $value;
                     }
                 }
@@ -436,9 +442,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
             'address_id' => 0
             );
 
-            if(isset($state['session']['payment_address']['address_id']) && $state['session']['account'] != 'logged'){
-                $address['address_id'] = $state['session']['payment_address']['address_id'];
-            }
+          
             
         //init custom fields
         foreach($default as $key => $field){

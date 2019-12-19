@@ -191,7 +191,7 @@
     "changelog": [
         {
             "version": "7.2.9",
-            "change": "Fix for avoid flicker page(is_upd). Fix for shipping_address. Fix for shipping address on register."
+            "change": "Fix for avoid flicker page(is_upd). Fix for shipping_address. Fix for shipping address on register. Fix shipping address."
         }, {
             "version": "7.2.8",
             "change": "Fix for shipping address. Change method exist to property exist."

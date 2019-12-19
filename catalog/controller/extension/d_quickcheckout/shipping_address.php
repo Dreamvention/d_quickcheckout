@@ -300,14 +300,15 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
 
                 case 'address_id':
                     if($this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_'.$field)){
-                        $update['session']['shipping_address'] = $this->getAddress($value);
-                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'),  $update['session']['shipping_address']);
+                        $state['session']['shipping_address'] = $this->getAddress($value);
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'),  $state['session']['shipping_address']);
                         
                         $state = $this->model_extension_d_quickcheckout_store->getState();
                         if($state['session']['shipping_address']['address_id'] == 0){
                             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $this->getDefault($populate = false));
                         }
                     }
+                break;
                 default: 
                     if(isset($state['config']['guest']['shipping_address']['fields'][$field])){
                         if($state['config']['guest']['shipping_address']['fields'][$field]['custom']){

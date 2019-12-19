@@ -5,7 +5,7 @@
 (function() {
 
     this.subscribe('account/update', function(data) {
-        this.setState({ 'session': data });
+        this.setState({ 'session': data }, false);
         var difference = this.getChange();
         this.send('extension/d_quickcheckout/account/update', difference, function(json) {
             this.setState(json);
@@ -16,7 +16,7 @@
 
     //REFACTOR
     this.subscribe('account/login', function(data) {
-        this.setState({ 'session': data });
+        this.setState({ 'session': data }, false);
         var difference = this.getChange();
         this.send('extension/d_quickcheckout/account/update', { 'session': data }, function(json) {
             this.setState(json);

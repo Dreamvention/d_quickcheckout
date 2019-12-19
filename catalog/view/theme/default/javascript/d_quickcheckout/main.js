@@ -47,15 +47,19 @@ var qc = (function() {
     /**
      *   UpdateState. A wrapper function to update the state and call riot update.
      */
-    this.updateState = function(key, data) {
+    this.updateState = function(key, data, is_upd = true) {
         this.state = this.state.setIn(key, data);
 
         //update state cache.
         this.stateCached = this.state.toJS();
         this.stateCached.edited = true;
-        setTimeout(function() {
-            riot.update(); //will start a full update of all tags
-        }, 10);
+        
+        //avoid flicker page
+        if(is_upd){
+            setTimeout(function() {
+                riot.update(); //will start a full update of all tags
+            }, 10);
+        }
     }
 
     this.loading = function(state) {
@@ -76,16 +80,18 @@ var qc = (function() {
         riot.update(); //will start a full update of all tags
     }
 
-    this.setState = function(data) {
+    this.setState = function(data, is_upd = true) {
 
         this.state = this.state.mergeDeep(data);
 
         //update state cache.
         this.stateCached = this.state.toJS();
         this.stateCached.edited = true;
-        setTimeout(function() {
-            riot.update(); //will start a full update of all tags
-        }, 10);
+        if(is_upd){
+            setTimeout(function() {
+                riot.update(); //will start a full update of all tags
+            }, 10);
+        }
     }
 
     /**

@@ -8,7 +8,7 @@
 
         clearTimeout(this.payment_address_timer);
 
-        this.setState({ 'session': data });
+        this.setState({ 'session': data }, false);
         var difference = this.getChange();
 
         this.payment_address_timer = setTimeout(function() {

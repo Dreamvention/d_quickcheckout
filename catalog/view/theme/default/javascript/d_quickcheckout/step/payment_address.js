@@ -6,17 +6,33 @@
 
 
     this.subscribe('payment_address/update', function(data) {
+       
+         //show/hide shipping address immediately
+        if (data.payment_address.shipping_address && this.getState().session.has_shipping) {
+       
+            if (data.payment_address.shipping_address == 1) {
+                this.updateState(['config', this.getAccount(), 'shipping_address', 'display'], 0, false);
+            } else {
+                this.updateState(['config', 'guest', 'shipping_address', 'display'], 1, false);
+                this.updateState(['config','logged', 'shipping_address', 'display'], 1, false);
+                this.updateState(['config', 'register', 'shipping_address', 'display'], 1, false);
+            }
+        } else if (!this.getState().session.has_shipping) {
+            this.updateState(['config', this.getAccount(), 'shipping_address', 'display'], 0, false);
+        }
+        // end show/hide shipping address immediately
+
         clearTimeout(this.payment_address_timer);
 
-        this.setState({ 'session': data });
+        this.setState({ 'session': data }, false);
         var difference = this.getChange();
-
+       
         this.payment_address_timer = setTimeout(function() {
             this.send('extension/d_quickcheckout/payment_address/update', difference, function(json) {
                 this.setState(json);
                 this.setChange(this.getState());
             }.bind(this));
-        }, 10);
+        }, 20);
 
     });
 

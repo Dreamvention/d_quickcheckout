@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.2.8",
+    "version": "7.2.9",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -190,6 +190,9 @@
     ],
     "changelog": [
         {
+            "version": "7.2.9",
+            "change": "Fix for avoid flicker page(is_upd). Fix for shipping_address. Fix for shipping address on register."
+        }, {
             "version": "7.2.8",
             "change": "Fix for shipping address. Change method exist to property exist."
         }, {

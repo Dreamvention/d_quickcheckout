@@ -22,10 +22,10 @@
                     { isRequired() ? 'qc-required' : ''}
                     onchange={change} />
                 <i></i>
-                <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{ opts.field.tooltip }">
+                <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{getLanguage()[opts.step][opts.field.tooltip] }">
                     <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
                     <span if={ isRequired() } class="require">*</span>
-                    <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+                   <!-- <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i> -->
                 </span>
             </label>
             <div if={opts.error && isRequired()} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>

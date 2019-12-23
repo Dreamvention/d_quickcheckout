@@ -330,9 +330,11 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
                     if($state['session']['payment_address']['address_id'] == 0){
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $this->getDefault($populate = false));
+                    }else{
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
                     }
 
-                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
+                    //$this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
                     break;
 
                 //validating telephone
@@ -476,14 +478,14 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
         $payment_address = array();
         $state = $this->model_extension_d_quickcheckout_store->getState();
+    
         if($populate){
 
             if(isset($state['session']) && isset($state['session']['payment_address'])){
                 if($state['session']['account'] == 'logged'
-                && !empty($state['session']['payment_address']['address_id'])
-                && !empty($state['session']['addresses']) 
-                && !empty($state['session']['addresses'][$state['session']['payment_address']['address_id']])){
-                    foreach($state['session']['addresses'][$state['session']['payment_address']['address_id']] as $field_id => $value){
+                && !empty(current($state['session']['addresses'])['address_id'])){
+                    // foreach($state['session']['addresses'][$state['session']['payment_address']['address_id']] as $field_id => $value){
+                    foreach(current($state['session']['addresses']) as $field_id => $value){
                         $state['session']['payment_address'][$field_id] = $value;
                     }
                 }
@@ -526,9 +528,9 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'address_id' => 0
         );
 
-        if(isset($state['session']['addresses'][1]['address_id'])){
-            $address['address_id'] = $state['session']['addresses'][1]['address_id'];
-        }
+        // if(isset($state['session']['addresses'][1]['address_id'])){
+        //     $address['address_id'] = $state['session']['addresses'][1]['address_id'];
+        // }
         
         //init custom fields
         foreach($default as $key => $field){

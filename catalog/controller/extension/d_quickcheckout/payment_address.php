@@ -481,7 +481,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
     
         if($populate){
 
-            if(isset($state['session']) && isset($state['session']['payment_address'])){
+            if(isset($state['session']) /* && isset($state['session']['payment_address']) */){
                 if($state['session']['account'] == 'logged'
                 && !empty(current($state['session']['addresses'])['address_id'])){
                     // foreach($state['session']['addresses'][$state['session']['payment_address']['address_id']] as $field_id => $value){

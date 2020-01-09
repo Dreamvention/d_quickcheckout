@@ -361,15 +361,16 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
         }
         $points = $this->customer->getRewardPoints();
         $points_total = $this->rewardsToUse();
-        $result['reward_heading_title'] = sprintf($this->language->get('heading_title'), $points ? $points : 0);
-        $result['entry_reward'] = sprintf($this->language->get('entry_reward'), $points_total ? $points_total : 0);
+    
 
         $language = $this->model_extension_d_quickcheckout_store->getLanguage();
 
         if(isset($language['cart'])){
             $result = array_replace_recursive($result, $language['cart']);
         }
-
+        $result['reward_heading_title'] = sprintf($this->language->get('heading_title'), $points ? $points : 0);
+        $result['entry_reward'] = sprintf($this->language->get('entry_reward'), $points_total ? $points_total : 0);
+        
         $result['image'] = HTTPS_SERVER.'image/catalog/d_quickcheckout/step/cart.svg';
 
         return $result;

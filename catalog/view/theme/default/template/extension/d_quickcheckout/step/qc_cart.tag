@@ -130,10 +130,10 @@
                             {getState().notifications.cart.success_voucher}
                         </div>
                         <div class="ve-row">
-                            <label class="ve-col-sm-4 ve-label" >
+                            <label class="ve-col-sm-4 ve-col-md-4 ve-label" >
                                 { getLanguage().cart.entry_voucher }
                             </label>
-                            <div class="ve-col-sm-8">
+                            <div class="ve-col-sm-8 ve-col-md-8">
                                 <div class="ve-field ve-field--block">
                                     <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="ve-input" onkeydown={changeVoucher}/>
                                     <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.button_apply }</button>
@@ -281,10 +281,10 @@
                             {getState().notifications.cart.success_voucher}
                         </div>
                         <div class="ve-row">
-                            <label class="ve-col-sm-4 ve-label" >
+                            <label class="ve-col-sm-4 ve-col-md-4 ve-label" >
                                 { getLanguage().cart.entry_voucher }
                             </label>
-                            <div class="ve-col-sm-8">
+                            <div class="ve-col-sm-8 ve-col-md-8">
                                 <div class="ve-field ve-field--block">
                                     <input type="text" value="{getSession().voucher}" name="voucher" placeholder="{ getLanguage().cart.entry_voucher }" class="ve-input" onkeydown={changeVoucher}/>
                                     <button class="ve-btn d-vis ve-btn--default" onclick={useVoucher} type="button">{ getLanguage().cart.button_apply }</button>

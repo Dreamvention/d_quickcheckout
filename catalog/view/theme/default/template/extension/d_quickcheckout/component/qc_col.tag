@@ -4,8 +4,8 @@
             <div class="qc-setting-panels">
                 <a each={ step, step_id in getState().steps } onclick={parent.parent.addStep} data-name={step}  class="qc-setting-panel add-step">
                     <div class="qc-setting-panel-content">
-                        <div class="qc-setting-panel-heading"><img src="{getLanguage()[step]['image']}" /></div>
-                        <div class="qc-setting-panel-body"> {getLanguage()[step]['heading_title']}</div>
+                        <div class="qc-setting-panel-heading"><img if={getLanguage()[step]} src="{getLanguage()[step]['image']}" /></div>
+                        <div class="qc-setting-panel-body"> {getLanguage()[step] &&  getLanguage()[step]['heading_title']  ? getLanguage()[step]['heading_title'] : step }</div>
                     </div>
                 </a>
             </div>

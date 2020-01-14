@@ -191,7 +191,7 @@
     "changelog": [
         {
             "version": "7.2.10",
-            "change": "Fix tooltip_agree. Fix for payment address"
+            "change": "Fix tooltip_agree. Fix for payment address. Fix js error that appears due to adding some file to d_quickcheckout dir"
         }, {
             "version": "7.2.9",
             "change": "Fix for avoid flicker page(is_upd). Fix for shipping_address. Fix for shipping address on register. Fix shipping address."

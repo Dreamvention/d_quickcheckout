@@ -404,16 +404,10 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         $shipping_address = array();
         $state = $this->model_extension_d_quickcheckout_store->getState();
         if($populate){
-            if(isset($state['session']) && isset($state['session']['shipping_address'])){
-                if(
-                    // !empty($state['session']['shipping_address']['address_id'])
-                     !empty($state['session']['addresses']) 
-                    && !empty(current($state['session']['addresses'])['address_id'])){
-                   
-                    // && !empty($state['session']['addresses'][$state['session']['shipping_address']['address_id']])){
-                    foreach(current($state['session']['addresses']) as $field_id => $value){
-                        $state['session']['shipping_address'][$field_id] = $value;
-                    }
+            if(isset($state['session']) && $state['session']['account'] == 'logged'
+            && !empty(current($state['session']['addresses'])['address_id']) ){
+                foreach(current($state['session']['addresses']) as $field_id => $value){
+                    $state['session']['shipping_address'][$field_id] = $value;
                 }
                 $shipping_address = $state['session']['shipping_address'];
             }

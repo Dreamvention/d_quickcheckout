@@ -194,7 +194,8 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         $output = $this->load->controller('common/header');
         $html_dom = new d_simple_html_dom();
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-        $text = (string)$html_dom->find('#top-links > ul > li', 1)->innertext;
+        //Check if exist elem '#top-links > ul > li' 
+        $text = !empty($html_dom->find('#top-links > ul > li', 1)) ? (string)$html_dom->find('#top-links > ul > li', 1)->innertext : '';
         return $text;
     }
 

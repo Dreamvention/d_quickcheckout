@@ -281,6 +281,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
 
         $store_id = 0;
+
         $this->load->model('extension/d_opencart_patch/user');
         if($this->config->get('config_secure')){
             $url = HTTPS_CATALOG;
@@ -330,9 +331,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
             $this->cart->add($product['product_id']);
         }
-        
-        //REFACTOR
-        $this->saveUserId();
 
         $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id.'&admin='.urlencode($admin).'&custom_field='. urlencode($custom_field);
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_quickcheckout/editor', $data));
@@ -348,14 +346,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
 
         return true;
-    }
-
-    public function saveUserId(){
-
-        $current_cache_expire = $this->config->get('cache_expire');
-        $this->config->set('cache_expire',600);
-        $this->cache->set('d_aqc_user_id',$this->user->getId());
-        $this->config->set('cache_expire',$current_cache_expire);
     }
 
     public function install() {

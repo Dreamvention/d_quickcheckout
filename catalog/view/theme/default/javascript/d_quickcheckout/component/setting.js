@@ -64,6 +64,16 @@
         }.bind(this));
     });
 
+    this.subscribe('setting/changeStore', function(data) {
+  
+        this.showLoader();
+        this.send('extension/module/d_quickcheckout/get_store_setting', { setting_id: data.setting_id }, function(json) {
+            this.updateState(['layout'], {});
+            this.setState(json);
+            this.render();
+        }.bind(this));
+    });
+
 
     this.showSetting = function(setting_id) {
         this.hideSetting();

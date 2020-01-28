@@ -113,6 +113,13 @@
                 </label>
             </div>
         </div>
+        <div class="ve-editor__menu__control" if={Object.keys(getState().settings).length  > 1}>
+            <div class="ve-btn-group" data-toggle="buttons">
+                <label each={setting, key in getState().settings} class="ve-btn ve-btn--lg ve-btn--primary { getSession().setting_id == setting.setting_id ?  'active' : '' }" onclick={changeStore}>
+                    <input class="ve-input" type="radio" name="setting" value="{setting.setting_id}" id="{setting.setting_id}" autocomplete="off" checked={ getSession().setting_id == setting.setting_id }> {setting.name}
+                </label>
+            </div>
+        </div>
         <div class="ve-editor__menu__control">
             <a class="ve-btn ve-btn--lg ve-btn--primary" onclick={toggleSetting}><i class="fa fa-cog"></i></a>
             <a class="ve-btn ve-btn--lg ve-btn--success" onclick={saveState}>{getLanguage().general.text_update}</a>
@@ -123,7 +130,7 @@
     <script>
         this.mixin({store:d_quickcheckout_store});
         var state = this.store.getState();
-
+        
         this.setting_id = 'layout_setting';
         this.skin = this.store.getSession().skin;
 
@@ -153,6 +160,10 @@
 
         changeLanguage(e){
             this.store.dispatch('setting/changeLanguage', { language_id: $(e.currentTarget).find('input').val()});
+        }
+
+        changeStore(e){
+            this.store.dispatch('setting/changeStore', { setting_id: $(e.currentTarget).find('input').val()});
         }
 
         changeLayout(e){

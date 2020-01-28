@@ -61,8 +61,9 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $this->cache->delete('d_quickcheckout_action');
         $this->cache->delete('d_quickcheckout_language');
 
-        if(isset($this->request->get['setting_id'])){
-            $this->session->data['setting_id'] =  $this->request->get['setting_id'];
+        //post comes during changing store
+        if(isset($this->request->get['setting_id'])||isset($this->request->post['setting_id'])){
+            $this->session->data['setting_id'] =  isset($this->request->post['setting_id'])? $this->request->post['setting_id']: $this->request->get['setting_id'];
         }else{
             $settings = $this->getSettings();
             if(!empty($settings)){
@@ -83,7 +84,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         $state['session'] = $this->session->data;
 
         $settings = $this->getSetting();
-
+        
         //load layout
         if(!empty($settings['layout'])){
             $state['layout'] = $settings['layout'];
@@ -514,6 +515,44 @@ class ModelExtensionDQuickcheckoutStore extends Model {
         return $row;
     }
 
+    public function getAllSettings(){
+        $settings = array();
+        $exist_setting = array();
+        $stores = $this->getAllStores();
+     
+        $query = $this->db->query("SELECT setting_id, store_id, `name` FROM " . DB_PREFIX . "dqc_setting GROUP BY setting_id");
+        $exist_settings = $query->rows;
+        //check if settings doesn't exist for store
+        if(count($stores) > count($query->rows)){
+
+            foreach($exist_settings as $exist){
+                $exist_setting[$exist['store_id']] = $exist['store_id'];
+            }
+            foreach($stores as $store){
+                if( !isset($exist_setting[$store['store_id']])){
+                    //create new setting
+                    $name = 'Store '.$store['store_id'];
+                    $this->db->query("INSERT INTO `" . DB_PREFIX . "dqc_setting`
+                        SET `store_id` = '" . (int)$store['store_id'] . "',
+                            `name` = '" . $this->db->escape($name) . "',
+                            `date_added` = NOW(),
+                            `date_modified` = NOW()");
+                }
+            }
+            //select whole settings
+            $query = $this->db->query("SELECT setting_id, store_id, `name` FROM " . DB_PREFIX . "dqc_setting GROUP BY setting_id");
+        } 
+
+        foreach($query->rows as $rows){
+            $settings[] = array(
+                'setting_id' => $rows['setting_id'],
+                'store_id' => $rows['store_id'],
+                'name' => $rows['name']
+            );
+        }
+        return $settings;
+        
+    }
     public function getSettings(){
         $store_id = $this->config->get('config_store_id');
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "dqc_setting WHERE store_id = '" . (int)$store_id . "'");
@@ -554,8 +593,7 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     }
 
      public function editSettingData($setting_id, $data) {
-        $code = 'd_quickcheckout'; 
-        $store_id = $this->config->get('config_store_id');
+        $code = 'd_quickcheckout';
 
         if(isset($data['config'])){
             foreach($data['config'] as $key => $value){
@@ -613,6 +651,25 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     public function clearSetting(){
         $setting_id = $this->session->data['setting_id'];
         $query = $this->db->query("DELETE FROM " . DB_PREFIX . "dqc_setting_data WHERE setting_id = '" . (int)$setting_id . "'");
+    }
+
+    public function getAllStores(){
+        $this->load->model('setting/store');
+        $stores = $this->model_setting_store->getStores();
+        $result = array();
+        if(isset($stores)){
+            $result[] = array(
+                'store_id' => 0, 
+                'name' => $this->config->get('config_name')
+                );
+            foreach ($stores as $store) {
+                $result[] = array(
+                    'store_id' => $store['store_id'],
+                    'name' => $store['name']    
+                    );
+            }   
+        }
+        return $result;
     }
 
 }

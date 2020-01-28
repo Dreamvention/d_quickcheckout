@@ -14,7 +14,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->load->model('extension/d_quickcheckout/account');
         $this->load->model('extension/d_quickcheckout/error');
 
-        $this->session->data['user_id'] = $this->cache->get('d_aqc_user_id');
         if(!isset($this->user)){
             if(VERSION < '2.2.0.0'){
                 $this->user = new User($registry);
@@ -81,20 +80,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $state = $this->initState();
         $this->load->model('extension/d_quickcheckout/view');
 
-        $this->load->controller('extension/d_quickcheckout/account');
-        $this->load->controller('extension/d_quickcheckout/payment_address');
-        $this->load->controller('extension/d_quickcheckout/shipping_address');
-        $this->load->controller('extension/d_quickcheckout/custom'); 
-
-        $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
-        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
-
-        $this->load->controller('extension/d_quickcheckout/shipping_method'); 
-        $this->load->controller('extension/d_quickcheckout/payment_method'); 
-        $this->load->controller('extension/d_quickcheckout/cart'); 
-        //$this->load->controller('extension/d_quickcheckout/continue'); 
-        $this->load->controller('extension/d_quickcheckout/confirm'); 
-        $this->load->controller('extension/d_quickcheckout/payment'); 
+        $this->initSteps(true);
 
         $default_steps = array('account', 'payment_address', 'shipping_address', 'custom', 'shipping_method', 'payment_method', 'cart', 'confirm', 'payment', 'field', 'login');
 
@@ -147,6 +133,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         if($this->user->isLogged() && isset($this->request->get['edit'])){
             $data['state']['edit'] = true;
             $data['edit'] = true;
+            $data['state']['settings'] = $this->model_extension_d_quickcheckout_store->getAllSettings();
+  
         }else{
             $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'.$data['state']['layout']['skin'] .'/'.$data['state']['layout']['skin'] .'.css?'.rand());
         }
@@ -169,7 +157,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 $post = $this->request->post;
             }
             
-
             if(isset($post['layout'])){
                 $this->model_extension_d_quickcheckout_store->updateState(array('layout'), $post['layout']);
                 unset($post['layout']);
@@ -216,20 +203,24 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->model_extension_d_quickcheckout_store->loadState();
 
 
-        
-        $this->load->controller('extension/d_quickcheckout/account');
-        $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
-        $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
-        $this->load->controller('extension/d_quickcheckout/custom'); //0.12
-        $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
-        $this->load->controller('extension/d_quickcheckout/payment_method'); //10
-        $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-        //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
-        $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
-        $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+        $this->initSteps();
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $state['language']['general'] = $this->getLanguage();
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($state));
+    }
+
+    public function get_store_setting(){
+        $this->load->model('extension/d_quickcheckout/store');
+        // $this->model_extension_d_quickcheckout_store->loadState();
+
+        $this->model_extension_d_quickcheckout_store->initState();
+
+        $this->initSteps(true);
+
+        $state = $this->model_extension_d_quickcheckout_store->getState();
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($state));
@@ -240,18 +231,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->model_extension_d_quickcheckout_store->clearState();
         $this->model_extension_d_quickcheckout_store->initState();
 
-        $this->load->controller('extension/d_quickcheckout/account');
-        $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
-        $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
-        $this->load->controller('extension/d_quickcheckout/custom'); //0.12
-        $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
-        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
-        $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
-        $this->load->controller('extension/d_quickcheckout/payment_method'); //10
-        $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-        //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
-        $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
-        $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+        $this->initSteps(true);
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
@@ -269,18 +249,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_quickcheckout_store->changeLayout($post['layout_codename']);
             $this->model_extension_d_quickcheckout_store->initState();
 
-            $this->load->controller('extension/d_quickcheckout/account');
-            $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
-            $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
-            $this->load->controller('extension/d_quickcheckout/custom'); //0.12
-            $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
-            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
-            $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
-            $this->load->controller('extension/d_quickcheckout/payment_method'); //10
-            $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-            //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
-            $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
-            $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+            $this->initSteps(true);
         }
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
@@ -478,5 +447,23 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
 
          
+    }
+
+    private function initSteps($initOrder = false){
+
+            $this->load->controller('extension/d_quickcheckout/account');
+            $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
+            $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
+            $this->load->controller('extension/d_quickcheckout/custom'); //0.12
+            if($initOrder){
+                $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
+                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
+            }
+            $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
+            $this->load->controller('extension/d_quickcheckout/payment_method'); //10
+            $this->load->controller('extension/d_quickcheckout/cart'); //1.5
+            //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
+            $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
+            $this->load->controller('extension/d_quickcheckout/payment'); //4.5
     }
 }

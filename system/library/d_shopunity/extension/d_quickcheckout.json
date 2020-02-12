@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.3.0",
+    "version": "7.3.1",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -190,6 +190,9 @@
     ],
     "changelog": [
         {
+            "version": "7.3.1",
+            "change": "Fix for payment."
+        }, {
             "version": "7.3.0",
             "change": "Refactor multistore management. Refactor init step controllers."
         }, {

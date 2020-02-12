@@ -76,6 +76,8 @@ class ControllerExtensionDQuickcheckoutPayment extends Controller {
 
         if($update){
             $this->model_extension_d_quickcheckout_store->dispatch('payment/update/after', $data);
+            //REFACTOR
+            $this->model_extension_d_quickcheckout_store->getStateUpdated();
         }
     }
 

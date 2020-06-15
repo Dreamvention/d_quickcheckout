@@ -15,6 +15,7 @@
                 <option 
                 each={address in getSession().addresses } 
                 value={ address.address_id}
+                selected={address.address_id == opts.address_id}
                 if={address}>
                     {address.firstname} {address.lastname} {address.company} {address.address_1} {address.address_2} {address.city}, {address.zone} {address.postcode} {address.country}
                 </option>

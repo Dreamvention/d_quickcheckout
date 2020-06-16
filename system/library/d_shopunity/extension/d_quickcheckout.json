@@ -191,7 +191,7 @@
     "changelog": [
         {
             "version": "7.3.2",
-            "change": "Payment method items id. Fixed multiple vouchers"
+            "change": "Payment method items id. Fixed multiple vouchers. Shipping_address initial select"
         }, {
             "version": "7.3.1",
             "change": "Fix for payment."

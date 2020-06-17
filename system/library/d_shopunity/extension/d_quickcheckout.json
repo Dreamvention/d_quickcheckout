@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.3.2",
+    "version": "7.3.3",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -190,6 +190,9 @@
     ],
     "changelog": [
         {
+            "version": "7.3.3",
+            "change": "Shipping method exist check"
+        }, {
             "version": "7.3.2",
             "change": "Payment method items id. Fixed multiple vouchers. Shipping_address initial select"
         }, {

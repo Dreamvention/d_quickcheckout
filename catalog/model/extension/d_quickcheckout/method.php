@@ -36,7 +36,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 				if ($quote) {
 					$method_data[$result['code']] = array(
 						'title'      => $quote['title'],
-						'quote'      => $quote['quote'],
+						'quote'      => isset($quote['quote']) ? $quote['quote'] : false,
 						'sort_order' => $quote['sort_order'],
 						'error'      => $quote['error']
 					);

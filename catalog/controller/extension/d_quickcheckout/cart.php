@@ -45,6 +45,10 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         $totals = $this->getTotals();
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'totals'), $totals);
+        
+        //fixes tax on first load (thanks to Darhma Web Studios)
+        $this->load->model('extension/d_quickcheckout/order');
+        $this->model_extension_d_quickcheckout_order->updateOrder();
     }
 
     /**

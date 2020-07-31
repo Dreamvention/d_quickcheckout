@@ -404,7 +404,7 @@ class ControllerExtensionDQuickcheckoutShippingAddress extends Controller {
         $shipping_address = array();
         $state = $this->model_extension_d_quickcheckout_store->getState();
         if($populate){
-            if (!empty($state['session']['shipping_address']) && array_key_exists($state['session']['shipping_address']['address_id'], $state['session']['addresses'])) {
+            if (!empty($state['session']['shipping_address']) && !empty($state['session']['addresses']) &&array_key_exists($state['session']['shipping_address']['address_id'], $state['session']['addresses'])) {
                 $shipping_address = $state['session']['shipping_address'];
             } elseif(isset($state['session']) && $state['session']['account'] == 'logged'
             && !empty(current($state['session']['addresses'])['address_id']) ){

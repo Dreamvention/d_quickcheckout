@@ -555,7 +555,12 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
     private function getCartTotalText(){
         $this->load->language('checkout/cart');
-        return sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format( $this->session->data['total'], $this->session->data['currency']));
+        
+        if ($this->cart->countProducts() > 0) {
+            return sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($this->session->data['total'], $this->session->data['currency']));
+        } else {
+            return sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format(0, $this->session->data['currency']));
+        }
     }
     
 

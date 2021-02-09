@@ -450,20 +450,18 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
     }
 
     private function initSteps($initOrder = false){
-
-            $this->load->controller('extension/d_quickcheckout/account');
-            $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
-            $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
-            $this->load->controller('extension/d_quickcheckout/custom'); //0.12
-            if($initOrder){
-                $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
-                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
-            }
-            $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
-            $this->load->controller('extension/d_quickcheckout/payment_method'); //10
-            $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-            //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
-            $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
-            $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+	    $this->load->controller('extension/d_quickcheckout/account');
+	    $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
+	    $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
+	    $this->load->controller('extension/d_quickcheckout/custom'); //0.12
+	    if($initOrder){
+		$order_id = $this->model_extension_d_quickcheckout_order->getOrder();
+		$this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
+	    }
+	    $this->load->controller('extension/d_quickcheckout/cart'); //1.5
+	    $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
+	    $this->load->controller('extension/d_quickcheckout/payment_method'); //10
+	    $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
+	    $this->load->controller('extension/d_quickcheckout/payment'); //4.5
     }
 }

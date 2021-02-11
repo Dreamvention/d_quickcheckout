@@ -458,8 +458,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 		$order_id = $this->model_extension_d_quickcheckout_order->getOrder();
 		$this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
 	    }
-	    $this->load->controller('extension/d_quickcheckout/cart'); //1.5
 	    $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
+	    $this->load->controller('extension/d_quickcheckout/cart'); //1.5
 	    $this->load->controller('extension/d_quickcheckout/payment_method'); //10
 	    $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
 	    $this->load->controller('extension/d_quickcheckout/payment'); //4.5

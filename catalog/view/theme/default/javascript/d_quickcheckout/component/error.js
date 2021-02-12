@@ -2,13 +2,17 @@
  *   Account Model
  */
 
+function isFunction(functionToCheck) {
+    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
 (function() {
     this.validate = function(value, errors) {
         var result = false;
         $.each(errors, function(i, error) {
             for (rule in error) {
                 if (typeof this[rule] !== "undefined") {
-                    if (!this[rule](error[rule], value)) {
+                    if (isFunction(this[rule]) && !this[rule](error[rule], value)) {
                         result = error.text;
                     }
                 }

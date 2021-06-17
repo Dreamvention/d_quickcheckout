@@ -48,6 +48,13 @@ var qc = (function() {
      *   UpdateState. A wrapper function to update the state and call riot update.
      */
     this.updateState = function(key, data, is_upd = true) {
+        //Fix bug with array merge of shipping and payment methods while it should replace. 
+        if(data.session && data.session.shipping_methods){
+            this.updateState(['session', 'shipping_methods'], '');
+        }
+        if(data.session && data.session.payment_methods){
+            this.updateState(['session', 'payment_methods'], '');
+        }
         this.state = this.state.setIn(key, data);
 
         //update state cache.

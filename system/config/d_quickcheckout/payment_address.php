@@ -111,6 +111,14 @@ $_['d_quickcheckout_payment_address_language'] = array(
     'tooltip_agree' => '',
     'error_agree_checked' => 'error_agree',
 
+    'entry_captcha' => 'text_captcha',
+    'tooltip_agree' => 'entry_captcha',
+    'error_captcha_wrong_captcha' => 'error_captcha',
+
+    'entry_google_recaptcha' => 'text_google_recaptcha',
+    'tooltip_agree' => 'entry_google_recaptcha',
+    'error_captcha_false_google_recaptcha' => 'error_google_recaptcha',
+
     'text_address_style' => 'text_address_style'
 
 );
@@ -539,6 +547,39 @@ $_['d_quickcheckout_payment_address'] = array(
             'custom' => 0,
             'sort_order' => 19,
             'class' => ''
+        ),
+
+        'captcha' => array(
+            'id' => 'captcha',
+            'text' => 'entry_captcha',
+            'tooltip' => 'tooltip_captcha',
+            'errors' => array(
+                'error0' => array(
+                    'wrong_captcha' => '',
+                    'text' => 'error_captcha_wrong_captcha'
+                )
+            ),
+            'type' => 'captcha',
+            'refresh' => '0',
+            'custom' => 0,
+            'sort_order' => 20,
+            'class' => ''
+        ),
+        'google_recaptcha' => array(
+            'id' => 'google_recaptcha',
+            'text' => 'entry_google_recaptcha',
+            'tooltip' => 'tooltip_google_recaptcha',
+            'errors' => array(
+                'error0' => array(
+                    'false_google_recaptcha' => '',
+                    'text' => 'error_captcha_false_google_recaptcha'
+                )
+            ),
+            'type' => 'google_recaptcha',
+            'refresh' => '0',
+            'custom' => 0,
+            'sort_order' => 21,
+            'class' => ''
         )
     ),
 
@@ -645,6 +686,16 @@ $_['d_quickcheckout_payment_address'] = array(
                     'display' => 1,
                     'require' => 1,
                     'value' => '0'
+                ),
+                'captcha' => array(
+                    'display' => 1,
+                    'require' => 1,
+                    'value' => ''
+                ),
+                'google_recaptcha' => array(
+                    'display' => 1,
+                    'require' => 1,
+                    'value' => ''
                 )
             )
         ),
@@ -770,6 +821,16 @@ $_['d_quickcheckout_payment_address'] = array(
                     'display' => 1,
                     'require' => 1,
                     'value' => '0'
+                ),
+                'captcha' => array(
+                    'display' => 1,
+                    'require' => 1,
+                    'value' => ''
+                ),
+                'google_recaptcha' => array(
+                    'display' => 1,
+                    'require' => 1,
+                    'value' => ''
                 )
             )
         ),
@@ -788,6 +849,16 @@ $_['d_quickcheckout_payment_address'] = array(
                 ),
                 'company' => array(
                     'display' => 1,
+                    'require' => 0,
+                    'value' => ''
+                ),
+                'telephone' => array(
+                    'display' => 0,
+                    'require' => 0,
+                    'value' => ''
+                ),
+                'fax' => array(
+                    'display' => 0,
                     'require' => 0,
                     'value' => ''
                 ),

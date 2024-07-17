@@ -13,6 +13,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     public function __construct($registry){
         parent::__construct($registry);
 
+        $this->load->model('extension/d_quickcheckout/order');
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('extension/d_quickcheckout/method');
 
@@ -21,8 +22,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     * Initialization
     */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/shipping_method.js');
-
+        
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
     //set default values
@@ -30,12 +30,13 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         $this->model_extension_d_quickcheckout_store->setState($state);
 
         $state['config'] = $this->getConfig();
-        $state['session']['shipping_method'] = $this->getShippingMethod($state['config']['guest']['shipping_method']['default_option']);
+        $state['session']['shipping_method'] = $this->getShippingMethod();
 
         $state['language']['shipping_method'] = $this->getLanguages();
         $state['action']['shipping_method'] = $this->action;
 
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_order->updateOrder();
         $this->validate();
 
     }
@@ -44,9 +45,18 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     * update via ajax
     */
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('shipping_method/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('shipping_method/update', $this->request->post);
+        
+        $this->model_extension_d_quickcheckout_store->dispatch('shipping_method/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('shipping_method/update', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('total/update', $post);
+
+        $this->model_extension_d_quickcheckout_order->updateOrder();
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
 
@@ -61,7 +71,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     */
     public function receiver($data){
         $update_method = false;
-        $update = false;
+        $update = array();
 
         //updating shipping_method value
         if($data['action'] == 'shipping_method/update'){
@@ -75,14 +85,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         }
 
         //updating shipping_methods after shipping_address change
-        if($data['action'] == 'shipping_address/update/after' 
-            && (
-                $this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_country_id')
-                || $this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_zone_id')
-                || $this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_address_id')
-                || $this->model_extension_d_quickcheckout_store->isUpdated('shipping_address_postcode')
-                )
-            ){
+        if($data['action'] == 'shipping_address/update/after'){
             $update_method = true;
         }
 
@@ -99,7 +102,12 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
                 $update['session']['shipping_methods'] = $this->getShippingMethods();
                 $this->model_extension_d_quickcheckout_store->updateState(array('session','shipping_methods'), $update['session']['shipping_methods']);
 
-                $update['session']['shipping_method'] = $this->getShippingMethod($state['session']['shipping_method']['code']);
+                if (isset($state['session']['shipping_method']['code'])) {
+                    $update['session']['shipping_method'] = $this->getShippingMethod($state['session']['shipping_method']['code']);
+                } else {
+                    $update['session']['shipping_method'] = $this->getShippingMethod();
+                }
+                
                 $this->model_extension_d_quickcheckout_store->updateState(array('session','shipping_method'), $update['session']['shipping_method']);
 
             }
@@ -129,7 +137,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
             $this->model_extension_d_quickcheckout_store->setState($state);
             return true;
         }else{
-            if(!$state['config'][$state['session']['account']]['shipping_method']['display']){
+            if(empty($state['config'][$state['session']['account']]['shipping_method']['display'])){
                 $this->load->config('d_quickcheckout/shipping_method');
                 $config = $this->config->get('d_quickcheckout_shipping_method');
                 $settings = $this->model_extension_d_quickcheckout_store->getSetting();
@@ -206,10 +214,13 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
     }
 
     private function getShippingMethod($shipping_method = false){
+        $clear_session = $this->config->get('d_quickcheckout_clear_session');
         if(!$shipping_method){
-            if(!empty($state['session']['shipping_method'])){
-                $state = $this->model_extension_d_quickcheckout_store->getState();
+            $state = $this->model_extension_d_quickcheckout_store->getState();
+            if(!$clear_session && !empty($state['session']['shipping_method'])){
                 $shipping_method = $state['session']['shipping_method']['code'];
+            } else {
+                $shipping_method = (isset($state['config']['guest']['shipping_method']['default_option']) ? $state['config']['guest']['shipping_method']['default_option'] : false);
             }
         }
         return $this->model_extension_d_quickcheckout_method->getDefaultShippingMethod($shipping_method);
@@ -222,7 +233,7 @@ class ControllerExtensionDQuickcheckoutShippingMethod extends Controller {
         if(!empty($state['session']['shipping_methods'])){
             foreach($state['session']['shipping_methods'] as $key => $value){
                 if(!isset($new_shipping_methods[$key])){
-                    $new_shipping_methods[$key] = false;
+                    $new_shipping_methods[$key] = null;
                 }
             }
         }

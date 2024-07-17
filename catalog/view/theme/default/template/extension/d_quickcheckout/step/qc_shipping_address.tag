@@ -14,7 +14,7 @@
                     </span>
                     { getLanguage().shipping_address.heading_title }
                 </h4>
-                <p class="ve-p" if={getLanguage().shipping_address.text_description}>{  getLanguage().shipping_address.text_description } </p>
+                <p class="ve-p" if={getLanguage().shipping_address.text_description}><qc_raw content="{  getLanguage().shipping_address.text_description }"></qc_raw> </p>
             </div>
 
             <div class="ve-card__section">
@@ -37,7 +37,7 @@
                         <div
                             each={ field_id in fields}
                             if={getConfig().shipping_address.fields[field_id]}
-                            class="qc-field ve-field {field_id} { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
+                            class="qc-field ve-field { (getState().config[getAccount()].shipping_address.fields[field_id].display == 0 && !getState().edit) ? 've-hidden' : ''} {field_id} { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().shipping_address.fields[field_id].sort_order }
                             field_id={field_id}
                             step="shipping_address"
@@ -50,7 +50,7 @@
                         ></div>
                     </form>
                     <div if={getState().edit} class="ve-mt-3">
-                        <qc_custom_field setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_address="true" onchange={updateFields}></qc_custom_field>
+                        <qc_custom_field setting_id="shipping_address_custom_field" step="shipping_address" location_address="true" onchange={updateFields}></qc_custom_field>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 </span>
                 { getLanguage().shipping_address.heading_title }
             </h4>
-            <p class="ve-p" if={getLanguage().shipping_address.text_description}>{  getLanguage().shipping_address.text_description } </p>
+            <p class="ve-p" if={getLanguage().shipping_address.text_description}><qc_raw content="{ getLanguage().shipping_address.text_description }"></qc_raw></p>
         
             <qc_address_radio 
             if={getSession().addresses && getState().config.guest.shipping_address.address_style == 'radio'} 
@@ -85,7 +85,7 @@
                     <div
                         each={ field_id in fields}
                         if={getConfig().shipping_address.fields[field_id]}
-                        class="qc-field ve-field { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
+                        class="qc-field ve-field { (getState().config[getAccount()].shipping_address.fields[field_id].display == 0 && !getState().edit) ? 've-hidden' : ''} { (getState().config.guest.shipping_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                         sort_order={ getConfig().shipping_address.fields[field_id].sort_order }
                         field_id={field_id}
                         step="shipping_address"
@@ -98,7 +98,7 @@
                     ></div>
                 </form>
                 <div if={getState().edit} class="ve-mt-3">
-                    <qc_custom_field setting_id="shipping_address_custom_field{rand()}" step="shipping_address" location_address="true" onchange={updateFields}></qc_custom_field>
+                    <qc_custom_field setting_id="shipping_address_custom_field" step="shipping_address" location_address="true" onchange={updateFields}></qc_custom_field>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
 
         updateFields(){
             tag.fields = this.store.getFieldIds('shipping_address');
-            this.store.render();
+            this.update();
         }
 
         this.on('mount', function(){

@@ -23,7 +23,7 @@
         var tag = this;
 
         addDepend(e){
-            var depend_id = $(tag.root).find('.depend-id').val();
+            var depend_id = dv_cash(tag.root).find('.depend-id').val();
             tag.store.dispatch('field/addDepend', {'step_id': tag.opts.step, 'field_id': tag.opts.field_id, 'depend_id': depend_id});
         }
     </script>

@@ -23,7 +23,13 @@ $_['d_quickcheckout_account_language'] = array(
     'button_login' => 'button_login',
     'text_popup' => 'text_popup',
 
-    'text_social_login' => 'text_social_login'
+    'text_social_login' => 'text_social_login',
+    'entry_guest_title' => 'entry_guest_title',
+    'entry_register_title' => 'entry_register_title',
+    'entry_login_title' => 'entry_login_title',
+    'entry_email_title' => 'entry_email_title',
+    'entry_password_title' => 'entry_password_title',
+    'entry_default_account_option' => 'entry_default_account_option'
 );
 $_['d_quickcheckout_account'] = array(
     'id' => 'account',

@@ -25,10 +25,11 @@
         <div class="pages clearfix">
             <qc_page 
             each={ page_id, i in page_ids }
+            if={getLayout().pages[page_id]}
             no-reorder
             id="{page_id}" 
             page_id="{page_id}" 
-            page={getLayout().pages[page_id]}
+            page={({...getLayout().pages[page_id], pagePath: [page_id]})}
             class="page { getSession().page_id == page_id ? 'active' : ''}">
                 
             </qc_page>

@@ -36,7 +36,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 				if ($quote) {
 					$method_data[$result['code']] = array(
 						'title'      => $quote['title'],
-						'quote'      => isset($quote['quote']) ? $quote['quote'] : false,
+						'quote'      => $quote['quote'],
 						'sort_order' => $quote['sort_order'],
 						'error'      => $quote['error']
 					);
@@ -65,7 +65,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
                 }
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public function getDefaultShippingMethod($default_option = false){
@@ -152,7 +152,7 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
                 }
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public function getDefaultPaymentMethod($payment_method_code = ''){
@@ -166,21 +166,12 @@ class ModelExtensionDQuickcheckoutMethod extends Model {
 		return $this->getFirstPaymentMethod();
 	}
 
-	public function getPayment(){
+	public function getPayment($confirm_action = false){
 		$json = array();
 		if(isset($this->session->data['payment_method']) && isset($this->session->data['payment_method']['code'])){
 			$json['payment_popup'] = $this->getPaymentPopup($this->session->data['payment_method']['code']);
-			// $json['payment_popup'] = false;
-			if($json['payment_popup']){
-				// if(!empty($payment['cofirm_order'])){
-					if(VERSION < '2.3.0.0'){
-						$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);
-					}else{
-						$json['payment'] = $this->load->controller('extension/payment/' . $this->session->data['payment_method']['code']);
-					}
-				// }else{
-				// 	$json['payment'] = '';
-				// }
+			if($json['payment_popup'] && !$confirm_action){
+					$json['payment'] = '';
 			}else{
 				if(VERSION < '2.3.0.0'){
 					$json['payment'] = $this->load->controller('payment/' . $this->session->data['payment_method']['code']);

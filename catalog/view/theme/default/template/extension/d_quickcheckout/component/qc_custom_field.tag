@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="ve-field">
-                <a class="ve-btn ve-btn--primary ve-btn--block" href="{parent.getCustomFieldAdmin()}">Create Custom Field</a>
+                <a class="ve-btn ve-btn--primary ve-btn--block" href="{getState().customFieldAdmin}" target="_blank">Create Custom Field</a>
             </div>
             <yield/>
         </div>
@@ -55,45 +55,35 @@
         }
 
         toggleSetting(e){
-            if($('#'+ this.opts.setting_id).hasClass('show')){
+            if(this.store.getState().displaySetting[tag.opts.setting_id]){
                 tag.store.hideSetting()
             }else{
                 tag.store.showSetting(tag.opts.setting_id);
             }
-
-            tag.store.getCustomField();
+            tag.store.getCustomField(undefined, function () {
+                tag.update();
+            });
         }
 
         close(){
             tag.store.hideSetting();
+            tag.update();
         }
 
         addCustomField(e){
-            var custom_field_id = $(e.currentTarget).attr('custom_field_id');
+            var custom_field_id = dv_cash(e.currentTarget).attr('custom_field_id');
             var step = tag.opts.step;
 
             tag.store.addCustomField(step, custom_field_id);
-
+            tag.parent.update();
             tag.opts.onchange();
+            tag.store.initFieldSortable(step);
         }
 
         editCheckbox(e){
-            var checkbox = $(e.currentTarget).find('input[type=checkbox]');
+            var checkbox = dv_cash(e.currentTarget).find('input[type=checkbox]');
             checkbox.prop("checked", !checkbox.prop("checked"));
-            tag.store.dispatch(tag.opts.step+'/edit', $(tag.root).find('.field-setting').serializeJSON());
-        }
-
-        this.on('mount', function(){
-
-            $(this.root).find('.qc-setting').appendTo('body');
-        })
-
-        getCustomFieldAdmin(){
-            var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-            });
-            return decodeURIComponent(vars['custom_field']);
+            tag.store.dispatch(tag.opts.step+'/edit', serializeJSON(Array.from(dv_cash(tag.root).find('.field-setting'))));
         }
     </script>
 </qc_custom_field>

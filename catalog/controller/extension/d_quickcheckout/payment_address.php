@@ -18,6 +18,9 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
     public function __construct($registry){
       parent::__construct($registry);
+      $this->load->model('extension/d_quickcheckout/account');
+      $this->load->model('extension/d_quickcheckout/address');
+      $this->load->model('extension/d_quickcheckout/order');
       $this->load->model('extension/d_quickcheckout/store');
     }
 
@@ -29,34 +32,58 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      *
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/payment_address.js');
 
         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), array());
-
+        
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
         if($state['session']['account'] == 'logged'){
-            $this->load->model('extension/d_quickcheckout/address');
             $addresses = $this->model_extension_d_quickcheckout_address->getAddresses();
-            if($addresses){
-                $this->model_extension_d_quickcheckout_store->updateState(array('session','addresses'), $addresses);
+            
+            $this->model_extension_d_quickcheckout_store->updateState(array('session','addresses'), $addresses);
+            if ((isset($state['session']['payment_address']['address_id']) && (int)$state['session']['payment_address']['address_id'] != 0 && !isset($addresses[$state['session']['payment_address']['address_id']])) || !isset($state['session']['payment_address']['address_id'])) {
+                if ($addresses) {
+                    reset($addresses);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_address', 'address_id'), key($addresses));
+                } else {
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session','payment_address', 'address_id'), 0);
+                }
+            }
+            $state = $this->model_extension_d_quickcheckout_store->getState();
+        }
+        $captcha_status = VERSION < '3.0.0.0' ? $this->config->get($this->config->get('config_captcha') . '_status')  : $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status');
+        $config_captcha_page = (array)$this->config->get('config_captcha_page');
+        if(VERSION < '2.2.0.0'){
+            $config_captcha_page[] = 'guest';
+        }
+        if($this->config->get('config_captcha') == 'google' || $this->config->get('config_captcha') == 'google_captcha'){
+            if ($captcha_status && in_array($state['session']['account'], $config_captcha_page)) {
+                if(VERSION < '2.3.0.0'){
+                    $state['captcha'] = $this->load->controller('captcha/' . $this->config->get('config_captcha'));
+                }
+                else{
+			        $state['captcha'] = $this->load->controller('extension/captcha/' . $this->config->get('config_captcha'));
+                }
+            }
+		}elseif($this->config->get('config_captcha') == 'basic' || $this->config->get('config_captcha') == 'basic_captcha'){
+            if ($captcha_status) {
+                $state['captcha'] = $this->load->controller('extension/d_quickcheckout_captcha/basic_captcha');
             }
         }
-
         $state = $this->model_extension_d_quickcheckout_store->getState();
         
         $state['config'] = $this->getConfig();
         $state['language']['payment_address'] = $this->getLanguages();
         $state['action']['payment_address'] = $this->action;
         $this->model_extension_d_quickcheckout_store->setState($state);
-
+        
         $state['session']['payment_address'] = $this->getDefault();
 
         $state['config'][$state['session']['account']]['payment_address']['fields']['zone_id']['options'] = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($state['session']['payment_address']['country_id']);
         
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_order->updateOrder();
 
-        
     }
 
     /**
@@ -67,12 +94,22 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      *
      */
     public function update(){
-        $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('payment_address/update/before', $this->request->post);
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
 
-        $this->model_extension_d_quickcheckout_store->dispatch('payment_address/update', $this->request->post);
+        $this->model_extension_d_quickcheckout_store->loadState();
+
+        $this->model_extension_d_quickcheckout_store->dispatch('payment_address/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('payment_address/update', $post);
+    
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
 
+        $this->model_extension_d_quickcheckout_store->setState($data);
+        $this->model_extension_d_quickcheckout_order->updateOrder();
+        
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($data));
     }
@@ -86,19 +123,28 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      */
     public function receiver($data){
         $update = false;
-
+        
         //updating payment_address field values
         if($data['action'] == 'payment_address/update'){
             if(!empty($data['data']['session']['payment_address'])){
-                foreach($data['data']['session']['payment_address'] as $field => $value){
-                    $this->updateField($field, $value);
-                    $update = true;
+                if (isset($data['data']['session']['payment_address']['address_id']) && $data['data']['session']['payment_address']['address_id'] != 0) {
+                    $address_id = (int)$data['data']['session']['payment_address']['address_id'];
+                    $address_data = $this->getAddress($address_id);
+    
+                    $address_data['shipping_address'] = 0;
+
+                    $state['session']['payment_address']['customer_group_id'] = $this->customer->getGroupId();
+                    $this->model_extension_d_quickcheckout_store->updateState(array('config', 'logged', 'shipping_address', 'display'),  1);
+                    $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $address_data);
+                } else {
+                    if (isset($data['data']['session']['payment_address']['address_id']) && $data['data']['session']['payment_address']['address_id'] == 0) {
+                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', 'address_id'),  0);
+                    }
+                    foreach($data['data']['session']['payment_address'] as $field => $value){
+                        $this->updateField($field, $value);
+                    }
                 }
-            }
-            
-            //REFACTOR - added other data like config and layout
-            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
-                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+                $update = true;
             }
         }
         //updating customer group when changing account
@@ -107,18 +153,17 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         ){  
 
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            $this->load->model('extension/d_quickcheckout/address');
             $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($state['session']['payment_address']['country_id']);
             $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), $zones);
 
             //If just logged in
             if($state['session']['account'] == 'logged'){
-                $this->load->model('extension/d_quickcheckout/address');
 
+                $update = ($update ? $update : array());
                 $addresses = $this->model_extension_d_quickcheckout_address->getAddresses();
                 $update['session']['addresses'] = $addresses;
                 reset($addresses);
-                $address_id = key($addresses);
+                $address_id = $addresses ? key($addresses) : 0;
 
                 $update['session']['payment_address'] = $this->getAddress($address_id);
                 $update['session']['payment_address']['address_id'] = $address_id;
@@ -131,7 +176,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
                 $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
             }else{
-                $this->load->model('extension/d_quickcheckout/account');
                 $customer_groups = $this->model_extension_d_quickcheckout_account->getCustomerGroups();
 
                 if($state['config'][$state['session']['account']]['payment_address']['fields']['customer_group_id']['options'] != $customer_groups) {
@@ -143,13 +187,10 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
                 $default_customer_group_id = $this->model_extension_d_quickcheckout_account->getDefaultCustomerGroup();
                 
-
                 if(in_array($default_customer_group_id, $customer_groups) && empty($state['session']['payment_address']['customer_group_id'])){
                     $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', 'customer_group_id' ), $default_customer_group_id);
                 }
                 
-
-                $this->load->model('extension/d_quickcheckout/address');
                 $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($state['session']['payment_address']['country_id']);
 
                 $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), $zones);
@@ -160,6 +201,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         if($data['action'] == 'confirm/update'){
             if($this->model_extension_d_quickcheckout_error->isCheckoutValid()){
                 $state = $this->model_extension_d_quickcheckout_store->getState();
+                $update = ($update ? $update : array());
                 if($state['session']['account'] == 'register'){
                     $this->load->model('account/customer');
                     $this->model_account_customer->addCustomer($state['session']['payment_address']);
@@ -172,9 +214,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         $this->model_extension_d_quickcheckout_store->updateState(array('text_account_login'), $this->getAccountLoginText());
 
                         $update['session']['account'] = 'logged';
-
-                        $this->load->model('extension/d_quickcheckout/address');
-
 
                         $addresses = $this->model_extension_d_quickcheckout_address->getAddresses();
                         if(!empty($addresses)){
@@ -191,10 +230,12 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                         
                         $update['session']['payment_address'] = $this->model_extension_d_quickcheckout_address->getAddress($address_id);
                         $update['session']['payment_address']['customer_group_id'] = $this->customer->getGroupId();
-                        
-                        if($state['session']['payment_address']['shipping_address'] == 1){
-                            $update['session']['payment_address']['shipping_address'] = 0;
+
+                        if ($state['session']['payment_address']['shipping_address'] == 1) {
+                            $this->model_extension_d_quickcheckout_store->updateState(array('session', 'shipping_address'), $update['session']['payment_address']);
+                            $update['session']['payment_address']['shipping_address'] = 0; 
                         }
+                        
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $update['session']['payment_address']);
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'addresses'), $update['session']['addresses']);
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'account'), $update['session']['account']);
@@ -202,8 +243,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                     }
                 }
                 
-                if($state['session']['account'] == 'logged' && $state['session']['payment_address']['address_id']==0){
-                    $this->load->model('extension/d_quickcheckout/address');
+                if ($state['session']['account'] == 'logged' && $state['session']['payment_address']['address_id'] == 0) {
                     $address_id = $this->model_extension_d_quickcheckout_address->addAddress($state['session']['payment_address']);
                     $state['session']['payment_address']['address_id'] = $address_id; 
                     $update['session']['addresses'] = $this->model_extension_d_quickcheckout_address->getAddresses();
@@ -213,10 +253,13 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             
                 }
             }
+            
         }
 
         if($update){
-            $this->model_extension_d_quickcheckout_store->dispatch('payment_address/update/after', $data);
+            /*info about this action, it is need for shipping address receiver */
+            $data['data']['previous_action'] = $data['action'];
+            $this->model_extension_d_quickcheckout_store->dispatch('payment_address/update/after', $data['data']);
         }
     }
 
@@ -238,32 +281,97 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             return $result;
         }
 
-        foreach($state['session']['payment_address'] as $field_id => $value){
+        if(!$state['config'][$state['session']['account']][$step]['display']){
+            $this->model_extension_d_quickcheckout_error->clearStepErrors($step);
+            return $result;
+        }
+
+        foreach($state['session'][$step] as $field_id => $value){
             if(!empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['display'])
             && !empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['require'])
             && !empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'])
-            ){
+            ){ 
                 $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];
+            
                 $no_errors = true;
-                foreach($errors as $error){
-                    if(is_array($error)){
-                        foreach($error as $validate => $rule){
-                            if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
-                                $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
-                                $result = false;
-                                $no_errors = false;
-                                break;
+                
+                if(empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'])){
+                    foreach($errors as $error){
+                        
+                        if(is_array($error)){
+                            foreach($error as $validate => $rule){
+                                
+                                    if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
+                                        $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
+                                        $result = false;
+                                        $no_errors = false;
+                                        break;
+                                    }
+                            
+                            }
+                        }
+                        
+                        if($no_errors){
+                            $state['errors'][$step][$field_id] = '';
+                        }
+                    }
+                }else{
+                    foreach($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'] as $dependent_field_id => $dependency){
+                        
+                        $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];
+
+                        foreach($dependency as $dependency_setting){
+                            if($state['session'][$step][$dependent_field_id] == $dependency_setting['value'] && $dependency_setting['display'] && $dependency_setting['require']){
+                                    
+                                foreach($errors as $error){                                                                  
+                                    if(is_array($error)){
+                                        foreach($error as $validate => $rule){
+                                            
+                                            if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
+                                                $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
+                                                $result = false;
+                                                $no_errors = false;
+                                                break;
+                                            }
+            
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    if($no_errors){
-                        $state['errors'][$step][$field_id] = '';
+                }
+            }else if (!empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'])){
+                $state['errors'][$step][$field_id] = '';
+                foreach($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'] as $dependent_field_id => $dependency){
+
+                    $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];
+
+                    foreach($dependency as $dependency_setting){
+                        if($state['session'][$step][$dependent_field_id] == $dependency_setting['value'] && $dependency_setting['display'] && $dependency_setting['require']){
+                                
+                            foreach($errors as $error){ 
+                                                            
+                                if(is_array($error)){
+                                    foreach($error as $validate => $rule){
+                                        
+                                        if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
+                                            $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
+                                            $result = false;
+                                            $no_errors = false;
+                                            break;
+                                        }
+                                        
+                                    
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            }else{
+            } else{
                 $state['errors'][$step][$field_id] = '';
-            }
-            
+            } 
         }
 
         $this->model_extension_d_quickcheckout_store->updateState(array('errors','payment_address'), $state['errors']['payment_address']);
@@ -281,7 +389,9 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      * logic for updating fields
      */
     private function updateField($field, $value){
-        
+        if (in_array($field, array('country', 'iso_code_2', 'iso_code_3', 'address_format', 'zone', 'zone_code', 'custom_field'))) {
+            return ;
+        }
 
         if($this->validateField($field, $value)){
 
@@ -293,48 +403,36 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 //if country_id is modified
                 case 'country_id' :
                     if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field)){
-                        $this->load->model('extension/d_quickcheckout/address');
-
                         $country_data = $this->model_extension_d_quickcheckout_address->getAddressCountry($value);
                         $state['session']['payment_address'] = array_merge($state['session']['payment_address'], $country_data);
                    
                         $state['session']['payment_address']['zone_id'] = '';
+
+                        $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone(0);
+
+                        $state['session']['payment_address'] = array_replace_recursive($state['session']['payment_address'], $zone_data);
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
 
                         $zones = $this->model_extension_d_quickcheckout_address->getZonesByCountryId($value);
+                        
                         $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), $zones);
                     }
                     break;
 
                 //if zone_id is modified
                 case 'zone_id' :
-                    if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field)){
-                        $this->load->model('extension/d_quickcheckout/address');
+                    if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field) && !$this->model_extension_d_quickcheckout_store->isUpdated('payment_address_country_id')){
                         $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($value);
                         $state['session']['payment_address'] = array_merge($state['session']['payment_address'], $zone_data);
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
-                    }
-                    break;
+                    } else if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field) && $this->model_extension_d_quickcheckout_store->isUpdated('payment_address_country_id')) {
+                        $state['session']['payment_address']['zone_id'] = '';
 
-                //if address_id is modified
-                case 'address_id':
-                    if($this->model_extension_d_quickcheckout_store->isUpdated('payment_address_'.$field) && $value != 0){
-                        $state['session']['payment_address'] = $this->getAddress($value);
-                    }
+                        $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone(0);
 
-                    if($state['session']['payment_address']['address_id'] != 0){
-                        $state['session']['payment_address']['shipping_address'] = 0;
-                    }
-
-                    $state['session']['payment_address']['customer_group_id'] = $this->customer->getGroupId();
-
-                    if($state['session']['payment_address']['address_id'] == 0){
-                        $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'), $this->getDefault($populate = false));
-                    }else{
+                        $state['session']['payment_address'] = array_replace_recursive($state['session']['payment_address'], $zone_data);
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
                     }
-
-                    //$this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address'),  $state['session']['payment_address']);
                     break;
 
                 //validating telephone
@@ -362,7 +460,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
                 default: 
                     
                     if(isset($state['config']['guest']['payment_address']['fields'][$field])){
-                        if($state['config']['guest']['payment_address']['fields'][$field]['custom']){
+                        if(!empty($state['config']['guest']['payment_address']['fields'][$field]['custom'])){
                             $location = $state['config']['guest']['payment_address']['fields'][$field]['location'];
                             $custom_field_id = $state['config']['guest']['payment_address']['fields'][$field]['custom_field_id'];
                         }
@@ -385,12 +483,16 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             
         }else{
             $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', $field),  $value);
+	        if ($field == 'country_id') {
+                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_address', 'zone_id'),  '');
+		        $this->model_extension_d_quickcheckout_store->updateState(array('config', 'payment_address', 'fields', 'zone_id', 'options'), '');
+            }
         }
 
     }
 
     private function getConfig(){
-
+        
         $this->load->model('extension/d_quickcheckout/view');
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('localisation/language');
@@ -398,22 +500,61 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
         $this->load->config('d_quickcheckout/payment_address');
         $config = $this->config->get('d_quickcheckout_payment_address');
 
+        $state = $this->model_extension_d_quickcheckout_store->getState();
         $settings = $this->model_extension_d_quickcheckout_store->getSetting();
         $result = array();
-        foreach($config['account'] as $account => $value){
 
+        $captcha_status =  $state['captcha_status'] = VERSION < '3.0.0.0' ? $this->config->get($this->config->get('config_captcha') . '_status')  : $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status');
+        $config_captcha_page = (array)$this->config->get('config_captcha_page');
+        if(VERSION < '2.2.0.0'){
+            $config_captcha_page[] = 'guest';
+        }
+        foreach($config['account'] as $account => $value){
             if(!empty($settings['config'][$account]['payment_address'])){
                 $result[$account]['payment_address'] = $settings['config'][$account]['payment_address'];
             }else{
                 $result[$account]['payment_address'] = array_replace_recursive($config, $value);
             }
-
-            $this->load->model('extension/d_quickcheckout/address');
+            
             $result[$account]['payment_address']['fields']['country_id']['options'] = $this->model_extension_d_quickcheckout_address->getCountries();
             $result[$account]['payment_address']['fields']['customer_group_id']['options'] = $this->model_extension_d_quickcheckout_account->getCustomerGroups();
+            if(!empty($state['captcha_type'])){
+                if ($captcha_status && in_array($account, $config_captcha_page) && $state['captcha_type'] == 'basic' || $state['captcha_type'] == 'basic_captcha') {
+                
+                    $result[$account]['payment_address']['fields']['captcha']['errors']['error0']['wrong_captcha'] = !empty($state['session']['captcha']) ? $state['session']['captcha'] : '';
+                
+                }
+                else{
+                    $result[$account]['payment_address']['fields']['captcha']['errors']['error0']['wrong_captcha'] = '';
+                }
+                if($captcha_status && in_array($account, $config_captcha_page) && $state['captcha_type'] == 'google'){
+                
+                    $result[$account]['payment_address']['fields']['google_recaptcha']['errors']['error0']['false_google_recaptcha'] = 1;
+                
+                    
+                }
+                else{
+                    $result[$account]['payment_address']['fields']['google_recaptcha']['errors']['error0']['false_google_recaptcha'] = 0;
+                }
+            }
+            else{
+                $result[$account]['payment_address']['fields']['captcha']['errors']['error0']['wrong_captcha'] = '';
+                $result[$account]['payment_address']['fields']['google_recaptcha']['errors']['error0']['false_google_recaptcha'] = 0;
+            }
+            
+            foreach ($result[$account]['payment_address']['fields'] as $key => &$field) {
+                if (stripos($key, 'custom-') !== false) {
+                    if (isset($field['type']) && ($field['type'] == 'select' || $field['type'] == 'radio')) {
+                        $custom_field_options = $this->model_extension_d_quickcheckout_address->getCustomFieldOptions($field['custom_field_id']);
+                        if ($custom_field_options) {
+                            $field['options'] = $custom_field_options;
+                        }
+                    }
+                }
+            }
+            
+            $result[$account]['payment_address']['fields']['country_id']['options'] = $this->model_extension_d_quickcheckout_address->getCountries();
         }
-
-        
 
         return $result;
     }
@@ -450,6 +591,8 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             }
         }
 
+        $this->load->model('account/custom_field');
+
         $result['image'] = HTTPS_SERVER.'image/catalog/d_quickcheckout/step/payment_address.svg';
 
         return $result;
@@ -458,7 +601,6 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
 
     private function getAddress($address_id){
-        $this->load->model('extension/d_quickcheckout/address');
         $resutl = $this->model_extension_d_quickcheckout_address->getAddress($address_id);
 
         if($resutl){
@@ -474,21 +616,41 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
      */
     private function getDefault($populate = true){
 
-        $this->load->model('extension/d_quickcheckout/account');
+        $clear_session = $this->config->get('d_quickcheckout_clear_session');
 
         $payment_address = array();
         $state = $this->model_extension_d_quickcheckout_store->getState();
     
         if($populate){
-
-            if(isset($state['session']) && $state['session']['account'] == 'logged'
-            && !empty(current($state['session']['addresses'])['address_id'])){
-               
-                    // foreach($state['session']['addresses'][$state['session']['payment_address']['address_id']] as $field_id => $value){
+            if(
+                isset($state['session']) && $state['session']['account'] == 'logged'
+                && !empty(current($state['session']['addresses'])['address_id'])
+            ){
+                if (
+                    isset($state['session']['payment_address']['address_id']) 
+                    && (int)$state['session']['payment_address']['address_id'] != 0 
+                    && !empty($state['session']['addresses'][$state['session']['payment_address']['address_id']]) 
+                    && !$clear_session
+                ) {
+                    $address_data = $state['session']['addresses'][$state['session']['payment_address']['address_id']];
+                    foreach($address_data as $field_id => $value){
+                        $state['session']['payment_address'][$field_id] = $value;
+                    }
+                } else if (
+                    (
+                    (
+                        isset($state['session']['payment_address']['address_id']) 
+                        && (int)$state['session']['payment_address']['address_id'] != 0 
+                        && empty($state['session']['addresses'][$state['session']['payment_address']['address_id']]
+                    )
+                    ) 
+                    || !isset($state['session']['payment_address']['address_id'])) 
+                    && !$clear_session
+                ) {
                     foreach(current($state['session']['addresses']) as $field_id => $value){
                         $state['session']['payment_address'][$field_id] = $value;
                     }
-                
+                }
 
                 $payment_address = $state['session']['payment_address'];
 
@@ -525,17 +687,15 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             'agree' => '',
             'shipping_address' => 0,
             'newsletter' => 0,
-            'address_id' => 0
+            'address_id' => 0,
+            'captcha' => '',
+            'google_recaptcha' => ''
         );
-
-        // if(isset($state['session']['addresses'][1]['address_id'])){
-        //     $address['address_id'] = $state['session']['addresses'][1]['address_id'];
-        // }
         
         //init custom fields
         foreach($default as $key => $field){
             if(!empty($field['custom'])){
-                $address[$key] = $field['value'];
+                $address[$key] = (!$clear_session && isset($state['session']['payment_address'][$key])) ? $state['session']['payment_address'][$key] : $field['value'];
 
                 $part = explode('-', $key);
                 if(isset($part[2]) && is_numeric($part[2])){
@@ -547,7 +707,7 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
 
                 $custom_field = array( 
                     $location => array( 
-                        $custom_field_id => $field['value']
+                        $custom_field_id => ((!$clear_session && isset($state['session']['payment_address'][$key])) ? $state['session']['payment_address'][$key] : $field['value'])
                     )
                 );
                 $address['custom_field'] = array_merge($address['custom_field'], $custom_field);
@@ -559,20 +719,18 @@ class ControllerExtensionDQuickcheckoutPaymentAddress extends Controller {
             if(isset($payment_address[$key])){
                 $address[$key] = $payment_address[$key];
             }elseif(isset($default[$key]) && isset($default[$key]['value'])){
-                $address[$key] = $default[$key]['value'];
+                $address[$key] = (!$clear_session && isset($state['session']['payment_address'][$key])) ? $state['session']['payment_address'][$key] : $default[$key]['value'];
             }
         }
         $address['customer_group_id'] = $this->model_extension_d_quickcheckout_account->getDefaultCustomerGroup();
         
-         //add zone and country info for default selected country/zone
-         $this->load->model('extension/d_quickcheckout/address');
-         if(!empty($address['country_id'])){
+        if(isset($address['country_id'])){
             $country_data = $this->model_extension_d_quickcheckout_address->getAddressCountry($address['country_id']);
             $address = array_merge($address, $country_data);
             unset($country_data);
         }
 
-        if(!empty($address['zone_id'])){
+        if(isset($address['zone_id'])){
             $zone_data = $this->model_extension_d_quickcheckout_address->getAddressZone($address['zone_id']);
             $address = array_merge($address, $zone_data);
             unset($zone_data);

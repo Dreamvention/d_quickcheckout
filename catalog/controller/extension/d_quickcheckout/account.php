@@ -11,14 +11,13 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
     public function __construct($registry){
         parent::__construct($registry);
 
+        $this->load->model('extension/d_quickcheckout/order');
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('extension/d_quickcheckout/account');
 
     }
 
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/account.js');
-
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
         $state['config'] = $this->getConfig();
@@ -37,14 +36,24 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         $state['language']['account'] = $this->getLanguages();
         $state['action']['account'] = $this->action;
 
+        
+        
+
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_order->updateOrder();
     }
 
 
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('account/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('account/update', $this->request->post);
+        $this->model_extension_d_quickcheckout_store->dispatch('account/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('account/update', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('total/update', $post);
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
 
@@ -56,6 +65,11 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         $this->load->model('extension/d_quickcheckout/store');
 
         if($data['action'] == 'account/update'){
+            //REFACTOR - added other data like config and layout
+            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
+                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+            }
+            
             if(!empty($data['data']['session']['account'])){
                 $this->model_extension_d_quickcheckout_store->updateState(array('session', 'account'), $data['data']['session']['account']);
             }
@@ -63,11 +77,6 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
             if(isset($data['data']['session']['email'])
             && isset($data['data']['session']['password'])){
                 $this->login($data['data']['session']['email'], $data['data']['session']['password']);
-            }
-            
-            //REFACTOR - added other data like config and layout
-            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
-                $this->model_extension_d_quickcheckout_store->setState($data['data']);
             }
 
             //dispatch new state
@@ -144,7 +153,7 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
                 $result[$account]['account'] = array_replace_recursive($config, $value);
             }
         }
-
+        
         $result['guest']['account']['social_login']['value'] = $this->getDSocialLogin();
 
         return $result;
@@ -153,6 +162,8 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
     private function getLanguages(){
         $this->load->language('checkout/checkout');
         $this->load->language('extension/d_quickcheckout/account');
+        
+
 
         $result = array();
         $languages = $this->config->get('d_quickcheckout_account_language');
@@ -195,7 +206,8 @@ class ControllerExtensionDQuickcheckoutAccount extends Controller {
         $html_dom = new d_simple_html_dom();
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
         //Check if exist elem '#top-links > ul > li' 
-        $text = !empty($html_dom->find('#top-links > ul > li', 1)) ? (string)$html_dom->find('#top-links > ul > li', 1)->innertext : '';
+        $find = $html_dom->find('#top-links > ul > li', 1);
+        $text = $find ? (string)$find->innertext : '';
         return $text;
     }
 

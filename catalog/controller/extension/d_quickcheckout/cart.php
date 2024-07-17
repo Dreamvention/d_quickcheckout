@@ -16,6 +16,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
     public function __construct($registry){
         parent::__construct($registry);
 
+        $this->load->model('extension/d_quickcheckout/order');
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('extension/d_quickcheckout/method');
         $this->load->model('extension/d_quickcheckout/address');
@@ -26,9 +27,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
      * Initialization
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/cart.js');
-
-        
+   
         $state = $this->model_extension_d_quickcheckout_store->getState();
         $state['config'] = $this->getConfig();
         $state['language']['cart'] = $this->getLanguages();
@@ -45,9 +44,6 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
         $totals = $this->getTotals();
         $this->model_extension_d_quickcheckout_store->updateState(array( 'session' , 'totals'), $totals);
-        
-        //fixes tax on first load (thanks to Darhma Web Studios)
-        $this->load->model('extension/d_quickcheckout/order');
         $this->model_extension_d_quickcheckout_order->updateOrder();
     }
 
@@ -55,9 +51,18 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
      * update via ajax
      */
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('cart/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('cart/update', $this->request->post);
+        
+        $this->model_extension_d_quickcheckout_store->dispatch('cart/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('cart/update', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('total/update', $post);
+
+        $this->model_extension_d_quickcheckout_order->updateOrder();
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
         
@@ -420,21 +425,21 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
             }
 
             if ($product['image']) {
-                $image = $this->model_tool_image->resize(
+                $image = !empty($state['config'][$state['session']['account']]['cart']['image_size']) ? $this->model_tool_image->resize(
                     $product['image'], 
                     $state['config'][$state['session']['account']]['cart']['image_size']['width'], 
                     $state['config'][$state['session']['account']]['cart']['image_size']['height']
-                    );
+                    ) : ('image/' . $product['image']);
             } else {
                 $image = '';
             }
 
             if ($product['image']) {
-                $thumb = $this->model_tool_image->resize(
+                $thumb = !empty($state['config'][$state['session']['account']]['cart']['thumb_size']) ? $this->model_tool_image->resize(
                     $product['image'], 
                     $state['config'][$state['session']['account']]['cart']['thumb_size']['width'], 
                     $state['config'][$state['session']['account']]['cart']['thumb_size']['height']
-                    );
+                    ) : ('image/' . $product['image']);
             } else {
                 $thumb = '';
             }
@@ -555,12 +560,7 @@ class ControllerExtensionDQuickcheckoutCart extends Controller {
 
     private function getCartTotalText(){
         $this->load->language('checkout/cart');
-        
-        if ($this->cart->countProducts() > 0) {
-            return sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($this->session->data['total'], $this->session->data['currency']));
-        } else {
-            return sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format(0, $this->session->data['currency']));
-        }
+        return sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format( $this->session->data['total'], $this->session->data['currency']));
     }
     
 

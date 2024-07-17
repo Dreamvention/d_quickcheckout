@@ -8,7 +8,7 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ isRequired() } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}" >
             <div class="ve-field" each={option in opts.field.options}>
@@ -131,29 +131,12 @@
         }
 
         change(e){
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
         }
 
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
-        }
-
-        $(tag.root).on('click', '.qc-radio', function(){
-            $(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
-            $(this).addClass('qc-radio-selected');
-        })
-
-        this.on('mount', function(){
-            this.initTooltip();
-
-        })
-
-        this.on('updated', function(){
-            this.initTooltip();
-            
-        })
+        dv_cash(tag.root).on('click', '.qc-radio', function(){
+            dv_cash(tag.root).find('.qc-radio').removeClass('qc-radio-selected');
+            dv_cash(this).addClass('qc-radio-selected');
+        });
     </script>
 </qc_field_radio>

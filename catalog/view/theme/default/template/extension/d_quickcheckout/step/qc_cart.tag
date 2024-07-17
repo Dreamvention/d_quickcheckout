@@ -14,7 +14,7 @@
                     </span>
                     <span class="text">{ getLanguage().cart.heading_title }</span>
                 </h4>
-                <p class="ve-p" if={getLanguage().cart.text_description}>{  getLanguage().cart.text_description } </p>
+                <p class="ve-p" if={getLanguage().cart.text_description}><qc_raw content="{  getLanguage().cart.text_description }"></qc_raw> </p>
             </div>
 
             <div class="qc-checkout-product ve-card__section">
@@ -165,8 +165,8 @@
                 </div>
                 <div class="form-horizontal qc-totals">
                     <div class="ve-row ve-clearfix qc-total" each={total in getSession().totals} if={total}>
-                        <label class="ve-col-sm-9 ve-col-6 ve-label" >{ total.title }</label>
-                        <div class="ve-col-sm-3 ve-col-6 text-right">{ total.text }</div>
+                        <label class="ve-col-sm-9 ve-col-6 ve-label" ><qc_raw content="{ total.title }"></qc_raw></label>
+                        <div class="ve-col-sm-3 ve-col-6 text-right"><qc_raw content="{ total.text }"></qc_raw></div>
                     </div>
                 </div>
 
@@ -182,7 +182,7 @@
                 </span>
                 <span class="text">{ getLanguage().cart.heading_title }</span>
             </h4>
-            <p class="ve-p" if={getLanguage().cart.text_description}>{  getLanguage().cart.text_description } </p>
+            <p class="ve-p" if={getLanguage().cart.text_description}><qc_raw content="{  getLanguage().cart.text_description }"></qc_raw> </p>
 
             <div class="qc-checkout-product">
                 <div each={error, error_id in getError().cart} class="alert alert-danger" if={ error }><qc_raw  content="{error}"></qc_raw></div>
@@ -338,13 +338,13 @@
         tag.cartLoading = false;
 
         change(e){
-            var $input = $(e.currentTarget);
-            var product_id = $(e.currentTarget).data('product');
+            var $input = dv_cash(e.currentTarget);
+            var product_id = dv_cash(e.currentTarget).data('product');
             var quantity = $input.val()
             var data = {};
 
             var state = this.store.getState();
-            $.each(state.session.cart.products, function(i, product){
+            dv_cash.each(state.session.cart.products, function(i, product){
                 if(product.key == product_id){
                     state.session.cart.products[i].quantity = quantity;
                 }
@@ -352,39 +352,40 @@
             })
             this.store.setState(state);
 
-            data[$input.attr('name')] = parseInt(quantity);
+            data.cart = {};
+            data.cart[$input.attr('data-product')] = quantity;
 
             this.store.dispatch('cart/update', data);
         }
 
         increase(e){
-            var $input = $(e.currentTarget).parents('.qc-quantity').find('input.qc-product-quantity');
-            var product_id = $(e.currentTarget).data('product');
+            var $input = dv_cash(e.currentTarget).parents('.qc-quantity').find('input.qc-product-quantity');
+            var product_id = dv_cash(e.currentTarget).data('product');
             var quantity = parseInt($input.val()) + 1;
             data = {};
 
             var state = this.store.getState();
-            $.each(state.session.cart.products, function(i, product){
+            dv_cash.each(state.session.cart.products, function(i, product){
                 if(product.key == product_id){
                     state.session.cart.products[i].quantity = quantity;
                 }
 
             })
             this.store.setState(state);
-
-            data[$input.attr('name')] = quantity;
+            data.cart = {};
+            data.cart[$input.attr('data-product')] = quantity;
 
             this.store.dispatch('cart/update', data);
         }
 
         decrease(e){
-            var $input = $(e.currentTarget).parents('.qc-quantity').find('input.qc-product-quantity');
-            var product_id = $(e.currentTarget).data('product');
+            var $input = dv_cash(e.currentTarget).parents('.qc-quantity').find('input.qc-product-quantity');
+            var product_id = dv_cash(e.currentTarget).data('product');
             var quantity = parseInt($input.val()) - 1;
             var data = {};
 
             var state = this.store.getState();
-            $.each(state.session.cart.products, function(i, product){
+            dv_cash.each(state.session.cart.products, function(i, product){
                 if(product.key == product_id){
                     state.session.cart.products[i].quantity = quantity;
                 }
@@ -392,24 +393,27 @@
             })
             this.store.setState(state);
 
-            data[$input.attr('name')] = quantity;
+            data.cart = {};
+            data.cart[$input.attr('data-product')] = quantity;
 
             this.store.dispatch('cart/update', data);
         }
 
 
         delete(e){
-            var $input = $(e.currentTarget).parents('.qc-quantity').find('input.qc-product-quantity');
+            var $input = dv_cash(e.currentTarget).parents('.qc-quantity').find('input.qc-product-quantity');
             var data = {};
-            data[$input.attr('name')] = 0;
+
+            data.cart = {};
+            data.cart[$input.attr('data-product')] = 0;
 
             this.store.dispatch('cart/update', data);
         }
 
         changeCoupon(e){
             var state = this.store.getState();
-            if($(e.currentTarget).val() != state.session.coupon){
-                $(tag.root).find('.qc-coupon .ve-btn')
+            if(dv_cash(e.currentTarget).val() != state.session.coupon){
+                dv_cash(tag.root).find('.qc-coupon .ve-btn')
                             .removeClass('ve-btn--default')
                             .addClass('ve-btn--primary')
             }
@@ -418,17 +422,17 @@
 
         useCoupon(e){
             tag.cartLoading = true;
-            var coupon = $(e.currentTarget).parents('.qc-coupon').find('input[name="coupon"]').val();
+            var coupon = dv_cash(e.currentTarget).parents('.qc-coupon').find('input[name="coupon"]').val();
             this.store.dispatch('cart/update_option', {coupon: coupon});
-            $(tag.root).find('.qc-coupon .ve-btn')
+            dv_cash(tag.root).find('.qc-coupon .ve-btn')
                             .removeClass('ve-btn--default')
                             .addClass('ve-btn--primary')
         }
 
         changeVoucher(e){
             var state = this.store.getState();
-            if($(e.currentTarget).val() != state.session.voucher){
-                $(tag.root).find('.qc-voucher .ve-btn--default')
+            if(dv_cash(e.currentTarget).val() != state.session.voucher){
+                dv_cash(tag.root).find('.qc-voucher .ve-btn--default')
                             .removeClass('ve-btn--default')
                             .addClass('ve-btn--primary ');
             }
@@ -436,17 +440,17 @@
         }
 
         useVoucher(e){
-            var voucher = $(e.currentTarget).parents('.qc-voucher').find('input[name="voucher"]').val();
+            var voucher = dv_cash(e.currentTarget).parents('.qc-voucher').find('input[name="voucher"]').val();
             this.store.dispatch('cart/update_option', {voucher: voucher});
-            $(tag.root).find('.qc-voucher .ve-btn')
+            dv_cash(tag.root).find('.qc-voucher .ve-btn')
                             .removeClass('ve-btn--default')
                             .addClass('ve-btn--primary')
         }
 
         changeReward(e){
             var state = this.store.getState();
-            if($(e.currentTarget).val() != state.session.reward){
-                $(tag.root).find('.qc-reward .ve-btn--default')
+            if(dv_cash(e.currentTarget).val() != state.session.reward){
+                dv_cash(tag.root).find('.qc-reward .ve-btn--default')
                             .removeClass('ve-btn--default')
                             .addClass('ve-btn--primary');
             }
@@ -454,22 +458,22 @@
         }
 
         useReward(e){
-            var reward = $(e.currentTarget).parents('.qc-reward').find('input[name="reward"]').val();
+            var reward = dv_cash(e.currentTarget).parents('.qc-reward').find('input[name="reward"]').val();
             this.store.dispatch('cart/update_option', {reward: reward});
-            $(tag.root).find('.qc-reward .ve-btn')
+            dv_cash(tag.root).find('.qc-reward .ve-btn')
                 .removeClass('ve-btn--default')
                 .addClass('ve-btn--primary')
         }
 
         initPopover(){
-            $('.popover').popover('hide');
+            /*$('.popover').popover('hide');
             $('.qc-image .qc-popover').popover({
                 'html': true,
                 'trigger' : 'hover',
                 'content' : function () {
                     return '<img src="'+$(this).data('image') + '" />';
                 }
-            })
+            })*/
         }
 
         this.on('mount', function(){

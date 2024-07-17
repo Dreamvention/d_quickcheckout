@@ -8,11 +8,11 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field_id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ isRequired() } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[parent.opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[parent.opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
         
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
-            <div if={!getState().edit } class="veinput-group">
+            <div if={!getState().edit } class="ve-input-group">
             <label type="button" class="ve-btn d-vis ve-btn-default {isMobile() ? 've-hidden' : ''}" for="{ opts.step }_{ opts.field.id }"><i class="fa fa-calendar"></i></label>
                 <input
                     type="text"
@@ -22,10 +22,11 @@
                     value="{ opts.riotValue }"
                     no-reorder
                     autocomplete="{ opts.field.autocomplete }"
-                    qc-mask="{ opts.field.mask }"
                     data-date-format="{opts.field.format}"
+                    qc-mask="{ opts.field.mask }"
                     placeholder={ getLanguage()[opts.step][opts.field.placeholder] }
-                    onchange={change} >
+                    onchange={change}
+                    >
             </div>
             <div if={getState().edit } class="ve-input-group">
                 <label class="ve-btn d-vis ve-btn-default"><i class="fa fa-calendar"></i></label>
@@ -129,51 +130,38 @@
         }
 
         change(e){
-            error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+            error = this.store.validate(dv_cash(e.currentTarget).val(), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
-            $('#' + this.opts.step + '_' + this.opts.field_id).focusout();
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
+            dv_cash('#' + this.opts.step + '_' + this.opts.field_id).trigger('focusout');
         }
 
         initDateTime(){
-            $('#' + this.opts.step + '_' + this.opts.field_id).datetimepicker({
-                language: this.store.getSession().language,
-                pickDate: true,
-                pickTime: true
-            }).on('dp.change', function(e){
-                error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
-                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-                this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
-            }.bind(this));
+            var locale = this.store.getSession().language.split('-');
+            locale = locale[0];
+            d_quickcheckout_flatpickr('#' + this.opts.step + '_' + this.opts.field_id, {
+                enableTime: true,
+                time_24hr: true,
+                locale: locale,
+                minuteIncrement: 1,
+                onChange: function(selectedDates, dateStr, e) {
+                    error = tag.store.validate(dv_cash(e.input).val(), tag.opts.field.errors);
+                    tag.store.dispatch(tag.opts.step+'/error', { 'field_id' : tag.opts.field_id, 'error': error});
+                    tag.store.dispatch(tag.opts.step+'/update', serializeJSON(e.input));
+                }
+            });
         }
 
         initMask(){
-            if(this.opts.field.mask){
-                $('#' + this.opts.step + '_' + this.opts.field_id).mask(this.opts.field.mask);
-            }else{
-                $('#' + this.opts.step + '_' + this.opts.field_id).unmask();
+            /*https://imask.js.org/guide.html*/
+            if(this.opts.field.mask && document.getElementById(this.opts.step + '_' + this.opts.field_id)){
+                IMask(document.getElementById(this.opts.step + '_' + this.opts.field_id), this.opts.field.mask);
             }
-        }
-
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
         }
 
         this.on('mount', function(){
             this.initDateTime();
             this.initMask();
-            this.initTooltip();
-
-        })
-
-        this.on('updated', function(){
-            this.initDateTime();
-            this.initMask();
-            this.initTooltip();
-            
-        })
+        });
     </script>
 </qc_field_datetime>

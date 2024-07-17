@@ -25,7 +25,7 @@
                 <span { (opts.field.tooltip) ? 'data-toggle="tooltip"' : '' } title="{getLanguage()[opts.step][opts.field.tooltip] }">
                     <qc_raw content="{ getLanguage()[opts.step][opts.field.text] }"></qc_raw>
                     <span if={ isRequired() } class="require">*</span>
-                   <!-- <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i> -->
+                   <!-- <span data-balloon-pos="up" aria-label="{ getLanguage()[opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle" ref="tooltip"></i></span> -->
                 </span>
             </label>
             <div if={opts.error && isRequired()} class="ve-help ve-text-danger">{ getLanguage()[opts.step][opts.error] }</div>
@@ -74,7 +74,7 @@
         }*/
 
         edit(e){
-            this.store.dispatch(this.opts.step+'/edit', $('#'+ tag.setting_id).find('form').serializeJSON());
+            this.store.dispatch(this.opts.step+'/edit', serializeJSON(Array.from(dv_cash('#'+ tag.setting_id).find('form'))));
         }
 
         isVisible(){
@@ -128,25 +128,9 @@
         }
 
         change(e){
-            error = this.store.validate($(e.currentTarget).prop('checked'), this.opts.field.errors);
+            error = this.store.validate(dv_cash(e.currentTarget).prop('checked'), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).parents('form').serializeJSON());
-        }
-
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
-        }
-
-        this.on('mount', function(){
-            this.initTooltip();
-
-        })
-
-        this.on('updated', function(){
-            this.initTooltip();
-        })
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(Array.from(dv_cash(e.currentTarget).parents('form'))));
+        };
     </script>
 </qc_field_checkbox>

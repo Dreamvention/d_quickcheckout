@@ -1,6 +1,4 @@
-<qc_layout_setting>
-    <link rel="stylesheet" href="{'catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'+getLayout().skin+'/'+getLayout().skin+'.css?'+rand()}">
-    
+<qc_layout_setting> 
     <qc_setting 
     if={getState().edit} 
     setting_id={setting_id}
@@ -21,7 +19,7 @@
             </li>  -->
         </ul>
         <div class="qc-setting-tab-content"> 
-            <div class="qc-setting-tab-pane fade in active" role="tabpanel" id="{ opts.setting_id }_general" aria-labelledby="{ opts.setting_id }_general_tab"> 
+            <div class="qc-setting-tab-pane in active" role="tabpanel" id="{ opts.setting_id }_general" aria-labelledby="{ opts.setting_id }_general_tab"> 
                 <div class="ve-editor__setting__content__section">
                     <div class="ve-field">
                         <label class="ve-label">{getLanguage().general.text_display} {getLanguage().general.text_header_footer}</label>
@@ -82,14 +80,14 @@
                     </div>
                 </div>
             </div>
-            <div class="qc-setting-tab-pane fade" role="tabpanel" id="{ opts.setting_id }_error" aria-labelledby="{ opts.setting_id }_error_tab">
+            <div class="qc-setting-tab-pane" role="tabpanel" id="{ opts.setting_id }_error" aria-labelledby="{ opts.setting_id }_error_tab">
                 <div class="ve-editor__setting__content__section">
                     <label>Input your custom CSS here </label>
                     <textarea name="layout[css]" class="ve-input" rows="10" onchange="{parent.edit}" >{getLayout().css}</textarea>
                 </div>
             </div> 
 
-            <div class="qc-setting-tab-pane fade" role="tabpanel" id="{ opts.setting_id }_advanced" aria-labelledby="{ opts.setting_id }_design_tab">
+            <div class="qc-setting-tab-pane" role="tabpanel" id="{ opts.setting_id }_advanced" aria-labelledby="{ opts.setting_id }_design_tab">
                 <div class="ve-editor__setting__content__section">
                     <label>Input your custom JavaScript here </label>
                     <textarea name="layout[js]" class="ve-input" rows="10" onchange="{parent.edit}" >{getLayout().js}</textarea>
@@ -113,13 +111,13 @@
                 </label>
             </div>
         </div>
-        <div class="ve-editor__menu__control" if={Object.keys(getState().settings).length  > 1}>
+        <!--  <div class="ve-editor__menu__control" if={Object.keys(getState().settings).length  > 1}>
             <div class="ve-btn-group" data-toggle="buttons">
                 <label each={setting, key in getState().settings} class="ve-btn ve-btn--lg ve-btn--primary { getSession().setting_id == setting.setting_id ?  'active' : '' }" onclick={changeStore}>
                     <input class="ve-input" type="radio" name="setting" value="{setting.setting_id}" id="{setting.setting_id}" autocomplete="off" checked={ getSession().setting_id == setting.setting_id }> {setting.name}
                 </label>
             </div>
-        </div>
+        </div>  -->
         <div class="ve-editor__menu__control">
             <a class="ve-btn ve-btn--lg ve-btn--primary" onclick={toggleSetting}><i class="fa fa-cog"></i></a>
             <a class="ve-btn ve-btn--lg ve-btn--success" onclick={saveState}>{getLanguage().general.text_update}</a>
@@ -135,15 +133,16 @@
         this.skin = this.store.getSession().skin;
 
         toggleSetting(e){
-            if($('#'+ this.setting_id).hasClass('show')){
-                this.store.hideSetting()
+            if(this.store.getState().displaySetting[this.opts.setting_id]){
+                this.store.hideSetting();
             }else{
                 this.store.showSetting(this.setting_id);
             }
+            this.update();
         }
 
         edit(e){
-            this.store.dispatch('setting/edit', $('#'+this.setting_id).find('form').serializeJSON());
+            this.store.dispatch('setting/edit', serializeJSON(Array.from(dv_cash('#'+this.setting_id).find('form'))));
         }
 
         saveState(e){
@@ -155,33 +154,42 @@
         }
 
         changeAccount(e){
-            this.store.dispatch('account/update', { account: $(e.currentTarget).find('input').val()});
+            this.store.dispatch('account/update', { account: dv_cash(e.currentTarget).find('input').val()});
         }
 
         changeLanguage(e){
-            this.store.dispatch('setting/changeLanguage', { language_id: $(e.currentTarget).find('input').val()});
+            this.store.dispatch('setting/changeLanguage', { language_id: dv_cash(e.currentTarget).find('input').val()});
         }
 
         changeStore(e){
-            this.store.dispatch('setting/changeStore', { setting_id: $(e.currentTarget).find('input').val()});
+            this.store.dispatch('setting/changeStore', { setting_id: dv_cash(e.currentTarget).find('input').val()});
         }
 
         changeLayout(e){
-            this.store.dispatch('setting/changeLayout', { layout_codename: $(e.currentTarget).val()});
+            this.store.dispatch('setting/changeLayout', { layout_codename: dv_cash(e.currentTarget).val()});
         }
 
         changeSkin(e){
-            this.store.dispatch('setting/changeSkin', { skin_codename: $(e.currentTarget).val()});
+            this.store.dispatch('setting/changeSkin', { skin_codename: dv_cash(e.currentTarget).val()});
         }
 
         //NEEDS REFACTOR
         this.on('mount', function(){
-            $(this.root).find('.qc-editor').appendTo('body');
+            if (dv_cash(this.root).find('.qc-editor').length) {
+                dv_cash('body').find('.qc-editor-moved').remove();
+                document.getElementsByTagName('body')[0].insertAdjacentElement('afterBegin', this.root.querySelector('.qc-editor'));
+                dv_cash('body').find('.qc-editor').addClass('qc-editor-moved');
+            }
         })
 
         this.on('updated', function(){
             if(this.store.getState().edit){
                 this.store.updateLayoutStyle();
+            }
+            if (dv_cash(this.root).find('.qc-editor').length) {
+                dv_cash('body').find('.qc-editor-moved').remove();
+                document.getElementsByTagName('body')[0].insertAdjacentElement('afterBegin', this.root.querySelector('.qc-editor'));
+                dv_cash('body').find('.qc-editor').addClass('qc-editor-moved');
             }
         })
         

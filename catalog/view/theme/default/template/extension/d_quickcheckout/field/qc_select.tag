@@ -8,7 +8,7 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ isRequired() } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} qc-select">
             <select
@@ -16,7 +16,7 @@
                 id="{ opts.step }_{ opts.field.id }"
                 name="{ opts.step }[{ opts.field.id }]"
                 ref="input"
-                class="ve-input d-vis qc-select{ (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'selectpicker' : ''} { isRequired() ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
+                class="ve-input d-vis qc-select { (getState().config.guest[opts.step].fields[opts.field_id].search == 1) ? 'choiceselectpicker choices__input' : ''} { isRequired() ? 'qc-required' : 'qc-not-required'} { opts.field.id }"
                 required="{ isRequired() }"
                 autocomplete="{ opts.field.autocomplete }"
                 onchange={change} >
@@ -29,7 +29,7 @@
                     { option.name } 
                 </option>
             </select>
-            <i class="qc-select-placeholder">{ getName() } </i>
+            <i if={getState().config.guest[opts.step].fields[opts.field_id].search != 1} class="qc-select-placeholder">{ getName() } </i>
 
             <select
                 if={getState().edit }
@@ -64,13 +64,14 @@
         }
 
         getName(){
-            var result = opts.field.options.filter(function(item){
-                if(item.value == tag.tag_value){
-                    return item.name
-                }
-            })
-            
-            if(result[0]){
+            if (opts.field.options) {
+                var result = opts.field.options.filter(function(item){
+                    if(item.value == tag.tag_value){
+                        return item.name;
+                    }
+                });
+            }
+            if(opts.field.options && result[0]){
                 return result[0].name;
             }else{
                 return getLanguage()[opts.step][opts.field.placeholder]
@@ -153,41 +154,27 @@
 
 
         change(e){
-            error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+            error = this.store.validate(dv_cash(e.currentTarget).val(), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-            var value = $(e.currentTarget).val();
-            var targetId = $(e.currentTarget).attr('id');
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            var value = dv_cash(e.currentTarget).val();
+            var targetId = dv_cash(e.currentTarget).attr('id');
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
             
             setTimeout(function(){
-                $('#'+targetId).val(value)
+                dv_cash('#'+targetId).val(value)
             }, 200);
         }
 
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
-        }
-
         this.on('mount', function(){
-            this.initTooltip();
-            if(this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
-                $(tag.root).find('.selectpicker').selectpicker({
-                    style: 've-input ve-selectpicker',
-                    size: 12,
-                    liveSearch: true,
-                    noneSelectedText: ''
-                });
+            if(dv_cash(tag.root).find('.choiceselectpicker')[0] && this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
+                choices_el = new Choices(dv_cash(tag.root).find('.choiceselectpicker')[0]);
             }
         })
 
         this.on('update', function(){
-            this.initTooltip();
-            if(this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
+            if(typeof choices_el === 'undefined' && dv_cash(tag.root).find('.choiceselectpicker')[0] && this.store.getState().config.guest[tag.opts.step].fields[tag.opts.field_id].search == 1){
                 setTimeout(function(){
-                    $(tag.root).find('.selectpicker').val(tag.tag_value).selectpicker('refresh');
+                    choices_el = new Choices(dv_cash(tag.root).find('.choiceselectpicker')[0]);
                 },1)
             }
         })

@@ -1,9 +1,11 @@
-<?php
-/**
- *  location: catalog/view
- */
-?>
-
+{% if edit %}
+<div id="d_quickcheckout_skin_style">
+    <link 
+        rel="stylesheet" 
+        href="catalog/view/theme/default/stylesheet/d_quickcheckout/skin/{{state.layout.skin}}/{{state.layout.skin}}.css"
+    />
+</div>
+{% endif %}
 <div class="qc-spinner"></div>
 <d_quickcheckout id="d_quickcheckout" class="qc {% if edit %} edit {% endif %}"></d_quickcheckout>
 
@@ -36,13 +38,13 @@
     {{state.layout.css}}
     </style>
     <script>
-        var header_footer = {{state.layout.header_footer}}
+        var header_footer = {{state.layout.header_footer}};
         if(header_footer != 1){
-            $('body').prepend($('.qc-spinner'));
-            $('body').prepend($('#d_quickcheckout'));
+            dv_cash('body').prepend(dv_cash('.qc-spinner'));
+            dv_cash('body').prepend(dv_cash('#d_quickcheckout'));
 
         }else{
-            $('.qc-spinner').after($('#d_quickcheckout'));
+            dv_cash('.qc-spinner').after(dv_cash('#d_quickcheckout'));
         }
     </script>
     <script>
@@ -70,7 +72,7 @@
         riot.compile('catalog/view/theme/default/template/extension/module/d_quickcheckout.tag', function() {
 
           riot.mount(document.getElementById('d_quickcheckout'));
-        })
+        });
     }
     
 </script>

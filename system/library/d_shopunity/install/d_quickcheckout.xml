@@ -6,16 +6,6 @@
     <version>7.0.0</version>
     <author>Dreamvention</author>
     <link>http://dreamvention.com</link>
-    <file path="catalog/controller/checkout/checkout.php">
-        <operation>
-            <search ><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
-            <add position="before"><![CDATA[
-        if($this->config->get('d_quickcheckout_status')){
-            $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
-        }
-        ]]></add>
-        </operation>
-    </file>
     <file path="system/library/cart/tax.php">
         <operation error="skip">
             <search><![CDATA[final class Tax {]]></search>

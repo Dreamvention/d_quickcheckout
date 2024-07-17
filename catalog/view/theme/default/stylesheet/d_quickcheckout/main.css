@@ -707,10 +707,9 @@ body.show-setting {
 }
 
 body.show-setting .qc-setting {
+    margin-top: 60px;
     position: fixed;
     left: 0;
-    top: 60px;
-    height: -webkit-calc(100% - 60px);
     height: calc(100% - 60px);
 }
 
@@ -1331,6 +1330,10 @@ body.show-setting.popup .qc-setting-panels .setting-panel {
     -webkit-border-radius: 3px;
     border-radius: 3px;
     height: 30px;
+}
+
+.qc-setting .ve-editor__setting__content {
+    height: auto !important;
 }
 
 .ve-field--error .qc-select-placeholder {

@@ -29,7 +29,7 @@
                         </span>
                         { getLanguage().account.heading_title }
                     </h4>
-                    <p class="ve-p" if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </p>
+                    <p class="ve-p" if={getLanguage().account.text_description}><qc_raw content="{  getLanguage().account.text_description }"></qc_raw></p>
                 </div>
                 <div class="ve-card__section">
                     <div if={getError() && getError().account && getError().account.login } class="alert alert-danger">
@@ -71,7 +71,7 @@
 
             <!-- style clear -->
             <div class="ve-mb-3 ve-clearfix" if={getState().config.guest.account.login_popup != 1 && getState().config.guest.account.option.login.display == 1 && getState().config.guest.account.style == 'clear' }>
-                <p class="ve-p" if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </p>
+                <p class="ve-p" if={getLanguage().account.text_description}><qc_raw content="{  getLanguage().account.text_description }"></qc_raw> </p>
             
                 <div if={getError() && getError().account && getError().account.login } class="alert alert-danger">
                     {getError().account.login}
@@ -109,19 +109,21 @@
                 </form>
             </div>
 
-            <div class="modal fade" id="login_popup"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="ve-card">
+            <div class="dvdy-modal" id="login_popup">
+                <div class="dvdy-modal-backdrop"></div>
+                <div class="dvdy-modal-dialog">
+                <div class="dvdy-modal-dialog__content dvdy-modal-sm">
+                <div class="ve-card">
                         <form >
                             <div class="ve-card__header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <button type="button" class="dvdy-close">&times;</button>
                                 <h4 class="ve-h4">
                                     <span if={ getConfig().account.icon } class="icon">
                                         <i class="{ getConfig().account.icon }"></i>
                                     </span>
                                     {getLanguage().account.entry_login}
                                 </h4>
-                                <p class="ve-p" if={getLanguage().account.text_description}>{  getLanguage().account.text_description } </p>
+                                <p class="ve-p" if={getLanguage().account.text_description}><qc_raw content="{ getLanguage().account.text_description }"></qc_raw> </p>
                             </div>
                             <div class="ve-card__section">
                                 <div if={getError() && getError().account && getError().account.login } class="ve-alert ve-alert--danger">
@@ -147,6 +149,8 @@
                             </div>
                         </form>
                     </div><!-- /.modal-content -->
+                </div>
+                    
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
@@ -165,29 +169,40 @@
         var tag = this;
 
         login(e){
-            this.store.dispatch('account/login', $(e.currentTarget).parents('form').serializeJSON());
+            this.store.dispatch('account/login', serializeJSON(Array.from(dv_cash(e.currentTarget).parents('form'))));
             e.preventDefault();
         }
 
         changeAccount(e){
-            this.store.dispatch('account/update', { account: $(e.currentTarget).find('input').val()});
+            this.store.dispatch('account/update', { account: dv_cash(e.currentTarget).find('input').val()});
         }
 
         openLoginPopup(e){
-            $('#login_popup').modal('toggle');
+            if (document.getElementById('login_popup')) {
+                DvDialogify().initModal('#login_popup').show();
+            }
         }
 
         this.on('mount', function(){
-            $(this.root).find('#login_popup').appendTo('body');
-        })
+            if (dv_cash(this.root).find('#login_popup').length) {
+                dv_cash('body').find('.dqc_login_popup').remove();
+                dv_cash(this.root).find('#login_popup').appendTo('body').addClass('dqc_login_popup');
+            }
+        });
+
+        this.on('updated', function(){
+            if (dv_cash(this.root).find('#login_popup').length) {
+                dv_cash('body').find('.dqc_login_popup').remove();
+                dv_cash(this.root).find('#login_popup').appendTo('body').addClass('dqc_login_popup');
+            }
+        });
 
         this.store.subscribe('account/updated', function(data) {
             if(data.session.account == 'logged'){
-                $('.modal-backdrop').remove();
-
                 //bugfix: required to close the model window.
-                $('#login_popup').modal('hide');
-                $('body').removeClass('modal-open')
+                if (document.getElementById('login_popup')) {
+                    DvDialogify().initModal('#login_popup').hide();
+                }
             }
         });
 

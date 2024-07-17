@@ -11,6 +11,13 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
         return $query->rows;
     }
 
+    public function getCustomFieldOptions($custom_field_id) {
+        
+        $custom_field_options_query = $this->db->query("SELECT `name`, `custom_field_value_id` AS `value` FROM `" . DB_PREFIX . "custom_field_value_description` cfvd WHERE cfvd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cfvd.custom_field_id = '" . (int)$custom_field_id . "' ORDER BY cfvd.custom_field_value_id ASC");
+		
+        return $custom_field_options_query->rows;
+    }
+
     public function getZonesByCountryId($country_id) {
         $options = array();
         if($country_id && is_numeric($country_id)){
@@ -38,7 +45,12 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
     }
 
     public function updateTaxAddress() {
-        $this->tax->clearRates();
+        if(VERSION < '2.3.0.0'){
+            $this->tax->clearRates();
+        }
+        else{
+            $this->tax->unsetRates();
+        }
         $address = $this->paymentOrShippingAddress();
 
         $this->config->set('config_customer_group_id', $this->session->data['payment_address']['customer_group_id']);
@@ -90,16 +102,21 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
         $this->load->model('account/address');
         $addresses = $this->model_account_address->getAddresses();
 
-        foreach ($addresses as $key => $address) {
+        if ($addresses) {
+            foreach ($addresses as $key => $address) {
 
-            if(!empty($addresses[$key]["custom_field"])){
-                $addresses[$key]["custom_field"] = $this->getAddressCustomField($addresses[$key]["custom_field"]);
+                if(!empty($addresses[$key]["custom_field"])){
+                    $addresses[$key]["custom_field"] = $this->getAddressCustomField($addresses[$key]["custom_field"]);
+                }
+    
+                if (!empty($address) && empty($address['address_format'])) {
+                    $addresses[$key]['address_format'] = '{firstname} {lastname}' . '{company}' . "\n" . '{address_1}' . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+                }
             }
-
-            if (!empty($address) && empty($address['address_format'])) {
-                $addresses[$key]['address_format'] = '{firstname} {lastname}' . '{company}' . "\n" . '{address_1}' . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
-            }
+        } else {
+            return array();
         }
+        
         return $addresses;
     }
 
@@ -155,17 +172,19 @@ class ModelExtensionDQuickcheckoutAddress extends Model {
         
         $this->load->model('account/custom_field');
         $custom_field_data = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
-
-        foreach( $custom_field_data as $custom_field){
+        $custom_field_details = array();
+        foreach($custom_field_data as $custom_field){
             if(array_key_exists($custom_field["custom_field_id"], $data)){
-                $data = array(
-                    $custom_field['location'] => array(
-                            $custom_field["custom_field_id"] => $data[$custom_field["custom_field_id"]]
+                $custom_field_details = array_replace_recursive(
+                    $custom_field_details, 
+                    array(
+                        $custom_field['location'] => array(
+                        $custom_field["custom_field_id"] => $data[$custom_field["custom_field_id"]]
                         )
-                );
+                ));
             }
         }
-        return $data;
+        return $custom_field_details;
 
     }
     

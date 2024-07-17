@@ -13,17 +13,24 @@ class ModelExtensionDQuickcheckoutView extends Model {
     }
 
     public function getRiotTags(){
+        if ($this->config->get('d_quickcheckout_compress_files')) {
+            if (file_exists(DIR_APPLICATION . 'view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/compress/elements.tag')) {
+                return ['catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/compress/elements.tag'];
+            } elseif (file_exists(DIR_APPLICATION . 'view/theme/default/template/extension/d_quickcheckout/compress/elements.tag')) {
+                return ['catalog/view/theme/default/template/extension/d_quickcheckout/compress/elements.tag'];
+            }
+        }
         $result = array();
 
         $files = glob(DIR_APPLICATION . 'view/theme/default/template/extension/d_quickcheckout/*/*.tag', GLOB_BRACE);
         foreach($files as $file){
-
-            if(file_exists('catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file))){
-                $result[] = 'catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file);
-            }else{
-                $result[] = 'catalog/view/theme/default/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file);
+            if(basename(dirname($file)) != 'compress'){
+                if(file_exists('catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file))){
+                    $result[] = 'catalog/view/theme/'.$this->config->get('config_template').'/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file);
+                }else{
+                    $result[] = 'catalog/view/theme/default/template/extension/d_quickcheckout/'.basename(dirname($file)).'/'.basename($file);
+                }
             }
-            
         }
 
         return $result;

@@ -7,8 +7,8 @@
     this.subscribe('page/sort', function() {
         var state = {};
         state.layout = this.getLayout();
-        $('.page-nav > .page-nav-item').each(function(i) {
-            state.layout.pages[$(this).attr('page_id')].sort_order = String(i);
+        dv_cash('.page-nav > .page-nav-item').each(function(i) {
+            state.layout.pages[dv_cash(this).attr('page_id')].sort_order = String(i);
         });
         this.setState(state);
     });
@@ -19,9 +19,10 @@
         var sort_order = Object.keys(state.layout.pages).length;
         var page_id = 'page' + this.rand();
 
-        //refactor - clone objecta
+        /*refactor - clone objecta*/
         state.layout.pages[page_id] = {
             'id': page_id,
+            'path': page_id,
             'children': {},
             'deleted': 0,
             'sort_order': sort_order,
@@ -31,9 +32,9 @@
             'description': 'New page description'
         }
 
-        $('.page-nav > .page-nav-item').each(function(i) {
-            if (state.layout.pages[$(this).attr('page_id')]) {
-                state.layout.pages[$(this).attr('page_id')].sort_order = i;
+        dv_cash('.page-nav > .page-nav-item').each(function(i) {
+            if (state.layout.pages[dv_cash(this).attr('page_id')]) {
+                state.layout.pages[dv_cash(this).attr('page_id')].sort_order = i;
             }
         });
 
@@ -67,7 +68,7 @@
 
 
         var last_page = '';
-        $.each(pages, function(i, e) {
+        dv_cash.each(pages, function(i, e) {
             if (state.layout.pages[e]) {
                 state.layout.pages[e].sort_order = i;
             }
@@ -81,15 +82,15 @@
     });
 
     this.subscribe('page/open', function(data) {
-        //pass page_id
+        /*pass page_id*/
 
         if (data.page_id) {
             var state = { 'session': { 'page_id': data.page_id } };
             this.setState(state);
-            //to avoid page unsync
+            /*to avoid page unsync*/
             this.send('extension/module/d_quickcheckout/update', state, function(json) {}.bind(this));
         }
-    })
+    });
 
     this.getPageIds = function() {
         var pages_sorted = [];
@@ -102,18 +103,21 @@
         });
 
         return result;
-    }
+    };
 
     this.hasPayment = function() {
         var layoutString = JSON.stringify(this.getState().layout.pages);
         return (layoutString.indexOf('payment"') == -1);
-    }
+    };
 
     this.goToPageNav = function() {
         if (this.isMobile()) {
             setTimeout(function() {
-                $('html,body').animate({ scrollTop: $(".process-page").offset().top - 60 }, 'slow');
+                document.querySelector('html, body').scroll({
+                    behavior: 'smooth',
+                    top: document.querySelector('.process-page').offsetTop - 60
+                });
             }, 10);
         }
-    }
+    };
 })(qc);

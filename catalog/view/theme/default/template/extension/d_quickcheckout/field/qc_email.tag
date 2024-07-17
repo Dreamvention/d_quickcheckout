@@ -8,7 +8,7 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ isRequired() } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <input
@@ -123,36 +123,19 @@
         }
 
         change(e){
-            error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+            error = this.store.validate(dv_cash(e.currentTarget).val(), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
         }
 
         initMask(){
-            if(this.opts.field.mask){
-                $('#' + this.opts.step + '_' + this.opts.field_id).mask(this.opts.field.mask);
-            }else{
-                $('#' + this.opts.step + '_' + this.opts.field_id).unmask();
+            if(this.opts.field.mask && document.getElementById(this.opts.step + '_' + this.opts.field_id)){
+                IMask(document.getElementById(this.opts.step + '_' + this.opts.field_id), this.opts.field.mask);
             }
-        }
-
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
         }
 
         this.on('mount', function(){
             this.initMask();
-            this.initTooltip();
-
-        })
-
-        this.on('updated', function(){
-            this.initMask();
-            this.initTooltip();
-            
-        })
+        });
     </script>
 </qc_field_email>

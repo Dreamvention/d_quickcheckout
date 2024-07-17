@@ -14,7 +14,7 @@
                 <div class="ve-input-group">
                     <input 
                     if={ parent.field.type != 'radio' && parent.field.type != 'select' && parent.field.type != 'checkbox'}
-                    onchange="{parent.opts.edit}" 
+                    onchange="{editDependOptions}" 
                     type="text" 
                     class="ve-input" 
                     name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][value]" 
@@ -24,7 +24,7 @@
                         if={parent.field.type== 'radio' || parent.field.type == 'select'}
                         name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][value]"
                         class="ve-input"
-                        onchange={parent.opts.edit}>
+                        onchange={editDependOptions}>
                         <option value="">{getLanguage().general.text_select}</option>
                         <option
                             each={option in parent.getField().options }
@@ -39,7 +39,7 @@
                         if={parent.field.type == 'checkbox'}
                         name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][value]"
                         class="ve-input"
-                        onchange={parent.opts.edit}>
+                        onchange={editDependOptions}>
                         <option value="0" selected={ depend_value.value == 0}>{getLanguage().general.text_not_checked}</option>
                         <option value="1" selected={ depend_value.value == 1}>{getLanguage().general.text_checked}</option>
                         
@@ -52,14 +52,14 @@
                 <div class="ve-field col-md-6">
                     <label class="ve-label">{getLanguage().general.text_display}</label>
                     <div>
-                        <qc_switcher onclick="{parent.opts.edit}" name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][display]" data-label-text="Enabled" value="{ depend_value.display }" />
+                        <qc_switcher onclick="{editDependOptions}" name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][display]" data-label-text="Enabled" value="{ depend_value.display }" />
                     </div>
                 </div>
 
                 <div class="ve-field col-md-6">
                     <label class="ve-label">{getLanguage().general.text_require}</label>
                     <div>
-                        <qc_switcher onclick="{parent.opts.edit}" name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][require]" data-label-text="Enabled" value="{ depend_value.require }" />
+                        <qc_switcher onclick="{editDependOptions}" name="config[{getAccount()}][{parent.opts.step}][fields][{ parent.opts.field_id }][depends][{parent.opts.depend_id}][{depend_value_id}][require]" data-label-text="Enabled" value="{ depend_value.require }" />
                     </div>
                 </div>
             </div>
@@ -77,13 +77,32 @@
 
         tag.field = this.getField();
 
+        editDependOptions(e){
+            var data = (serializeJSON(e.currentTarget));
+            if (!Object.keys(data).length) {
+                data = (serializeJSON(Array.from(dv_cash(e.currentTarget).find('input'))));
+            }
+            var state = getState();
+            accounts = ['guest', 'register', 'logged'];
+            var depend_data = data.config[getAccount()];
+            accounts.forEach(function(account, key, accounts) {
+                if (state.config[account][opts.step].fields[opts.field_id]) {
+                    if (!data.config[account]) {
+                        data.config[account] = {};
+                    }
+                    data.config[account] = depend_data;
+                }
+            });
+            this.store.dispatch(this.opts.step+'/edit', data);
+        }
+
         removeDepend(e){
-            var depend_id = $(e.currentTarget).data('depend_id');
+            var depend_id = dv_cash(e.currentTarget).data('depend_id');
             tag.store.dispatch('field/removeDepend', {step_id : tag.opts.step, field_id: tag.opts.field_id , depend_id: depend_id } );
         }
 
         addDependValue(e){
-            var depend_id = $(e.currentTarget).data('depend_id');
+            var depend_id = dv_cash(e.currentTarget).data('depend_id');
             tag.store.dispatch('field/addDependValue', {
                 step_id : tag.opts.step, 
                 field_id: tag.opts.field_id, 
@@ -92,8 +111,8 @@
         }
 
         removeDependValue(e){
-            var depend_id = $(e.currentTarget).data('depend_id');
-            var depend_value_id = $(e.currentTarget).data('depend_value_id');
+            var depend_id = dv_cash(e.currentTarget).data('depend_id');
+            var depend_value_id = dv_cash(e.currentTarget).data('depend_value_id');
             tag.store.dispatch('field/removeDependValue', {
                 step_id : tag.opts.step, 
                 field_id: tag.opts.field_id, 

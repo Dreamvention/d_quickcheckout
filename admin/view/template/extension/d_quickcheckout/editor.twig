@@ -13,7 +13,15 @@ iframe{
     display:block;
 }
 </style>
-<iframe src="{{editor}}" style="border: 0; width: 100%; height: 100%">Your browser doesn't support iFrames.</iframe>
-
+<iframe onload="daqcLoadIframe()" src="{{editor}}" style="border: 0; width: 100%; height: 100%">Your browser doesn't support iFrames.</iframe>
+<script>
+function daqcLoadIframe () {
+    var iframes = document.getElementsByTagName('iframe');
+    if (iframes && iframes[0]?.contentWindow?.qc?.state) {
+        
+        iframes[0].contentWindow.qc.state.customFieldAdmin = '{{custom_field_admin_url}}';
+    }
+}
+</script>
 </body>
 </html>

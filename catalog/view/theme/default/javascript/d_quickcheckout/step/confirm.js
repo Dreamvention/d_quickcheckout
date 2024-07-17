@@ -8,9 +8,9 @@
         setTimeout(function() {
             this.send('extension/d_quickcheckout/confirm/update', data, function(json) {
                 this.setState(json);
+
                 if (!json.session.confirm.checkout) {
                     this.goToError();
-
                 } else {
                     this.updateState(['session', 'confirm', 'checkout'], false);
 
@@ -19,23 +19,21 @@
                     this.setState(json);
                     this.setChange(this.getState());
 
-                    $(document).ajaxComplete(function() {
-                        this.loading(true);
-                        setTimeout(function() {
-                            var href = $(json.session.confirm.trigger, $('#payment')).attr('href');
-                            if (href != '' && href != undefined) {
-                                document.location.href = href;
+                    this.loading(true);
+                    setTimeout(function() {
+                        var href = dv_cash(json.session.confirm.trigger, dv_cash('#payment')).attr('href');
+                        if (href != '' && href != undefined) {
+                            document.location.href = href;
+                        } else {
+
+                            if (getSession().payment.payment_popup == true) {
+                                DvDialogify().initModal('#payment_modal').show();
                             } else {
-                                
-                                if(getSession().payment.payment_popup == true){
-                                    $('#payment_modal').modal('toggle');
-                                }else{
-                                    $(json.session.confirm.trigger, $('#payment')).click();
-                                }
+                                dv_cash(json.session.confirm.trigger, dv_cash('#payment')).trigger('click');
                             }
-                            $(document).unbind('ajaxComplete');
-                        }, 100);
-                    }.bind(this))
+                        }
+                        
+                    }, 100);
                 }
             }.bind(this));
         }, 500);
@@ -45,7 +43,7 @@
         clearTimeout(this.continue_timer);
         setTimeout(function() {
             var current_page_id = this.getSession().page_id;
-            var data = { page_id: current_page_id }
+            var data = { page_id: current_page_id };
 
             this.continue_timer = setTimeout(function() {
                 this.send('extension/d_quickcheckout/confirm/update', data, function(json) {
@@ -74,7 +72,7 @@
         if (prev_page_id) {
             var state = { 'session': { 'page_id': prev_page_id } };
             this.setState(state);
-            //to avoid page unsync
+            /*to avoid page unsync*/
             this.send('extension/module/d_quickcheckout/update', state, function(json) {}.bind(this));
         }
     });

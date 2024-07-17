@@ -1,0 +1,76 @@
+.dvdy-modal-backdrop {
+    display: none;
+    background-color: rgb(0,0,0,0.4);
+    position: fixed;
+    z-index: 500;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+}
+.dvdy-modal-dialog {
+    display: flex;
+    align-items: start;
+    opacity: 0;
+    transform: scale(.2);
+    transition: all 0.15s linear;
+    visibility: hidden;
+    position: fixed; /* Stay in place */
+    z-index: 1056; /* Sit on top */
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    justify-content: center;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    padding-top: 30px;
+}
+.dvdy-modal-dialog.dvdy-opened {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+.dvdy-modal-dialog.--scale {
+    transform: scale(1.1);
+}
+/* Modal Content */
+.dvdy-modal-dialog .dvdy-modal-dialog__content {
+    --dvdy-modal-width: 500px;
+    display: block;
+    margin: 0 10%;
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 48px);
+    overflow: auto; 
+    max-width: var(--dvdy-modal-width);
+}
+/* The Close Button */
+.dvdy-close {
+    border: none;
+    background-color: inherit;
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.dvdy-close:hover,
+.dvdy-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+@media (min-width: 576px) {
+    .dvdy-modal-dialog .dvdy-modal-dialog__content.dvdy-modal-sm {
+        --dvdy-modal-width: 300px;
+    }
+}
+@media (min-width: 992px) {
+    .dvdy-modal-dialog .dvdy-modal-dialog__content.dvdy-modal-lg, .dvdy-modal-dialog .dvdy-modal-dialog__content.dvdy-modal-xl {
+        --dvdy-modal-width: 800px;
+    }
+}
+@media (min-width: 1200px) {
+    .dvdy-modal-dialog .dvdy-modal-dialog__content.dvdy-modal-xl {
+        --dvdy-modal-width: 1140px;
+    }
+}

@@ -94,6 +94,58 @@ class ModelExtensionModuleDQuickcheckout extends Model {
         return $setting_id;
     }
 
+    public function compressRiotTag()
+    {
+        if (in_array($this->config->get('config_theme'), array('theme_default', 'default'))) {
+            $theme = $this->config->get('theme_default_directory');
+        } else {
+            $theme = $this->config->get('config_theme');
+        }
+
+        if(!$theme){
+            $theme = $this->config->get('config_template');
+        }
+
+        //$this->compressRiotTagByFolder(DIR_TEMPLATE.'extension/d_visual_designer/');
+        $this->compressRiotTagByFolder(DIR_CATALOG.'view/theme/default/template/extension/d_quickcheckout/', DIR_CATALOG.'view/theme/'.$theme.'/template/extension/d_quickcheckout/');
+    }
+
+    protected function compressRiotTagByFolder($folder, $subFolder = false)
+    {
+
+
+        if (is_dir($folder."compress")) {
+            array_map('unlink', glob($folder."compress/*"));
+        } else {
+            mkdir($folder."compress");
+        }
+
+        $files = glob($folder . '*/*.tag', GLOB_BRACE);
+
+        foreach ($files as $file) {
+            file_put_contents($folder."compress/elements.tag", file_get_contents($file).PHP_EOL, FILE_APPEND);
+        }
+
+        if ($subFolder && is_dir($subFolder)) {
+
+            if (is_dir($subFolder."compress")) {
+                array_map('unlink', glob($folder."compress/*"));
+            } else {
+                mkdir($subFolder."compress");
+            }
+
+            $files = glob($subFolder . '*/*.tag', GLOB_BRACE);
+
+            foreach ($files as $file) {
+                if ($subFolder && file_exists($subFolder.'elements/'.basename($file))) {
+                    $file = $subFolder.'elements/'.basename($file);
+                }
+                file_put_contents($folder."compress/elements.tag", file_get_contents($file).PHP_EOL, FILE_APPEND);
+            }
+        }
+    }
+
+
     public function getCurrentSettingId($id, $store_id = 0){
         $this->load->model('setting/setting');
         $setting = $this->model_setting_setting->getSetting($id, $store_id);

@@ -1,0 +1,42 @@
+.qc{
+    .qc-radio{
+        position: relative;
+        border: 1px solid rgba(0,0,0,0);
+        padding-left: 20px;
+        [type=radio]{
+            display: none;
+        }
+        &-selected{
+       
+            font-weight: bold;
+            color: #337ab7;
+        }
+        &:after, &:before{
+            content: '';
+            width: calc(1em + 4px);
+            height: calc(1em + 4px);
+            display: block;
+            box-sizing: border-box;
+            border-radius: 0;
+            border: 1px solid transparent;
+            z-index: 0;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            background-color: #fff;
+            border-radius: 100%;
+            border: 1px solid #bdc3c7;
+        }
+
+        &-selected:after{
+            background-color: #337ab7;
+            -webkit-transform: scale(0.6);
+            -ms-transform: scale(0.6);
+            transform: scale(0.6);
+        }
+        &-selected:before{
+            background-color: #fff;
+            
+        }
+    }
+}

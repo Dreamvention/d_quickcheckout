@@ -6,7 +6,7 @@
 class ControllerExtensionModuleDQuickcheckout extends Controller {
     private $codename = 'd_quickcheckout';
     private $route = 'extension/module/d_quickcheckout';
-
+    
     public function __construct($registry) {
         parent::__construct($registry);
         $this->load->model('extension/d_quickcheckout/store');
@@ -31,51 +31,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             return false;
         }
         
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/serializejson/jquery.serializejson.min.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/immutable/immutable.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/sortable/jquery.sortable.min.js');
-        $this->document->addStyle('catalog/view/javascript/d_quickcheckout/animate/animate.min.css');
-        $this->document->addScript('catalog/view/javascript/d_riot/riotcompiler.min.js');
-        $this->document->addScript('catalog/view/javascript/d_alertify/alertify.min.js');
-        $this->document->addStyle('catalog/view/javascript/d_alertify/css/alertify.min.css');
-        $this->document->addScript('catalog/view/javascript/d_bootstrap_switch/js/bootstrap-switch.js');
-        $this->document->addStyle('catalog/view/javascript/d_bootstrap_switch/css/bootstrap-switch.min.css');
-
-        $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/bootstrap-select.min.js');
-        $this->document->addStyle('catalog/view/javascript/d_bootstrap_select/css/bootstrap-select.min.css');
-        $this->document->addScript('catalog/view/javascript/d_bootstrap_select/js/i18n/defaults-en_US.min.js');
         
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/main.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/page.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/row.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/col.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/step.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/field.js');
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/component/error.js');
-
-        $this->document->addStyle('catalog/view/javascript/d_quickcheckout/jqueryui/jquery-ui.css');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/jqueryui/jquery-ui.js');
-        //fix for jquery-ui conflict
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/bootstrap/conflict.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/jsondiffpatch/jsondiffpatch.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/jquerymask/jquery.mask.min.js');
-        $this->document->addStyle('catalog/view/javascript/d_quickcheckout/intltelinput/css/intlTelInput.min.css');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/intlTelInput.min.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/intltelinput/js/utils.js');
-
-        
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/moment/moment.min.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/bootstrap-datetimepicker.min.js');
-        $this->document->addScript('catalog/view/javascript/d_quickcheckout/datetimepicker/moment/locales.min.js');
-        if($this->config->get('d_quickcheckout_rtl')){
-            $this->document->addStyle('catalog/view/javascript/d_quickcheckout/ripecss/ripe.rtl.css');
-            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
-            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/rtl.css');
-        }else{
-            $this->document->addStyle('catalog/view/javascript/d_quickcheckout/ripecss/ripe.css');
-            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
-        }
         
         $state = $this->initState();
         $this->load->model('extension/d_quickcheckout/view');
@@ -132,11 +88,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['edit'] = false;
         if($this->user->isLogged() && isset($this->request->get['edit'])){
             $data['state']['edit'] = true;
+            if (!isset($data['state']['layout']['skin'])) {
+                $data['state']['layout']['skin'] = 'default';
+            }
             $data['edit'] = true;
             $data['state']['settings'] = $this->model_extension_d_quickcheckout_store->getAllSettings();
   
-        }else{
-            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'.$data['state']['layout']['skin'] .'/'.$data['state']['layout']['skin'] .'.css?'.rand());
         }
         return $this->load->view($this->model_extension_d_quickcheckout_view->template($this->route), $data);
     }
@@ -187,10 +144,15 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
     }
 
     public function change_language(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->load->model('extension/d_quickcheckout/store');
         $this->model_extension_d_quickcheckout_store->loadState();
         
-        $this->session->data['language'] = $this->request->post['language_id'];
+        $this->session->data['language'] = $post['language_id'];
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
@@ -241,7 +203,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     public function change_layout(){
 
-        $post = $this->request->post;
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
 
         if(isset($post['layout_codename'])){
 
@@ -264,7 +230,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->model_extension_d_quickcheckout_store->loadState();
 
         //REFACTOR - need a cleaner way to update pages.
-        $post = $this->request->post;
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
 
         if(isset($post['layout'])){
             unset($post['layout']);
@@ -295,22 +265,89 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
     }
 
+    public function view_checkout_checkout_before($route, &$data) {
+
+        if($this->config->get('d_quickcheckout_status')){
+            $data['d_quickcheckout'] = $this->load->controller('extension/module/d_quickcheckout');
+
+            $scripts = array();
+            $styles = array();
+
+            $scripts[]=('catalog/view/javascript/cash/cash.min.js');
+            $scripts[]=('catalog/view/javascript/axios/axios.min.js');
+            $scripts[]=('catalog/view/javascript/d_quickcheckout/dist/d_quick_checkout-basic-libraries.min.js');
+            $styles[]=('catalog/view/javascript/d_quickcheckout/balloon/balloon.css');
+            $styles[]=('catalog/view/javascript/d_quickcheckout/choices/choices.min.css');
+            $scripts[]=('catalog/view/javascript/d_quickcheckout/choices/choices.min.js');
+
+            $scripts[]=('catalog/view/javascript/d_riot/riotcompiler.min.js');
+            $scripts[]=('catalog/view/javascript/d_alertify/alertify.min.js');
+            
+            $styles[]=('catalog/view/javascript/d_dialogify/dv_dialogify.min.css');
+            $scripts[]=('catalog/view/javascript/d_dialogify/dv_dialogify.min.js');
+
+            $styles[]=('catalog/view/javascript/d_alertify/css/alertify.min.css');
+            
+            $styles[]=('catalog/view/javascript/d_quickcheckout/dist/d_quick_checkout-basic-libraries.min.css');
+            if (!$this->config->get('d_quickcheckout_compress_files') || !file_exists(DIR_APPLICATION . 'view/theme/default/javascript/d_quickcheckout/compress/d_quickcheckout.min.js')) {
+
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/main.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/setting.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/page.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/row.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/col.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/step.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/field.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/component/error.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/account.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/cart.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/confirm.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/custom.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/payment_address.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/payment_method.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/payment.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/shipping_address.js');
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/step/shipping_method.js');
+            } else {
+                $scripts[]=('catalog/view/theme/default/javascript/d_quickcheckout/compress/d_quickcheckout.min.js');
+            }
+
+            
+            if($this->config->get('d_quickcheckout_rtl') != ''){
+                $rtl = $this->config->get('d_quickcheckout_rtl');
+                if(isset($rtl[$this->session->data['language']]) && $rtl[$this->session->data['language']]){
+                    $styles[]=('catalog/view/javascript/ripecss/ripe.rtl.css');
+                    $styles[]=('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
+                    $styles[]=('catalog/view/theme/default/stylesheet/d_quickcheckout/rtl.css');
+                }else{
+                    $styles[]=('catalog/view/javascript/ripecss/ripe.css');
+                    $styles[]=('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
+                }
+            }else{
+                $styles[]=('catalog/view/javascript/ripecss/ripe.css');
+                $styles[]=('catalog/view/theme/default/stylesheet/d_quickcheckout/main.css');
+            }
+
+            if(!$this->user->isLogged() || !isset($this->request->get['edit'])){
+                $state = $this->model_extension_d_quickcheckout_store->getState();
+                if (!isset($state['layout']['skin'])) {
+                    $state['layout']['skin'] = 'default';
+                }
+                $styles[]=('catalog/view/theme/default/stylesheet/d_quickcheckout/skin/'.$state['layout']['skin'] .'/'.$state['layout']['skin'] .'.css?'.rand());
+            }
+            
+            $data['header'] = $this->parseHeader($data['header'], $scripts, $styles);            
+        }
+    }
+
     public function view_checkout_checkout_after($route, $data, &$output) {
 
         if($this->config->get('d_quickcheckout_status')){
             $this->load->model('extension/d_quickcheckout/view');
             $supports = $this->model_extension_d_quickcheckout_view->browserSupported();
-            if($supports){
-                if(true){
-                    $template = 'd_quickcheckout';
-                    $output = $this->load->view($this->model_extension_d_quickcheckout_view->template('checkout/'.$template), $data);
-                }else{
-                    $html_dom = new d_simple_html_dom();
-                    $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-                    $html_dom->find('body > #content', 0)->innertext = $data['d_quickcheckout'];
-                    
-                    $output = (string)$html_dom;
-                }
+            if($supports){                 
+                $template = 'd_quickcheckout';
+                $output = $this->load->view($this->model_extension_d_quickcheckout_view->template('checkout/'.$template), $data);
             }
             
         }
@@ -374,6 +411,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['text_email_exists'] = $this->language->get('text_email_exists');
         $data['text_select'] = $this->language->get('text_select');
 
+
         $data['text_update'] = $this->language->get('button_update');
         $data['text_reset'] = $this->language->get('text_reset');
         $data['text_style'] = $this->language->get('text_style');
@@ -389,6 +427,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['entry_text'] = $this->language->get('entry_text');
         $data['entry_radio'] = $this->language->get('entry_radio');
         $data['entry_select'] = $this->language->get('entry_select');
+        $data['entry_captcha'] = $this->language->get('entry_captcha');
+
 
         $data['error_min_length'] = $this->language->get('error_min_length');
         $data['error_max_length'] = $this->language->get('error_max_length');
@@ -398,6 +438,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['error_regex'] = $this->language->get('error_regex');
         $data['error_telephone'] = $this->language->get('error_telephone');
         $data['error_email_exists'] = $this->language->get('error_email_exists');
+        $data['error_captcha'] = $this->language->get('error_captcha');
+
 
         $data['name'] = $this->config->get('config_name');
 
@@ -449,19 +491,49 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
          
     }
 
-    private function initSteps($initOrder = false){
-	    $this->load->controller('extension/d_quickcheckout/account');
-	    $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
-	    $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
-	    $this->load->controller('extension/d_quickcheckout/custom'); //0.12
-	    if($initOrder){
-		$order_id = $this->model_extension_d_quickcheckout_order->getOrder();
-		$this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
-	    }
-	    $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
-	    $this->load->controller('extension/d_quickcheckout/cart'); //1.5
-	    $this->load->controller('extension/d_quickcheckout/payment_method'); //10
-	    $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
-	    $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+    public function initSteps($initOrder = false){
+
+            $this->load->controller('extension/d_quickcheckout/account');
+            $this->load->controller('extension/d_quickcheckout/payment_address'); //2.6
+            $this->load->controller('extension/d_quickcheckout/shipping_address'); //1.5
+            $this->load->controller('extension/d_quickcheckout/custom'); //0.12
+            if($initOrder){
+                $order_id = $this->model_extension_d_quickcheckout_order->getOrder();
+                $this->model_extension_d_quickcheckout_store->updateState(array('session', 'order_id'), $order_id);
+            }
+            $this->load->controller('extension/d_quickcheckout/shipping_method'); //3
+            $this->load->controller('extension/d_quickcheckout/payment_method'); //10
+            $this->load->controller('extension/d_quickcheckout/cart'); //1.5
+            //$this->load->controller('extension/d_quickcheckout/continue'); //0.12
+            $this->load->controller('extension/d_quickcheckout/confirm'); //0.36
+            $this->load->controller('extension/d_quickcheckout/payment'); //4.5
+    }
+
+    protected function parseHeader($header, $scripts, $styles)
+    {
+        $html_dom = new d_simple_html_dom();
+        $html_dom->load($header, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+
+        foreach ($scripts as $script) {
+            if (!$html_dom->find('head', 0)->find('script[src="' . $script . '"]')) {
+                if ($html_dom->find('head > script', -1)) {
+                    $html_dom->find('head > script', -1)->outertext .= '<script src="' . $script . '" type="text/javascript"></script>';
+                } else {
+                    $html_dom->find('head', -1)->innertext .= '<script src="' . $script . '" type="text/javascript"></script>';
+                    $html_dom->load((string)$html_dom, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+                }
+            }
+        }
+        foreach ($styles as $style) {
+            if (!$html_dom->find('head', 0)->find('link[href="' . $style . '"]')) {
+                if ($html_dom->find('head > link', -1)) {
+                    $html_dom->find('head > link', -1)->outertext .= '<link href="' . $style . '" rel="stylesheet" type="text/css"/>';
+                } else {
+                    $html_dom->find('head', -1)->innertext .= '<link href="' . $style . '" rel="stylesheet" type="text/css"/>';
+                    $html_dom->load((string)$html_dom, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+                }
+            }
+        }
+        return (string)$html_dom;
     }
 }

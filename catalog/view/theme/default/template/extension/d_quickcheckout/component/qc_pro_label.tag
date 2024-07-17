@@ -15,7 +15,7 @@
     <script>
         this.mixin({store:d_quickcheckout_store});
         showAlert(){
-            alertify.getPro ($(this.root).find('.get-pro')[0]).set('selector', '#get_pro_popup');
+            alertify.getPro (dv_cash(this.root).find('.get-pro')[0]).set('selector', '#get_pro_popup');
         }
     </script>
 </qc_pro_label>

@@ -14,7 +14,7 @@
                     </span>
                     { getLanguage().custom.heading_title }
                 </h4>
-                <p class="ve-p" if={getLanguage().custom.text_description}>{  getLanguage().custom.text_description } </p>
+                <p class="ve-p" if={getLanguage().custom.text_description}><qc_raw content="{  getLanguage().custom.text_description }"></qc_raw> </p>
             </div>
             <div class="ve-card__section">
                 
@@ -25,6 +25,7 @@
                         class="qc-field ve-field qc-{field_id} { (getState().config.guest.custom.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                         sort_order={ getConfig().custom.fields[field_id].sort_order }
                         field_id={field_id}
+                        ondelete={updateFields}
                         step="custom"
                         no-reorder
                         field={ getConfig().custom.fields[field_id] }
@@ -34,13 +35,13 @@
                     ></div>
                 </form>
                 <div if={getState().edit} class="ve-mt-3">
-                    <qc_custom_field setting_id="custom_custom_field_{rand()}" step="custom" location_account="true"></qc_custom_field>
+                    <qc_custom_field setting_id="custom_custom_field" step="custom" location_account="true" onchange={updateFields}></qc_custom_field>
                 </div>
             </div>
         </div>
 
         <div if={ getConfig().custom.display == 1 && getState().config.guest.custom.style == 'clear' } class="ve-mb-3 ve-clearfix">
-            <p class="ve-p" if={getLanguage().custom.text_description}>{  getLanguage().custom.text_description } </p>
+            <p class="ve-p" if={getLanguage().custom.text_description}><qc_raw content="{  getLanguage().custom.text_description }"></qc_raw> </p>
             <form  id="custom_fields" class="custom-fields qc-row" >
                 <div 
                     each={ field_id in fields }
@@ -48,6 +49,7 @@
                     class="qc-field ve-field { (getState().config.guest.custom.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                     sort_order={ getConfig().custom.fields[field_id].sort_order }
                     field_id={field_id}
+                    ondelete={updateFields}
                     step="custom"
                     no-reorder
                     field={ getConfig().custom.fields[field_id] }
@@ -57,7 +59,7 @@
                 ></div>
             </form>
             <div if={getState().edit} class="ve-mt-3">
-                <qc_custom_field setting_id="custom_custom_field_{rand()}" step="custom" location_account="true"></qc_custom_field>
+                <qc_custom_field setting_id="custom_custom_field" step="custom" location_account="true" onchange={updateFields}></qc_custom_field>
             </div>
         </div>
 
@@ -78,6 +80,11 @@
         var tag = this;
 
         tag.fields = this.store.getFieldIds('custom');
+
+        updateFields(){
+            tag.fields = this.store.getFieldIds('custom');
+            this.update();
+        }
 
         this.on('mount', function(){
             this.store.initFieldSortable('custom');

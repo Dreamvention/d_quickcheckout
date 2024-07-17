@@ -40,11 +40,10 @@
         var tag = this;
 
         change(e){
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
         }
         switchToAddress(e){
-            console.log( $(tag.root).find('.address-select').serializeJSON())
-            this.store.dispatch(this.opts.step+'/update', $(tag.root).find('.address-select').serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(Array.from(dv_cash(tag.root).find('.address-select'))));
         }
     </script>
 </qc_address_select>

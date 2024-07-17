@@ -14,7 +14,7 @@
                     </span>
                     <span class="text">{ getLanguage().payment_method.heading_title }</span>
                 </h4>
-                <p class="ve-p" if={getLanguage().payment_method.text_description}>{  getLanguage().payment_method.text_description } </p>
+                <p class="ve-p" if={getLanguage().payment_method.text_description}><qc_raw content="{  getLanguage().payment_method.text_description }"></qc_raw> </p>
             </div>
             <div class="ve-card__section">
                 <div each={error, error_id in getError().payment_method} if={error} class="ve-alert ve-alert--danger has-error"><qc_raw content="{error}"></qc_raw></div>
@@ -31,7 +31,7 @@
                                 class="ve-input"
                                 onclick={change} />
                             <i></i>
-                            <span class="text">{ payment_method.title }</span> <span class="price">{ payment_method.text }</span>
+                            <span class="text"><qc_raw content="{ payment_method.title }"></qc_raw></span> <span class="price">{ payment_method.text }</span>
                         </label>
                     </div>
 
@@ -42,7 +42,7 @@
                             value="{ payment_method.code }"
                             selected={ getSession().payment_method.code == payment_method.code }
                             for="{ payment_method.code }">
-                            <span class="text">{ payment_method.title }</span> <span class="price">{ payment_method.text }</span>
+                            <span class="text"><qc_raw content="{ payment_method.title }"></qc_raw></span> <span class="price">{ payment_method.text }</span>
                         </option>
                     </select>
                 </form>
@@ -56,7 +56,7 @@
                 </span>
                 <span class="text">{ getLanguage().payment_method.heading_title }</span>
             </h4>
-            <p class="ve-p" if={getLanguage().payment_method.text_description}>{  getLanguage().payment_method.text_description } </p>
+            <p class="ve-p" if={getLanguage().payment_method.text_description}><qc_raw content="{  getLanguage().payment_method.text_description }"></qc_raw> </p>
             <div each={error, error_id in getError().payment_method} if={error} class="ve-alert ve-alert--danger has-error"><qc_raw content="{error}"></qc_raw></div>
             <form id="payment_method_list" if={getConfig().payment_method.display_options == 1 && getSession().payment_methods}>
                 <div if={getState().config.guest.payment_method.input_style == 'radio'}  each={ payment_method, name in getSession().payment_methods } class="ve-field" >
@@ -71,7 +71,7 @@
                             class="ve-input"
                             onclick={change} />
                         <i></i>
-                        <span class="text">{ payment_method.title }</span> <span class="price">{ payment_method.text }</span>
+                        <span class="text"><qc_raw content="{ payment_method.title }"></qc_raw></span> <span class="price">{ payment_method.text }</span>
                     </label>
                 </div>
 
@@ -82,7 +82,7 @@
                         value="{ payment_method.code }"
                         selected={ getSession().payment_method.code == payment_method.code }
                         for="{ payment_method.code }">
-                        <span class="text">{ payment_method.title }</span> <span class="price">{ payment_method.text }</span>
+                        <span class="text"><qc_raw content="{ payment_method.title }"></qc_raw></span> <span class="price">{ payment_method.text }</span>
                     </option>
                 </select>
             </form>
@@ -102,12 +102,12 @@
         var tag = this;
 
         change(e){
-            this.store.dispatch('payment_method/update', $(e.currentTarget).parents('form').serializeJSON());
+            this.store.dispatch('payment_method/update', serializeJSON(Array.from(dv_cash(e.currentTarget).parents('form'))));
         }
 
-        $(tag.root).on('click', '.ve-radio', function(){
-            $(tag.root).find('.ve-radio').removeClass(' ve-radio--selected');
-            $(this).addClass(' ve-radio--selected');
+        dv_cash(tag.root).on('click', '.ve-radio', function(){
+            dv_cash(tag.root).find('.ve-radio').removeClass(' ve-radio--selected');
+            dv_cash(this).addClass(' ve-radio--selected');
         })
 
     </script>

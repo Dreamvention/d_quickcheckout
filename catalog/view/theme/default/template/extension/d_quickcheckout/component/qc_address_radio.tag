@@ -32,7 +32,7 @@
     <script>
         this.mixin({store:d_quickcheckout_store});
         change(e){
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
         }
     </script>
 </qc_address_radio>

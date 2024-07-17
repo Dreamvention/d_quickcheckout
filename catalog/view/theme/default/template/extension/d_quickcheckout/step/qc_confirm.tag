@@ -15,7 +15,7 @@
                     </span>
                     { getLanguage().confirm.heading_title }
                 </h4>
-                <p class="ve-p" if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </p>
+                <p class="ve-p" if={getLanguage().confirm.text_description}><qc_raw content="{  getLanguage().confirm.text_description }"></qc_raw> </p>
             </div>
             <div class="ve-card__section">
                 <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().confirm.text_prev}</button>
@@ -26,7 +26,7 @@
 
         <!-- style clear -->
         <div if={ getConfig().confirm.display == 1 && getState().config.guest.confirm.style == 'clear' } class="ve-mb-3 ve-clearfix">
-            <p class="ve-p" if={getLanguage().confirm.text_description}>{  getLanguage().confirm.text_description } </p>
+            <p class="ve-p" if={getLanguage().confirm.text_description}><qc_raw content="{  getLanguage().confirm.text_description }"></qc_raw></p>
             <button if={prev == 1} class="ve-btn d-vis ve-btn--default ve-btn--lg ve-pull-left qc-page-link" onclick={prevPage}>{getLanguage().confirm.text_prev}</button>
             <button if={next == 1} disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right qc-page-link {(getSession().confirm.loading == 1)? 've-btn--loading' : ''}" onclick={nextPage}>{getLanguage().confirm.text_next}</button>
             <button if={confirm == 1} onclick={ confirmCheckout } disabled={getSession().confirm.loading == 1} class="ve-btn d-vis ve-btn--primary ve-btn--hg ve-pull-right {(getSession().confirm.loading == 1)? 've-btn--loading' : ''} ">{getLanguage().confirm.button_confirm}</button>
@@ -50,10 +50,21 @@
         tag.confirm = pages[pages.length-1] == this.store.getSession().page_id;
 
         confirmCheckout(){
-            this.store.dispatch('confirm/confirm');
+            if( getState().captcha_status == 1 && in_array( getAccount(), getState().config_captcha_page ) && getState().captcha_type == 'google'){
+                if(dv_cash('#payment_address_google_recaptcha').val() != dv_cash('textarea[name="g-recaptcha-response"]').val()){
+                    dv_cash('#payment_address_google_recaptcha').val(dv_cash('textarea[name="g-recaptcha-response"]').val());
+                }
+                this.store.dispatch('payment_address/update', serializeJSON(Array.from(dv_cash('#payment_address_google_recaptcha'))));
+                setTimeout(() => { this.store.dispatch('confirm/confirm'); }, 1000);
+            }
+            
+            else{
+                this.store.dispatch('confirm/confirm');
+            }
+            
             return false;
         }
-        
+
         nextPage(e){
             this.store.dispatch('confirm/next');
         }
@@ -63,6 +74,7 @@
         }
 
         this.on("update", function(){
+            //this.store.dispatch('payment_address/update', serializeJSON(Array.from(dv_cash('#payment_address_google_recaptcha').parents('form'))));
             tag.prev = pages[0] != this.store.getSession().page_id && this.store.getState().config.guest.confirm.buttons.prev.display == 1;
             tag.next = pages[pages.length-1] != this.store.getSession().page_id;
             tag.confirm = pages[pages.length-1] == this.store.getSession().page_id;

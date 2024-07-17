@@ -3,7 +3,8 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
     private $route = 'd_quickcheckout/custom';
 
     public $action = array(
-        'custom/update'
+        'custom/update',
+        'payment_address/update/after'
     );
 
     public function __construct($registry){
@@ -18,8 +19,7 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
      * Initialization
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/custom.js');
-
+        
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
         //set default values
@@ -38,9 +38,14 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
      * update via ajax
      */
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('custom/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('custom/update', $this->request->post);
+        $this->model_extension_d_quickcheckout_store->dispatch('custom/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('custom/update', $post);
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
 
@@ -59,16 +64,11 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
 
         //updating payment_address field values
         if($data['action'] == 'custom/update'){
-
             if(!empty($data['data']['session']['custom'])){
                 foreach($data['data']['session']['custom'] as $field => $value){
                     $this->updateField($field, $value);
-                    $update = true;
                 }
-            }
-            //REFACTOR - added other data like config and layout
-            if(!empty($data['data']['config']) || !empty($data['data']['layout'])){
-                $this->model_extension_d_quickcheckout_store->setState($data['data']);
+                $update = true;
             }
         }
 
@@ -83,6 +83,11 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
         $step = 'custom';
         $result = true;
 
+        if(!$state['config'][$state['session']['account']][$step]['display']){
+            $this->model_extension_d_quickcheckout_error->clearStepErrors($step);
+            return $result;
+        }
+
         foreach($state['session']['custom'] as $field_id => $value){
             if(!empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['display'])
             && !empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['require'])
@@ -90,19 +95,69 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
             ){
                 $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];
                 $no_errors = true;
-                foreach($errors as $error){
-                    if(is_array($error)){
-                        foreach($error as $validate => $rule){
-                            if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
-                                $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
-                                $result = false;
-                                $no_errors = false;
-                                break;
+                if(empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'])){
+                    foreach($errors as $error){
+                        if(is_array($error)){
+                            foreach($error as $validate => $rule){
+                                if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
+                                    $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
+                                    $result = false;
+                                    $no_errors = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if($no_errors){
+                            $state['errors'][$step][$field_id] = '';
+                        }
+                    }
+                } else {
+                    foreach($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'] as $dependent_field_id => $dependency){
+                        $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];
+                        foreach($dependency as $dependency_setting){
+                            if($state['session'][$step][$dependent_field_id] == $dependency_setting['value'] && $dependency_setting['display'] && $dependency_setting['require']){   
+                                foreach($errors as $error){                                                                  
+                                    if(is_array($error)){
+                                        foreach($error as $validate => $rule){
+                                            
+                                            if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
+                                                $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
+                                                $result = false;
+                                                $no_errors = false;
+                                                break;
+                                            }
+            
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    if($no_errors){
-                        $state['errors'][$step][$field_id] = '';
+                }
+            }else if (!empty($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'])){
+                $state['errors'][$step][$field_id] = '';
+                foreach($state['config'][$state['session']['account']][$step]['fields'][$field_id]['depends'] as $dependent_field_id => $dependency){
+
+                    $errors = $state['config'][$state['session']['account']][$step]['fields'][$field_id]['errors'];
+
+                    foreach($dependency as $dependency_setting){
+                        if($state['session'][$step][$dependent_field_id] == $dependency_setting['value'] && $dependency_setting['display'] && $dependency_setting['require']){ 
+                            foreach($errors as $error){                           
+                                if(is_array($error)){
+                                    foreach($error as $validate => $rule){
+                                        
+                                        if(!$this->model_extension_d_quickcheckout_error->$validate($rule, $value)){
+                                            $state['errors'][$step][$field_id] = $this->model_extension_d_quickcheckout_error->text($error['text'], $value);
+                                            $result = false;
+                                            $no_errors = false;
+                                            break;
+                                        }
+                                        
+                                    
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }else{
@@ -121,6 +176,9 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
      * logic for updating fields
      */
     private function updateField($field, $value){
+        if (in_array($field, array('custom_field'))) {
+            return ;
+        }
         $state['session']['custom'][$field] = $value;
         if($this->validateField($field, $value)){
             switch ($field){
@@ -142,7 +200,6 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
                                 $custom_field_id = $part[2];
                             }
                         }
-                        
                     }
                     if(isset($location)){
                         $this->model_extension_d_quickcheckout_store->updateState(array('session', 'custom', 'custom_field', $location, $custom_field_id),  $value);
@@ -171,6 +228,17 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
                 $result[$account]['custom'] = $settings['config'][$account]['custom'];
             }else{
                 $result[$account]['custom'] = array_replace_recursive($config, $value);
+            }
+        }
+
+        foreach ($result[$account]['custom']['fields'] as $key => &$field) {
+            if (stripos($key, 'custom-') !== false) {
+                if (isset($field['type']) && ($field['type'] == 'select' || $field['type'] == 'radio')) {
+                    $custom_field_options = $this->model_extension_d_quickcheckout_address->getCustomFieldOptions($field['custom_field_id']);
+                    if ($custom_field_options) {
+                        $field['options'] = $custom_field_options;
+                    }
+                }
             }
         }
 
@@ -216,7 +284,7 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
      * Default state
      */
     private function getDefault($populate = true){
-
+        $clear_session = $this->config->get('d_quickcheckout_clear_session');
         $custom = array();
         $state = $this->model_extension_d_quickcheckout_store->getState();
         if($populate){
@@ -226,15 +294,15 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
         }
         $default = $state['config'][$state['session']['account']]['custom']['fields'];
         $address = array(
-            'comment' => (isset($custom['comment'])) ? $custom['comment'] : $default['comment']['value'],
-            'agree' => (isset($custom['agree'])) ? $custom['agree'] : $default['agree']['value'],
+            'comment' => (!$clear_session && isset($custom['comment'])) ? $custom['comment'] : $default['comment']['value'],
+            'agree' => (!$clear_session && isset($custom['agree'])) ? $custom['agree'] : $default['agree']['value'],
             'custom_field' => array()
         );
 
         //init custom fields
         foreach($default as $key => $field){
             if(!empty($field['custom'])){
-                $address[$key] = $field['value'];
+                $address[$key] = (!$clear_session && isset($custom[$key])) ? $custom[$key] : $field['value'];
 
                 $part = explode('-', $key);
                 if(isset($part[2]) && is_numeric($part[2])){
@@ -246,7 +314,7 @@ class ControllerExtensionDQuickcheckoutCustom extends Controller {
 
                 $custom_field = array( 
                     $location => array( 
-                        $custom_field_id => $field['value']
+                        $custom_field_id => ((!$clear_session && isset($custom[$key])) ? $custom[$key] : $field['value'])
                     )
                 );
                 $address['custom_field'] = array_merge($address['custom_field'], $custom_field);

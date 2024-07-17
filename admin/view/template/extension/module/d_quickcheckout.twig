@@ -125,14 +125,47 @@
                                                 <input type="checkbox" name="{{codename}}_status" class="switcher" data-label-text="{{text_enabled}}"id="input_status"  {{attribute(_context, codename~'_status') ? 'checked="checked"' }} value="1" />
                                             </div>
                                         </div><!-- //status -->
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input-compress-files">{{entry_compress_files}}</label>
+                                            <div class="col-sm-2">
+                                                <input type="hidden" name="{{codename}}_compress_files" value="0" />
+                                                <input type="checkbox" name="{{codename}}_compress_files" class="switcher" data-label-text="{{text_enabled}}" id="input-compress-files" {{ attribute(_context, codename~'_compress_files') ? 'checked="checked"' }} value="1" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-primary btn-block" id="compress_update"><i class="fa fa-refresh"></i> {{button_compress_update}}</button>
+                                            </div>
+                                            <div id="compress-notification" class="col-sm-offset-4 help-block col-sm-8" >
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="input_rtl">{{entry_rtl}}</label>
-                                            <div class="col-sm-10">                                     
-                                                <input type="hidden" name="{{codename}}_rtl" value="0" />
-                                                <input type="checkbox" name="{{codename}}_rtl" class="switcher" data-label-text="{{text_enabled}}" id="input_rtl"  {{attribute(_context, codename~'_rtl') ? 'checked="checked"' }} value="1" />
+                                            <label class="col-sm-2 control-label" for="input-compress-files">{{entry_clear_session}}</label>
+                                            <div class="col-sm-2">
+                                                <input type="hidden" name="{{codename}}_clear_session" value="0" />
+                                                <input type="checkbox" name="{{codename}}_clear_session" class="switcher" data-label-text="{{text_enabled}}" id="input-clear-session" {{ attribute(_context, codename~'_clear_session') ? 'checked="checked"' }} value="1" />
                                             </div>
-                                        </div><!-- //rtl -->
+                                        </div>
+                                        
+                                        {% for language in languages %}
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input_rtl[{{ language.code }}]">{{entry_rtl}}</label>                              
+                                        
+                                            <div class="col-sm-6">
+                                            <div class="language-flag" style="margin-top: 10px; padding-bottom: 10px;">
+                                            {% if version_opencart < '2.2.0.0' %}
+                                            <img src="view/image/flags/{{ language.image }}" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+                                            {% else %}
+                                            <img src="language/{{ language.code }}/{{ language.code }}.png" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+                                                
+                                            {% endif %} 
+                                            </div>      
+                                                <input type="hidden" name="{{codename}}_rtl[{{ language.code }}]" value="0" />
+                                                <input type="checkbox" name="{{codename}}_rtl[{{ language.code }}]" class="switcher" data-label-text="{{text_enabled}}" id="input_rtl[{{ language.code }}]"  {{attribute(_context, 'd_quickcheckout_rtl['~ language.code ~']') ? 'checked="checked"' }} value="1" />
+                                            </div>
+                                            
+                                        </div>                               
+                                        {% endfor %}
+                                        <!-- //rtl -->
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="input_status">{{entry_support}}</label>
@@ -292,7 +325,10 @@ $(function () {
                 $('#form').fadeTo('slow', 1);
             },
             success: function( response ) {
-                console.log( response );
+                console.log( $('#form').attr('action') + '&save' );
+            },
+            error: function(error){
+                console.log(error);
             }
         });
     });
@@ -355,6 +391,30 @@ $(function () {
         });
 
     })
+
+    $(document).on('click', '#compress_update', function (e) {
+        $.ajax({
+            url: '{{compress_action}}',
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function () {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function () {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function (json) {
+                $('#compress-notification .alert').remove();
+                if (json['success']) {
+                    $('#compress-notification').prepend('<div class="alert alert-success alert-inline">' + json['success'] + '</div>')
+                }
+                if (json['error']) {
+                    $('#compress-notification').prepend('<div class="alert alert-warning alert-inline">' + json['error'] + '</div>')
+                }
+            }
+        });
+        e.preventDefault();
+    });
 
     $(document).on('click', '.editor', function(){
 

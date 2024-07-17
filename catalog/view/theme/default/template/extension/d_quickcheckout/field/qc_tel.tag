@@ -8,7 +8,7 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field.id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ (opts.field.require == 1) } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <input
@@ -135,48 +135,45 @@
         }
 
         change(e){
-            var $iso2 = $('.'+ this.opts.ste + '-' + this.opts.field.id + '-iso2');
-            $iso2.val($(e.currentTarget).intlTelInput("getSelectedCountryData").iso2); 
-
-            if(this.opts.field.validation == '1'){
+            if(this.opts.field.validation == '1' && !this.store.getState().edit){
+                var iso2 = document.getElementsByClassName(this.opts.step + '-' + this.opts.field.id + '-iso2').length ? document.getElementsByClassName(this.opts.step + '-' + this.opts.field.id + '-iso2')[0] : null;
+                if (iso2) iso2.value = intlTelInput(e.currentTarget).getSelectedCountryData()?.iso2 ? intlTelInput(e.currentTarget).getSelectedCountryData().iso2 : ''; 
                 
-                $(e.currentTarget).val($(e.currentTarget).intlTelInput("getNumber"));
+                e.currentTarget.value = intlTelInput(e.currentTarget).getNumber();
             
-                if ($.trim($(e.currentTarget).val())) {
-                    if ($(e.currentTarget).intlTelInput("isValidNumber")) {
-
-                        error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
-                        
+                if (e.currentTarget.value.trim()) {
+                    if (intlTelInput(e.currentTarget).isValidNumber()) {
+                        error = this.store.validate(e.currentTarget.value, this.opts.field.errors);
                     } else {
                         error = 'error_telephone_telephone';
                     }
+                    this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error });
                 }
-                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error });
+                
             }
 
-            var data = $(e.currentTarget).serializeJSON();
-            data = $.extend(true, data, $iso2.serializeJSON());
+            var data = serializeJSON(e.currentTarget);
+
+            if (iso2) data = d_quickcheckout_lodash.merge(data, serializeJSON(iso2));
 
             
             this.store.dispatch(this.opts.step+'/update', data);
         }
 
         initIntlTelInput(){
-            if(this.store.getState().edit){
-                $('#' + this.opts.step + '_' + this.opts.field_id).intlTelInput("destroy");
-            }
-            if(this.opts.field.validation == '1'){
+            if(this.opts.field.validation == '1' && !this.store.getState().edit && document.getElementById(this.opts.step + '_' + this.opts.field_id)){
                 var onlyCountries = [];
                 if(this.opts.field.countries){
                     onlyCountries = this.opts.field.countries.split(',');
                 }
-                $('#' + this.opts.step + '_' + this.opts.field_id).intlTelInput({
+                
+                intlTelInput(document.getElementById(this.opts.step + '_' + this.opts.field_id), {
                   initialCountry: "auto",
                   nationalMode: false,
                   onlyCountries: onlyCountries,
                   geoIpLookup: function(callback) {
-                    $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                      var countryCode = (resp && resp.country) ? resp.country : "";
+                    axios.get('https://ipinfo.io').then(function(resp) {
+                        var countryCode = (resp?.data && resp.data?.country) ? resp.data.country : "";
                       callback(countryCode);
                     });
                   }
@@ -185,32 +182,19 @@
         }
 
         initMask(){
-            if(this.opts.field.mask){
-                $('#' + this.opts.step + '_' + this.opts.field_id).mask(this.opts.field.mask);
-            }else{
-                $('#' + this.opts.step + '_' + this.opts.field_id).unmask();
+            if(this.opts.field.mask && document.getElementById(this.opts.step + '_' + this.opts.field_id)){
+                IMask(document.getElementById(this.opts.step + '_' + this.opts.field_id), this.opts.field.mask);
             }
-        }
-
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
         }
 
         this.on('mount', function(){
             this.initIntlTelInput();
             this.initMask();
-            this.initTooltip();
-        })
+        });
 
         this.on('updated', function(){
             this.initIntlTelInput();
-            this.initMask();
-            this.initTooltip();
-            
-        })
+        });
         
     </script>
 </qc_field_tel>

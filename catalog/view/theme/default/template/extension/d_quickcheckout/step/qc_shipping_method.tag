@@ -15,7 +15,7 @@
                     </span>
                     <span class="text">{ getLanguage().shipping_method.heading_title }</span>
                 </h4>
-                <p class="ve-p" if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </p>
+                <p class="ve-p" if={getLanguage().shipping_method.text_description}><qc_raw content="{  getLanguage().shipping_method.text_description }"></qc_raw> </p>
             </div>
 
             <div class="ve-card__section">
@@ -27,7 +27,7 @@
                     each={ shipping_method, name in getSession().shipping_methods } 
                     class="radio-input" >
                         <div if={shipping_method}>
-                            <p if={getState().config.guest.shipping_method.display_group_title == 1} class="qc-title">{ shipping_method.title }</p>
+                            <p if={getState().config.guest.shipping_method.display_group_title == 1} class="qc-title"><qc_raw content="{ shipping_method.title }"></qc_raw></p>
                             <div class="ve-field" each={ quote, index in shipping_method.quote } >
                                 <label  for="{ quote.code }" class="ve-radio {getSession().shipping_method.code == quote.code ? 've-radio--selected' : ''}">
                                     <input
@@ -39,7 +39,7 @@
                                     checked={ getSession().shipping_method.code == quote.code }
                                     onclick={change}/>
                                     <i></i>
-                                    <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                                    <span class="text"><qc_raw content="{ quote.title }"></qc_raw></span> <span class="price">{ quote.text }</span>
                                 </label>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                     each={ quote, index in shipping_method.quote } 
                                     selected={ getSession().shipping_method.code == quote.code }
                                     value="{ quote.code }">
-                                    <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                                    <span class="text"><qc_raw content="{ quote.title }"></qc_raw></span> <span class="price">{ quote.text }</span>
                                 </option>
                             </optgroup>
                         </select>
@@ -64,7 +64,7 @@
                                 each={ quote, index in flattenShippingMethods() } 
                                 selected={ getSession().shipping_method.code == quote.code }
                                 value="{ quote.code }">
-                                <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                                <span class="text"><qc_raw content="{ quote.title }"></qc_raw></span> <span class="price">{ quote.text }</span>
                             </option>
                         </select>
                     </div>
@@ -80,7 +80,7 @@
                 </span>
                 <span class="text">{ getLanguage().shipping_method.heading_title }</span>
             </h4>
-            <p class="ve-p" if={getLanguage().shipping_method.text_description}>{  getLanguage().shipping_method.text_description } </p>
+            <p class="ve-p" if={getLanguage().shipping_method.text_description}><qc_raw content="{  getLanguage().shipping_method.text_description }"></qc_raw></p>
 
             <div each={error, error_id in getError().shipping_method} if={error} class="alert alert-danger ve-field--error"><qc_raw content="{error}"></qc_raw></div>
             <form id="shipping_method_list" if={getState().config.guest.shipping_method.display_options == 1 && getSession().shipping_methods}>
@@ -90,7 +90,7 @@
                 each={ shipping_method, name in getSession().shipping_methods } 
                 class="radio-input" >
                     <div if={shipping_method}>
-                        <p if={getState().config.guest.shipping_method.display_group_title == 1} class="qc-title">{ shipping_method.title }</p>
+                        <p if={getState().config.guest.shipping_method.display_group_title == 1} class="qc-title"><qc_raw content="{ shipping_method.title }"></qc_raw></p>
                         <div class="ve-field" each={ quote, index in shipping_method.quote } >
                             <label  for="{ quote.code }" class="ve-radio {getSession().shipping_method.code == quote.code ? 've-radio--selected' : ''}">
                                 <input
@@ -102,7 +102,7 @@
                                 checked={ getSession().shipping_method.code == quote.code }
                                 onclick={change}/>
                                 <i></i>
-                                <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                                <span class="text"><qc_raw content="{ quote.title }"></qc_raw></span> <span class="price">{ quote.text }</span>
                             </label>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                                 each={ quote, index in shipping_method.quote } 
                                 selected={ getSession().shipping_method.code == quote.code }
                                 value="{ quote.code }">
-                                <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                                <span class="text"><qc_raw content="{ quote.title }"></qc_raw></span> <span class="price">{ quote.text }</span>
                             </option>
                         </optgroup>
                     </select>
@@ -127,7 +127,7 @@
                             each={ quote, index in flattenShippingMethods() } 
                             selected={ getSession().shipping_method.code == quote.code }
                             value="{ quote.code }">
-                            <span class="text">{ quote.title }</span> <span class="price">{ quote.text }</span>
+                            <span class="text"><qc_raw content="{ quote.title }"></qc_raw></span> <span class="price">{ quote.text }</span>
                         </option>
                     </select>
                 </div>
@@ -146,7 +146,7 @@
         var tag = this;
         
         change(e){
-            this.store.dispatch('shipping_method/update', $(e.currentTarget).parents('form').serializeJSON());
+            this.store.dispatch('shipping_method/update', serializeJSON(Array.from(dv_cash(e.currentTarget).parents('form'))));
         }
 
         flattenShippingMethods(){
@@ -161,9 +161,9 @@
             return result;
         }
 
-        $(tag.root).on('click', '.ve-radio', function(){
-            $(tag.root).find('.ve-radio').removeClass('ve-radio--selected');
-            $(this).addClass('ve-radio--selected');
+        dv_cash(tag.root).on('click', '.ve-radio', function(){
+            dv_cash(tag.root).find('.ve-radio').removeClass('ve-radio--selected');
+            dv_cash(this).addClass('ve-radio--selected');
         })
     </script>
 </qc_shipping_method>

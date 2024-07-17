@@ -41,9 +41,11 @@
       type = _obj.type; // type defined from the input name in :type colon notation
       if (!type) type = f.tryToFindTypeFromDataAttr(name, $form); // type defined in the data-value-type attr
       f.validateType(name, type, opts); // make sure that the type is one of the valid types if defined
-
+      
       if (type !== 'skip') { // ignore elements with type 'skip'
+
         keys = f.splitInputNameIntoKeysArray(nameWithNoType);
+        
         value = f.parseValue(value, name, type, opts); // convert to string, number, boolean, null or customType
         f.deepSet(serializedObject, keys, value, opts);
       }
@@ -100,6 +102,7 @@
 
       // Return computed options (opts to be used in the rest of the script)
       parseAll = optWithDefault('parseAll');
+      console.log((options['defaultTypes'] !== false) && (options['defaultTypes'] !== ''))
       return {
         checkboxUncheckedValue:    optWithDefault('checkboxUncheckedValue'),
 

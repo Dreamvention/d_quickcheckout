@@ -33,8 +33,50 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
       store_name = '" . $this->db->escape($this->config->get('config_name')) . "',
       store_url = '" . $this->db->escape(($this->config->get('config_store_id')) ? $this->config->get('config_url') : HTTP_SERVER) . "',
       total = '" . (float) $total . "',
+      firstname = '',
+      lastname = '',
+      email = '',
+      telephone = '',
+      fax = '',
+      custom_field = '',
+
+      payment_firstname = '',
+      payment_lastname = '',
+      payment_company = '',
+      payment_address_1 = '',
+      payment_address_2 = '',
+      payment_city = '',
+      payment_postcode = '',
+      payment_country = '',
       payment_country_id = '" . (int) $data['payment_country_id'] . "',
       payment_zone_id = '" . (int) $data['payment_zone_id'] . "',
+      payment_zone = '',
+      payment_address_format = '',
+      payment_custom_field = '',
+
+      payment_method = '',
+      payment_code = '',
+
+      shipping_firstname = '',
+      shipping_lastname = '',
+      shipping_company = '',
+      shipping_address_1 = '',
+      shipping_address_2 = '',
+      shipping_city = '',
+      shipping_postcode = '',
+      shipping_country = '',
+      shipping_country_id = '0',
+      shipping_zone = '',
+      shipping_zone_id = '0',
+      shipping_address_format = '',
+      shipping_custom_field = '',
+
+      shipping_method = '',
+      shipping_code = '',
+
+      comment = '" . $this->db->escape(isset($data['comment']) ? $data['comment'] : '') . "',
+      tracking = '',
+      marketing_id = 0,
       affiliate_id = '" . (int) $data['affiliate_id'] . "',
       commission = '" . (float) $data['commission'] . "',
       language_id = '" . (int)  $this->config->get('config_language_id') . "',
@@ -86,6 +128,7 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
     $data = $this->preparePaymentMethodData($data);
     $data = $this->prepareCartData($data);
     $data = $this->prepareMarketingData($data);
+    $data = $this->prepareCustomData($data);
 
     if(!isset($this->session->data['order_id'])){
         return false;
@@ -96,6 +139,7 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
     if(VERSION < '2.3.0.0'){
         $this->event->trigger('pre.order.add', $data);
     }
+    
 //refactor - create full $data
     $query = "UPDATE `" . DB_PREFIX . "order` SET
       customer_id = '" . (int) $data['customer_id'] . "',
@@ -141,7 +185,7 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
       shipping_method = '" . $this->db->escape($data['shipping_method']) . "',
       shipping_code = '" . $this->db->escape($data['shipping_code']) . "',
 
-      comment = '" . $this->db->escape($data['comment']) . "',
+      comment = '" . $this->db->escape(isset($data['comment']) ? $data['comment'] : '') . "',
 
       total = '" . (float) $total_data['total'] . "',
       affiliate_id = '" . (int) $data['affiliate_id'] . "',
@@ -310,12 +354,12 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
         }
       } elseif (isset($this->session->data['payment_address'])) {
         $data['customer_id'] = 0;
-        $data['customer_group_id'] = $this->session->data['payment_address']['customer_group_id'];
-        $data['firstname'] = $this->session->data['payment_address']['firstname'];
-        $data['lastname'] = $this->session->data['payment_address']['lastname'];
-        $data['email'] = $this->session->data['payment_address']['email'];
-        $data['telephone'] = $this->session->data['payment_address']['telephone'];
-        $data['fax'] = $this->session->data['payment_address']['fax'];
+        $data['customer_group_id'] = isset($this->session->data['payment_address']['customer_group_id']) ? $this->session->data['payment_address']['customer_group_id'] : '';
+        $data['firstname'] = isset($this->session->data['payment_address']['firstname']) ? $this->session->data['payment_address']['firstname'] : '';
+        $data['lastname'] = isset($this->session->data['payment_address']['lastname']) ? $this->session->data['payment_address']['lastname'] : '';
+        $data['email'] = isset($this->session->data['payment_address']['email']) ? $this->session->data['payment_address']['email'] : '';
+        $data['telephone'] = isset($this->session->data['payment_address']['telephone']) ? $this->session->data['payment_address']['telephone'] : '';
+        $data['fax'] = isset($this->session->data['payment_address']['fax']) ? $this->session->data['payment_address']['fax'] : '';
         $data['custom_field'] = (isset($this->session->data['payment_address']['custom_field']['account'])) ? $this->session->data['payment_address']['custom_field']['account'] : array();
       }
 
@@ -367,22 +411,22 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
       $data['payment_zone_code'] = '';
 
       if(isset($this->session->data['payment_address'])){
-        $data['payment_firstname'] = $this->session->data['payment_address']['firstname'];
-        $data['payment_lastname'] = $this->session->data['payment_address']['lastname'];
-        $data['payment_company'] = $this->session->data['payment_address']['company'];
-        $data['payment_address_1'] = $this->session->data['payment_address']['address_1'];
-        $data['payment_address_2'] = $this->session->data['payment_address']['address_2'];
-        $data['payment_city'] = $this->session->data['payment_address']['city'];
-        $data['payment_postcode'] = $this->session->data['payment_address']['postcode'];
-        $data['payment_zone'] = $this->session->data['payment_address']['zone'];
-        $data['payment_zone_id'] = $this->session->data['payment_address']['zone_id'];
-        $data['payment_country'] = $this->session->data['payment_address']['country'];
-        $data['payment_country_id'] = $this->session->data['payment_address']['country_id'];
-        $data['payment_address_format'] = $this->session->data['payment_address']['address_format'];
+        $data['payment_firstname'] = isset($this->session->data['payment_address']['firstname']) ? $this->session->data['payment_address']['firstname'] : '';
+        $data['payment_lastname'] = isset($this->session->data['payment_address']['lastname']) ? $this->session->data['payment_address']['lastname'] : '';
+        $data['payment_company'] = isset($this->session->data['payment_address']['company']) ? $this->session->data['payment_address']['company'] : '';
+        $data['payment_address_1'] = isset($this->session->data['payment_address']['address_1']) ? $this->session->data['payment_address']['address_1'] : '';
+        $data['payment_address_2'] = isset($this->session->data['payment_address']['address_2']) ? $this->session->data['payment_address']['address_2'] : '';
+        $data['payment_city'] = isset($this->session->data['payment_address']['city']) ? $this->session->data['payment_address']['city'] : '';
+        $data['payment_postcode'] = isset($this->session->data['payment_address']['postcode']) ? $this->session->data['payment_address']['postcode'] : '';
+        $data['payment_zone'] = isset($this->session->data['payment_address']['zone']) ? $this->session->data['payment_address']['zone'] : '';
+        $data['payment_zone_id'] = isset($this->session->data['payment_address']['zone_id']) ? $this->session->data['payment_address']['zone_id'] : '';
+        $data['payment_country'] = isset($this->session->data['payment_address']['country']) ? $this->session->data['payment_address']['country'] : '';
+        $data['payment_country_id'] = isset($this->session->data['payment_address']['country_id']) ? $this->session->data['payment_address']['country_id'] : '';
+        $data['payment_address_format'] = isset($this->session->data['payment_address']['address_format']) ? $this->session->data['payment_address']['address_format'] : '';
         $data['payment_custom_field'] = (isset($this->session->data['payment_address']['custom_field']['address']) ? $this->session->data['payment_address']['custom_field']['address'] : array());
-        $data['payment_iso_code_2'] = $this->session->data['payment_address']['iso_code_2'];
-        $data['payment_iso_code_3'] =  $this->session->data['payment_address']['iso_code_3'];
-        $data['payment_zone_code'] =  $this->session->data['payment_address']['zone_code'];
+        $data['payment_iso_code_2'] = isset($this->session->data['payment_address']['iso_code_2']) ? $this->session->data['payment_address']['iso_code_2'] : '';
+        $data['payment_iso_code_3'] =  isset($this->session->data['payment_address']['iso_code_3']) ? $this->session->data['payment_address']['iso_code_3'] : '';
+        $data['payment_zone_code'] =  isset($this->session->data['payment_address']['zone_code']) ? $this->session->data['payment_address']['zone_code'] : '';
       }
   //refactor - move this check to database insert. because we need a valid array for the events
       if (VERSION >= '2.1.0.1') {
@@ -414,39 +458,39 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
       $data['shipping_zone_code'] = '';
 
       if ($this->cart->hasShipping()) {
-        if(!$this->session->data['payment_address']['shipping_address']){
-          $data['shipping_firstname'] = $this->session->data['shipping_address']['firstname'];
-          $data['shipping_lastname'] = $this->session->data['shipping_address']['lastname'];
-          $data['shipping_company'] = $this->session->data['shipping_address']['company'];
-          $data['shipping_address_1'] = $this->session->data['shipping_address']['address_1'];
-          $data['shipping_address_2'] = $this->session->data['shipping_address']['address_2'];
-          $data['shipping_city'] = $this->session->data['shipping_address']['city'];
-          $data['shipping_postcode'] = $this->session->data['shipping_address']['postcode'];
-          $data['shipping_zone'] = $this->session->data['shipping_address']['zone'];
-          $data['shipping_zone_id'] = $this->session->data['shipping_address']['zone_id'];
-          $data['shipping_country'] = $this->session->data['shipping_address']['country'];
-          $data['shipping_country_id'] = $this->session->data['shipping_address']['country_id'];
-          $data['shipping_address_format'] = $this->session->data['shipping_address']['address_format'];
+        if(empty($this->session->data['payment_address']['shipping_address'])){
+          $data['shipping_firstname'] = !empty($this->session->data['shipping_address']['firstname']) ? $this->session->data['shipping_address']['firstname'] : '';
+          $data['shipping_lastname'] = !empty($this->session->data['shipping_address']['lastname']) ? $this->session->data['shipping_address']['lastname'] : '';
+          $data['shipping_company'] = !empty($this->session->data['shipping_address']['company']) ? $this->session->data['shipping_address']['company'] : '';
+          $data['shipping_address_1'] = !empty($this->session->data['shipping_address']['address_1']) ? $this->session->data['shipping_address']['address_1'] : '';
+          $data['shipping_address_2'] = !empty($this->session->data['shipping_address']['address_2']) ? $this->session->data['shipping_address']['address_2'] : '';
+          $data['shipping_city'] = !empty($this->session->data['shipping_address']['city']) ? $this->session->data['shipping_address']['city'] : '';
+          $data['shipping_postcode'] = !empty($this->session->data['shipping_address']['postcode']) ? $this->session->data['shipping_address']['postcode'] : '';
+          $data['shipping_zone'] = !empty($this->session->data['shipping_address']['zone']) ? $this->session->data['shipping_address']['zone'] : '';
+          $data['shipping_zone_id'] = !empty($this->session->data['shipping_address']['zone_id']) ? $this->session->data['shipping_address']['zone_id'] : '';
+          $data['shipping_country'] = !empty($this->session->data['shipping_address']['country']) ? $this->session->data['shipping_address']['country'] : '';
+          $data['shipping_country_id'] = !empty($this->session->data['shipping_address']['country_id']) ? $this->session->data['shipping_address']['country_id'] : '';
+          $data['shipping_address_format'] = !empty($this->session->data['shipping_address']['address_format']) ? $this->session->data['shipping_address']['address_format'] : '';
           $data['shipping_custom_field'] = (isset($this->session->data['shipping_address']['custom_field']['address']) ? $this->session->data['shipping_address']['custom_field']['address'] : array());
-          $data['shipping_iso_code_2'] = $this->session->data['shipping_address']['iso_code_2'];
-  				$data['shipping_iso_code_3'] =  $this->session->data['shipping_address']['iso_code_3'];
-          $data['shipping_zone_code'] =  $this->session->data['shipping_address']['zone_code'];
+          $data['shipping_iso_code_2'] = !empty($this->session->data['shipping_address']['iso_code_2']) ? $this->session->data['shipping_address']['iso_code_2'] : '';
+  				$data['shipping_iso_code_3'] =  !empty($this->session->data['shipping_address']['iso_code_3']) ? $this->session->data['shipping_address']['iso_code_3'] : '';
+          $data['shipping_zone_code'] =  !empty($this->session->data['shipping_address']['zone_code']) ? $this->session->data['shipping_address']['zone_code'] : '';
         }else{
-          $data['shipping_firstname'] = $this->session->data['payment_address']['firstname'];
-          $data['shipping_lastname'] = $this->session->data['payment_address']['lastname'];
-          $data['shipping_company'] = $this->session->data['payment_address']['company'];
-          $data['shipping_address_1'] = $this->session->data['payment_address']['address_1'];
-          $data['shipping_address_2'] = $this->session->data['payment_address']['address_2'];
-          $data['shipping_city'] = $this->session->data['payment_address']['city'];
-          $data['shipping_postcode'] = $this->session->data['payment_address']['postcode'];
-          $data['shipping_zone'] = $this->session->data['payment_address']['zone'];
-          $data['shipping_zone_id'] = $this->session->data['payment_address']['zone_id'];
-          $data['shipping_country'] = $this->session->data['payment_address']['country'];
-          $data['shipping_country_id'] = $this->session->data['payment_address']['country_id'];
-          $data['shipping_address_format'] = $this->session->data['payment_address']['address_format'];
-          $data['shipping_iso_code_2'] = $this->session->data['payment_address']['iso_code_2'];
-  				$data['shipping_iso_code_3'] =  $this->session->data['payment_address']['iso_code_3'];
-          $data['shipping_zone_code'] =  $this->session->data['payment_address']['zone_code'];
+          $data['shipping_firstname'] = !empty($this->session->data['payment_address']['firstname']) ? $this->session->data['payment_address']['firstname'] : '';
+          $data['shipping_lastname'] = !empty($this->session->data['payment_address']['lastname']) ? $this->session->data['payment_address']['lastname'] : '';
+          $data['shipping_company'] = !empty($this->session->data['payment_address']['company']) ? $this->session->data['payment_address']['company'] : '';
+          $data['shipping_address_1'] = !empty($this->session->data['payment_address']['address_1']) ? $this->session->data['payment_address']['address_1'] : '';
+          $data['shipping_address_2'] = !empty($this->session->data['payment_address']['address_2']) ? $this->session->data['payment_address']['address_2'] : '';
+          $data['shipping_city'] = !empty($this->session->data['payment_address']['city']) ? $this->session->data['payment_address']['city'] : '';
+          $data['shipping_postcode'] = !empty($this->session->data['payment_address']['postcode']) ? $this->session->data['payment_address']['postcode'] : '';
+          $data['shipping_zone'] = !empty($this->session->data['payment_address']['zone']) ? $this->session->data['payment_address']['zone'] : '';
+          $data['shipping_zone_id'] = !empty($this->session->data['payment_address']['zone_id']) ? $this->session->data['payment_address']['zone_id'] : '';
+          $data['shipping_country'] = !empty($this->session->data['payment_address']['country']) ? $this->session->data['payment_address']['country'] : '';
+          $data['shipping_country_id'] = !empty($this->session->data['payment_address']['country_id']) ? $this->session->data['payment_address']['country_id'] : '';
+          $data['shipping_address_format'] = !empty($this->session->data['payment_address']['address_format']) ? $this->session->data['payment_address']['address_format'] : '';
+          $data['shipping_iso_code_2'] = !empty($this->session->data['payment_address']['iso_code_2']) ? $this->session->data['payment_address']['iso_code_2'] : '';
+  				$data['shipping_iso_code_3'] =  !empty($this->session->data['payment_address']['iso_code_3']) ? $this->session->data['payment_address']['iso_code_3'] : '';
+          $data['shipping_zone_code'] =  !empty($this->session->data['payment_address']['zone_code']) ? $this->session->data['payment_address']['zone_code'] : '';
         }
       }
 
@@ -456,6 +500,33 @@ class ModelExtensionDQuickcheckoutOrder extends Model {
       } else {
           $data['shipping_custom_field'] = serialize($data['shipping_custom_field']);
       }
+      return $data;
+    }
+
+    public function prepareCustomData($data = array()){
+      if (isset($data['custom_field'])) {
+          if (VERSION >= '2.1.0.1') {
+              $data['custom_field'] = json_decode($data['custom_field'], true);
+          } else {
+              $data['custom_field'] = unserialize($data['custom_field']);
+          }
+      }
+
+      if (!isset($data['custom_field']) || !is_array($data['custom_field'])) {
+          $data['custom_field'] = array();
+      }
+
+      if (isset($this->session->data['custom']['custom_field']['account'])) {     
+          $data['custom_field'] = $data['custom_field'] + $this->session->data['custom']['custom_field']['account'];
+      }
+
+
+      if (VERSION >= '2.1.0.1') {
+          $data['custom_field'] = json_encode($data['custom_field']);
+      } else {
+          $data['custom_field'] = serialize($data['custom_field']);
+      }
+      
       return $data;
     }
 

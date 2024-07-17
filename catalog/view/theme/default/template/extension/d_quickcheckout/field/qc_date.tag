@@ -8,7 +8,7 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field_id }">
             { getLanguage()[opts.step][opts.field.text] }
             <span if={ isRequired() } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[parent.opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[parent.opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
 
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
@@ -96,10 +96,10 @@
                 var field_value = tag.store.getSession()[tag.opts.step][depend_field_id];
 
                 for (var depend_field_value_id in field.depends[depend_field_id]){
-                    var depend_field_value = field.depends[depend_field_id][depend_field_value_id].value
+                    var depend_field_value = field.depends[depend_field_id][depend_field_value_id].value;
 
                     if(depend_field_value == field_value){
-                        return (field.depends[depend_field_id][depend_field_value_id].display == 1)
+                        return (field.depends[depend_field_id][depend_field_value_id].display == 1);
                     }
                 }
 
@@ -116,10 +116,10 @@
                 var field_value = tag.store.getSession()[tag.opts.step][depend_field_id];
 
                 for (var depend_field_value_id in field.depends[depend_field_id]){
-                    var depend_field_value = field.depends[depend_field_id][depend_field_value_id].value
+                    var depend_field_value = field.depends[depend_field_id][depend_field_value_id].value;
 
                     if(depend_field_value == field_value){
-                        return (field.depends[depend_field_id][depend_field_value_id].require == 1)
+                        return (field.depends[depend_field_id][depend_field_value_id].require == 1);
                     }
                 }
 
@@ -129,50 +129,38 @@
         }
 
         change(e){
-            error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+            error = this.store.validate(dv_cash(e.currentTarget).val(), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
         }
 
         initDate(){
-            $('#' + this.opts.step + '_' + this.opts.field_id).datetimepicker({
-                language: this.store.getSession().language,
-                pickTime: false
-            }).on('dp.change', function(e){
-                error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
-                this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-                this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
-                $('#' + this.opts.step + '_' + this.opts.field_id).focusout();
-            }.bind(this));
+            var locale = this.store.getSession().language.split('-');
+            locale = locale[0];
+            d_quickcheckout_flatpickr('#' + this.opts.step + '_' + this.opts.field_id, {
+                locale: locale,
+                pickTime: false,
+                onChange: function(selectedDates, dateStr, e) {
+                    error = tag.store.validate(dv_cash(e.input).val(), tag.opts.field.errors);
+                    tag.store.dispatch(tag.opts.step+'/error', { 'field_id' : tag.opts.field_id, 'error': error});
+                    tag.store.dispatch(tag.opts.step+'/update', serializeJSON(e.input));
+                }
+            });
         }
 
         initMask(){
-            if(this.opts.field.mask){
-                $('#' + this.opts.step + '_' + this.opts.field_id).mask(this.opts.field.mask);
-            }else{
-                $('#' + this.opts.step + '_' + this.opts.field_id).unmask();
+            if(this.opts.field.mask && document.getElementById(this.opts.step + '_' + this.opts.field_id)){
+                IMask(document.getElementById(this.opts.step + '_' + this.opts.field_id), this.opts.field.mask);
             }
-        }
-
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
-        }
+        };
 
         this.on('mount', function(){
             this.initDate();
             this.initMask();
-            this.initTooltip();
-
-        })
+        });
 
         this.on('updated', function(){
             this.initDate();
-            this.initMask();
-            this.initTooltip();
-            
-        })
+        });
     </script>
 </qc_field_date>

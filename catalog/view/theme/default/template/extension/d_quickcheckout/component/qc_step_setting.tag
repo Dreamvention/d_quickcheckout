@@ -1,9 +1,9 @@
 <qc_step_setting>
     <form class="step-setting">
         <div class="ve-btn-group ve-btn-group--sm" data-toggle="buttons">
-            <label class="ve-btn ve-btn--default handle-sortable" id="{ opts.field_id }">
+            <button class="ve-btn ve-btn--default handle-sortable" id="{ opts.field_id }">
                 <i class="fa fa-arrows"></i>
-            </label>
+            </button>
             <a class="ve-btn ve-btn--default " onclick="{toggleSetting}" >
                 <i class="fa fa-gear"></i>
             </a>
@@ -20,17 +20,19 @@
         this.mixin({store:d_quickcheckout_store});
         var tag = this;
         toggleSetting(e){
-            if($('#'+ this.opts.setting_id).hasClass('show')){
+            if(this.store.getState().displaySetting[this.opts.setting_id]){
                 this.store.hideSetting()
             }else{
                 this.store.showSetting(this.opts.setting_id);
             }
+            this.parent.update();
         }
         
         removeStep(e){
-            var step_id = $(e.currentTarget).parents('[data-name="'+this.opts.step+'"]').attr('id');
+            var step_id = dv_cash(e.currentTarget).parents('[data-name="'+this.opts.step+'"]').attr('id');
             this.store.dispatch('step/remove', {step_id : step_id} );
             tag.store.hideSetting();
+            this.parent.parent.parent.update();
         }
     </script>
 </qc_step_setting>

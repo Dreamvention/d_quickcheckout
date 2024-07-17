@@ -23,7 +23,7 @@
         this.mixin({store:d_quickcheckout_store});
         var tag = this;
         addError(e){
-            var error_type = $(tag.root).find('.error-type').val();
+            var error_type = dv_cash(tag.root).find('.error-type').val();
             this.store.dispatch('field/addError', {'step_id': this.opts.step, 'field_id': this.opts.field_id, 'error_type': error_type});
         }
     </script>

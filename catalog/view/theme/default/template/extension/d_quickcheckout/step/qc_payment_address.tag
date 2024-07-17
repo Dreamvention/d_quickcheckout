@@ -14,7 +14,7 @@
                     </span>
                     {  getLanguage().payment_address.heading_title } 
                 </h4>
-                <p class="ve-p" if={getLanguage().payment_address.text_description}>{  getLanguage().payment_address.text_description } </p>
+                <p class="ve-p" if={getLanguage().payment_address.text_description}><qc_raw content="{  getLanguage().payment_address.text_description }"></qc_raw> </p>
             </div>
             <div class="ve-card__section">
                 
@@ -36,7 +36,7 @@
                         <div
                             each={ field_id in fields}
                             if={ (getConfig().payment_address.fields[field_id])}
-                            class="qc-field ve-field { (getState().config.guest.payment_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
+                            class="qc-field ve-field { (getState().config[getAccount()].payment_address.fields[field_id].display == 0 && !getState().edit) ? 've-hidden' : ''} { (getState().config.guest.payment_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                             sort_order={ getConfig().payment_address.fields[field_id].sort_order }
                             field_id={field_id}
                             step="payment_address"
@@ -49,7 +49,7 @@
                         ></div>
                     </form>
                     <div if={getState().edit} class="ve-mt-3">
-                        <qc_custom_field setting_id="payment_address_custom_field_{rand()}" step="payment_address" location_account="true" location_address="true" onchange={updateFields} title={getLanguage().payment_address.heading_title}></qc_custom_field>
+                        <qc_custom_field setting_id="payment_address_custom_field" step="payment_address" location_account="true" location_address="true" onchange={updateFields} title={getLanguage().payment_address.heading_title}></qc_custom_field>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 </span>
                 {  getLanguage().payment_address.heading_title } 
             </h4>
-            <p class="ve-p" if={getLanguage().payment_address.text_description}>{  getLanguage().payment_address.text_description } </p>
+            <p class="ve-p" if={getLanguage().payment_address.text_description}><qc_raw content="{  getLanguage().payment_address.text_description } "></qc_raw> </p>
 
             <qc_address_radio 
             if={getSession().addresses && getState().config.guest.payment_address.address_style == 'radio'} 
@@ -83,7 +83,7 @@
                     <div
                         each={ field_id in fields}
                         if={ (getConfig().payment_address.fields[field_id])}
-                        class="qc-field ve-field {field_id} { (getState().config.guest.payment_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
+                        class="qc-field ve-field { (getState().config[getAccount()].payment_address.fields[field_id].display == 0 && !getState().edit) ? 've-hidden' : ''} {field_id} { (getState().config.guest.payment_address.fields[field_id].style == 'col') ? 'qc-field-col' : 'qc-clearboth' }"
                         sort_order={ getConfig().payment_address.fields[field_id].sort_order }
                         field_id={field_id}
                         step="payment_address"
@@ -96,7 +96,7 @@
                     ></div>
                 </form>
                 <div if={getState().edit} class="ve-mt-3">
-                    <qc_custom_field setting_id="payment_address_custom_field_{rand()}" step="payment_address" location_account="true" location_address="true" onchange={updateFields} title={getLanguage().payment_address.heading_title}></qc_custom_field>
+                    <qc_custom_field setting_id="payment_address_custom_field" step="payment_address" location_account="true" location_address="true" onchange={updateFields} title={getLanguage().payment_address.heading_title}></qc_custom_field>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
 
         updateFields(){
             tag.fields = this.store.getFieldIds('payment_address');
-            this.store.render();
+            this.update();
         }
         
         this.on('mount', function(){

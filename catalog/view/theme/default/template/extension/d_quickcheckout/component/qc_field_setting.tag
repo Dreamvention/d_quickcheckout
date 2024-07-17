@@ -32,33 +32,41 @@
         var tag = this;
 
         toggleSetting(e){
-            if($('#'+ this.opts.setting_id).hasClass('show')){
+            if(this.store.getState().displaySetting[this.opts.setting_id]){
                 this.store.hideSetting()
             }else{
                 this.store.showSetting(this.opts.setting_id);
             }
+            this.parent.update();
         }
 
         toggleDependency(e){
-            if($('#'+ this.opts.setting_id).hasClass('show')){
-                this.store.hideSetting()
+            if(this.store.getState().displaySetting[this.opts.setting_id]){
+                this.store.hideSetting();
+                this.parent.update();
             }else{
                 var tab = this.opts.setting_id+'_advanced';
                 this.store.showSetting(this.opts.setting_id);
-                $('.setting-tabs a[href="#' + tab + '"]').tab('show');
+                this.parent.update();
+                dv_cash('.qc-tab').removeClass('active');
+                dv_cash('a[href="#' + tab + '"]').parent('.qc-tab').addClass('active');
+                dv_cash('#'+tab).parents('.qc-setting-tab-content').find('.qc-setting-tab-pane').removeClass('in').removeClass('active').hide();
+                dv_cash('#'+tab).addClass('in').addClass('active').show();
             }
         }
 
         editCheckbox(e){
-            var checkbox = $(e.currentTarget).find('input[type=checkbox]');
+            var checkbox = dv_cash(e.currentTarget).find('input[type=checkbox]');
             checkbox.prop("checked", !checkbox.prop("checked"));
-            this.store.dispatch(this.opts.step+'/edit', $(tag.root).find('.qc-field-setting').serializeJSON());
+            this.store.dispatch(this.opts.step+'/edit', serializeJSON(Array.from(dv_cash(tag.root).find('.qc-field-setting'))));
         }
 
         deleteField(e){
             this.store.deleteCustomField(this.opts.step, this.opts.field_id);
             this.store.hideSetting();
+            this.parent.update();
             this.opts.ondelete();
+            this.store.initFieldSortable(this.opts.step);
         }
     </script>
 </qc_field_setting>

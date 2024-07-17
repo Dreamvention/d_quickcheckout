@@ -5,22 +5,31 @@
 (function() {
     this.initFieldSortable = function(step_id) {
         var that = this;
-        $('#' + step_id + '_fields').sortable({
-            placeholderClass: 'field-sortable',
-            handle: '.handle-sortable'
-        }).bind('sortupdate', function(e, ui) {
-
-            var IDs = [];
-            $('#' + step_id + '_fields').find(".qc-field").each(function() { IDs.push($(this).attr('field_id')); });
-
-            var state = that.getState();
-            for (var key in IDs) {
-                //state.config[that.getAccount()][step_id].fields[IDs[key]].sort_order = parseInt(key);
-                that.updateState(['config', that.getAccount(), step_id, 'fields', IDs[key], 'sort_order'], parseInt(key));
-            }
-
+    
+        d_quickcheckout_sortable('#' + step_id + '_fields', {
+            handle: '.handle-sortable',
+            placeholderClass: 'ui-sortable-placeholder'
+        }).forEach(item => {
+            dv_cash(item).off();
+            dv_cash(item).on('sortupdate', function (event) {
+                var IDs = [];
+                dv_cash('#' + step_id + '_fields').find(".qc-field").each(function() { IDs.push(dv_cash(this).attr('field_id')); });
+    
+                var state = that.getState();
+                for (var key in IDs) {
+                    if (state.config['guest'][step_id].fields[IDs[key]].sort_order != parseInt(key)) {
+                        that.updateState(['config', 'guest', step_id, 'fields', IDs[key], 'sort_order'], parseInt(key), false); 
+                    }
+                    if (state.config['register'][step_id].fields[IDs[key]].sort_order != parseInt(key)) {
+                        that.updateState(['config', 'register', step_id, 'fields', IDs[key], 'sort_order'], parseInt(key), false); 
+                    }
+                    if (state.config['logged'][step_id].fields[IDs[key]].sort_order != parseInt(key)) {
+                        that.updateState(['config', 'logged', step_id, 'fields', IDs[key], 'sort_order'], parseInt(key), false); 
+                    }
+                }     
+            });
         });
-    }
+    };
 
     this.getFieldIds = function(step_id) {
         var fields_sorted = [];
@@ -35,13 +44,16 @@
         return fields_sorted.map(function(field) {
             return field.id;
         });
-    }
+    };
 
-    this.getCustomField = function(data) {
+    this.getCustomField = function(data, callblack) {
         this.send('extension/module/d_quickcheckout/get_custom_fields', data, function(custom_fields) {
-            this.setState({ 'custom_fields': custom_fields });
+            this.setState({ 'custom_fields': custom_fields }, false);
+            if (callblack) {
+                callblack();
+            }
         }.bind(this));
-    }
+    };
 
     this.addCustomField = function(step, custom_field_id) {
         var state = this.getState();
@@ -55,21 +67,22 @@
 
         var format = '';
         if (custom_field.type == 'date') {
-            format = 'DD-MM-YYYY'
+            format = 'd-m-y'
         }
 
         if (custom_field.type == 'time') {
-            format = 'HH:mm'
+            format = 'H:i'
         }
 
         if (custom_field.type == 'datetime') {
-            format = 'DD-MM-YYYY HH:mm'
+            format = 'd-m-y H:i'
         }
 
         var accounts = ['guest', 'register', 'logged'];
         for (i = 0; i < accounts.length; i++) {
             state.config[accounts[i]][step].fields[field_id] = {
                 'id': field_id,
+                'custom_field_id': custom_field.custom_field_id,
                 'text': 'entry_' + field_id,
                 'placeholder': 'placeholder_' + field_id,
                 'display': 1,
@@ -96,13 +109,13 @@
         }
 
         state.language[step]['entry_' + field_id] = custom_field.name;
-        state.language[step]['placeholder_' + field_id] = '';
+        state.language[step]['placeholder_' + field_id] = custom_field.name;
         state.language[step]['tooltip_' + field_id] = '';
         state.language[step]['error_' + field_id + '_min_length'] = state.language.general['error_min_length'];
         state.language[step]['error_' + field_id + '_max_length'] = state.language.general['error_max_length'];
 
-        this.setState(state);
-    }
+        this.setState(state, false);
+    };
 
     this.deleteCustomField = function(step, custom_field_id) {
         var state = this.getState();
@@ -112,11 +125,10 @@
 
             delete state.config[accounts[i]][step].fields[custom_field_id];
 
-            this.updateState(['config', accounts[i], step, 'fields'], state.config[accounts[i]][step].fields);
+            this.updateState(['config', accounts[i], step, 'fields'], state.config[accounts[i]][step].fields, false);
         }
 
-        console.log(this.getState());
-    }
+    };
 
     this.subscribe('field/addDepend', function(data) {
 
@@ -134,11 +146,11 @@
             }
             state.config[accounts[i]][step_id].fields[field_id].depends[depend_id] = {};
 
-            //this.updateState(['config', accounts[i], step_id,'fields',field_id], state.config[accounts[i]][step_id].fields[field_id]);
+            this.updateState(['config', accounts[i], step_id,'fields',field_id, 'depends', depend_id], state.config[accounts[i]][step_id].fields[field_id].depends[depend_id]);
         }
 
         this.setState(state);
-    })
+    });
 
     this.subscribe('field/removeDepend', function(data) {
 
@@ -152,11 +164,16 @@
 
             if (typeof state.config[accounts[i]][step_id].fields[field_id].depends !== 'undefined' && typeof state.config[accounts[i]][step_id].fields[field_id].depends[depend_id] !== 'undefined') {
                 delete state.config[accounts[i]][step_id].fields[field_id].depends[depend_id];
-                this.updateState(['config', accounts[i], step_id, 'fields', field_id, 'depends'], state.config[accounts[i]][step_id].fields[field_id].depends);
+                if (!Object.keys(state.config[accounts[i]][step_id].fields[field_id].depends).length) {
+                    delete state.config[accounts[i]][step_id].fields[field_id].depends;
+                    this.updateState(['config', accounts[i], step_id, 'fields', field_id], state.config[accounts[i]][step_id].fields[field_id]);
+                } else {
+                    this.updateState(['config', accounts[i], step_id, 'fields', field_id, 'depends'], state.config[accounts[i]][step_id].fields[field_id].depends);
+                }
             }
         }
 
-    })
+    });
 
     this.subscribe('field/addDependValue', function(data) {
 
@@ -165,13 +182,16 @@
         var field_id = data.field_id;
         var depend_id = data.depend_id;
         var depend_value_id = this.rand();
-        var account = this.getAccount();
-        if (typeof state.config[account][step_id].fields[field_id].depends[depend_id] !== 'undefined') {
-            state.config[account][step_id].fields[field_id].depends[depend_id][depend_value_id] = JSON.parse('{ "value": "", "display" : "1", "require" : "0"}');
 
-            this.updateState(['config', account, step_id, 'fields', field_id, 'depends', depend_id], state.config[account][step_id].fields[field_id].depends[depend_id]);
+        var accounts = ['guest', 'register', 'logged'];
+        for (i = 0; i < accounts.length; i++) {
+            if (typeof state.config[accounts[i]][step_id].fields[field_id].depends[depend_id] !== 'undefined') {
+                state.config[accounts[i]][step_id].fields[field_id].depends[depend_id][depend_value_id] = JSON.parse('{ "value": "", "display" : "1", "require" : "0"}');
+
+                this.updateState(['config', accounts[i], step_id, 'fields', field_id, 'depends', depend_id, depend_value_id], state.config[accounts[i]][step_id].fields[field_id].depends[depend_id][depend_value_id]);
+            }
         }
-    })
+    });
 
     this.subscribe('field/removeDependValue', function(data) {
 
@@ -180,12 +200,15 @@
         var field_id = data.field_id;
         var depend_id = data.depend_id;
         var depend_value_id = data.depend_value_id;
-        var account = this.getAccount();
-        if (typeof state.config[account][step_id].fields[field_id].depends[depend_id] !== 'undefined') {
-            delete state.config[account][step_id].fields[field_id].depends[depend_id][depend_value_id];
-            this.updateState(['config', account, step_id, 'fields', field_id, 'depends', depend_id], state.config[account][step_id].fields[field_id].depends[depend_id]);
+        
+        var accounts = ['guest', 'register', 'logged'];
+        for (i = 0; i < accounts.length; i++) {
+            if (typeof state.config[accounts[i]][step_id].fields[field_id].depends[depend_id] !== 'undefined') {
+                delete state.config[accounts[i]][step_id].fields[field_id].depends[depend_id][depend_value_id];
+                this.updateState(['config', accounts[i], step_id, 'fields', field_id, 'depends', depend_id], state.config[accounts[i]][step_id].fields[field_id].depends[depend_id]);
+            }
         }
-    })
+    });
 
     this.subscribe('field/addError', function(data) {
 
@@ -211,7 +234,7 @@
 
             this.updateState(['config', accounts[i], step_id, 'fields', field_id, 'errors'], state.config[accounts[i]][step_id].fields[field_id].errors);
         }
-    })
+    });
 
     this.subscribe('field/removeError', function(data) {
 
@@ -229,8 +252,5 @@
             this.updateState(['config', accounts[i], step_id, 'fields', field_id, 'errors'], state.config[accounts[i]][step_id].fields[field_id].errors);
         }
 
-    })
-
-
-
+    });
 })(qc);

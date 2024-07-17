@@ -8,7 +8,7 @@
         <label class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'} ve-label" for="{ opts.step }_{ opts.field_id }">
             { getLanguage()[opts.step][opts.field.text] } 
             <span if={ (opts.field.require == 1) } class="require">*</span>
-            <i class="fa fa-question-circle" ref="tooltip" data-placement="top" title="{ getLanguage()[opts.step][opts.field.tooltip] } " if={ getLanguage()[opts.step][opts.field.tooltip] }></i>
+            <span data-balloon-pos="up" aria-label="{ getLanguage()[opts.step][opts.field.tooltip] }" if={ getLanguage()[opts.step][opts.field.tooltip] }><i class="fa fa-question-circle"></i></span>
         </label>
         <div class="{ (getStyle() == 'list') ? 'col-half' : 'col-full'}">
             <textarea
@@ -118,24 +118,9 @@
         }
 
         change(e){
-            error = this.store.validate($(e.currentTarget).val(), this.opts.field.errors);
+            error = this.store.validate(dv_cash(e.currentTarget).val(), this.opts.field.errors);
             this.store.dispatch(this.opts.step+'/error', { 'field_id' : this.opts.field_id, 'error': error});
-            this.store.dispatch(this.opts.step+'/update', $(e.currentTarget).serializeJSON());
+            this.store.dispatch(this.opts.step+'/update', serializeJSON(e.currentTarget));
         }
-
-        initTooltip(){
-            $(this.refs.tooltip).tooltip('destroy')
-            setTimeout(function(){
-                $(this.refs.tooltip).tooltip();
-            }.bind(this), 300)
-        }
-
-        this.on('mount', function(){
-            this.initTooltip();
-        })
-
-        this.on('updated', function(){
-            this.initTooltip();
-        })
     </script>
 </qc_field_textarea>

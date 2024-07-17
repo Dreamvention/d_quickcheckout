@@ -8,7 +8,7 @@ $_['heading_title']                 = '<span style="color:#449DD0; font-weight:b
 $_['heading_title_main']            = 'Ajax Quick Checkout';
 $_['text_edit']                     = 'Edit Ajax Quick Checkout settings';
 $_['text_module']                   = 'Modules';
-
+$_['button_compress_update']        = 'Update';
 
 //button
 $_['button_save_and_stay']          = 'Save and stay';
@@ -23,12 +23,13 @@ $_['help_editor']                   = '<h4>Visual Editor</h4><p>Now Ajax Quick C
 
 $_['entry_status']                  = 'Status';
 $_['entry_rtl']                     = 'RTl language <br/><small>If you have a RTL language, turn on for the AQC to render in rtl</small>';
-
+$_['entry_compress_files']          = 'Compress files';
+$_['entry_clear_session']           = 'Clear checkout session after page refresh';
 $_['entry_support']                 = 'Support<br/><small>Create a ticket. If you find a bug, even in a free version, please let us know.</small>';
 $_['text_support']                  = 'Open Ticket';
 
 $_['text_powered_by']               = 'Tested with <a href="https://shopunity.net/extension/ajax-quick-checkout-pro" target="_blank">Shopunity.net</a> <br> Find more amazing extensions at <a href="https://dreamvention.ee/" target="_blank">Dreamvention.ee</a>';
-
+$_['text_compress_success']         = 'Compress files update successfuly.';
 
 $_['text_get_pro']                  = '<a href="https://aqc.page.link/getpro" target="_blank">Stop losing sales today! Improve your checkout with <strong>Ajax Quick Checkout PRO</strong> and watch your sales grow. Get -10% OFF</a>';
 $_['error_permission']              = 'Warning: You do not have permission to modify this module!';

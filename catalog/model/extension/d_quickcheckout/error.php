@@ -8,7 +8,9 @@ class ModelExtensionDQuickcheckoutError extends Model {
         'compare_to',
         'telephone',
         'email_exists',
-        'regex'
+        'regex',
+        'wrong_captcha',
+        'false_google_recaptcha'
     );
 
     public function clearStepErrors($step){
@@ -38,6 +40,8 @@ class ModelExtensionDQuickcheckoutError extends Model {
                 }
             }
         });
+
+        
 
         if(empty($errors)){
             return true;
@@ -107,7 +111,7 @@ class ModelExtensionDQuickcheckoutError extends Model {
         foreach($errors as $error){
           foreach($error as $validate => $rule){
             if(!$this->$validate($rule, $value)){
-              $this->model_extension_d_quickcheckout_store->updateState(array('errors', $step, $field_id), $error['text']);
+            //   $this->model_extension_d_quickcheckout_store->updateState(array('errors', $step, $field_id), $error['text']);
 
               return false;
             }
@@ -115,7 +119,7 @@ class ModelExtensionDQuickcheckoutError extends Model {
         }
       }
 
-      $this->model_extension_d_quickcheckout_store->updateState(array('errors', $step, $field_id), '');
+    //   $this->model_extension_d_quickcheckout_store->updateState(array('errors', $step, $field_id), '');
 
       return true;
     }
@@ -205,4 +209,52 @@ class ModelExtensionDQuickcheckoutError extends Model {
     public function getErrorTypes(){
         return $this->types;
     }
+
+    public function wrong_captcha($rule, $value){
+        
+        if($rule == ''){
+            return true;
+        }
+        
+        return $rule == $value;
+    }
+
+    public function false_google_recaptcha($rule, $value){
+        //var_dump($rule);
+        if($rule == 0){
+            return true;
+        }
+        else{
+            
+            $this->request->post['g-recaptcha-response'] = $value;
+
+            if(stripos($this->request->server['REQUEST_URI'] ,'/index.php?route=extension/d_quickcheckout/confirm/update')){
+                if(empty($value)){
+                    unset($this->session->data['gcapcha']);
+                    return false;
+                }
+                $captcha = VERSION < '2.3.0.0' ? $this->load->controller('captcha/' . $this->config->get('config_captcha') . '/validate') : $this->load->controller('extension/captcha/' . $this->config->get('config_captcha') . '/validate');
+                unset($this->session->data['gcapcha']);
+                if ($captcha) {
+                    return false;
+                }
+                else{
+                    
+                    return true;
+                    
+                }
+            
+            
+            }
+            else{
+                if(empty($value)){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        }
+    }
+
 }

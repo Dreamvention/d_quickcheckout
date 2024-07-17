@@ -11,6 +11,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
     public function __construct($registry){
         parent::__construct($registry);
 
+        $this->load->model('extension/d_quickcheckout/order');
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('extension/d_quickcheckout/method');
         $this->load->model('extension/d_quickcheckout/error');
@@ -21,8 +22,6 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
      * Initialization
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/confirm.js');
-
         $pages = $this->model_extension_d_quickcheckout_page->getActivePages();
         $page_id = (isset($pages[0])) ? $pages[0] : false;
 
@@ -37,17 +36,34 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
         $state['action']['confirm'] = $this->action;
 
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_order->updateOrder();
     }
 
     /**
      * update via ajax
      */
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('confirm/update', $this->request->post);
+        
+        $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('confirm/update', $post);
+
+        $this->model_extension_d_quickcheckout_order->updateOrder();
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
+
+        if($this->model_extension_d_quickcheckout_error->isCheckoutValid() && !isset($post['page_id'])){
+            $current_state = $this->model_extension_d_quickcheckout_store->getState();
+            if (!empty($current_state['session']['payment']['payment_popup'])) {
+                $payment = $this->model_extension_d_quickcheckout_method->getPayment(true);
+                $data['session']['payment'] = $payment; 
+            }
+        }
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($data));
@@ -78,8 +94,9 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
                 }
                 $this->model_extension_d_quickcheckout_store->updateState(array('session','confirm','checkout'), $state['session']['confirm']['checkout']);
             }
-            $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $this->request->get);
+            $this->model_extension_d_quickcheckout_store->dispatch('confirm/update/after', $data['data']);
         }
+        
     }
 
     public function validate(){
@@ -101,6 +118,7 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
 
     private function getConfirmTrigger(){
         $state = $this->model_extension_d_quickcheckout_store->getState();
+
         if(!empty($state['session']['confirm']['trigger'])){
             return $state['session']['confirm']['trigger'];
         }else{
@@ -166,7 +184,8 @@ class ControllerExtensionDQuickcheckoutConfirm extends Controller {
     private function getDefault(){
         return array(
             'checkout' => false,
-            'trigger' => $this->getConfirmTrigger()
+            'trigger' => $this->getConfirmTrigger(),
+            'loading' => false
         );
     }
 }

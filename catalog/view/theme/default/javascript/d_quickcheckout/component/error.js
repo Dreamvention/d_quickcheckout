@@ -2,17 +2,13 @@
  *   Account Model
  */
 
-function isFunction(functionToCheck) {
-    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
-}
-
 (function() {
     this.validate = function(value, errors) {
         var result = false;
-        $.each(errors, function(i, error) {
+        dv_cash.each(errors, function(i, error) {
             for (rule in error) {
                 if (typeof this[rule] !== "undefined") {
-                    if (isFunction(this[rule]) && !this[rule](error[rule], value)) {
+                    if (!this[rule](error[rule], value)) {
                         result = error.text;
                     }
                 }
@@ -50,7 +46,7 @@ function isFunction(functionToCheck) {
     }
 
     this.email_exists = function(rule, value) {
-        //validate straight via server
+        /*validate straight via server*/
         return true;
     }
 
@@ -65,9 +61,18 @@ function isFunction(functionToCheck) {
     }
 
     this.goToError = function() {
-        // console.log('AQC: Sorry, you have errors');
+        /*console.log('AQC: Sorry, you have errors');*/
         setTimeout(function() {
-            $('html,body').animate({ scrollTop: $(".ve-field--error").offset().top - 60 }, 'slow');
+            if (this.getState()['captcha_status'] == 1 && this.in_array(this.getAccount(), this.getState()['config_captcha_page']) && this.getState()['captcha_type'] == 'google') {
+                dv_cash('textarea[name="g-recaptcha-response"]').val('');
+                var sitekey = dv_cash('#input-payment-captcha').attr('data-sitekey');
+                dv_cash('#gRecaptcha').html('');
+                dv_cash('#gRecaptcha').html('<script src="//www.google.com/recaptcha/api.js" type="text/javascript"></script><input type="text" style="display: none;" no-reorder="" id="payment_address_google_recaptcha" name="payment_address[google_recaptcha]" class="ve-input d-vis validate qc-required google_recaptcha google_recaptcha"><div id="input-payment-captcha" class="g-recaptcha" data-sitekey="' + sitekey + '" change></div>');
+            }
+            document.querySelector('html, body').scroll({
+                behavior: 'smooth',
+                top: document.querySelector('.ve-field--error').offsetTop - 60
+            });
         }, 10);
     }
 

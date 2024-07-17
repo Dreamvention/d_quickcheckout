@@ -54,12 +54,10 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     }
 
     public function initState(){
-        $this->cache->delete('d_quickcheckout_config');
-        $this->cache->delete('d_quickcheckout_layout');
-        $this->cache->delete('d_quickcheckout_errors');
-        $this->cache->delete('d_quickcheckout_steps');
-        $this->cache->delete('d_quickcheckout_action');
-        $this->cache->delete('d_quickcheckout_language');
+        if (!is_dir(DIR_CACHE . 'd_quickcheckout/')) {
+            mkdir(DIR_CACHE . 'd_quickcheckout/', 0777);
+        }
+        file_put_contents(DIR_CACHE . 'd_quickcheckout/state.json', '');
 
         //post comes during changing store
         if(isset($this->request->get['setting_id'])||isset($this->request->post['setting_id'])){
@@ -123,13 +121,42 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     }
 
     public function loadState(){
-        $this->config->set('d_quickcheckout_config', $this->cache->get('d_quickcheckout_config'));
-        $this->config->set('d_quickcheckout_layout', $this->cache->get('d_quickcheckout_layout'));
-        $this->config->set('d_quickcheckout_errors', $this->cache->get('d_quickcheckout_errors'));
-        $this->config->set('d_quickcheckout_steps', $this->cache->get('d_quickcheckout_steps'));
-        $this->config->set('d_quickcheckout_action', $this->cache->get('d_quickcheckout_action'));
-        $this->config->set('d_quickcheckout_language', $this->cache->get('d_quickcheckout_language'));
+        $state = array(
+            'd_quickcheckout_config' => array(),
+            'd_quickcheckout_layout' => array(),
+            'd_quickcheckout_errors' => array(),
+            'd_quickcheckout_steps' => array(),
+            'd_quickcheckout_action' => array(),
+            'd_quickcheckout_language' => array(),
+        );
+
+        if (is_file(DIR_CACHE . 'd_quickcheckout/state.json') && json_decode(file_get_contents(DIR_CACHE . 'd_quickcheckout/state.json'), true)) {
+            $loaded_state = json_decode(file_get_contents(DIR_CACHE . 'd_quickcheckout/state.json'), true);
+            if (!$loaded_state) $loaded_state = array();
+            $state = array_replace_recursive($state, $loaded_state);
+        } else {
+            $this->config->set('d_quickcheckout_clear_session', 0);
+            $this->initState();
+            $this->load->controller('extension/module/d_quickcheckout/initSteps');
+            $inited_state = $this->getState();
+            $state['d_quickcheckout_config'] = $inited_state['config'];
+            $state['d_quickcheckout_errors'] = $inited_state['errors'];
+            $state['d_quickcheckout_layout'] = $inited_state['layout'];
+            $state['d_quickcheckout_steps'] = $inited_state['steps'];
+            $state['d_quickcheckout_action'] = $inited_state['action'];
+            $state['d_quickcheckout_language'] = $inited_state['language'];
+        }
+        
+        $this->config->set('d_quickcheckout_config', $state['d_quickcheckout_config']);
+        $this->config->set('d_quickcheckout_layout', $state['d_quickcheckout_layout']);
+        $this->config->set('d_quickcheckout_errors', $state['d_quickcheckout_errors']);
+        $this->config->set('d_quickcheckout_steps', $state['d_quickcheckout_steps']);
+        $this->config->set('d_quickcheckout_action', $state['d_quickcheckout_action']);
+        $this->config->set('d_quickcheckout_language', $state['d_quickcheckout_language']);
         $this->config->set('d_quickcheckout_notifications', array());
+        if (isset($inited_state)) {
+            $this->saveState();
+        }
     }
 
     public function setState($data, $save = false){
@@ -172,7 +199,38 @@ class ModelExtensionDQuickcheckoutStore extends Model {
                 $this->config->set('d_quickcheckout_'.$key, $state[$key]);
 
                 if($save){
-                    $this->cache->set('d_quickcheckout_'.$key, $state[$key]);
+                    if (is_file(DIR_CACHE . 'd_quickcheckout/state.json')) {
+                        $saved_data = json_decode(file_get_contents(DIR_CACHE . 'd_quickcheckout/state.json'), true);
+                        if (!$saved_data) {
+                            $this->config->set('d_quickcheckout_clear_session', 0);
+                            $this->initState();
+                            $this->load->controller('extension/module/d_quickcheckout/initSteps');
+                            $inited_state = $this->getState();
+                            $saved_data = array();
+                            $saved_data['d_quickcheckout_config'] = $inited_state['config'];
+                            $saved_data['d_quickcheckout_errors'] = $inited_state['errors'];
+                            $saved_data['d_quickcheckout_layout'] = $inited_state['layout'];
+                            $saved_data['d_quickcheckout_steps'] = $inited_state['steps'];
+                            $saved_data['d_quickcheckout_action'] = $inited_state['action'];
+                            $saved_data['d_quickcheckout_language'] = $inited_state['language'];
+                        }
+                    } else {
+                        $this->config->set('d_quickcheckout_clear_session', 0);
+                        $this->initState();
+                        $this->load->controller('extension/module/d_quickcheckout/initSteps');
+                        $inited_state = $this->getState();
+                        $saved_data = array();
+                        $saved_data['d_quickcheckout_config'] = $inited_state['config'];
+                        $saved_data['d_quickcheckout_errors'] = $inited_state['errors'];
+                        $saved_data['d_quickcheckout_layout'] = $inited_state['layout'];
+                        $saved_data['d_quickcheckout_steps'] = $inited_state['steps'];
+                        $saved_data['d_quickcheckout_action'] = $inited_state['action'];
+                        $saved_data['d_quickcheckout_language'] = $inited_state['language'];
+                    }
+                    $saved_data = array_replace_recursive($saved_data, array(
+                        'd_quickcheckout_'.$key => $state[$key]
+                    ));
+                    file_put_contents(DIR_CACHE . 'd_quickcheckout/state.json', json_encode($saved_data));
                 }
             }
         }
@@ -282,12 +340,25 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     }
 
     public function saveState(){
-        $this->cache->set('d_quickcheckout_config',  $this->config->get('d_quickcheckout_config'));
-        $this->cache->set('d_quickcheckout_layout',  $this->config->get('d_quickcheckout_layout'));
-        $this->cache->set('d_quickcheckout_errors',  $this->config->get('d_quickcheckout_errors'));
-        $this->cache->set('d_quickcheckout_steps',  $this->config->get('d_quickcheckout_steps'));
-        $this->cache->set('d_quickcheckout_action',  $this->config->get('d_quickcheckout_action'));
-        $this->cache->set('d_quickcheckout_language',  $this->config->get('d_quickcheckout_language'));
+        if (!is_dir(DIR_CACHE . 'd_quickcheckout/')) {
+            mkdir(DIR_CACHE . 'd_quickcheckout/', 0777);
+        }
+        $state = array(
+            'd_quickcheckout_config' => ($this->config->get('d_quickcheckout_config') ? $this->config->get('d_quickcheckout_config') : array()),
+            'd_quickcheckout_layout' =>  ($this->config->get('d_quickcheckout_layout') ? $this->config->get('d_quickcheckout_layout') : array()),
+            'd_quickcheckout_errors' =>  ($this->config->get('d_quickcheckout_errors') ? $this->config->get('d_quickcheckout_errors') : array()),
+            'd_quickcheckout_steps' =>  ($this->config->get('d_quickcheckout_steps') ? $this->config->get('d_quickcheckout_steps') : array()),
+            'd_quickcheckout_action' =>  ($this->config->get('d_quickcheckout_action') ? $this->config->get('d_quickcheckout_action') : array()),
+            'd_quickcheckout_language' =>  ($this->config->get('d_quickcheckout_language') ? $this->config->get('d_quickcheckout_language') : array())
+        );
+
+        if (is_file(DIR_CACHE . 'd_quickcheckout/state.json')) {
+            $old_state = json_decode(file_get_contents(DIR_CACHE . 'd_quickcheckout/state.json'), true);
+            $old_state = $old_state ? $old_state : array();
+            $state = array_replace_recursive($old_state, $state);
+        }
+        file_put_contents(DIR_CACHE . 'd_quickcheckout/state.json', '');
+        file_put_contents(DIR_CACHE . 'd_quickcheckout/state.json', json_encode($state));
     }
 
     public function getState($keys = ''){
@@ -320,6 +391,27 @@ class ModelExtensionDQuickcheckoutStore extends Model {
             $state['errors'] = ($this->config->get('d_quickcheckout_errors')) ? $this->config->get('d_quickcheckout_errors') : array();
             $state['steps'] = ($this->config->get('d_quickcheckout_steps')) ? $this->config->get('d_quickcheckout_steps') : array();
             $state['action'] = ($this->config->get('d_quickcheckout_action')) ? $this->config->get('d_quickcheckout_action') : array();
+
+            $state['captcha_status'] = VERSION < '3.0.0.0' ? $this->config->get($this->config->get('config_captcha') . '_status')  : $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status');
+            if($state['captcha_status']){
+                $state['captcha_type'] = $this->config->get('config_captcha');
+                if($state['captcha_type'] == 'google' or $state['captcha_type'] == 'google_captcha'){ 
+                    $state['captcha_type'] = 'google';
+                    $state['google_site_key'] = VERSION < '3.0.0.0' ? $this->config->get('google_captcha_key') : $this->config->get('captcha_google_key');
+                    $state['google_script'] = '<script src="//www.google.com/recaptcha/api.js" type="text/javascript"></script>';
+                }
+                else{
+                    $state['captcha_type'] = 'basic'; 
+                }
+                
+
+            }
+            if($state['captcha_status']){
+                $state['config_captcha_page'] = $this->config->get('config_captcha_page');
+                if(VERSION < '2.2.0.0'){
+                    $state['config_captcha_page'][] = 'guest';
+                }
+            }
             $state['language'] = ($this->config->get('d_quickcheckout_language')) ? $this->config->get('d_quickcheckout_language') : array();
         }
 
@@ -327,12 +419,10 @@ class ModelExtensionDQuickcheckoutStore extends Model {
     }
 
     public function clearState(){
-        $this->cache->delete('d_quickcheckout_config');
-        $this->cache->delete('d_quickcheckout_layout');
-        $this->cache->delete('d_quickcheckout_errors');
-        $this->cache->delete('d_quickcheckout_steps');
-        $this->cache->delete('d_quickcheckout_action');
-        $this->cache->delete('d_quickcheckout_language');
+        if (!is_dir(DIR_CACHE . 'd_quickcheckout/')) {
+            mkdir(DIR_CACHE . 'd_quickcheckout/', 0777);
+        }
+        file_put_contents(DIR_CACHE . 'd_quickcheckout/state.json', '');
 
         $this->config->set('d_quickcheckout_config', array());
         $this->config->set('d_quickcheckout_layout', array());
@@ -621,16 +711,22 @@ class ModelExtensionDQuickcheckoutStore extends Model {
 
     public function changeLayout($codename){
         $setting_id = $this->session->data['setting_id'];
-        $this->cache->delete('d_quickcheckout_layout');
+        
         $this->config->set('d_quickcheckout_layout', array());
 
         $query = $this->db->query("DELETE FROM " . DB_PREFIX . "dqc_setting_data WHERE setting_id = '" . (int)$setting_id . "' AND `key` = 'layout'");
-
 
         $this->load->config('d_quickcheckout_layout/'.$codename);
         $value = $this->config->get('d_quickcheckout_layout');
 
         $value = json_encode($value, true);
+
+        if (is_file(DIR_CACHE . 'd_quickcheckout/state.json') && json_decode(file_get_contents(DIR_CACHE . 'd_quickcheckout/state.json'), true)) {
+            $state = json_decode(file_get_contents(DIR_CACHE . 'd_quickcheckout/state.json'), true);
+            if (!$state) $state = array();
+            $state['d_quickcheckout_layout'] = $this->config->get('d_quickcheckout_layout');
+            file_put_contents(DIR_CACHE . 'd_quickcheckout/state.json', json_encode($state));
+        }
 
         $this->db->query("INSERT INTO " . DB_PREFIX . "dqc_setting_data SET setting_id = '" . (int)$setting_id . "', `key` = '" . $this->db->escape('layout') . "', `value` = '" . $this->db->escape($value) . "'");
     }

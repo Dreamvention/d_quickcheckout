@@ -8,11 +8,12 @@
         var state = this.getState();
         var col_id = 'col'+this.rand();
         var layout = {};
-        var page = $.extend(true, {}, state.layout.pages[state.session['page_id']]);
+        var page = dv_cash.extend(true, {}, state.layout.pages[state.session['page_id']]);
         this.flattenLayout(page, 'children', layout);
 
-        layout[col_id] = {
+        layout[data.parent_path + '_' + col_id] = {
             'id': col_id,
+            'path': data.parent_path + '_' + col_id,
             'parent': data.parent,
             'sort_order': data.sort_order,
             'children': {},
@@ -21,44 +22,36 @@
         }
 
         page = this.unflattenLayout(layout, state.session['page_id']);
-        this.updateState(['layout', 'pages', state.session['page_id'], 'children'], page);
+        this.updateState(['layout', 'pages', state.session['page_id'], 'children'], page, false);
 
-    })
+    });
 
     this.subscribe('col/remove', function(data){
         var state = this.getState();
         var layout = {};
-        var page = $.extend(true, {}, state.layout.pages[state.session['page_id']]);
+        var page = dv_cash.extend(true, {}, state.layout.pages[state.session['page_id']]);
         this.flattenLayout(page, 'children', layout);
+        var oldLayout = JSON.parse(JSON.stringify(layout));
 
-        if(data.sort_order < 2){
-            delete layout[layout[data.col_id].parent]
-        }
-        delete layout[data.col_id]
+        delete layout[data.path];
+
+        if (d_quickcheckout_lodash.isEqual(oldLayout, layout)) return;
+
+        page = this.unflattenLayout(layout, state.session['page_id']);
+        this.updateState(['layout', 'pages', state.session['page_id'], 'children'], page, false);
+
+    });
+
+    this.subscribe('col/resize', function(data) {
+        var state = this.getState();
+        var layout = {};
+        var page = dv_cash.extend(true, {}, state.layout.pages[state.session['page_id']]);
+        this.flattenLayout(page, 'children', layout);
+        if (layout[data.item_id].size == data.width) return;
+        layout[data.item_id].size = data.width;
 
         page = this.unflattenLayout(layout, state.session['page_id']);
         this.updateState(['layout', 'pages', state.session['page_id'], 'children'], page);
-
-    })
-
-    this.subscribe('col/resize', function(data) {
-        clearTimeout(this.step_resize_timer);
-
-        this.step_resize_timer = setTimeout(function(){
-
-            var state = this.getState();
-            var layout = {};
-            var page = $.extend(true, {}, state.layout.pages[state.session['page_id']]);
-            this.flattenLayout(page, 'children', layout);
-
-            layout[data.item_id].size = data.width;
-
-            page = this.unflattenLayout(layout, state.session['page_id']);
-            this.updateState(['layout', 'pages', state.session['page_id'], 'children'], page);
-
-            
-
-        }, 1000);
     });
 
 })(qc);

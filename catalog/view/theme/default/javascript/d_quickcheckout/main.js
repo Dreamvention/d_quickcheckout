@@ -15,132 +15,138 @@
  */
 var qc = (function() {
 
-    //allows for the qc object to trigger and listen to custom events.
+    /*allows for the qc object to trigger and listen to custom events.*/
     riot.observable(this);
 
     this.action_pending = [];
 
     this.layout = [];
 
+    this.number_requests = 0;
+
     /**
      *   createStore. Initialize your app. This will add the default value to the
      * state. Refer to Redux http://redux.js.org/docs/api/Store.html
      */
     this.createStore = function(state) {
-        //console.log('Welcome to Ajax Quick Checkout.');
+        /*console.log('Welcome to Ajax Quick Checkout.');*/
 
-        this.state = Immutable.fromJS(state, function(key, value, path) {
-            return Immutable.isIndexed(value) ? value.toList() : value.toOrderedMap()
-        });
+        this.state = state
+        this.state.displaySetting = {};
 
-        //caching the state inscrease render speed.
-        this.stateCached = this.state.toJS();
-
-        //initial state
-        this.stateOld = this.stateCached;
+        /*initial state*/
+        this.stateOld = JSON.parse(JSON.stringify(state));
 
         this.beforeLeave();
-        //allows the qc.init(store) to be passed into the mixins model value.
+        /*allows the qc.init(store) to be passed into the mixins model value.*/
         return this;
-    }
+    };
 
     /**
      *   UpdateState. A wrapper function to update the state and call riot update.
      */
     this.updateState = function(key, data, is_upd = true) {
-        //Fix bug with array merge of shipping and payment methods while it should replace. 
-        if(data.session && data.session.shipping_methods){
-            this.updateState(['session', 'shipping_methods'], '');
-        }
-        if(data.session && data.session.payment_methods){
-            this.updateState(['session', 'payment_methods'], '');
-        }
-        this.state = this.state.setIn(key, data);
+        d_quickcheckout_lodash.set(this.state, key, data);
 
-        //update state cache.
-        this.stateCached = this.state.toJS();
-        this.stateCached.edited = true;
-        
-        //avoid flicker page
-        if(is_upd){
+        this.state.edited = true;
+
+        /*avoid flicker page*/
+        if (is_upd) {
             setTimeout(function() {
-                riot.update(); //will start a full update of all tags
+                riot.update(); /*will start a full update of all tags*/
             }, 10);
         }
-    }
+    };
 
     this.loading = function(state) {
-        var edited = this.stateCached.edited;
+        var edited = this.state.edited;
         if (!state) {
-            this.state = this.state.setIn(['loading'], state);
+            d_quickcheckout_lodash.set(this.state, 'loading', state);
         }
-        //REFACTOR - change to loader
-        this.state = this.state.setIn(['session', 'confirm', 'loading'], state);
-        this.stateCached = this.state.toJS();
-        this.stateCached.edited = edited;
+        /*REFACTOR - change to loader*/
+        d_quickcheckout_lodash.set(this.state, 'session.confirm.loading', state);
+
+        this.state.edited = edited;
         setTimeout(function() {
-            riot.update(); //will start a full update of all tags
+            riot.update(); /*will start a full update of all tags*/
         }, 10);
-    }
+    };
 
     this.render = function() {
-        riot.update(); //will start a full update of all tags
-    }
+        riot.update(); /*will start a full update of all tags*/
+    };
 
     this.setState = function(data, is_upd = true) {
 
-        this.state = this.state.mergeDeep(data);
+        this.state = d_quickcheckout_lodash.merge(this.state, data);
 
-        //update state cache.
-        this.stateCached = this.state.toJS();
-        this.stateCached.edited = true;
-        if(is_upd){
+        
+        this.state.edited = true;
+        if (is_upd) {
             setTimeout(function() {
-                riot.update(); //will start a full update of all tags
+                riot.update(); /*will start a full update of all tags*/
             }, 10);
         }
-    }
+    };
 
     /**
      *   GetState. Returns the state.
      */
     this.getState = function() {
-        return this.stateCached;
-    }
+        return this.state;
+    };
+
+
+    this.in_array = function(needle, haystack) {
+        var length = haystack.length;
+        for (var i = 0; i < length; i++) {
+            if (typeof haystack[i] == 'object') {
+                if (arrayCompare(haystack[i], needle)) return true;
+            } else {
+                if (haystack[i] == needle) return true;
+            }
+        }
+        return false;
+    };
+
+    this.decodeHTML = function(html) {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
     /**
      *   Config. Ajax Quick Checkout shortcut to the config for the current
      *   Account option.
      */
     this.getConfig = function() {
-        return this.stateCached.config[this.getAccount()];
-    }
+        return this.state.config[this.getAccount()];
+    };
 
     /**
      *   Session. Ajax Quick Checkout shortcut to the session for the current
      *   Account option.
      */
     this.getSession = function() {
-        return this.stateCached.session;
-    }
+        return this.state.session;
+    };
 
     /**
      *   Layout. Ajax Quick Checkout shortcut to the session for the current
      *   Account option.
      */
     this.getLayout = function() {
-
-        return this.stateCached.layout;
-    }
+        return this.state.layout;
+    };
 
 
     this.getAccount = function() {
-        return this.stateCached.session.account;
-    }
+        return this.state.session.account;
+    };
 
     this.getLanguage = function() {
-        return this.stateCached.language;
-    }
+        return this.state.language;
+    };
 
 
 
@@ -148,26 +154,26 @@ var qc = (function() {
      *   Error. Ajax Quick Checkout shortcut to the error
      */
     this.getError = function() {
-        if (!this.stateCached.errors) {
-            this.stateCached.errors = {};
+        if (!this.state.errors) {
+            this.state.errors = {};
         }
-        return this.stateCached.errors;
-    }
+        return this.state.errors;
+    };
 
     this.getChange = function() {
-        return getDiff(this.stateOld, this.stateCached);
-    }
+        return getDiff(this.stateOld, this.state);
+    };
 
     this.setChange = function(state) {
-            this.stateOld = state;
-        }
-        /**
-         *   Redux:dispatch function. A wrapper function for triggering a custom event with a
-         * updated state value.
-         */
+        this.stateOld = JSON.parse(JSON.stringify(state));
+    };
+    /**
+     *   Redux:dispatch function. A wrapper function for triggering a custom event with a
+     * updated state value.
+     */
     this.dispatch = function(action, state) {
         this.trigger(action, state);
-    }
+    };
 
     /**
      *   Redux:subscribe function. A wrapper function for catching a custom event with a
@@ -175,17 +181,17 @@ var qc = (function() {
      */
     this.subscribe = function(action, callback) {
         this.on(action, callback);
-    }
+    };
 
     this.rand = function() {
         return Math.random().toString(36).substring(2, 9);
-    }
+    };
 
     this.stripTags = function(text) {
         if (text) {
             return text.replace(/<\/?[^>]+(>|$)/g, "");
         }
-    }
+    };
 
     this.isEmpty = function(obj) {
         if (typeof(obj) == 'undefined') {
@@ -196,7 +202,7 @@ var qc = (function() {
                 return false;
         }
         return JSON.stringify(obj) === JSON.stringify({});
-    }
+    };
 
     this.sortItems = function(items) {
         var items_sorted = [];
@@ -208,76 +214,78 @@ var qc = (function() {
             return item.id;
         });
         return items_sorted;
-    }
+    };
+
+    this.sortLayoutChildrens = function (items) {
+        return this.sortItems(items).map(function (id) {
+            return items[id];
+        });
+    };
 
     this.countItems = function(items) {
         return Object.keys(items).length;
-    }
+    };
 
     this.setLayoutAction = function(action, data) {
         var state = this.getState();
         data.page_id = state.session['page_id'];
-        this.action_pending.push({ action: action, data: data });
-    }
+        this.action_pending.push({ action: action, data: JSON.parse(JSON.stringify(data)) });
+    };
 
     this.updateLayout = function() {
-        var state = this.getState();
+        var state = JSON.parse(JSON.stringify(this.getState()));
         if (this.action_pending.length > 0) {
             var layout = {};
-
-            for (page_id in state.layout.pages) {
-                this.flattenLayout(state.layout.pages[page_id], 'children', layout);
-            }
-
-
             for (i in this.action_pending) {
+                layout = {};
                 var action = this.action_pending[i];
-                layout = this[action.action](action.data, layout);
+                this.flattenLayout(state.layout.pages[action.data.page_id], 'children', layout);
+                try {
+                    layout = this[action.action](action.data, layout);
+                } catch (e) {
+                    console.error(e);
+                }
+                state.layout.pages[action.data.page_id].children = this.unflattenLayout(layout, action.data.page_id);
             }
-
-            for (page_id in state.layout.pages) {
-                state.layout.pages[page_id].children = this.unflattenLayout(layout, page_id);
-            }
-
-
             this.action_pending = [];
-
-            this.updateState(['layout', 'pages'], {});
-            this.render();
-            this.updateState(['layout', 'pages'], state.layout.pages);
         }
-    }
+        this.updateState(['layout', 'pages'], {});
+        this.render();
+        this.updateState(['layout', 'pages'], state.layout.pages);
+    };
 
-    // recursive collection function
+    /* recursive collection function*/
     this.flattenLayout = function(tree, key, collection) {
         if (!tree[key] || tree[key].length === 0) return;
         var i = 0;
         for (child_id in tree[key]) {
             var child = tree[key][child_id];
 
-            collection[child.id] = child;
+            collection[child.path] = child;
             this.flattenLayout(child, key, collection);
             if (tree.id) {
-                collection[child.id].parent = tree.id;
+                collection[child.path].parent = tree.id;
             } else {
-                collection[child.id].parent = 0;
+                collection[child.path].parent = 0;
             }
 
-            collection[child.id].sort_order = i;
+            collection[child.path].sort_order = i;
             i++;
 
-            delete collection[child.id].children;
+            delete collection[child.path].children;
         }
         return;
-    }
+    };
 
 
     this.unflattenLayout = function(arr, parent_id) {
         var nodes = [];
-        nodes = $.map(arr, function(value, index) {
+
+        d_quickcheckout_lodash.mapValues(arr, function(value) {
             if (value.type != 'item') {
                 value.children = [];
             }
+            nodes.push(value);
             return value;
         });
 
@@ -303,34 +311,35 @@ var qc = (function() {
             }
         }
 
-        var result = $.map(nodes, function(value, index) {
+        var result = nodes.map(function(value){
             if (value.parent == parent_id) {
                 return value;
             }
-
+        }).filter(function(value) {
+            return value !== undefined;
         });
 
         return this.toObject(result);
-    }
+    };
 
     this.toObject = function(array) {
         var new_array = {};
         if (Array.isArray(array)) {
             for (var i = 0, len = array.length; i < len; i++) {
-                new_array[array[i].id] = $.extend(true, {}, array[i]);
+                new_array[array[i].id] = dv_cash.extend(true, {}, array[i]);
                 if (new_array[array[i].id].children != 'undefined') {
                     new_array[array[i].id].children = this.toObject(new_array[array[i].id].children)
                 }
             }
         }
         return new_array;
-    }
+    };
 
     this.raw = function(text) {
         var txt = document.createElement("textarea");
         txt.innerHTML = text;
         return txt.value;
-    }
+    };
 
     /**
      *   Call to server for update
@@ -338,69 +347,81 @@ var qc = (function() {
      */
 
     this.beforeLeave = function() {
-        if (this.stateCached.edit) {
-            $(window).bind('beforeunload', function() {
-                if (this.stateCached.edited) {
-                    return true;
+        var that = this;
+        if (this.state.edit) { 
+            window.addEventListener('beforeunload', function(e) {
+                if (that.state.edited) {
+                    e.preventDefault();
+                    e.returnValue = '';
                 }
-            }.bind(this));
+            });
         }
-
-        $(window).bind('beforeunload', function() {
-            this.loading(true);
-        }.bind(this));
-    }
+        window.addEventListener('beforeunload', function(e) {
+            that.loading(true);
+        });
+    };
 
     this.send = function(route, data, callback) {
         this.showLoader();
-        //clear notifications
+        /*clear notifications*/
         this.updateState(['notifications'], {});
-        $.post('index.php?route=' + route, data, function(json, status) {
+
+        this.number_requests += 1;
+        
+        axios.post('index.php?route=' + route, data)
+          .then(function (response) {
             try {
-                callback(json);
+                if (typeof response.data == 'string') {
+                    console.error("Ajax Quick Checkout: POST /route=" + route + " returned error: \n" + response.data);
+                    this.number_requests = 0;
+                    this.hideLoader();
+                    return ;
+                }
+                callback(response.data);
             } catch (err) {
-                console.error("Ajax Quick Checkout: POST /route=" + route + " returned error: \n" + json);
+                console.error("Ajax Quick Checkout: POST /route=" + route + " returned error: \n" + response.data);
+                this.number_requests = 0;
+                this.hideLoader();
             }
-            this.hideLoader();
-        }.bind(this));
-    }
+            this.number_requests -= 1;
+            if (this.number_requests === 0) {
+                this.hideLoader();
+            }
+          }.bind(this))
+    };
 
     this.showLoader = function() {
         this.loading(true);
         var that = this;
         setTimeout(function() {
-            $('.qc-loader').show();
-            setTimeout(function() {
-                that.loading(false);
-                $('.qc-loader').hide();
-            }, 10000);
+            dv_cash('.qc-loader').show();
         }, 10);
 
-    }
+    };
 
     this.hideLoader = function() {
         this.loading(false);
-        $('.qc-loader').hide();
-    }
+        dv_cash('.qc-loader').hide();
+    };
 
     this.showSpinner = function() {
         setTimeout(function() {
-            $('.qc-spinner').show();
+            dv_cash('.qc-spinner').show();
         }, 10);
-    }
+    };
 
     this.hideSpinner = function() {
-        $('.qc-spinner').hide();
-    }
+        dv_cash('.qc-spinner').hide();
+    };
 
     this.isMobile = function() {
         if (screen.width <= 480) {
             return true;
         } else false;
-    }
+    };
 
 
-    // this returns the object that can therefore be extended
+    /* this returns the object that can therefore be extended*/
     return this;
 })();
 
@@ -409,5 +430,3 @@ var qc = (function() {
  *  Alias for d_quickcheckout
  */
 var d_quickcheckout = qc;
-
-$.fn.btnBootstrap = $.fn.button.noConflict();

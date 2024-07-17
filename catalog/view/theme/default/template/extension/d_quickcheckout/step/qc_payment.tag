@@ -6,16 +6,20 @@
         <qc_pro_label if={ riot.util.tags.selectTags().search('"qc_payment_setting"') < 0 && getState().edit}></qc_pro_label>
 
         <!-- Step -->
-        <div class="modal fade" id="payment_modal" if={getSession().payment.payment_popup == true}>
-	        <div class="modal-dialog">
-		        <div class="modal-content">
-			        <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span></button>
-				        <h4 class="modal-title"><span class="text"> { getSession().payment.payment_popup_title }</span></h4>
-			        </div>
-			        <div class="modal-body clearfix">
-			        	<qc_raw content="{getSession().payment.payment}"></qc_raw>
-			        </div>
+        <div if={getState().edit && getSession().payment.payment_popup == true}><qc_raw content="{getSession().payment_method?.title}"></qc_raw></div>
+        <div class="dvdy-modal" id="payment_modal" if={getSession().payment.payment_popup == true}>
+            <div class="dvdy-modal-backdrop"></div>
+	        <div class="dvdy-modal-dialog">
+		        <div class="dvdy-modal-dialog__content">
+                    <div class="ve-card">
+                        <div class="ve-card__header">
+                            <button type="button" class="dvdy-close">&times;</button>
+                            <h4 class="ve-h4"><qc_raw content="{ getSession().payment.payment_popup_title }"></qc_raw></h4>
+                        </div>
+                        <div class="ve-card__section clearfix">
+                            <qc_raw content="{getSession().payment.payment}"></qc_raw>
+                        </div>
+                    </div>
 		        </div>
 	        </div>
         </div>
@@ -25,12 +29,13 @@
                     <span if={ getConfig().payment.icon } class="icon">
                         <i class="{ getConfig().payment.icon }"></i>
                     </span>
-                    { getLanguage().payment.heading_title }
+                    <qc_raw content="{ getLanguage().payment.heading_title }"></qc_raw>
+                    
                 </h4>
-                <p class="ve-p" if={getLanguage().payment.text_description}>{  getLanguage().payment.text_description } </p>
+                <p class="ve-p" if={getLanguage().payment.text_description}><qc_raw content="{  getLanguage().payment.text_description }"></qc_raw> </p>
             </div>
             <div class="ve-card__section">
-                <div if={getState().edit}>{getSession().payment_method.title}</div>
+                <div if={getState().edit}><qc_raw content="{getSession().payment_method?.title}"></qc_raw></div>
                 <div if={!getState().edit}>
                     <div id="payment" show={ getConfig().payment.display == 1 }></div>
                 </div>
@@ -38,8 +43,8 @@
         </div>
 
         <div class="ve-mb-3 ve-clearfix" if={getConfig().payment.display == 1 && getState().config.guest.payment.style == 'clear' && getSession().payment.payment_popup == false}>
-            <p class="ve-p" if={getLanguage().payment.text_description}>{  getLanguage().payment.text_description } </p>
-            <div if={getState().edit}>{getSession().payment_method.title}</div>
+            <p class="ve-p" if={getLanguage().payment.text_description}><qc_raw content="{  getLanguage().payment.text_description }"></qc_raw> </p>
+            <div if={getState().edit}><qc_raw content="{getSession().payment_method?.title}"></qc_raw></div>
             <div if={!getState().edit}>
                 <div id="payment" show={ getConfig().payment.display == 1 }></div>
             </div>
@@ -73,13 +78,24 @@
         }
 
         this.on('mount', function(){
-            $(tag.root).find('#payment').html(getSession().payment.payment);
+            dv_cash(this.root).find('.dvdy-close').on('click', function () {
+                setState({ session: { payment: { payment: '', }, }, });
+            });
+            dv_cash('#payment').html(getSession().payment.payment);
             payment = getSession().payment.payment;
+            if (dv_cash(this.root).find('#payment_modal').length) {
+                dv_cash('body').find('.dqc_payment_modal').remove();
+                dv_cash(this.root).find('#payment_modal').appendTo('body').addClass('dqc_payment_modal');
+            }
         })
 
         this.on("updated", function(){
-            $(tag.root).find('#payment').html(getSession().payment.payment);
+            dv_cash('#payment').html(getSession().payment.payment);
             payment = getSession().payment.payment;
+            if (dv_cash(this.root).find('#payment_modal').length) {
+                dv_cash('body').find('.dqc_payment_modal').remove();
+                dv_cash(this.root).find('#payment_modal').appendTo('body').addClass('dqc_payment_modal');
+            }
         });
 
     </script>

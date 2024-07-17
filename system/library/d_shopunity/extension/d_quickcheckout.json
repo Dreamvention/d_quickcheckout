@@ -1,6 +1,6 @@
 {
     "codename": "d_quickcheckout",
-    "version": "7.3.4",
+    "version": "7.5.33",
     "name": "Ajax Quick Checkout",
     "index": "extension/module/d_quickcheckout",
     "description": "The #1 one page checkout solution for opencart with amazing visual editor.",
@@ -61,6 +61,7 @@
         "catalog/controller/extension/d_quickcheckout/payment_method.php",
         "catalog/controller/extension/d_quickcheckout/shipping_address.php",
         "catalog/controller/extension/d_quickcheckout/shipping_method.php",
+        "catalog/controller/extension/d_quickcheckout_captcha/basic_captcha.php",
 
         "catalog/model/extension/d_quickcheckout/account.php",
         "catalog/model/extension/d_quickcheckout/address.php",
@@ -81,6 +82,15 @@
         "catalog/language/en-gb/extension/d_quickcheckout/payment_method.php",
         "catalog/language/en-gb/extension/d_quickcheckout/shipping_address.php",
         "catalog/language/en-gb/extension/d_quickcheckout/shipping_method.php",
+
+        "catalog/view/javascript/axios/axios.min.js",
+
+        "catalog/view/javascript/cash/cash.min.js",
+
+        "catalog/view/javascript/d_dialogify/dv_dialogify.css",
+        "catalog/view/javascript/d_dialogify/dv_dialogify.min.css",
+        "catalog/view/javascript/d_dialogify/dv_dialogify.js",
+        "catalog/view/javascript/d_dialogify/dv_dialogify.min.js",
 
         "catalog/view/theme/default/javascript/d_quickcheckout/main.js",
 
@@ -152,10 +162,16 @@
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_tel.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_text.tag",
         "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_textarea.tag",
+        "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_captcha.tag",
+        "catalog/view/theme/default/template/extension/d_quickcheckout/field/qc_google_recaptcha.tag",
 
         "catalog/view/theme/default/template/extension/module/d_quickcheckout.tag",
         "catalog/view/theme/default/template/extension/module/d_quickcheckout.twig",
         "catalog/view/theme/default/template/checkout/d_quickcheckout.twig",
+
+	"system/library/d_quickcheckout_compress.php",
+	"system/library/d_compress/cssmin.php",
+	"system/library/d_compress/jsmin.php",
 
         "system/config/d_quickcheckout/account.php",
         "system/config/d_quickcheckout/cart.php",
@@ -181,6 +197,7 @@
 
     ],
     "dirs": [
+        "catalog/view/javascript/ripecss",
         "catalog/view/javascript/d_quickcheckout",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/scss",
         "catalog/view/theme/default/stylesheet/d_quickcheckout/skin/default",
@@ -190,11 +207,132 @@
     ],
     "changelog": [
         {
-            "version": "7.3.4",
-            "change": "fix error with array_walk"
-        }, {
-            "version": "7.3.3",
-            "change": "Shipping method exist check"
+            "version": "7.5.33",
+            "change": "Fixed bugs in visual editor and insert order sql query"
+        },
+        {
+            "version": "7.5.32",
+            "change": "Fixed bugs in visual editor"
+        },
+        {
+            "version": "7.5.31",
+            "change": "Fixed bugs in visual editor on journal 3"
+        },
+        {
+            "version": "7.5.30",
+            "change": "Fixed bugs in visual editor on journal 3"
+        },
+        {
+            "version": "7.5.29",
+            "change": "Fixed bugs in visual editor"
+        },
+        {
+            "version": "7.5.28",
+            "change": "Fixed bugs in visual editor"
+        },
+        {
+            "version": "7.5.27",
+            "change": "Fixed bugs in visual editor"
+        },
+        {
+            "version": "7.5.26",
+            "change": "Fixed bugs with paypal checkout"
+        },
+        {
+            "version": "7.5.25",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.24",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.23",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.22",
+            "change": "Fixed notice error with false value of shipping method in session"
+        },
+        {
+            "version": "7.5.21",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.20",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.19",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.18",
+            "change": "Fixed small bugs"
+        },
+        {
+            "version": "7.5.17",
+            "change": "Fixed small bugs and replace bootstrap modal to dialogify, replace jquery to cash js"
+        },
+        {
+            "version": "7.5.16",
+            "change": "Changed path to ripecss for no duplicating"
+        },
+        {
+            "version": "7.5.15",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.14",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.13",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.12",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.11",
+            "change": "Fix bugs with random clearing fields"
+        },
+        {
+            "version": "7.5.10",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.9",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.8",
+            "change": "Fix bug on lighting cache extension"
+        },
+        {
+            "version": "7.5.7",
+            "change": "Fix small bugs"
+        },
+        {
+            "version": "7.5.6",
+            "change": "Fix bug with custom fields on custom step"
+        },
+        {
+            "version": "7.5.5",
+            "change": "Fix bug in event 'view/after' on opencart 2.3.0.2"
+        },
+        {
+            "version": "7.5.4",
+            "change": "Fix paddings for hidden fields"
+        },
+        {
+            "version": "7.5.3",
+            "change": "Fixed validation of custom fields. Compatibility with google tag manager. Replaced immutable js to lodash. Replaced bootstrap datetimepicker to flatpickr. Replaced jquery ui to interact js and html5 sortable js. All js libraries was combined to one file. Added compression riot tags and javascript files. Added function of disabling clear session after refresh page"
+        },
+        {
+            "version": "7.5.2",
+            "change": "Basic captcha and google captcha was added. Issue with validation of hidden fields is fixed. Issue with validation of fields in hidden blocks is fixed"
         }, {
             "version": "7.3.2",
             "change": "Payment method items id. Fixed multiple vouchers. Shipping_address initial select"
@@ -222,34 +360,34 @@
         }, {
             "version": "7.2.5",
             "change": "Fixed customer group during switching the address_id"
-        }, { 
+        }, {
             "version": "7.2.4",
             "change": "Fix custom fields for logged users"
-        }, { 
+        }, {
             "version": "7.2.3",
             "change": "Fix dependencies and country select"
-        }, { 
+        }, {
             "version": "7.2.2",
             "change": "Fix for IE11. Fix dependencies"
-        }, { 
+        }, {
             "version": "7.2.1",
             "change": "Added 'file' custom field. Added multistore support. Added multilanguage support"
-        }, { 
+        }, {
             "version": "7.2.0",
             "change": "Fix phone validation front/back -end. Added shipping method select by default. Fix for products with upload files."
-        }, { 
+        }, {
             "version": "7.1.10",
             "change": "Increase speed updateField method for payment. Delete unnecessary files from country config"
-        }, { 
+        }, {
             "version": "7.1.9",
             "change": "Return back setState in payment_addres. Added fix for p/s methods disappearing during email error. Login with shipping address 'my address the same' in payment address. Fix taxes after login. Fix disappearing shipping/payment methods. Fix reward points after login "
-        }, { 
+        }, {
             "version": "7.1.8",
             "change": "fix shipping address updateField. increase speed updateField method for payment/shipping address. "
-        }, { 
+        }, {
             "version": "7.1.7",
             "change": "fixed serialize select shipping method. "
-        }, { 
+        }, {
             "version": "7.1.6",
             "change": "fix guest doesn't show country in order. fixed critical bug with shipping_method "
         }, {

@@ -23,7 +23,6 @@ class ControllerExtensionDQuickcheckoutPayment extends Controller {
      *
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/payment.js');
 
         $state = $this->model_extension_d_quickcheckout_store->getState();
 
@@ -43,9 +42,14 @@ class ControllerExtensionDQuickcheckoutPayment extends Controller {
      *
      */
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('payment/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('payment/update', $this->request->post);
+        $this->model_extension_d_quickcheckout_store->dispatch('payment/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('payment/update', $post);
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
 

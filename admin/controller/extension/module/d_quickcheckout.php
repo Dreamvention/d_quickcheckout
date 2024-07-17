@@ -25,6 +25,8 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
         $this->store_id = (isset($this->request->get['store_id'])) ? $this->request->get['store_id'] : 0;
 
+        $this->load->model('localisation/language');
+
         if($this->d_admin_style){
             $this->load->model('extension/d_admin_style/style');
             $this->model_extension_d_admin_style_style->getStyles('light');
@@ -61,10 +63,13 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->model_extension_d_shopunity_d_validator->installCompatibility();
         }
 
+        $this->load->model('localisation/language');
         $this->load->model('extension/module/d_quickcheckout');
         $this->model_extension_module_d_quickcheckout->update();
 
         $this->load->language($this->route);
+
+        $data['languages'] = array();
 
         $this->load->model('setting/setting');
         $this->load->model('extension/d_opencart_patch/load');
@@ -75,6 +80,28 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->model_extension_d_opencart_patch_cache->clearTwig();
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+            if (isset($this->request->post[$this->codename.'_status'])) {
+                if ((int)$this->request->post[$this->codename.'_status']) {
+                    $this->installEvents();
+                    if($this->d_opencart_patch){
+                        $this->load->model('extension/d_opencart_patch/modification');
+                        if(VERSION < '2.3.0.0'){
+                            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1); 
+                            $this->model_extension_d_opencart_patch_modification->refreshCache();
+                        }
+                    }
+                } else {
+                    $this->uninstallEvents();
+                    if($this->d_opencart_patch){
+                        $this->load->model('extension/d_opencart_patch/modification');
+                        if(VERSION < '2.3.0.0'){
+                            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 0); 
+                            $this->model_extension_d_opencart_patch_modification->refreshCache();
+                        }
+                    }
+                }
+            }
+            
             $this->model_setting_setting->editSetting($this->codename, $this->request->post, $this->store_id);
             $this->session->data['success'] = $this->language->get('success_modifed');
             $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
@@ -108,10 +135,13 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['text_open_editor'] = $this->language->get('text_open_editor');
         $data['text_get_pro'] = $this->language->get('text_get_pro');
         $data['help_editor'] = $this->language->get('help_editor');
+        $data['text_compress_success'] = $this->language->get('text_compress_success');
 
         //entry
         $data['entry_status'] = $this->language->get('entry_status');
         $data['entry_rtl'] = $this->language->get('entry_rtl');
+        $data['entry_compress_files'] = $this->language->get('entry_compress_files');
+        $data['entry_clear_session'] = $this->language->get('entry_clear_session');
 
         $data['entry_support'] = $this->language->get('entry_support');
         $data['text_support'] = $this->language->get('text_support');
@@ -125,9 +155,11 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $data['button_save'] = $this->language->get('button_save');
         $data['button_save_and_stay'] = $this->language->get('button_save_and_stay');
         $data['button_cancel'] = $this->language->get('button_cancel');
+        $data['button_compress_update'] = $this->language->get('button_compress_update');
         
         
         //action
+        $data['compress_action'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/compress_update');
         $data['module_link'] = $this->model_extension_d_opencart_patch_url->link($this->route);
         $data['action'] = $this->model_extension_d_opencart_patch_url->link($this->route);
         $data['editor'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/editor');
@@ -146,11 +178,44 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $data[$this->codename.'_status'] = $this->config->get($this->codename.'_status');
         }
 
-        if (isset($this->request->post[$this->codename.'_rtl'])) {
-            $data[$this->codename.'_rtl'] = $this->request->post[$this->codename.'_rtl'];
+        if (isset($this->request->post[$this->codename.'_compress_files'])) {
+            $data[$this->codename.'_compress_files'] = $this->request->post[$this->codename.'_compress_files'];
         } else {
-            $data[$this->codename.'_rtl'] = $this->config->get($this->codename.'_rtl');
+            $data[$this->codename.'_compress_files'] = $this->config->get($this->codename.'_compress_files');
         }
+
+        if (isset($this->request->post[$this->codename.'_clear_session'])) {
+            $data[$this->codename.'_clear_session'] = $this->request->post[$this->codename.'_clear_session'];
+        } else {
+            $data[$this->codename.'_clear_session'] = $this->config->get($this->codename.'_clear_session');
+        }
+
+
+        $results = $this->model_localisation_language->getLanguages();
+
+		foreach ($results as $result) {
+			if ($result['status']) {
+				$data['languages'][] = array(
+					'name' => $result['name'],
+					'code' => $result['code'],
+                    'image' => VERSION < '2.2.0.0' ? $result['image'] : null
+				);
+			}
+		}
+
+        $data['version_opencart'] = VERSION;
+        
+        foreach ($data['languages'] as $language) {
+			if (isset($this->request->post['d_quickcheckout_rtl'])) {
+                $rtl = json_decode($this->request->post['d_quickcheckout_rtl']);
+                $data['d_quickcheckout_rtl'.'['.$language['code'].']'] = $rtl[$language['code']];
+            }elseif ($this->config->get('d_quickcheckout_rtl')) {
+                $rtl = $this->config->get('d_quickcheckout_rtl');
+                $data['d_quickcheckout_rtl'.'['.$language['code'].']'] = (isset($rtl[$language['code']]) ? $rtl[$language['code']] : 0);
+            }else {
+                $data['d_quickcheckout_rtl'.'['.$language['code'].']'] = 0;
+            }
+		}
 
         $data['settings'] = $this->getSettings();
 
@@ -187,6 +252,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $name = 'Setting';
         $store_id = $this->store_id;
 
+
         $this->db->query("INSERT INTO `" . DB_PREFIX . "dqc_setting`
             SET `store_id` = '" . (int)$store_id . "',
                 `name` = '" . $this->db->escape($name) . "',
@@ -194,8 +260,21 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
                 `date_modified` = NOW()");
 
         $data['d_quickcheckout_status'] = 1;
-        $data['d_quickcheckout_rtl'] = $this->isRtlNeeded();
+
+        try {
+            $this->load->model('extension/module/d_quickcheckout');
+            $this->{'model_extension_module_'.$this->codename}->compressRiotTag();
+            $d_quickcheckout_compress = new d_quickcheckout_compress();
+            $d_quickcheckout_compress->compress();
+            $data[$this->codename.'_compress_files'] = 1;
+        } catch (Throwable $e) {
+            $data[$this->codename.'_compress_files'] = 0;
+        }
+        
+        
+        $data['d_quickcheckout_rtl'] = '';
         $this->load->model('setting/setting');
+        
         $this->model_setting_setting->editSetting($this->codename, $data, $this->store_id);
 
         $json = $this->getSettings();
@@ -203,24 +282,6 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
 
-    }
-
-    public function isRtlNeeded(){
-        // $themes = array('journal');
-        // $config_theme = $this->config->get('config_theme');
-        // $config_default_directory = $this->config->get('theme_default_directory');
-
-        // foreach($themes as $theme){
-        //     if(strpos($config_theme, $theme) !== false){
-        //         return true;
-        //     }
-
-        //     if(strpos($config_default_directory, $theme) !== false){
-        //         return true;
-        //     }
-        // }
-
-        return false;
     }
 
     public function deleteSetting(){
@@ -271,8 +332,28 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         
     }
 
+    public function compress_update()
+    {
+        $json = array();
+
+        try {
+            $this->load->language($this->route);
+            $this->load->model('extension/module/d_quickcheckout');
+            $this->{'model_extension_module_'.$this->codename}->compressRiotTag();
+            $d_quickcheckout_compress = new d_quickcheckout_compress();
+            $d_quickcheckout_compress->compress();
+            $json['success'] = $this->language->get('text_compress_success');
+        } catch (Exception $e) {
+            $json['error'] = $e->getMessage();
+        }
+            
+        $this->response->addHeader("Content-Type: application/json");
+        $this->response->setOutput(json_encode($json));
+    }
+
     public function editor(){
         $data = array();
+        $this->load->model('extension/d_opencart_patch/url');
         $this->load->model('extension/d_opencart_patch/load');
 
         $setting_id = 0;
@@ -292,11 +373,12 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
         }
 
         if(VERSION >= '2.1.0.0'){
-            $custom_field = $admin.'&route=customer/custom_field';
+            $custom_field = $this->model_extension_d_opencart_patch_url->ajax('customer/custom_field');
         }else{
-            $custom_field = $admin.'&route=sale/custom_field';
+            $custom_field = $this->model_extension_d_opencart_patch_url->ajax('sale/custom_field');
         }
         
+        $data['custom_field_admin_url'] = $custom_field;
         $this->load->model('extension/module/d_quickcheckout');
         $setting = $this->model_extension_module_d_quickcheckout->getSetting($setting_id);
         if(!empty($setting['store_id'])){
@@ -306,9 +388,9 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             if(isset($store_setting['config_url'])){
                 $store_id = $setting['store_id'];
                 if(!empty($store_setting['config_secure'])){
-                    $url = $store_setting['config_ssl'];
+                    $url = HTTPS_CATALOG;
                 }else{
-                    $url = $store_setting['config_url'];
+                    $url = HTTP_CATALOG;
                 }
             }
         }
@@ -332,7 +414,7 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
             $this->cart->add($product['product_id']);
         }
 
-        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id.'&admin='.urlencode($admin).'&custom_field='. urlencode($custom_field);
+        $data['editor'] = $url.'index.php?route=checkout/checkout&edit&setting_id='.$setting_id.'&admin='.urlencode($admin);
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_quickcheckout/editor', $data));
     }
 
@@ -357,39 +439,67 @@ class ControllerExtensionModuleDQuickcheckout extends Controller {
 
         if($this->d_opencart_patch){
             $this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1); 
-            $this->model_extension_d_opencart_patch_modification->refreshCache();
+            if(VERSION < '2.3.0.0'){
+                $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 1); 
+                $this->model_extension_d_opencart_patch_modification->refreshCache();
+            }
         }
 
-        if($this->d_event_manager){
-            $this->load->model('extension/module/d_event_manager');
-            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 
-                'catalog/view/checkout/checkout/after', 
-                'extension/module/d_quickcheckout/view_checkout_checkout_after');
-        }
+        $this->installEvents();
 
         $this->load->model('extension/module/d_quickcheckout');
         $this->model_extension_module_d_quickcheckout->installDatabase();
         
     }
 
+    private function installEvents() {
+        if($this->d_event_manager){
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 
+                'catalog/view/checkout/checkout/before', 
+                'extension/module/d_quickcheckout/view_checkout_checkout_before');
+            //fix bug on event "view/after on opencart 2.3.0.2"
+            if (VERSION < '3.0.0.0' && VERSION > '2.3.0.0') {
+                $this->model_extension_module_d_event_manager->addEvent($this->codename, 
+                    'catalog/view/*/checkout/checkout/after', 
+                    'extension/module/d_quickcheckout/view_checkout_checkout_after');
+            } else {
+                $this->model_extension_module_d_event_manager->addEvent($this->codename, 
+                    'catalog/view/checkout/checkout/after', 
+                    'extension/module/d_quickcheckout/view_checkout_checkout_after');
+            }
+        }
+    }
+
     public function uninstall() {
         if($this->d_opencart_patch){
-            $this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 0); 
+            if(VERSION < '2.3.0.0'){
+                $this->load->model('extension/d_opencart_patch/modification');
+                $this->model_extension_d_opencart_patch_modification->setModification('d_quickcheckout.xml', 0);
+                $this->model_extension_d_opencart_patch_modification->refreshCache();
+            }
         }
         
+        $this->uninstallEvents();
+
+        $this->load->model('extension/module/d_quickcheckout');
+        $this->model_extension_module_d_quickcheckout->uninstallDatabase(); 
+
+        clearstatcache();
+        if (is_file(DIR_CACHE . 'd_quickcheckout/state.json')) {
+            @unlink(DIR_CACHE . 'd_quickcheckout/state.json');
+        }
+        if (is_dir(DIR_CACHE . 'd_quickcheckout/')) {
+            @rmdir(DIR_CACHE . 'd_quickcheckout/');
+        }
+    }
+
+    private function uninstallEvents() {
         if($this->d_event_manager){
             $this->load->model('extension/module/d_event_manager');
 
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
         }
-
-        $this->load->model('extension/module/d_quickcheckout');
-        $this->model_extension_module_d_quickcheckout->uninstallDatabase(); 
-
     }
-
 }
-?>

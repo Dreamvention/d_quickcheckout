@@ -13,6 +13,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
     public function __construct($registry){
         parent::__construct($registry);
 
+        $this->load->model('extension/d_quickcheckout/order');
         $this->load->model('extension/d_quickcheckout/store');
         $this->load->model('extension/d_quickcheckout/method');
 
@@ -21,8 +22,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
      * Initialization
      */
     public function index($config){
-        $this->document->addScript('catalog/view/theme/default/javascript/d_quickcheckout/step/payment_method.js');
-
+        
         $state = $this->model_extension_d_quickcheckout_store->getState();
             
         $state['session']['payment_methods'] = $this->getPaymentMethods();
@@ -30,11 +30,12 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
 
         $state['config'] = $this->getConfig();
         $this->model_extension_d_quickcheckout_store->setState($state);
-        $state['session']['payment_method'] = $this->getPaymentMethod();
+        $state['session']['payment_method'] = $this->getPaymentMethod(false, true);
 
         $state['language']['payment_method'] = $this->getLanguages();
         $state['action']['payment_method'] = $this->action;
         $this->model_extension_d_quickcheckout_store->setState($state);
+        $this->model_extension_d_quickcheckout_order->updateOrder();
         $this->validate();
     }
 
@@ -42,9 +43,18 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
      * update via ajax
      */
     public function update(){
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
         $this->model_extension_d_quickcheckout_store->loadState();
-        $this->model_extension_d_quickcheckout_store->dispatch('payment_method/update/before', $this->request->post);
-        $this->model_extension_d_quickcheckout_store->dispatch('payment_method/update', $this->request->post);
+
+        $this->model_extension_d_quickcheckout_store->dispatch('payment_method/update/before', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('payment_method/update', $post);
+        $this->model_extension_d_quickcheckout_store->dispatch('total/update', $post);
+
+        $this->model_extension_d_quickcheckout_order->updateOrder();
 
         $data = $this->model_extension_d_quickcheckout_store->getStateUpdated();
         
@@ -64,7 +74,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         //updating payment_method value
         if($data['action'] == 'payment_method/update'){
 
-            if($data['data']['payment_method']){
+            if(!empty($data['data']['payment_method'])){
                 if(is_string($data['data']['payment_method'])){
                     $this->model_extension_d_quickcheckout_store->updateState(array('session', 'payment_method'), $this->getPaymentMethod($data['data']['payment_method']));
                     $update = true;
@@ -73,14 +83,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         }
 
         //updating payment_methods after payment_address change
-        if($data['action'] == 'payment_address/update/after' 
-            && (
-                $this->model_extension_d_quickcheckout_store->isUpdated('payment_address_country_id')
-                || $this->model_extension_d_quickcheckout_store->isUpdated('payment_address_zone_id')
-                || $this->model_extension_d_quickcheckout_store->isUpdated('payment_address_address_id')
-                || $this->model_extension_d_quickcheckout_store->isUpdated('payment_address_postcode')
-            )
-        ){
+        if($data['action'] == 'payment_address/update/after'){
             $update_method = true;
             $update = true;
         }
@@ -179,11 +182,14 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         return $this->model_extension_d_quickcheckout_method->getDefaultPaymentMethod($state['config']['guest']['payment_method']['default_option']);
     }
 
-    private function getPaymentMethod($payment_method = false){
+    private function getPaymentMethod($payment_method = false, $init = false){
+        $clear_session = $this->config->get('d_quickcheckout_clear_session');
         if(!$payment_method){
             $state = $this->model_extension_d_quickcheckout_store->getState();
-            if(!empty($state['session']['payment_method'])){
+            if((!$clear_session || !$init) && !empty($state['session']['payment_method'])){
                 $payment_method = $state['session']['payment_method']['code'];
+            } else {
+                $payment_method = $state['config']['guest']['payment_method']['default_option'];
             }
         }
         return $this->model_extension_d_quickcheckout_method->getDefaultPaymentMethod((string)$payment_method);
@@ -197,7 +203,7 @@ class ControllerExtensionDQuickcheckoutPaymentMethod extends Controller {
         if(!empty($state['session']['payment_methods'])){
             foreach($state['session']['payment_methods'] as $key => $value){
                 if(!isset($new_payment_methods[$key])){
-                        $new_payment_methods[$key] = false;
+                    $new_payment_methods[$key] = null;
                 }
             }
         }

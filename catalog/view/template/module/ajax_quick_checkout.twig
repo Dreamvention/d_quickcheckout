@@ -1,0 +1,76 @@
+<?php
+/**
+ *  location: catalog/view
+ */
+?>
+
+<div class="qc-spinner"></div>
+<ajax_quick_checkout id="ajax_quick_checkout" class="qc {% if edit %} edit {% endif %}"></ajax_quick_checkout>
+
+
+{% if edit %}
+    <style>
+        body{
+            margin-top: 60px;
+        }
+        body > #ajax_quick_checkout{
+            display: block;
+        }
+    </style>
+{% else %}
+    <style>
+        {% if state.layout.header_footer != 1 %}
+            body > *{
+                display: none;
+            }
+            body > .qc-spinner{
+                display: block;
+            }
+            body > #ajax_quick_checkout{
+                padding: 40px;
+                display: block;
+            }
+        {% endif %}
+    </style>
+    <style>
+    {{state.layout.css}}
+    </style>
+    <script>
+        var header_footer = {{state.layout.header_footer}}
+        if(header_footer != 1){
+            dv_cash('body').prepend(dv_cash('.qc-spinner'));
+            dv_cash('body').prepend(dv_cash('#ajax_quick_checkout'));
+
+        }else{
+            dv_cash('.qc-spinner').after(dv_cash('#ajax_quick_checkout'));
+        }
+    </script>
+    <script>
+    {{state.layout.js}}
+    </script>
+{% endif %}
+
+<script>
+    var count = 0;
+    var total = {{riot_tags|length}};
+    var ajax_quick_checkout_store =  ajax_quick_checkout.createStore({{ state|json_encode() }});
+{% set riot_tag = '' %}
+    {% for riot_tag in riot_tags %}
+        riot.compile('{{constant('HTTP_SERVER')}}{{riot_tag}}', function(){
+            count++;
+            if(total == count){
+                start();
+            }
+        });
+    {% endfor %}
+
+
+    function start(){
+
+        riot.compile('{{ constant('HTTP_SERVER') }}extension/ajax_quick_checkout/catalog/view/template/module/ajax_quick_checkout.tag', function() {
+
+          riot.mount(document.getElementById('ajax_quick_checkout'));
+        })
+    }
+
+</script>

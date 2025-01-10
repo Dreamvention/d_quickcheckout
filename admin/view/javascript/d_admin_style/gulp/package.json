@@ -1,0 +1,32 @@
+{
+  "name": "d_amin_style",
+  "version": "1.0.0",
+  "description": "Install extension with a click of a button.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "run": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dreamvention/2_d_social_share.git"
+  },
+  "author": "paveldrvn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dreamvention/2_d_social_share/issues"
+  },
+  "homepage": "https://github.com/Dreamvention/2_d_social_share#readme",
+  "devDependencies": {
+    "browser-sync": "2.24.5",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.1",
+    "gulp-riot": "^1.1.4",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1"
+  },
+  "dependencies": {}
+}

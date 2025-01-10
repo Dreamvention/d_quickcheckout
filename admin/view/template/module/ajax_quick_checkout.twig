@@ -1,0 +1,433 @@
+{# location: admin/view #}
+
+{{ header }} {{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline float-end">
+
+                <button id="save_and_stay" data-toggle="tooltip" title="{{button_save_and_stay}}" class="btn btn-success"><i class="fa fa-save"></i></button>
+
+                <button id="save_and_exit" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+
+                <a id="cancel" href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-light"><i class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{heading_title}} {{version}}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if not pro %}
+            <div class="notify alert alert-info">{{text_get_pro}}</div>
+        {% endif %}
+        {% if error.warning %}
+            <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error.warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+
+        {% if d_shopunity %}
+            <div class="d_shopunity_update"></div>
+            <script src="view/javascript/d_shopunity/d_shopunity_widget.js" type="text/javascript"></script>
+            <script type="text/javascript">
+            var d_shopunity_update = jQuery.extend(true, {}, d_shopunity_widget);
+            d_shopunity_update.init({
+            class: '.d_shopunity_update',
+            token: '{{token}}',
+            extension_id: 'ajax_quick_checkout',
+            action: 'loadUpdate'
+            })
+            </script>
+        {% endif %}
+        {% if not pro and settings and d_shopunity %}
+            <div class="row">
+                <div class="col-md-9">
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-pencil-alt"></i> {{text_edit}}
+            </div>
+            <div class="card-body">
+
+                    {# <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab_setting" data-toggle="tab">
+                                <span class="fa fa-cog"></span>
+                                {{tab_setting}}
+                            </a>
+                        </li>
+                    </ul> #}
+
+                    {% if settings %}
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_setting" >
+                                <div class="tab-body">
+
+                                    <form action="{{action}}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+
+                                        {% if settings is empty %}
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="input_status">Add setting</label>
+                                                <div class="col-sm-10">
+                                                    <a class="btn btn-success addSetting" ><i class="fa fa-plus"></i> Add Setting</a>
+                                                </div>
+                                            </div><!-- //editor -->
+                                        {% endif %}
+
+                                        {% if settings  %}
+
+
+
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input_status">Visual Editor</label>
+                                            <div class="col-md-10">
+
+                                                <div class="form-inline">
+                                                    {% if stores|length > 1  %}
+                                                        <select class="form-control changeStore">
+                                                            {% for store in stores %}
+                                                                <option value="{{store.store_id}}">{{store.name}}</option>
+                                                            {% endfor %}
+                                                         </select>
+                                                    {% endif %}
+
+                                                    <input type="hidden" id="setting_id" value="{{settings[0].setting_id}}" />
+                                                    <a class="btn btn-primary editor" href="{{editor}}" ><i class="fas fa-pencil-alt"></i> Go to Visual Editor</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <br/>
+                                        <br/>
+                                        <hr/>
+                                        {% endif %}
+
+
+
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input_status">{{entry_status}}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{codename}}_status" value="0" />
+                                                <input type="checkbox" name="{{codename}}_status" class="switcher" data-label-text="{{text_enabled}}"id="input_status"  {{attribute(_context, codename~'_status') ? 'checked="checked"' }} value="1" />
+                                            </div>
+                                        </div><!-- //status -->
+
+                                        {% for language in languages %}
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input_rtl[{{ language.code }}]">{{entry_rtl}}</label>
+
+                                            <div class="col-sm-6">
+                                            <div class="language-flag" style="margin-top: 10px; padding-bottom: 10px;">
+                                            {% if version_opencart < '2.2.0.0' %}
+                                            <img src="view/image/flags/{{ language.image }}" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+                                            {% else %}
+                                            <img src="language/{{ language.code }}/{{ language.code }}.png" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+
+                                            {% endif %}
+                                            </div>
+                                                <input type="hidden" name="{{codename}}_rtl[{{ language.code }}]" value="0" />
+                                                <input type="checkbox" name="{{codename}}_rtl[{{ language.code }}]" class="switcher" data-label-text="{{text_enabled}}" id="input_rtl[{{ language.code }}]"  {{attribute(_context, 'ajax_quick_checkout_rtl['~ language.code ~']') ? 'checked="checked"' }} value="1" />
+                                            </div>
+
+                                        </div>
+                                        {% endfor %}
+                                        <!-- //rtl -->
+
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input_status">{{entry_support}}</label>
+                                            <div class="col-sm-10">
+                                                <a class="btn btn-success" href="https://dreamvention.ee/support" target="_blank">{{text_support}}</a>
+                                            </div>
+                                        </div><!-- //status -->
+
+                                        <div style="text-align: center; padding: 30px;">{{text_powered_by}}</div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+<style>
+.welcome{
+    background: url('{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/bg.svg');
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: 50%;
+    min-height: 700px;
+    padding-top: 50px;
+    padding-bottom: 200px;
+}
+.welcome-into{
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+.welcome-into-logo{
+    padding-bottom: 15px;
+}
+.welcome-into-heading{
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+.welcome-into-text{
+    font-size: 18px;
+    padding-bottom: 30px;
+}
+.welcome-into-start{
+    padding-bottom: 30px;
+}
+.welcome-features{
+    padding: 30px;
+}
+.welcome-features-icon{
+    padding: 20px;
+    height: 130px;
+    text-align: center;
+}
+.welcome-features-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+.panel .panel-body{
+    padding: 0px;
+}
+</style>
+                        <div class="welcome">
+                            <div class="welcome-into">
+                                <div class="welcome-into-logo"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/logo.svg" /></div>
+                                <div class="welcome-into-heading">Ajax Quick Checkout</div>
+                                <div class="welcome-into-text">You are losing 67% of sales when you use the default checkout. We have developed the best checkout editor for you to customize so that your customers could enjoy buying and you could start selling more.</div>
+
+                                <div class="welcome-into-start">
+                                    <a class="btn btn-primary btn-lg addSetting">Setup</a>
+                                </div>
+                            </div>
+                            <div class="welcome-features">
+                                <div class="row">
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/customisable.svg" /></div>
+                                        <div class="welcome-features-text">Customisable</div>
+                                    </div> #}
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/visual-editor.svg" /></div>
+                                        <div class="welcome-features-text">Customize with <br/>Visual editor</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/extensible.svg" /></div>
+                                        <div class="welcome-features-text">Extend with <br/>plugins</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/mulipage.svg" /></div>
+                                        <div class="welcome-features-text">Add One Page or <br/>Multiple pages</div>
+                                    </div>
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/github.svg" /></div>
+                                        <div class="welcome-features-text">Opensource</div>
+                                    </div> #}
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/layout.svg" /></div>
+                                        <div class="welcome-features-text">Layouts</div>
+                                    </div> #}
+
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/themes.svg" /></div>
+                                        <div class="welcome-features-text">Add Themes & Layouts</div>
+                                    </div>
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/updates.svg" /></div>
+                                        <div class="welcome-features-text">Updatable</div>
+                                    </div> #}
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if not pro and settings and d_shopunity %}
+                </div>
+
+                <div class="col-md-3">
+                    <div class="d_shopunity_widget"></div>
+                    <script src="view/javascript/d_shopunity/d_shopunity_widget.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                    var d_shopunity_widget = jQuery.extend(true, {}, d_shopunity_widget);
+                    d_shopunity_widget.init({
+                    class: '.d_shopunity_widget',
+                    token: '{{token}}',
+                    extension_id: 'ajax_quick_checkout_pack'
+                    })
+                    </script>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<script type="text/javascript">
+    function alert_handler(json)
+    {
+        if (json['error']) {
+            if (json['error']['warning']) {
+                alertify.error(json['error']['warning']);
+            } else {
+                for (i in json['error']) {
+                    alertify.error(i);
+                }
+            }
+        }
+
+        if (json['success']) {
+            alertify.success(json['success']);
+        }
+    }
+</script>
+<script type="text/javascript"><!--
+$(function () {
+    //checkbox
+    $(".switcher[type='checkbox']").bootstrapSwitch({
+        'onColor': 'success',
+        'onText': '{{text_yes}}',
+        'offText': '{{text_no}}',
+    });
+
+    $(document).on('click', '#save_and_stay', function(){
+        $.ajax( {
+            type: 'post',
+            url: $('#form').attr('action'),
+            data: $('#form').serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function(json) {
+                alert_handler(json);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+    $('body').on('click', '#save_and_exit', function() {
+        $.ajax( {
+            type: 'post',
+            url: $('#form').attr('action'),
+            data: $('#form').serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                $('#content').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#content').fadeTo('slow', 1);
+                action_status = 0;
+            },
+            success: function(json) {
+                alert_handler(json);
+
+                window.setTimeout(function() {
+                    if (json['success']) location = $('#cancel').attr('href');
+                }, 300);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+    $(document).on('click', '.addSetting', function(){
+
+        $.ajax( {
+            type: 'post',
+            url: '{{add_setting}}',
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                location.reload();
+                console.log( response );
+            }
+        });
+
+    })
+
+    $(document).on('click', '.deleteSetting', function(){
+        var setting_id = $(this).data('setting_id');
+        $.ajax( {
+            type: 'post',
+            url: '{{delete_setting}}',
+            data: 'setting_id='+setting_id,
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                window.location.replace(response.url);
+                console.log( response );
+            }
+        });
+
+    })
+
+    $(document).on('change', '.changeStore', function(){
+        var store_id = $(this).val();
+        $.ajax( {
+            type: 'post',
+            url: '{{change_store}}',
+            data: 'store_id='+store_id,
+            beforeSend: function() {
+                $('#form').fadeTo('slow', 0.5);
+            },
+            complete: function() {
+                $('#form').fadeTo('slow', 1);
+            },
+            success: function( response ) {
+                $('#setting_id').val(response.setting_id);
+                console.log( response );
+            }
+        });
+
+    })
+
+    $(document).on('click', '.editor', function(){
+
+        var setting_id = $('#setting_id').val();
+        var editor = $(this).attr('href');
+
+        window.open(editor+'&setting_id='+setting_id, '_blank');
+        return false;
+
+    })
+});
+//--></script>
+{{footer}}
+
+

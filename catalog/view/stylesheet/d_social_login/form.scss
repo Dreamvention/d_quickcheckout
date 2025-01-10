@@ -1,0 +1,112 @@
+.d_social_login {
+    font-size: 16px;
+    color: #6f6f6f;
+    input {
+        display: initial;
+        width: 100%;
+    }
+    .modal-content {
+        transition: all ease .4s;
+    }
+    .control-label {
+        color: #6f6f6f;
+    }
+    .modal-dialog {
+        max-width: 450px;
+        margin: 30px auto;
+    }
+    #dsl_popup {
+        padding: 4.5em;
+    }
+    #dsl_intro {
+        line-height: 1.2;
+        font-size: .82em;
+        padding: 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        color: #8194b0;
+        background-color: #f0f4f9;
+        border: 1px solid #c6d1e3;
+        border-radius: 4px;
+    }
+    #dsl_submit {
+        width: 100%;
+    }
+    .error {
+        margin: 0;
+        color: #bc3d3d;
+        &.form-control {
+            background-color: #fbeded;
+            border: 1px solid #e76262;
+        }
+    }
+    label {
+        padding-top: 0;
+    }
+    #dsl_profile_image {
+        max-width: 100%;
+        border-radius: 100%;
+    }
+    .img-wrap {
+        display: block;
+        margin: auto;
+        max-width: 100px;
+        position: relative;
+        .log-small-icon {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-size: 40%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            padding: 2px;
+            border-radius: 100%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+    }
+    .pre_loader {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        z-index: 1056;
+    }
+}
+
+.dsl_confirm {
+    text-align: center;
+    .wrap {
+        display: inline-block;
+    }
+    .wrap-circul {
+        display: table;
+        background: #1bce6f;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        color: white;
+        .fa {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 25px;
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .d_social_login {
+        .modal-dialog {
+            max-width: 100%;
+        }
+        #dsl_popup {
+            padding: 2em;
+        }
+    }
+}
+
+//fixing very bad thing with scroll
+.modal-open {
+    overflow: scroll;
+}

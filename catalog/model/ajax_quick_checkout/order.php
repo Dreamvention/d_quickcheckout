@@ -1,0 +1,786 @@
+<?php
+namespace Opencart\Catalog\Model\Extension\AjaxQuickCheckout\AjaxQuickCheckout;
+
+class Order extends \Opencart\System\Engine\Model {
+
+
+    
+
+  public function getOrder() {
+
+    if(!empty($this->session->data['order_id']) && $this->getOrderStatusId($this->session->data['order_id']) == 0){
+      return $this->session->data['order_id'];
+    }
+
+    $data = array();
+    $totals = array();
+    $taxes = $this->cart->getTaxes();
+    $total = 0;
+
+    $total_data = array(
+        'totals' => &$totals,
+        'taxes'  => &$taxes,
+        'total'  => &$total
+    );
+
+    $this->getTotals($total_data);
+    $data = $this->prepareCustomerData($data);
+    $data = $this->preparePaymentAddressData($data);
+    $data = $this->prepareMarketingData($data);
+
+//refactor - create full $data
+    if (VERSION > '4.0.1.1') {
+      $sql = "INSERT INTO `" . DB_PREFIX . "order` SET
+      invoice_prefix = '" .$this->db->escape($this->config->get('config_invoice_prefix')) . "',
+      store_id = '" . (int) $this->config->get('config_store_id') . "',
+      store_name = '" . $this->db->escape($this->config->get('config_name')) . "',
+      store_url = '" . $this->db->escape(($this->config->get('config_store_id')) ? $this->config->get('config_url') : HTTP_SERVER) . "',
+      total = '" . (float) $total . "',
+      payment_country_id = '" . (int) $data['payment_country_id'] . "',
+      payment_zone_id = '" . (int) $data['payment_zone_id'] . "',
+      shipping_country_id = 0,
+      shipping_zone_id = 0,
+      affiliate_id = '" . (int) $data['affiliate_id'] . "',
+      commission = '" . (float) $data['commission'] . "',
+      transaction_id = '',
+      firstname = '',
+      lastname = '',
+      email = '',
+      telephone = '',
+      custom_field = '',
+      payment_firstname = '',
+      payment_lastname = '',
+      payment_company = '',
+      payment_address_1 = '',
+      payment_address_2 = '',
+      payment_city = '',
+      payment_postcode = '',
+      payment_country = '',
+      payment_zone = '',
+      payment_address_format = '',
+      payment_custom_field = '',
+      payment_method = '',
+      shipping_firstname = '',
+      shipping_lastname = '',
+      shipping_company = '',
+      shipping_address_1 = '',
+      shipping_address_2 = '',
+      shipping_city = '',
+      shipping_postcode = '',
+      shipping_country = '',
+      shipping_zone = '',
+      shipping_address_format = '',
+      shipping_custom_field = '',
+      shipping_method = '',
+      comment = '',
+      marketing_id = 0,
+      tracking = '',
+      language_code = '" . $this->db->escape($this->config->get('config_language')) . "',
+      language_id = '" . (int)  $this->config->get('config_language_id') . "',
+      currency_id = '" . (int) $this->currency->getId($this->session->data['currency']) . "',
+      currency_code = '" . $this->db->escape($this->session->data['currency']) . "',
+      currency_value = '" . (float) $this->currency->getValue($this->session->data['currency']) . "',
+      ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "',
+      forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "',
+      user_agent = '" . $this->db->escape((isset($this->request->server['HTTP_USER_AGENT'])) ? $this->request->server['HTTP_USER_AGENT']: '') . "',
+      accept_language = '" . $this->db->escape((isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) ? $this->request->server['HTTP_ACCEPT_LANGUAGE']: '') . "',
+      date_added = NOW(),
+      date_modified = NOW()";
+    } else {
+      $sql = "INSERT INTO `" . DB_PREFIX . "order` SET
+      invoice_prefix = '" .$this->db->escape($this->config->get('config_invoice_prefix')) . "',
+      store_id = '" . (int) $this->config->get('config_store_id') . "',
+      store_name = '" . $this->db->escape($this->config->get('config_name')) . "',
+      store_url = '" . $this->db->escape(($this->config->get('config_store_id')) ? $this->config->get('config_url') : HTTP_SERVER) . "',
+      total = '" . (float) $total . "',
+      payment_country_id = '" . (int) $data['payment_country_id'] . "',
+      payment_zone_id = '" . (int) $data['payment_zone_id'] . "',
+      shipping_country_id = 0,
+      shipping_zone_id = 0,
+      affiliate_id = '" . (int) $data['affiliate_id'] . "',
+      commission = '" . (float) $data['commission'] . "',
+      transaction_id = '',
+      firstname = '',
+      lastname = '',
+      email = '',
+      telephone = '',
+      custom_field = '',
+      payment_firstname = '',
+      payment_lastname = '',
+      payment_company = '',
+      payment_address_1 = '',
+      payment_address_2 = '',
+      payment_city = '',
+      payment_postcode = '',
+      payment_country = '',
+      payment_zone = '',
+      payment_address_format = '',
+      payment_custom_field = '',
+      payment_method = '',
+      payment_code = '',
+      shipping_firstname = '',
+      shipping_lastname = '',
+      shipping_company = '',
+      shipping_address_1 = '',
+      shipping_address_2 = '',
+      shipping_city = '',
+      shipping_postcode = '',
+      shipping_country = '',
+      shipping_zone = '',
+      shipping_address_format = '',
+      shipping_custom_field = '',
+      shipping_method = '',
+      shipping_code = '',
+      comment = '',
+      marketing_id = 0,
+      tracking = '',
+      language_code = '" . $this->db->escape($this->config->get('config_language')) . "',
+      language_id = '" . (int)  $this->config->get('config_language_id') . "',
+      currency_id = '" . (int) $this->currency->getId($this->session->data['currency']) . "',
+      currency_code = '" . $this->db->escape($this->session->data['currency']) . "',
+      currency_value = '" . (float) $this->currency->getValue($this->session->data['currency']) . "',
+      ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "',
+      forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "',
+      user_agent = '" . $this->db->escape((isset($this->request->server['HTTP_USER_AGENT'])) ? $this->request->server['HTTP_USER_AGENT']: '') . "',
+      accept_language = '" . $this->db->escape((isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) ? $this->request->server['HTTP_ACCEPT_LANGUAGE']: '') . "',
+      date_added = NOW(),
+      date_modified = NOW()";
+    }
+    $result = $this->db->query($sql);
+
+    $order_id = $this->db->getLastId();
+
+    return $order_id;
+  }
+
+  public function getOrderStatusId($order_id){
+    $order_query = $this->db->query("SELECT *, (SELECT os.name FROM `" . DB_PREFIX . "order_status` os WHERE os.order_status_id = o.order_status_id AND os.language_id = o.language_id) AS order_status FROM `" . DB_PREFIX . "order` o WHERE o.order_id = '" . (int)$order_id . "'");
+
+    if(isset($order_query->row['order_status_id'])){
+      return $order_query->row['order_status_id'];
+    }
+    return false;
+  }
+
+  public function updateOrder(){
+    $data = array();
+
+    $totals = array();
+    $taxes = $this->cart->getTaxes();
+    $total = 0;
+
+    $total_data = array(
+      'totals' => &$totals,
+      'taxes'  => &$taxes,
+      'total'  => &$total
+    );
+
+    $this->getTotals($total_data);
+
+    $this->load->language('checkout/checkout');
+
+    $data = $this->prepareCustomerData($data);
+    $data = $this->preparePaymentAddressData($data);
+    $data = $this->prepareShippingAddressData($data);
+    $data = $this->prepareShippingMethodData($data);
+    $data = $this->preparePaymentMethodData($data);
+    $data = $this->prepareCartData($data);
+    $data = $this->prepareMarketingData($data);
+
+    if(!isset($this->session->data['order_id'])){
+        return false;
+    }
+    $order_id = $this->session->data['order_id'];
+
+//refactor - create full $data
+if (VERSION > '4.0.1.1') {
+  $query = "UPDATE `" . DB_PREFIX . "order` SET
+  customer_id = '" . (int) $data['customer_id'] . "',
+  customer_group_id = '" . (int) $data['customer_group_id'] . "',
+  firstname = '" . $this->db->escape($data['firstname']) . "',
+  lastname = '" . $this->db->escape($data['lastname']) . "',
+  email = '" . $this->db->escape($data['email']) . "',
+  telephone = '" . $this->db->escape($data['telephone']) . "',
+  custom_field = '" . $this->db->escape($data['custom_field']). "',
+
+  payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
+  payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
+  payment_company = '" . $this->db->escape($data['payment_company']) . "',
+  payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "',
+  payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "',
+  payment_city = '" . $this->db->escape($data['payment_city']) . "',
+  payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "',
+  payment_country = '" . $this->db->escape($data['payment_country']) . "',
+  payment_country_id = '" . (int) $data['payment_country_id'] . "',
+  payment_zone = '" . $this->db->escape($data['payment_zone']) . "',
+  payment_zone_id = '" . (int) $data['payment_zone_id'] . "',
+  payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "',
+  payment_custom_field = '" . $this->db->escape($data['payment_custom_field']) . "',
+
+  payment_method = '" . $this->db->escape(($data['payment_method'])) . "',
+
+  shipping_firstname = '" . $this->db->escape($data['shipping_firstname']) . "',
+  shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
+  shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
+  shipping_address_1 = '" . $this->db->escape($data['shipping_address_1']) . "',
+  shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "',
+  shipping_city = '" . $this->db->escape($data['shipping_city']) . "',
+  shipping_postcode = '" . $this->db->escape($data['shipping_postcode']) . "',
+  shipping_country = '" . $this->db->escape($data['shipping_country']) . "',
+  shipping_country_id = '" . (int) $data['shipping_country_id'] . "',
+  shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "',
+  shipping_zone_id = '" . (int) $data['shipping_zone_id'] . "',
+  shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "',
+  shipping_custom_field = '" . $this->db->escape($data['shipping_custom_field']) ."',
+
+  shipping_method = '" . $this->db->escape($data['shipping_method']) . "',
+
+  comment = '" . $this->db->escape(isset($data['comment']) ? $data['comment'] : '') . "',
+
+  total = '" . (float) $total_data['total'] . "',
+  affiliate_id = '" . (int) $data['affiliate_id'] . "',
+  commission = '" . (float) $data['commission'] . "',
+  marketing_id = '" . (int) $data['marketing_id'] . "',
+  tracking = '" . $this->db->escape($data['tracking']) . "',
+  language_id = '" . (int)  $this->config->get('config_language_id') . "',
+  currency_id = '" . (int) $this->currency->getId($this->session->data['currency']) . "',
+  currency_code = '" . $this->db->escape($this->session->data['currency']) . "',
+  currency_value = '" . (float) $this->currency->getValue($this->session->data['currency']) . "',
+  ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "',
+  forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "',
+  user_agent = '" . $this->db->escape((isset($this->request->server['HTTP_USER_AGENT'])) ? $this->request->server['HTTP_USER_AGENT']: '') . "',
+  accept_language = '" . $this->db->escape((isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) ? $this->request->server['HTTP_ACCEPT_LANGUAGE']: '') . "',
+  date_added = NOW(),
+  date_modified = NOW()
+  WHERE order_id = '" . (int) $order_id . "'";
+} else {
+  $query = "UPDATE `" . DB_PREFIX . "order` SET
+  customer_id = '" . (int) $data['customer_id'] . "',
+  customer_group_id = '" . (int) $data['customer_group_id'] . "',
+  firstname = '" . $this->db->escape($data['firstname']) . "',
+  lastname = '" . $this->db->escape($data['lastname']) . "',
+  email = '" . $this->db->escape($data['email']) . "',
+  telephone = '" . $this->db->escape($data['telephone']) . "',
+  custom_field = '" . $this->db->escape($data['custom_field']). "',
+
+  payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
+  payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
+  payment_company = '" . $this->db->escape($data['payment_company']) . "',
+  payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "',
+  payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "',
+  payment_city = '" . $this->db->escape($data['payment_city']) . "',
+  payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "',
+  payment_country = '" . $this->db->escape($data['payment_country']) . "',
+  payment_country_id = '" . (int) $data['payment_country_id'] . "',
+  payment_zone = '" . $this->db->escape($data['payment_zone']) . "',
+  payment_zone_id = '" . (int) $data['payment_zone_id'] . "',
+  payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "',
+  payment_custom_field = '" . $this->db->escape($data['payment_custom_field']) . "',
+
+  payment_method = '" . $this->db->escape($data['payment_method']) . "',
+  payment_code = '" . $this->db->escape($data['payment_code']) . "',
+
+  shipping_firstname = '" . $this->db->escape($data['shipping_firstname']) . "',
+  shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
+  shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
+  shipping_address_1 = '" . $this->db->escape($data['shipping_address_1']) . "',
+  shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "',
+  shipping_city = '" . $this->db->escape($data['shipping_city']) . "',
+  shipping_postcode = '" . $this->db->escape($data['shipping_postcode']) . "',
+  shipping_country = '" . $this->db->escape($data['shipping_country']) . "',
+  shipping_country_id = '" . (int) $data['shipping_country_id'] . "',
+  shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "',
+  shipping_zone_id = '" . (int) $data['shipping_zone_id'] . "',
+  shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "',
+  shipping_custom_field = '" . $this->db->escape($data['shipping_custom_field']) ."',
+
+  shipping_method = '" . $this->db->escape($data['shipping_method']) . "',
+  shipping_code = '" . $this->db->escape($data['shipping_code']) . "',
+
+  comment = '" . $this->db->escape(isset($data['comment']) ? $data['comment'] : '') . "',
+
+  total = '" . (float) $total_data['total'] . "',
+  affiliate_id = '" . (int) $data['affiliate_id'] . "',
+  commission = '" . (float) $data['commission'] . "',
+  marketing_id = '" . (int) $data['marketing_id'] . "',
+  tracking = '" . $this->db->escape($data['tracking']) . "',
+  language_id = '" . (int)  $this->config->get('config_language_id') . "',
+  currency_id = '" . (int) $this->currency->getId($this->session->data['currency']) . "',
+  currency_code = '" . $this->db->escape($this->session->data['currency']) . "',
+  currency_value = '" . (float) $this->currency->getValue($this->session->data['currency']) . "',
+  ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "',
+  forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "',
+  user_agent = '" . $this->db->escape((isset($this->request->server['HTTP_USER_AGENT'])) ? $this->request->server['HTTP_USER_AGENT']: '') . "',
+  accept_language = '" . $this->db->escape((isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) ? $this->request->server['HTTP_ACCEPT_LANGUAGE']: '') . "',
+  date_added = NOW(),
+  date_modified = NOW()
+  WHERE order_id = '" . (int) $order_id . "'";
+}
+    
+
+    $this->db->query($query);
+
+    $this->db->query("DELETE FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int) $order_id . "'");
+    $this->db->query("DELETE FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int) $order_id . "'");
+
+    $this->load->model('checkout/subscription');
+
+    // Products
+    foreach ($data['products'] as $product) {
+        $this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_id = '" . (int) $order_id . "', product_id = '" . (int) $product['product_id'] . "', name = '" . $this->db->escape($product['name']) . "', model = '" . $this->db->escape($product['model']) . "', quantity = '" . (int) $product['quantity'] . "', price = '" . (float) $product['price'] . "', total = '" . (float) $product['total'] . "', tax = '" . (float) $product['tax'] . "', reward = '" . (int) $product['reward'] . "'");
+
+        $order_product_id = $this->db->getLastId();
+
+        foreach ($product['option'] as $option) {
+            $this->db->query("INSERT INTO " . DB_PREFIX . "order_option SET order_id = '" . (int) $order_id . "', order_product_id = '" . (int) $order_product_id . "', product_option_id = '" . (int) $option['product_option_id'] . "', product_option_value_id = '" . (int) $option['product_option_value_id'] . "', name = '" . $this->db->escape($option['name']) . "', `value` = '" . $this->db->escape($option['value']) . "', `type` = '" . $this->db->escape($option['type']) . "'");
+        }
+
+        if ($product['subscription']) {
+					$subscription_data = [
+            'subscription_plan_id' => $product['subscription']['subscription_plan_id'],
+						'order_product_id' => $order_product_id,
+						'name'             => $product['subscription']['name'],
+            'customer_id'      => $this->session->data['customer']['customer_id'] ?? $this->customer->getId(),
+						'description'      => $product['subscription']['description'],
+						'trial_price'      => $product['subscription']['trial_price'],
+						'trial_frequency'  => $product['subscription']['trial_frequency'],
+						'trial_cycle'      => $product['subscription']['trial_cycle'],
+						'trial_duration'   => $product['subscription']['trial_duration'],
+						'trial_status'     => $product['subscription']['trial_status'],
+						'price'            => $product['subscription']['price'],
+						'frequency'        => $product['subscription']['frequency'],
+						'cycle'            => $product['subscription']['cycle'],
+						'duration'         => $product['subscription']['duration'],
+						'remaining'        => $product['subscription']['duration'],
+						'date_next'        => $product['subscription']['date_next'] ?? ''
+					];
+
+          $this->model_checkout_subscription->deleteSubscriptionByOrderId($order_id);
+
+					$this->model_checkout_subscription->addSubscription($order_id, $subscription_data);
+        }
+    }
+
+    // Gift Voucher
+    $this->db->query("DELETE FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int) $order_id . "'");
+
+    // Vouchers
+    foreach ($data['vouchers'] as $voucher) {
+        $this->db->query("INSERT INTO " . DB_PREFIX . "order_voucher SET order_id = '" . (int) $order_id . "', description = '" . $this->db->escape($voucher['description']) . "', code = '" . $this->db->escape($voucher['code']) . "', from_name = '" . $this->db->escape($voucher['from_name']) . "', from_email = '" . $this->db->escape($voucher['from_email']) . "', to_name = '" . $this->db->escape($voucher['to_name']) . "', to_email = '" . $this->db->escape($voucher['to_email']) . "', voucher_theme_id = '" . (int) $voucher['voucher_theme_id'] . "', message = '" . $this->db->escape($voucher['message']) . "', amount = '" . (float) $voucher['amount'] . "'");
+
+        $order_voucher_id = $this->db->getLastId();
+        if(!$this->isVoucher($order_id, $voucher)) {
+            $voucher_id = $this->addVoucher($order_id, $voucher);
+            $this->db->query("UPDATE " . DB_PREFIX . "order_voucher SET voucher_id = '" . (int) $voucher_id . "' WHERE order_voucher_id = '" . (int) $order_voucher_id . "'");
+        }
+    }
+
+
+
+    // Totals
+    $this->db->query("DELETE FROM " . DB_PREFIX . "order_total WHERE order_id = '" . (int) $order_id . "'");
+    foreach ($total_data['totals'] as $total) {
+        $this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int) $order_id . "', code = '" . $this->db->escape($total['code']) . "', extension = '" . $this->db->escape($total['extension']) . "', title = '" . $this->db->escape($total['title']) . "', `value` = '" . (float) $total['value'] . "', sort_order = '" . (int) $total['sort_order'] . "'");
+    }
+    //$this->cart->getProducts();
+
+
+
+    return $order_id;
+  }
+
+    /*
+
+    $total_data = array(
+        'totals' => &$totals,
+        'taxes'  => &$taxes,
+        'total'  => &$total
+    );
+
+     */
+//REFACTOR - CALLED TWICE IN THE SYSTEM!!!!
+    public function getTotals($total_data = array()) {
+
+      $this->load->model('setting/extension');
+      $results = $this->model_setting_extension->getExtensionsByType('total');
+      $prefix = "total_";
+      $sort_order = array();
+
+      
+
+      foreach ($results as $key => $value) {
+          $sort_order[$key] = $this->config->get('total_' . $value['code'] . '_sort_order');
+      }
+
+      array_multisort($sort_order, SORT_ASC, $results);
+
+      foreach ($results as $result) {
+          if ($this->config->get($prefix . $result['code'] . '_status')) {
+              $this->load->model('extension/' . $result['extension'] . '/total/' . $result['code']);
+              ($this->{'model_extension_' . $result['extension'] . '_total_' . $result['code']}->getTotal)($total_data['totals'], $total_data['taxes'], $total_data['total']);
+          }
+      }
+
+      $sort_order = array();
+      
+      foreach ($total_data['totals'] as $key => $value) {
+          $sort_order[$key] = $value['sort_order'];
+      }
+      array_multisort($sort_order, SORT_ASC, $total_data['totals']);
+
+     
+      $totals = array();
+      foreach ($total_data['totals'] as $total) {
+          if(!empty($total['title'])){
+              $totals[] = array(
+                  'title' => $total['title'],
+                  'text'  => $this->currency->format($total['value'], $this->session->data['currency']),
+              );
+          }
+      }
+
+      //REFECTOR!!!!
+      $this->session->data['total'] = $total_data['total'];
+      
+      return $totals;
+    }
+
+    public function prepareCustomerData($data = array()){
+
+      $data['customer_id'] = 0;
+      $data['customer_group_id'] = 0;
+      $data['firstname'] = '';
+      $data['lastname'] = '';
+      $data['email'] = '';
+      $data['telephone'] = '';
+      $data['custom_field'] = array();
+
+      if ($this->customer->isLogged()) {
+        $this->load->model('account/customer');
+        $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
+
+        $data['customer_id'] = $this->customer->getId();
+        $data['customer_group_id'] = $customer_info['customer_group_id'];
+        $data['firstname'] = $customer_info['firstname'];
+        $data['lastname'] = $customer_info['lastname'];
+        $data['email'] = $customer_info['email'];
+        $data['telephone'] = $customer_info['telephone'];
+
+        //refactor - move this check to database insert
+
+        $data['custom_field'] = json_decode($customer_info['custom_field'], true);
+
+      } elseif (isset($this->session->data['payment_address'])) {
+        $data['customer_id'] = 0;
+        $data['customer_group_id'] = $this->session->data['payment_address']['customer_group_id'] ?? (int)$this->customer->getGroupId();
+        $data['firstname'] = $this->session->data['payment_address']['firstname'] ?? '';
+        $data['lastname'] = $this->session->data['payment_address']['lastname'] ?? '';
+        $data['email'] = $this->session->data['payment_address']['email'] ?? '';
+        $data['telephone'] = $this->session->data['payment_address']['telephone'] ?? '';
+        $data['custom_field'] = (isset($this->session->data['payment_address']['custom_field']['account'])) ? $this->session->data['payment_address']['custom_field']['account'] : array();
+      }
+
+      //opencart fix: always provide an email.
+      if (empty($data['email'])) {
+        $data['email'] = $this->config->get('config_email');
+      }
+
+  //refactor - move this check to database insert
+      
+      $data['custom_field'] = serialize($data['custom_field']);
+
+      if(isset($this->session->data['custom']['comment'])){
+            $data['comment'] = $this->session->data['custom']['comment'];
+      }
+
+      if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {
+          $data['forwarded_ip'] = $this->request->server['HTTP_X_FORWARDED_FOR'];
+      } elseif (!empty($this->request->server['HTTP_CLIENT_IP'])) {
+          $data['forwarded_ip'] = $this->request->server['HTTP_CLIENT_IP'];
+      } else {
+          $data['forwarded_ip'] = '';
+      }
+
+      return $data;
+    }
+
+    public function preparePaymentAddressData($data = array()){
+
+
+      $data['payment_firstname'] = '';
+      $data['payment_lastname'] = '';
+      $data['payment_company'] = '';
+      $data['payment_address_1'] = '';
+      $data['payment_address_2'] = '';
+      $data['payment_city'] = '';
+      $data['payment_postcode'] = '';
+      $data['payment_zone'] = '';
+      $data['payment_zone_id'] = $this->config->get('config_zone_id');
+      $data['payment_country'] = '';
+      $data['payment_country_id'] = $this->config->get('config_country_id');
+      $data['payment_address_format'] = '';
+      $data['payment_custom_field'] = array();
+      $data['payment_iso_code_2'] = '';
+      $data['payment_iso_code_3'] = '';
+      $data['payment_zone_code'] = '';
+
+      if(isset($this->session->data['payment_address'])){
+        $data['payment_firstname'] = $this->session->data['payment_address']['firstname'] ?? '';
+        $data['payment_lastname'] = $this->session->data['payment_address']['lastname'] ?? '';
+        $data['payment_company'] = $this->session->data['payment_address']['company'] ?? '';
+        $data['payment_address_1'] = $this->session->data['payment_address']['address_1'] ?? '';
+        $data['payment_address_2'] = $this->session->data['payment_address']['address_2'] ?? '';
+        $data['payment_city'] = $this->session->data['payment_address']['city'] ?? '';
+        $data['payment_postcode'] = $this->session->data['payment_address']['postcode'] ?? '';
+        $data['payment_zone'] = $this->session->data['payment_address']['zone'] ?? '';
+        $data['payment_zone_id'] = $this->session->data['payment_address']['zone_id'] ?? '';
+        $data['payment_country'] = $this->session->data['payment_address']['country'] ?? '';
+        $data['payment_country_id'] = $this->session->data['payment_address']['country_id'] ?? '';
+        $data['payment_address_format'] = $this->session->data['payment_address']['address_format'] ?? '';
+        $data['payment_custom_field'] = (isset($this->session->data['payment_address']['custom_field']['address']) ? $this->session->data['payment_address']['custom_field']['address'] : array());
+        $data['payment_iso_code_2'] = $this->session->data['payment_address']['iso_code_2'] ?? '';
+        $data['payment_iso_code_3'] =  $this->session->data['payment_address']['iso_code_3'] ?? '';
+        $data['payment_zone_code'] =  $this->session->data['payment_address']['zone_code'] ?? '';
+      }
+  //refactor - move this check to database insert. because we need a valid array for the events    
+      $data['payment_custom_field'] = json_encode($data['payment_custom_field']);
+      
+
+      return $data;
+    }
+
+    public function prepareShippingAddressData($data = array()){
+
+      $data['shipping_firstname'] ='';
+      $data['shipping_lastname'] ='';
+      $data['shipping_company'] ='';
+      $data['shipping_address_1'] ='';
+      $data['shipping_address_2'] ='';
+      $data['shipping_city'] ='';
+      $data['shipping_postcode'] ='';
+      $data['shipping_zone'] ='';
+      $data['shipping_zone_id'] ='';
+      $data['shipping_country'] ='';
+      $data['shipping_country_id'] ='';
+      $data['shipping_address_format'] ='';
+      $data['shipping_custom_field'] = array();
+      $data['shipping_iso_code_2'] = '';
+      $data['shipping_iso_code_3'] = '';
+      $data['shipping_zone_code'] = '';
+      
+      if ($this->cart->hasShipping()) {
+        if(empty($this->session->data['payment_address']['shipping_address'])){
+          $data['shipping_firstname'] = !empty($this->session->data['shipping_address']['firstname']) ? $this->session->data['shipping_address']['firstname'] : '';
+          $data['shipping_lastname'] = !empty($this->session->data['shipping_address']['lastname']) ? $this->session->data['shipping_address']['lastname'] : '';
+          $data['shipping_company'] = !empty($this->session->data['shipping_address']['company']) ? $this->session->data['shipping_address']['company'] : '';
+          $data['shipping_address_1'] = !empty($this->session->data['shipping_address']['address_1']) ? $this->session->data['shipping_address']['address_1'] : '';
+          $data['shipping_address_2'] = !empty($this->session->data['shipping_address']['address_2']) ? $this->session->data['shipping_address']['address_2'] : '';
+          $data['shipping_city'] = !empty($this->session->data['shipping_address']['city']) ? $this->session->data['shipping_address']['city'] : '';
+          $data['shipping_postcode'] = !empty($this->session->data['shipping_address']['postcode']) ? $this->session->data['shipping_address']['postcode'] : '';
+          $data['shipping_zone'] = !empty($this->session->data['shipping_address']['zone']) ? $this->session->data['shipping_address']['zone'] : '';
+          $data['shipping_zone_id'] = !empty($this->session->data['shipping_address']['zone_id']) ? $this->session->data['shipping_address']['zone_id'] : '';
+          $data['shipping_country'] = !empty($this->session->data['shipping_address']['country']) ? $this->session->data['shipping_address']['country'] : '';
+          $data['shipping_country_id'] = !empty($this->session->data['shipping_address']['country_id']) ? $this->session->data['shipping_address']['country_id'] : '';
+          $data['shipping_address_format'] = !empty($this->session->data['shipping_address']['address_format']) ? $this->session->data['shipping_address']['address_format'] : '';
+          $data['shipping_custom_field'] = (isset($this->session->data['shipping_address']['custom_field']['address']) ? $this->session->data['shipping_address']['custom_field']['address'] : array());
+          $data['shipping_iso_code_2'] = !empty($this->session->data['shipping_address']['iso_code_2']) ? $this->session->data['shipping_address']['iso_code_2'] : '';
+  				$data['shipping_iso_code_3'] =  !empty($this->session->data['shipping_address']['iso_code_3']) ? $this->session->data['shipping_address']['iso_code_3'] : '';
+          $data['shipping_zone_code'] =  !empty($this->session->data['shipping_address']['zone_code']) ? $this->session->data['shipping_address']['zone_code'] : '';
+        }else{
+          $data['shipping_firstname'] = !empty($this->session->data['payment_address']['firstname']) ? $this->session->data['payment_address']['firstname'] : '';
+          $data['shipping_lastname'] = !empty($this->session->data['payment_address']['lastname']) ? $this->session->data['payment_address']['lastname'] : '';
+          $data['shipping_company'] = !empty($this->session->data['payment_address']['company']) ? $this->session->data['payment_address']['company'] : '';
+          $data['shipping_address_1'] = !empty($this->session->data['payment_address']['address_1']) ? $this->session->data['payment_address']['address_1'] : '';
+          $data['shipping_address_2'] = !empty($this->session->data['payment_address']['address_2']) ? $this->session->data['payment_address']['address_2'] : '';
+          $data['shipping_city'] = !empty($this->session->data['payment_address']['city']) ? $this->session->data['payment_address']['city'] : '';
+          $data['shipping_postcode'] = !empty($this->session->data['payment_address']['postcode']) ? $this->session->data['payment_address']['postcode'] : '';
+          $data['shipping_zone'] = !empty($this->session->data['payment_address']['zone']) ? $this->session->data['payment_address']['zone'] : '';
+          $data['shipping_zone_id'] = !empty($this->session->data['payment_address']['zone_id']) ? $this->session->data['payment_address']['zone_id'] : '';
+          $data['shipping_country'] = !empty($this->session->data['payment_address']['country']) ? $this->session->data['payment_address']['country'] : '';
+          $data['shipping_country_id'] = !empty($this->session->data['payment_address']['country_id']) ? $this->session->data['payment_address']['country_id'] : '';
+          $data['shipping_address_format'] = !empty($this->session->data['payment_address']['address_format']) ? $this->session->data['payment_address']['address_format'] : '';
+          $data['shipping_iso_code_2'] = !empty($this->session->data['payment_address']['iso_code_2']) ? $this->session->data['payment_address']['iso_code_2'] : '';
+  				$data['shipping_iso_code_3'] =  !empty($this->session->data['payment_address']['iso_code_3']) ? $this->session->data['payment_address']['iso_code_3'] : '';
+          $data['shipping_zone_code'] =  !empty($this->session->data['payment_address']['zone_code']) ? $this->session->data['payment_address']['zone_code'] : '';
+        }
+      }
+
+      //refactor - move this check to database insert. because we need a valid array for the events
+      $data['shipping_custom_field'] = json_encode($data['shipping_custom_field']);
+
+      return $data;
+    }
+
+  public function prepareShippingMethodData($data = array()){
+    $data['shipping_method'] = '';
+    $data['shipping_code'] = '';
+
+    if ($this->cart->hasShipping()) {
+      if (VERSION <= '4.0.1.1' && isset($this->session->data['shipping_method']) && $this->session->data['shipping_method']) {
+        $data['shipping_code'] = $this->session->data['shipping_method'];
+        $shipping = explode('.', $this->session->data['shipping_method']);
+      }
+      if (VERSION > '4.0.1.1') {
+          $data['shipping_method'] = json_encode(!empty($this->session->data['shipping_method']) ? $this->session->data['shipping_method'] : []);
+      } else if (isset($shipping) && isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]]['title'])) {
+          $data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]]['title'];
+      }
+      
+    }
+    return $data;
+  }
+
+    public function preparePaymentMethodData($data = array()){
+      $data['payment_method'] = '';
+      $data['payment_code'] = '';
+      if (VERSION > "4.0.1.1" && isset($this->session->data['payment_method'])) {
+        $data['payment_method'] = json_encode($this->session->data['payment_method']);
+      } else if (isset($this->session->data['payment_method']) && isset($this->session->data['payment_methods'][$this->session->data['payment_method']]['title'])) {
+        $data['payment_method'] = $this->session->data['payment_methods'][$this->session->data['payment_method']]['title'];
+      }
+
+      if (isset($this->session->data['payment_method']) && $this->session->data['payment_method']) {
+        $data['payment_code'] = !is_array($this->session->data['payment_method']) ? $this->session->data['payment_method'] : $this->session->data['payment_method']['code'];
+      }
+
+      return $data;
+    }
+
+    public function prepareCartData($data = array()){
+      $data['products'] = array();
+
+      foreach ($this->cart->getProducts() as $product) {
+          $option_data = array();
+
+          foreach ($product['option'] as $option) {
+              $option_data[] = array(
+                  'product_option_id'       => $option['product_option_id'],
+                  'product_option_value_id' => $option['product_option_value_id'],
+                  'option_id'               => $option['option_id'],
+                  'option_value_id'         => $option['option_value_id'],
+                  'name'                    => $option['name'],
+                  'value'                   => $option['value'],
+                  'type'                    => $option['type']
+              );
+          }
+
+          $data['products'][] = array(
+              'product_id' => $product['product_id'],
+              'name'       => $product['name'],
+              'model'      => $product['model'],
+              'option'     => $option_data,
+              'download'   => $product['download'],
+              'quantity'   => $product['quantity'],
+              'subtract'   => $product['subtract'],
+              'price'      => $product['price'],
+              'total'      => $product['total'],
+              'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
+              'subscription' => $product['subscription'],
+              'reward'     => $product['reward']
+          );
+      }
+
+      // Gift Voucher
+      $data['vouchers'] = array();
+
+      if (!empty($this->session->data['vouchers'])) {
+          foreach ($this->session->data['vouchers'] as $voucher) {
+              $data['vouchers'][] = array(
+                  'description'      => $voucher['description'],
+                  'code'             => substr(md5(mt_rand()), 0, 10),
+                  'to_name'          => $voucher['to_name'],
+                  'to_email'         => $voucher['to_email'],
+                  'from_name'        => $voucher['from_name'],
+                  'from_email'       => $voucher['from_email'],
+                  'voucher_theme_id' => $voucher['voucher_theme_id'],
+                  'message'          => $voucher['message'],
+                  'amount'           => $voucher['amount']
+              );
+          }
+      }
+
+      return $data;
+    }
+    public function addVoucher($order_id, $voucher) {
+
+        if(VERSION >= '2.3.0.0'){
+            $this->load->model('extension/total/voucher');
+            return $this->model_extension_total_voucher->addVoucher($order_id, $voucher);
+        } elseif (VERSION >= '2.1.0.1') {
+            $this->load->model('total/voucher');
+            return $this->model_total_voucher->addVoucher($order_id, $voucher);
+        } else {
+            $this->load->model('checkout/voucher');
+            return $this->model_checkout_voucher->addVoucher($order_id, $voucher);
+        }
+    }
+
+    public function isVoucher($order_id, $voucher) {
+
+        $result = $this->db->query("SELECT * FROM " . DB_PREFIX . "voucher WHERE order_id = " . (int)$order_id . " AND message = '" . $this->db->escape($voucher['message']) . "' AND amount = '" . (float) $voucher['amount'] . "'");
+        if($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function prepareMarketingData($data = array()){
+      $data['affiliate_id'] = 0;
+      $data['commission'] = 0;
+      $data['marketing_id'] = 0;
+      $data['tracking'] = '';
+
+      if (isset($this->request->cookie['tracking'])) {
+        $data['tracking'] = $this->request->cookie['tracking'];
+
+        $subtotal = $this->cart->getSubTotal();
+
+        // Affiliate
+        $this->load->model('account/affiliate');
+        $affiliate_info = $this->model_account_affiliate->getAffiliateByTracking($this->request->cookie['tracking']);
+        if ($affiliate_info) {
+            $data['affiliate_id'] = $affiliate_info['customer_id'];
+            $data['commission'] = ($subtotal / 100) * $affiliate_info['commission'];
+        } else {
+            $data['affiliate_id'] = 0;
+            $data['commission'] = 0;
+        }
+
+        // Marketing
+        $this->load->model('marketing/marketing');
+
+        $marketing_info = $this->model_marketing_marketing->getMarketingByCode($this->request->cookie['tracking']);
+
+        if ($marketing_info) {
+          $data['marketing_id'] = $marketing_info['marketing_id'];
+        } else {
+          $data['marketing_id'] = 0;
+        }
+      }
+
+      return $data;
+    }
+
+    public function initCart(){
+
+        $this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE (api_id > '0' OR customer_id = '0') AND date_added < DATE_SUB(NOW(), INTERVAL 1 HOUR)");
+
+        if ($this->customer->getId()) {
+            // We want to change the session ID on all the old items in the customers cart
+            $this->db->query("UPDATE " . DB_PREFIX . "cart SET session_id = '" . $this->db->escape($this->session->getId()) . "' WHERE api_id = '0' AND customer_id = '" . (int)$this->customer->getId() . "'");
+
+            // Once the customer is logged in we want to update the customers cart
+            $cart_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "cart WHERE api_id = '0' AND customer_id = '0' AND session_id = '" . $this->db->escape($this->session->getId()) . "'");
+
+            foreach ($cart_query->rows as $cart) {
+                $this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE cart_id = '" . (int)$cart['cart_id'] . "'");
+
+                // The advantage of using $this->add is that it will check if the products already exist and increaser the quantity if necessary.
+                $this->cart->add($cart['product_id'], $cart['quantity'], json_decode($cart['option'], 1), $cart['subscription_plan_id']);
+            }
+        }
+        
+    }
+
+}

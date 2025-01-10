@@ -1,0 +1,13 @@
+{
+    "name": "Ajax Quick Checkout",
+    "codename": "ajax_quick_checkout",
+    "license": "GPL",
+    "version": "1.0.38",
+    "author": "Dreamvention",
+    "link": "https://dreamvention.com/",
+    "dependencies": {
+    "dv_simple_html_dom": ">=1.0.0",
+    "dv_opencart_patch": ">=1.0.0",
+    "dv_dialogify": ">=1.0.1"
+    }
+}

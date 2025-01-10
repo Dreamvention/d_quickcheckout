@@ -1,0 +1,30 @@
+{
+  "name": "d_social_share",
+  "version": "1.0.0",
+  "description": "Install extension with a click of a button.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dreamvention/2_d_social_share.git"
+  },
+  "author": "paveldrvn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dreamvention/2_d_social_share/issues"
+  },
+  "homepage": "https://github.com/Dreamvention/2_d_social_share#readme",
+  "devDependencies": {
+    "browser-sync": "^2.15.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-sass": "^3.1.0"
+  },
+  "dependencies": {
+    "gulp-sourcemaps": "^2.6.4",
+    "social-login": "^0.2.8"
+  }
+}

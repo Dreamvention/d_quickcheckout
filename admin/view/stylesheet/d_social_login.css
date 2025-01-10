@@ -1,0 +1,33 @@
+.api-title.label-success{
+    display: none
+}
+.api-active .api-title.label-success{
+    display: inline-block;
+}
+.api-active .api-title.label-default{
+    display: none;
+}
+
+.input-group{
+    margin-bottom: 5px;
+}
+.sortable {
+    position: relative;
+}
+
+.sortable .dragged {
+    position: absolute;
+    z-index: 2000;
+    width: 100%;
+    display: table;
+    background: #fff
+}
+
+.sortable .placeholder {
+    opacity: 0.8;
+    border: dotted 1px #999;
+    background: #fff;
+    min-height: 42px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}

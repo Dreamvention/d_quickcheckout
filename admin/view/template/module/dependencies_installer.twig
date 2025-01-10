@@ -1,0 +1,239 @@
+{# location: admin/view #}
+
+{{ header }} {{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline float-end">
+            </div>
+            <h1>{{heading_title}} {{version}}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if not pro %}
+            <div class="notify alert alert-info">{{text_get_pro}}</div>
+        {% endif %}
+        {% if error.warning %}
+            <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error.warning }}
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-pencil-alt"></i> {{text_edit}}
+            </div>
+            <div class="card-body">
+<style>
+.welcome{
+    background: url('{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/bg.svg');
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: 50%;
+    min-height: 700px;
+    padding-top: 50px;
+    padding-bottom: 200px;
+}
+.welcome-into{
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+.welcome-into-logo{
+    padding-bottom: 15px;
+}
+.welcome-into-heading{
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+.welcome-into-text{
+    font-size: 18px;
+    padding-bottom: 30px;
+}
+.welcome-into-start{
+    padding-bottom: 30px;
+}
+.welcome-features{
+    padding: 30px;
+}
+.welcome-features-icon{
+    padding: 20px;
+    height: 130px;
+    text-align: center;
+}
+.welcome-features-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+.panel .panel-body{
+    padding: 0px;
+}
+</style>
+                        <div class="welcome">
+                            <div class="welcome-into">
+                                <div class="welcome-into-logo"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/logo.svg" /></div>
+                                <div class="welcome-into-heading">Ajax Quick Checkout</div>
+                                <div class="welcome-into-text">You are losing 67% of sales when you use the default checkout. We have developed the best checkout editor for you to customize so that your customers could enjoy buying and you could start selling more.</div>
+
+                                <label class="col-form-label">{{ entry_install_dependencies }}</label>
+                                <div style="justify-content: center;" class="row col-sm-12 mt-2">
+                                <div id="loading-bar" class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div id="loading-text"></div>
+                                </div>
+                            </div>
+                            <div class="welcome-features">
+                                <div class="row">
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/customisable.svg" /></div>
+                                        <div class="welcome-features-text">Customisable</div>
+                                    </div> #}
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/visual-editor.svg" /></div>
+                                        <div class="welcome-features-text">Customize with <br/>Visual editor</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/extensible.svg" /></div>
+                                        <div class="welcome-features-text">Extend with <br/>plugins</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/mulipage.svg" /></div>
+                                        <div class="welcome-features-text">Add One Page or <br/>Multiple pages</div>
+                                    </div>
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/github.svg" /></div>
+                                        <div class="welcome-features-text">Opensource</div>
+                                    </div> #}
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/layout.svg" /></div>
+                                        <div class="welcome-features-text">Layouts</div>
+                                    </div> #}
+
+                                    <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/ajax_quick_checkout/admin/view/image/ajax_quick_checkout/icons/themes.svg" /></div>
+                                        <div class="welcome-features-text">Add Themes & Layouts</div>
+                                    </div>
+                                    {# <div class="col-md-3">
+                                        <div class="welcome-features-icon"><img src="view/image/ajax_quick_checkout/icons/updates.svg" /></div>
+                                        <div class="welcome-features-text">Updatable</div>
+                                    </div> #}
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            {% if not pro and settings and d_shopunity %}
+                </div>
+
+                <div class="col-md-3">
+                    <div class="d_shopunity_widget"></div>
+                    <script src="view/javascript/d_shopunity/d_shopunity_widget.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                    var d_shopunity_widget = jQuery.extend(true, {}, d_shopunity_widget);
+                    d_shopunity_widget.init({
+                    class: '.d_shopunity_widget',
+                    token: '{{token}}',
+                    extension_id: 'ajax_quick_checkout_pack'
+                    })
+                    </script>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<script type="text/javascript">
+    function alert_handler(json)
+    {
+        if (json['error']) {
+            if (json['error']['warning']) {
+                alertify.error(json['error']['warning']);
+            } else {
+                for (i in json['error']) {
+                    alertify.error(i);
+                }
+            }
+        }
+
+        if (json['success']) {
+            alertify.success(json['success']);
+        }
+    }
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+  var dependencies = {{ non_installed }};
+{% if  constant('VERSION') > '4.0.1.1' %}
+var next = 'index.php?route=extension/ajax_quick_checkout/module/ajax_quick_checkout.installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+{% else %}
+var next = 'index.php?route=extension/ajax_quick_checkout/module/ajax_quick_checkout|installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+{% endif %}
+  
+
+  var step = 0;
+
+  var install = function () {
+      $.ajax({
+          url: next,
+          dataType: 'json',
+          success: function (json) {
+              if (json['error']) {
+                $('#loading-bar').addClass('bg-danger');
+                $('#loading-text').html('<div class="text-danger">' + json['error'] + '</div>');
+              }
+
+              if (json['success']) {
+                dependencies.shift();
+                if (!dependencies[0] && !json['dependencies']) {
+                  $('#loading-text').html('<div class="text-success">' + json['success'] + '</div>');
+                  location = '{{ location }}';
+                } else {
+                  if (json['dependencies']) {
+                    json['dependencies'].forEach(
+                      (dependency) => {
+                        dependencies.push(dependency);
+                      }
+                    );
+                  }
+                  step += 1;
+                  {% if  constant('VERSION') > '4.0.1.1' %}
+                    next = 'index.php?route=extension/ajax_quick_checkout/module/ajax_quick_checkout.installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+                  {% else %}
+                    next = 'index.php?route=extension/ajax_quick_checkout/module/ajax_quick_checkout|installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+                  {% endif %}
+                  install();
+                }
+              }
+
+              if (json['next']) {
+                  next = json['next'];
+                  install();
+              }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+              console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+      });
+  };
+
+  install();
+});
+</script>
+{{footer}}
+
+
